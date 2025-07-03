@@ -1,37 +1,35 @@
-import type { Config } from 'tailwindcss'
-import path from 'path'
+import path from 'node:path';
+
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
-  content: [
-    './src/**/*.{js,ts,jsx,tsx}',
-    '../../packages/ui/src/**/*.{ts,tsx}'
-  ],
+  content: ['./src/**/*.{js,ts,jsx,tsx}', '../../packages/ui/src/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
-        primary: {
-          DEFAULT: 'var(--primary)',
-          foreground: 'var(--primary-foreground)'
-        },
-        secondary: {
-          DEFAULT: 'var(--secondary)',
-          foreground: 'var(--secondary-foreground)'
-        },
-        destructive: {
-          DEFAULT: 'var(--destructive)',
-          foreground: 'var(--destructive-foreground)'
-        },
         accent: {
           DEFAULT: 'var(--accent)',
           foreground: 'var(--accent-foreground)'
         },
+        background: 'var(--background)',
+        destructive: {
+          DEFAULT: 'var(--destructive)',
+          foreground: 'var(--destructive-foreground)'
+        },
+        foreground: 'var(--foreground)',
+        input: 'var(--input)',
+        primary: {
+          DEFAULT: 'var(--primary)',
+          foreground: 'var(--primary-foreground)'
+        },
         ring: 'var(--ring)',
-        input: 'var(--input)'
+        secondary: {
+          DEFAULT: 'var(--secondary)',
+          foreground: 'var(--secondary-foreground)'
+        }
       }
     }
   }
-}
+};
 
-export default config
+export default config;

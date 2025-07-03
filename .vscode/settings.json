@@ -2,6 +2,21 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  },
+  "eslint.useFlatConfig": true,
+  "editor.formatOnSave": false,
+  "eslint.validate": ["html", "css", "scss", "json", "jsonc"],
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true,
+    "**/.hg/store/**": true
+  },
+  "prettier.enable": false,
+  "typescript.tsdk": "node_modules/typescript/lib",
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(((?:[^()]|\\([^()]*\\))*)\\)", "[\"'`]?([^\"'`]+)[\"'`]?"],
     ["cn\\(((?:[^()]|\\([^()]*\\))*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
@@ -9,6 +24,6 @@
     // "[\"'`]([^\"'`]*).*?[\"'`]"
   ],
   "editor.quickSuggestions": {
-  "strings": "on"
-  } 
+    "strings": "on"
+  }
 }
