@@ -78,6 +78,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => 
           </If>
         </CardHeader>
       </If>
+
       <CardContent
         className={classNames?.content}
         flexHeight={flexHeight}
