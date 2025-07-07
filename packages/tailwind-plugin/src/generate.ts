@@ -1,0 +1,173 @@
+import { mergeDeep } from '@unocss/core';
+
+import themes from './theme.json';
+import type {
+  ColorOptions,
+  FeedbackColorOfThemeCssVarsVariant,
+  PresetShadcnOptions,
+  SidebarColorOfThemeCssVarsVariant,
+  ThemeCSSVars,
+  ThemeCSSVarsVariant,
+  ThemeConfig
+} from './types';
+
+const builtinThemes = themes as ThemeConfig[];
+
+function getRadiusCSSVars(radius: number) {
+  return `--radius: ${radius}rem;`;
+}
+
+function getRadiusCSSVarsStyles(radius: number) {
+  const radiusCSS = getRadiusCSSVars(radius);
+
+  return radiusCSS;
+}
+
+export function generateGlobalStyles() {
+  return {
+    '*': {
+      borderColor: 'hsl(var(--border))'
+    },
+    '.lucide': {
+      height: '1.25em',
+      width: '1.25em'
+    },
+    body: {
+      background: 'hsl(var(--background))',
+      color: 'hsl(var(--foreground))'
+    }
+  };
+}
+
+function getBuiltInTheme(name: string): ThemeCSSVarsVariant {
+  const theme = builtinThemes.find(t => t.name === name);
+
+  if (!theme) {
+    throw new Error(`Unknown color: ${name}`);
+  }
+
+  return {
+    name,
+    ...theme.cssVars
+  };
+}
+
+function getColorTheme(color: ColorOptions): ThemeCSSVarsVariant {
+  let light: ThemeCSSVars;
+  let dark: ThemeCSSVars;
+  let name: string;
+
+  if (typeof color === 'string') {
+    name = color;
+    ({ dark, light } = getBuiltInTheme(color));
+  } else if ('base' in color) {
+    name = color.base;
+    ({ dark, light } = mergeDeep(getBuiltInTheme(color.base), color));
+  } else {
+    name = color.name;
+    ({ dark, light } = color);
+  }
+  return { dark, light, name };
+}
+
+function createBuiltinFeedbackColorTheme() {
+  const feedbackColor: FeedbackColorOfThemeCssVarsVariant = {
+    dark: {
+      '--carbon': '220 14.3% 95.9%',
+      '--carbon-foreground': '220.9 39.3% 11%',
+      '--info': '215 100% 54%',
+      '--info-foreground': '0 0% 100%',
+      '--success': '140 79% 45%',
+      '--success-foreground': '0 0% 100%',
+      '--warning': '37 91% 55%',
+      '--warning-foreground': '0 0% 100%'
+    },
+    light: {
+      '--carbon': '240 4% 16%',
+      '--carbon-foreground': '0 0% 98%',
+      '--info': '215 100% 54%',
+      '--info-foreground': '0 0% 100%',
+      '--success': '140 79% 45%',
+      '--success-foreground': '0 0% 100%',
+      '--warning': '37 91% 55%',
+      '--warning-foreground': '0 0% 100%'
+    }
+  };
+
+  return feedbackColor;
+}
+
+function createBuiltinSidebarColorTheme() {
+  const sidebarColor: SidebarColorOfThemeCssVarsVariant = {
+    dark: {
+      '--sidebar-accent': '240 3.7% 15.9%',
+      '--sidebar-accent-foreground': '240 4.8% 95.9%',
+      '--sidebar-background': '240 5.9% 10%',
+      '--sidebar-border': '240 3.7% 15.9%',
+      '--sidebar-foreground': '240 4.8% 95.9%',
+      '--sidebar-primary': '236.9 100% 69.61%',
+      '--sidebar-primary-foreground': '0 0% 100%',
+      '--sidebar-ring': '217.2 91.2% 59.8%'
+    },
+    light: {
+      '--sidebar-accent': '240 4.8% 95.9%',
+      '--sidebar-accent-foreground': '240 5.9% 10%',
+      '--sidebar-background': '0 0% 98%',
+      '--sidebar-border': '220 13% 91%',
+      '--sidebar-foreground': '240 5.3% 26.1%',
+      '--sidebar-primary': '236.9 100% 69.61%',
+      '--sidebar-primary-foreground': '0 0% 98%',
+      '--sidebar-ring': '217.2 91.2% 59.8%'
+    }
+  };
+
+  return sidebarColor;
+}
+
+export function generateCSSVars(theme: PresetShadcnOptions, onlyOne = true): object {
+  if (Array.isArray(theme)) {
+    return theme.map(t => generateCSSVars(t, false));
+  }
+
+  const {
+    color = 'default',
+    darkSelector = '.dark',
+    feedbackColor = createBuiltinFeedbackColorTheme(),
+    radius = 0.5,
+    sidebar = createBuiltinSidebarColorTheme()
+  } = theme;
+
+  if (!color) {
+    if (radius) {
+      return {
+        root: getRadiusCSSVarsStyles(radius)
+      };
+    }
+  } else {
+    const { dark, light, name } = getColorTheme(color);
+
+    const themeName = !onlyOne && name;
+
+    const addThemeName = themeName && themeName !== 'default';
+
+    const themeSelector = addThemeName ? `.theme-${themeName}` : ':root';
+
+    const darkThemeSelector = addThemeName ? `.theme-${themeName}${darkSelector}` : darkSelector;
+
+    return {
+      [darkThemeSelector]: {
+        ...sidebar.dark,
+        ...feedbackColor.dark,
+        ...dark
+      },
+      [themeSelector]: {
+        ...sidebar.light,
+        ...feedbackColor.light,
+        ...light,
+        '--radius': `${radius}rem`
+      }
+    };
+  }
+
+  return {};
+}

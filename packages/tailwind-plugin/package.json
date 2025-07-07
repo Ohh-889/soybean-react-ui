@@ -1,0 +1,22 @@
+{
+  "name": "skyroc-tailwind-plugin",
+  "type": "module",
+  "version": "0.0.1",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "typesVersions": {
+    "*": {
+      "*": ["./src/*"]
+    }
+  },
+  "files": ["./dist"],
+  "scripts": {
+    "build": "tsup"
+  },
+  "dependencies": {
+    "@unocss/core": "66.3.2",
+    "tailwindcss": "4.1.11"
+  }
+}
