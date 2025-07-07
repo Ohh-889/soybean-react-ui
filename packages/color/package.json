@@ -1,0 +1,22 @@
+{
+  "name": "@skyroc-ui/color",
+  "version": "0.0.2-beta.5",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "typings": "./dist/index.d.ts",
+  "files": ["./dist"],
+  "scripts": {
+    "build": "tsup"
+  },
+  "dependencies": {
+    "colord": "2.9.3"
+  }
+}
