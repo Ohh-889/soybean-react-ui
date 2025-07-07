@@ -4,7 +4,8 @@ import type { VariantProps } from 'tailwind-variants';
 export const buttonVariants = tv({
   base: [
     'inline-flex items-center justify-center font-medium transition-all-200',
-    'focus-visible:(outline-none ring-2 ring-offset-2 ring-offset-background) disabled:(pointer-events-none opacity-50)'
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background ',
+    'disabled:pointer-events-none disabled:opacity-50'
   ],
   compoundVariants: [
     {
@@ -123,42 +124,42 @@ export const buttonVariants = tv({
       variant: ['outline', 'dashed', 'ghost']
     },
     {
-      class: 'hover:(border-primary text-primary)',
+      class: 'hover:border-primary hover:text-primary',
       color: 'primary',
       variant: 'plain'
     },
     {
-      class: 'hover:(border-destructive text-destructive)',
+      class: 'hover:border-destructive hover:text-destructive',
       color: 'destructive',
       variant: 'plain'
     },
     {
-      class: 'hover:(border-success text-success)',
+      class: 'hover:border-success hover:text-success',
       color: 'success',
       variant: 'plain'
     },
     {
-      class: 'hover:(border-warning text-warning)',
+      class: 'hover:border-warning hover:text-warning',
       color: 'warning',
       variant: 'plain'
     },
     {
-      class: 'hover:(border-info text-info)',
+      class: 'hover:border-info hover:text-info',
       color: 'info',
       variant: 'plain'
     },
     {
-      class: 'hover:(border-carbon text-carbon)',
+      class: 'hover:border-carbon hover:text-carbon',
       color: 'carbon',
       variant: 'plain'
     },
     {
-      class: 'hover:(border-secondary-foreground text-secondary-foreground)',
+      class: 'hover:border-secondary-foreground hover:text-secondary-foreground',
       color: 'secondary',
       variant: 'plain'
     },
     {
-      class: 'hover:(border-accent-foreground text-accent-foreground)',
+      class: 'hover:border-accent-foreground hover:text-accent-foreground',
       color: 'accent',
       variant: 'plain'
     },
@@ -326,12 +327,7 @@ export const buttonVariants = tv({
       none: 'shadow-none',
       sm: 'shadow-sm'
     },
-    shape: {
-      auto: 'rounded-md',
-      circle: 'h-8 w-8 p-0 gap-0 rounded-full',
-      rounded: 'rounded-full',
-      square: 'h-8 w-8 p-0 gap-0 rounded-md'
-    },
+    // eslint-disable-next-line sort/object-properties
     size: {
       '2xl': 'h-12 px-10 gap-6 text-xl',
       lg: 'h-9 px-6 gap-4 text-base',
@@ -339,6 +335,12 @@ export const buttonVariants = tv({
       sm: 'h-7 px-2 gap-2 text-xs',
       xl: 'h-10 px-8 gap-5 text-lg',
       xs: 'h-6 px-1.5 gap-1 text-2xs'
+    },
+    shape: {
+      auto: 'rounded-md',
+      circle: 'h-8 w-8 p-0 gap-0 rounded-full',
+      rounded: 'rounded-full',
+      square: 'h-8 w-8 p-0 gap-0 rounded-md'
     },
     variant: {
       dashed: 'border border-dashed bg-background',
