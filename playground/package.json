@@ -13,17 +13,14 @@
     "next": "15.3.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "skyroc-ui": "workspace:*"
+    "soybean-react-ui": "workspace:*"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "4.1.11",
-    "@types/node": "22.15.3",
-    "@types/react": "19.1.0",
-    "@types/react-dom": "19.1.1",
     "eslint": "9.30.0",
     "eslint-config-next": "15.3.4",
-    "skyroc-tailwind-plugin": "workspace:*",
+    "soybean-react-ui/tailwind-plugin": "workspace:*",
     "tailwindcss": "4.1.11"
   }
 }

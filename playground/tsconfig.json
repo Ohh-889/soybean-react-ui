@@ -8,7 +8,7 @@
     "moduleResolution": "bundler",
     "paths": {
       "@/*": ["./src/*"],
-      "skyroc-ui/*": ["../../packages/ui/src/*"]
+      "soybean-react-ui/*": ["../../packages/ui/src/*"]
     },
     "resolveJsonModule": true,
     "allowJs": true,

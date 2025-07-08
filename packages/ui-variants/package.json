@@ -1,5 +1,5 @@
 {
-  "name": "@skyroc-ui/variants",
+  "name": "@soybean-react-ui/variants",
   "version": "0.0.2-beta.5",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

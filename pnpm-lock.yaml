@@ -11,6 +11,15 @@ importers:
       '@soybeanjs/eslint-config':
         specifier: 1.7.0
         version: 1.7.0(@typescript-eslint/utils@8.35.0(eslint@9.30.0(jiti@2.4.2))(typescript@5.8.2))(@unocss/eslint-config@66.3.2(eslint@9.30.0(jiti@2.4.2))(typescript@5.8.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-react-hooks@5.2.0(eslint@9.30.0(jiti@2.4.2)))(eslint-plugin-react-refresh@0.4.20(eslint@9.30.0(jiti@2.4.2)))(eslint-plugin-react@7.37.5(eslint@9.30.0(jiti@2.4.2)))(eslint@9.30.0(jiti@2.4.2))(svelte-eslint-parser@1.2.0)(typescript@5.8.2)
+      '@types/node':
+        specifier: 22.15.3
+        version: 22.15.3
+      '@types/react':
+        specifier: 19.1.0
+        version: 19.1.0
+      '@types/react-dom':
+        specifier: 19.1.1
+        version: 19.1.1(@types/react@19.1.0)
       '@unocss/eslint-config':
         specifier: 66.3.2
         version: 66.3.2(eslint@9.30.0(jiti@2.4.2))(typescript@5.8.2)
@@ -30,7 +39,7 @@ importers:
         specifier: 3.6.0
         version: 3.6.0
       tsup:
-        specifier: ^8.5.0
+        specifier: 8.5.0
         version: 8.5.0(jiti@2.4.2)(postcss@8.5.6)(typescript@5.8.2)
       turbo:
         specifier: 2.5.4
@@ -56,10 +65,7 @@ importers:
 
   packages/ui:
     dependencies:
-      '@radix-ui/react-slot':
-        specifier: 1.2.3
-        version: 1.2.3(@types/react@19.1.0)(react@19.1.0)
-      '@skyroc-ui/variants':
+      '@soybean-react-ui/variants':
         specifier: workspace:*
         version: link:../ui-variants
       lucide-react:
@@ -71,6 +77,12 @@ importers:
       react-dom:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
+      soybean-react-ui/slot:
+        specifier: workspace:*
+        version: link:../../primitives/slot
+      soybean-react-ui/tabs:
+        specifier: workspace:*
+        version: link:../../primitives/tabs
     devDependencies:
       '@turbo/gen':
         specifier: 2.5.0
@@ -111,7 +123,7 @@ importers:
       react-dom:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
-      skyroc-ui:
+      soybean-react-ui:
         specifier: workspace:*
         version: link:../packages/ui
     devDependencies:
@@ -121,27 +133,390 @@ importers:
       '@tailwindcss/postcss':
         specifier: 4.1.11
         version: 4.1.11
-      '@types/node':
-        specifier: 22.15.3
-        version: 22.15.3
-      '@types/react':
-        specifier: 19.1.0
-        version: 19.1.0
-      '@types/react-dom':
-        specifier: 19.1.1
-        version: 19.1.1(@types/react@19.1.0)
       eslint:
         specifier: 9.30.0
         version: 9.30.0(jiti@2.4.2)
       eslint-config-next:
         specifier: 15.3.4
         version: 15.3.4(eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.35.0(eslint@9.30.0(jiti@2.4.2))(typescript@5.8.2))(eslint-import-resolver-node@0.3.9)(eslint@9.30.0(jiti@2.4.2)))(eslint@9.30.0(jiti@2.4.2))(typescript@5.8.2)
-      skyroc-tailwind-plugin:
+      soybean-react-ui/tailwind-plugin:
         specifier: workspace:*
         version: link:../packages/tailwind-plugin
       tailwindcss:
         specifier: 4.1.11
         version: 4.1.11
+
+  primitives/collection:
+    dependencies:
+      soybean-react-ui/compose-refs:
+        specifier: workspace:*
+        version: link:../compose-refs
+      soybean-react-ui/context:
+        specifier: workspace:*
+        version: link:../context
+      soybean-react-ui/primitive:
+        specifier: workspace:*
+        version: link:../primitive
+      soybean-react-ui/slot:
+        specifier: workspace:*
+        version: link:../slot
+    devDependencies:
+      '@types/react':
+        specifier: 19.0.7
+        version: 19.0.7
+      '@types/react-dom':
+        specifier: 19.0.3
+        version: 19.0.3(@types/react@19.0.7)
+      eslint:
+        specifier: 9.18.0
+        version: 9.18.0(jiti@2.4.2)
+      react:
+        specifier: 19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: 19.1.0
+        version: 19.1.0(react@19.1.0)
+      typescript:
+        specifier: 5.7.3
+        version: 5.7.3
+
+  primitives/compose-refs:
+    devDependencies:
+      '@types/react':
+        specifier: 19.0.7
+        version: 19.0.7
+      '@types/react-dom':
+        specifier: 19.0.3
+        version: 19.0.3(@types/react@19.0.7)
+      eslint:
+        specifier: 9.18.0
+        version: 9.18.0(jiti@2.4.2)
+      react:
+        specifier: 19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: 19.1.0
+        version: 19.1.0(react@19.1.0)
+      typescript:
+        specifier: 5.7.3
+        version: 5.7.3
+
+  primitives/context:
+    devDependencies:
+      '@types/react':
+        specifier: 19.0.7
+        version: 19.0.7
+      '@types/react-dom':
+        specifier: 19.0.3
+        version: 19.0.3(@types/react@19.0.7)
+      eslint:
+        specifier: 9.18.0
+        version: 9.18.0(jiti@2.4.2)
+      react:
+        specifier: 19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: 19.1.0
+        version: 19.1.0(react@19.1.0)
+      typescript:
+        specifier: 5.7.3
+        version: 5.7.3
+
+  primitives/direction:
+    devDependencies:
+      '@types/react':
+        specifier: 19.0.7
+        version: 19.0.7
+      '@types/react-dom':
+        specifier: 19.0.3
+        version: 19.0.3(@types/react@19.0.7)
+      eslint:
+        specifier: 9.18.0
+        version: 9.18.0(jiti@2.4.2)
+      react:
+        specifier: 19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: 19.1.0
+        version: 19.1.0(react@19.1.0)
+      typescript:
+        specifier: 5.7.3
+        version: 5.7.3
+
+  primitives/id:
+    dependencies:
+      soybean-react-ui/use-layout-effect:
+        specifier: workspace:*
+        version: link:../use-layout-effect
+    devDependencies:
+      '@types/react':
+        specifier: ^19.0.7
+        version: 19.1.0
+      '@types/react-dom':
+        specifier: ^19.0.3
+        version: 19.1.1(@types/react@19.1.0)
+      eslint:
+        specifier: ^9.18.0
+        version: 9.30.0(jiti@2.4.2)
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.1.0(react@19.1.0)
+      typescript:
+        specifier: ^5.7.3
+        version: 5.8.2
+
+  primitives/presence:
+    dependencies:
+      soybean-react-ui/compose-refs:
+        specifier: workspace:*
+        version: link:../compose-refs
+      soybean-react-ui/slot:
+        specifier: workspace:*
+        version: link:../slot
+      soybean-react-ui/use-layout-effect:
+        specifier: workspace:*
+        version: link:../use-layout-effect
+    devDependencies:
+      '@types/react':
+        specifier: ^19.0.7
+        version: 19.1.0
+      '@types/react-dom':
+        specifier: ^19.0.3
+        version: 19.1.1(@types/react@19.1.0)
+      eslint:
+        specifier: ^9.18.0
+        version: 9.30.0(jiti@2.4.2)
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.1.0(react@19.1.0)
+      typescript:
+        specifier: ^5.7.3
+        version: 5.8.2
+
+  primitives/primitive:
+    dependencies:
+      soybean-react-ui/slot:
+        specifier: workspace:*
+        version: link:../slot
+    devDependencies:
+      '@types/react':
+        specifier: 19.0.7
+        version: 19.0.7
+      '@types/react-dom':
+        specifier: 19.0.3
+        version: 19.0.3(@types/react@19.0.7)
+      eslint:
+        specifier: 9.18.0
+        version: 9.18.0(jiti@2.4.2)
+      react:
+        specifier: 19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: 19.1.0
+        version: 19.1.0(react@19.1.0)
+      typescript:
+        specifier: 5.7.3
+        version: 5.7.3
+
+  primitives/roving-focus:
+    dependencies:
+      soybean-react-ui/collection:
+        specifier: workspace:*
+        version: link:../collection
+      soybean-react-ui/compose-refs:
+        specifier: workspace:*
+        version: link:../compose-refs
+      soybean-react-ui/context:
+        specifier: workspace:*
+        version: link:../context
+      soybean-react-ui/direction:
+        specifier: workspace:*
+        version: link:../direction
+      soybean-react-ui/id:
+        specifier: workspace:*
+        version: link:../id
+      soybean-react-ui/primitive:
+        specifier: workspace:*
+        version: link:../primitive
+      soybean-react-ui/use-callback-ref:
+        specifier: workspace:*
+        version: link:../use-callback-ref
+      soybean-react-ui/use-controllable-state:
+        specifier: workspace:*
+        version: link:../use-controllable-state
+    devDependencies:
+      '@types/react':
+        specifier: ^19.0.7
+        version: 19.1.0
+      '@types/react-dom':
+        specifier: ^19.0.3
+        version: 19.1.1(@types/react@19.1.0)
+      eslint:
+        specifier: ^9.18.0
+        version: 9.30.0(jiti@2.4.2)
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.1.0(react@19.1.0)
+      typescript:
+        specifier: ^5.7.3
+        version: 5.8.2
+
+  primitives/slot:
+    dependencies:
+      soybean-react-ui/compose-refs:
+        specifier: workspace:*
+        version: link:../compose-refs
+    devDependencies:
+      '@types/react':
+        specifier: 19.0.7
+        version: 19.0.7
+      '@types/react-dom':
+        specifier: 19.0.3
+        version: 19.0.3(@types/react@19.0.7)
+      react:
+        specifier: 19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: 19.1.0
+        version: 19.1.0(react@19.1.0)
+      typescript:
+        specifier: 5.7.3
+        version: 5.7.3
+
+  primitives/tabs:
+    dependencies:
+      soybean-react-ui/context:
+        specifier: workspace:*
+        version: link:../context
+    devDependencies:
+      '@types/react':
+        specifier: ^19.0.7
+        version: 19.1.0
+      '@types/react-dom':
+        specifier: ^19.0.3
+        version: 19.1.1(@types/react@19.1.0)
+      eslint:
+        specifier: ^9.18.0
+        version: 9.30.0(jiti@2.4.2)
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.1.0(react@19.1.0)
+      typescript:
+        specifier: ^5.7.3
+        version: 5.8.2
+
+  primitives/use-callback-ref:
+    devDependencies:
+      '@types/react':
+        specifier: ^19.0.7
+        version: 19.1.0
+      '@types/react-dom':
+        specifier: ^19.0.3
+        version: 19.1.1(@types/react@19.1.0)
+      eslint:
+        specifier: ^9.18.0
+        version: 9.30.0(jiti@2.4.2)
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.1.0(react@19.1.0)
+      typescript:
+        specifier: ^5.7.3
+        version: 5.8.2
+
+  primitives/use-controllable-state:
+    dependencies:
+      soybean-react-ui/use-effect-event:
+        specifier: workspace:*
+        version: link:../use-effect-event
+      soybean-react-ui/use-layout-effect:
+        specifier: workspace:*
+        version: link:../use-layout-effect
+      soybean-react-ui/utils:
+        specifier: workspace:*
+        version: link:../utils
+    devDependencies:
+      '@types/react':
+        specifier: ^19.0.7
+        version: 19.1.0
+      '@types/react-dom':
+        specifier: ^19.0.3
+        version: 19.1.1(@types/react@19.1.0)
+      eslint:
+        specifier: ^9.18.0
+        version: 9.30.0(jiti@2.4.2)
+      react:
+        specifier: ^19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.1.0(react@19.1.0)
+      typescript:
+        specifier: ^5.7.3
+        version: 5.8.2
+
+  primitives/use-effect-event:
+    dependencies:
+      soybean-react-ui/use-layout-effect:
+        specifier: workspace:*
+        version: link:../use-layout-effect
+    devDependencies:
+      '@types/react':
+        specifier: 19.0.7
+        version: 19.0.7
+      '@types/react-dom':
+        specifier: 19.0.3
+        version: 19.0.3(@types/react@19.0.7)
+      '@types/use-sync-external-store':
+        specifier: 0.0.6
+        version: 0.0.6
+      react:
+        specifier: 19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: 19.1.0
+        version: 19.1.0(react@19.1.0)
+      typescript:
+        specifier: 5.7.3
+        version: 5.7.3
+
+  primitives/use-layout-effect:
+    devDependencies:
+      '@types/react':
+        specifier: 19.0.7
+        version: 19.0.7
+      '@types/react-dom':
+        specifier: 19.0.3
+        version: 19.0.3(@types/react@19.0.7)
+      react:
+        specifier: 19.1.0
+        version: 19.1.0
+      react-dom:
+        specifier: 19.1.0
+        version: 19.1.0(react@19.1.0)
+      typescript:
+        specifier: 5.7.3
+        version: 5.7.3
+
+  primitives/utils:
+    devDependencies:
+      typescript:
+        specifier: 5.7.3
+        version: 5.7.3
 
 packages:
 
@@ -353,12 +728,20 @@ packages:
       eslint:
         optional: true
 
+  '@eslint/config-array@0.19.2':
+    resolution: {integrity: sha512-GNKqxfHG2ySmJOBSHg7LxeUx4xpuCoFjacmlCoYWEbaPXLwvfIjixRI12xCQZeULksQb23uiA8F40w5TojpV7w==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
   '@eslint/config-array@0.21.0':
     resolution: {integrity: sha512-ENIdc4iLu0d93HeYirvKmrzshzofPw6VkZRKQGe9Nv46ZnWUzcF1xV01dcvEg/1wXUR61OmmlSfyeyO7EvjLxQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@eslint/config-helpers@0.3.0':
     resolution: {integrity: sha512-ViuymvFmcJi04qdZeDc2whTHryouGcDlaxPqarTD0ZE10ISpxGUVZGZDx4w01upyIynL3iu6IXH2bS1NhclQMw==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@eslint/core@0.10.0':
+    resolution: {integrity: sha512-gFHJ+xBOo4G3WRlR1e/3G8A6/KZAH6zcE/hkLRCZTi/B9avAG365QhFA8uOGzTMqgTghpn7/fSnscW++dpMSAw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@eslint/core@0.13.0':
@@ -375,6 +758,10 @@ packages:
 
   '@eslint/eslintrc@3.3.1':
     resolution: {integrity: sha512-gtF186CXhIl1p4pJNGZw8Yc6RlshoePRvE0X91oPGb3vZ8pM3qOS9W9NGPat9LziaBV7XrJWGylNQXkGcnM3IQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@eslint/js@9.18.0':
+    resolution: {integrity: sha512-fK6L7rxcq6/z+AaQMtiFTkvbHkBLNlwyRxHpKawP0x3u9+NC6MQTnFW+AdpwC6gfHTW0051cokQgtTN2FqlxQA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@eslint/js@9.29.0':
@@ -635,24 +1022,6 @@ packages:
   '@quansync/fs@0.1.3':
     resolution: {integrity: sha512-G0OnZbMWEs5LhDyqy2UL17vGhSVHkQIfVojMtEWVenvj0V5S84VBgy86kJIuNsGDp2p7sTKlpSIpBUWdC35OKg==}
     engines: {node: '>=20.0.0'}
-
-  '@radix-ui/react-compose-refs@1.1.2':
-    resolution: {integrity: sha512-z4eqJvfiNnFMHIIvXP3CY57y2WJs5g2v3X0zm9mEJkrkNv4rDxu+sg9Jh8EkXyeqBkB7SOcboo9dMVqhyrACIg==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-
-  '@radix-ui/react-slot@1.2.3':
-    resolution: {integrity: sha512-aeNmHnBxbi2St0au6VBVC7JXFlhLlOnvIIlePNniyUNAClzmtAUEY8/pBiK3iHjufOlwA+c20/8jngo7xcrg8A==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
 
   '@rollup/rollup-android-arm-eabi@4.44.2':
     resolution: {integrity: sha512-g0dF8P1e2QYPOj1gu7s/3LVP6kze9A7m6x0BZ9iTdXK8N5c2V7cpBKHV3/9A4Zd8xxavdhK0t4PnqjkqVmUc9Q==}
@@ -951,10 +1320,18 @@ packages:
   '@types/node@22.15.3':
     resolution: {integrity: sha512-lX7HFZeHf4QG/J7tBZqrCAXwz9J5RD56Y6MpP0eJkka8p+K0RY/yBTW7CYFJ4VGCclxqOLKmiGP5juQc6MKgcw==}
 
+  '@types/react-dom@19.0.3':
+    resolution: {integrity: sha512-0Knk+HJiMP/qOZgMyNFamlIjw9OFCsyC2ZbigmEEyXXixgre6IQpm/4V+r3qH4GC1JPvRJKInw+on2rV6YZLeA==}
+    peerDependencies:
+      '@types/react': ^19.0.0
+
   '@types/react-dom@19.1.1':
     resolution: {integrity: sha512-jFf/woGTVTjUJsl2O7hcopJ1r0upqoq/vIOoCj0yLh3RIXxWcljlpuZ+vEBRXsymD1jhfeJrlyTy/S1UW+4y1w==}
     peerDependencies:
       '@types/react': ^19.0.0
+
+  '@types/react@19.0.7':
+    resolution: {integrity: sha512-MoFsEJKkAtZCrC1r6CM8U22GzhG7u2Wir8ons/aCKH6MBdD1ibV24zOSSkdZVUKqN5i396zG5VKLYZ3yaUZdLA==}
 
   '@types/react@19.1.0':
     resolution: {integrity: sha512-UaicktuQI+9UKyA4njtDOGBD/67t8YEBt2xdfqu8+gP9hqPUPsiXlNPcpS2gVdjmis5GKPG3fCxbQLVgxsQZ8w==}
@@ -964,6 +1341,9 @@ packages:
 
   '@types/tinycolor2@1.4.6':
     resolution: {integrity: sha512-iEN8J0BoMnsWBqjVbWH/c0G0Hh7O21lpR2/+PrvAVgWdzL7eexIFm4JN/Wn10PTcmNdtS6U67r499mlWMXOxNw==}
+
+  '@types/use-sync-external-store@0.0.6':
+    resolution: {integrity: sha512-zFDAD+tlpf2r4asuHEj0XH6pY6i0g5NeAHPn+15wk3BV6JA69eERFXC1gyGThDkVa1zCyKr5jox1+2LbV/AMLg==}
 
   '@typescript-eslint/eslint-plugin@8.35.0':
     resolution: {integrity: sha512-ijItUYaiWuce0N1SoSMrEd0b6b6lYkYt99pqCPfybd+HKVXtEvYhICfLdwp42MhiI5mp0oq7PKEL+g1cNiz/Eg==}
@@ -1797,6 +2177,16 @@ packages:
   eslint-visitor-keys@4.2.1:
     resolution: {integrity: sha512-Uhdk5sfqcee/9H/rCOJikYz67o0a2Tw2hGRPOG2Y1R2dg7brRe1uG0yaNQDHu+TO/uQPF/5eCapvYSmHUjt7JQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  eslint@9.18.0:
+    resolution: {integrity: sha512-+waTfRWQlSbpt3KWE+CjrPPYnbq9kfZIYUqapc0uBXyjTp8aYXZDsUH16m39Ryq3NjAVP4tjuF7KaukeqoCoaA==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    hasBin: true
+    peerDependencies:
+      jiti: '*'
+    peerDependenciesMeta:
+      jiti:
+        optional: true
 
   eslint@9.30.0:
     resolution: {integrity: sha512-iN/SiPxmQu6EVkf+m1qpBxzUhE12YqFLOSySuOyVLJLEF9nzTf+h/1AJYc1JWzCnktggeNrjvQGLngDzXirU6g==}
@@ -3361,6 +3751,11 @@ packages:
     resolution: {integrity: sha512-3KS2b+kL7fsuk/eJZ7EQdnEmQoaho/r6KUef7hxvltNA5DR8NAUM+8wJMbJyZ4G9/7i3v5zPBIMN5aybAh2/Jg==}
     engines: {node: '>= 0.4'}
 
+  typescript@5.7.3:
+    resolution: {integrity: sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
   typescript@5.8.2:
     resolution: {integrity: sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ==}
     engines: {node: '>=14.17'}
@@ -3606,6 +4001,11 @@ snapshots:
   '@esbuild/win32-x64@0.25.5':
     optional: true
 
+  '@eslint-community/eslint-utils@4.7.0(eslint@9.18.0(jiti@2.4.2))':
+    dependencies:
+      eslint: 9.18.0(jiti@2.4.2)
+      eslint-visitor-keys: 3.4.3
+
   '@eslint-community/eslint-utils@4.7.0(eslint@9.30.0(jiti@2.4.2))':
     dependencies:
       eslint: 9.30.0(jiti@2.4.2)
@@ -3617,6 +4017,14 @@ snapshots:
     optionalDependencies:
       eslint: 9.30.0(jiti@2.4.2)
 
+  '@eslint/config-array@0.19.2':
+    dependencies:
+      '@eslint/object-schema': 2.1.6
+      debug: 4.4.1
+      minimatch: 3.1.2
+    transitivePeerDependencies:
+      - supports-color
+
   '@eslint/config-array@0.21.0':
     dependencies:
       '@eslint/object-schema': 2.1.6
@@ -3626,6 +4034,10 @@ snapshots:
       - supports-color
 
   '@eslint/config-helpers@0.3.0': {}
+
+  '@eslint/core@0.10.0':
+    dependencies:
+      '@types/json-schema': 7.0.15
 
   '@eslint/core@0.13.0':
     dependencies:
@@ -3652,6 +4064,8 @@ snapshots:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
+
+  '@eslint/js@9.18.0': {}
 
   '@eslint/js@9.29.0': {}
 
@@ -3851,19 +4265,6 @@ snapshots:
   '@quansync/fs@0.1.3':
     dependencies:
       quansync: 0.2.10
-
-  '@radix-ui/react-compose-refs@1.1.2(@types/react@19.1.0)(react@19.1.0)':
-    dependencies:
-      react: 19.1.0
-    optionalDependencies:
-      '@types/react': 19.1.0
-
-  '@radix-ui/react-slot@1.2.3(@types/react@19.1.0)(react@19.1.0)':
-    dependencies:
-      '@radix-ui/react-compose-refs': 1.1.2(@types/react@19.1.0)(react@19.1.0)
-      react: 19.1.0
-    optionalDependencies:
-      '@types/react': 19.1.0
 
   '@rollup/rollup-android-arm-eabi@4.44.2':
     optional: true
@@ -4112,9 +4513,17 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
+  '@types/react-dom@19.0.3(@types/react@19.0.7)':
+    dependencies:
+      '@types/react': 19.0.7
+
   '@types/react-dom@19.1.1(@types/react@19.1.0)':
     dependencies:
       '@types/react': 19.1.0
+
+  '@types/react@19.0.7':
+    dependencies:
+      csstype: 3.1.3
 
   '@types/react@19.1.0':
     dependencies:
@@ -4125,6 +4534,8 @@ snapshots:
       '@types/node': 22.15.3
 
   '@types/tinycolor2@1.4.6': {}
+
+  '@types/use-sync-external-store@0.0.6': {}
 
   '@typescript-eslint/eslint-plugin@8.35.0(@typescript-eslint/parser@8.35.0(eslint@9.30.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.30.0(jiti@2.4.2))(typescript@5.8.2)':
     dependencies:
@@ -5149,6 +5560,47 @@ snapshots:
   eslint-visitor-keys@3.4.3: {}
 
   eslint-visitor-keys@4.2.1: {}
+
+  eslint@9.18.0(jiti@2.4.2):
+    dependencies:
+      '@eslint-community/eslint-utils': 4.7.0(eslint@9.18.0(jiti@2.4.2))
+      '@eslint-community/regexpp': 4.12.1
+      '@eslint/config-array': 0.19.2
+      '@eslint/core': 0.10.0
+      '@eslint/eslintrc': 3.3.1
+      '@eslint/js': 9.18.0
+      '@eslint/plugin-kit': 0.2.8
+      '@humanfs/node': 0.16.6
+      '@humanwhocodes/module-importer': 1.0.1
+      '@humanwhocodes/retry': 0.4.3
+      '@types/estree': 1.0.8
+      '@types/json-schema': 7.0.15
+      ajv: 6.12.6
+      chalk: 4.1.2
+      cross-spawn: 7.0.6
+      debug: 4.4.1
+      escape-string-regexp: 4.0.0
+      eslint-scope: 8.4.0
+      eslint-visitor-keys: 4.2.1
+      espree: 10.4.0
+      esquery: 1.6.0
+      esutils: 2.0.3
+      fast-deep-equal: 3.1.3
+      file-entry-cache: 8.0.0
+      find-up: 5.0.0
+      glob-parent: 6.0.2
+      ignore: 5.3.2
+      imurmurhash: 0.1.4
+      is-glob: 4.0.3
+      json-stable-stringify-without-jsonify: 1.0.1
+      lodash.merge: 4.6.2
+      minimatch: 3.1.2
+      natural-compare: 1.4.0
+      optionator: 0.9.4
+    optionalDependencies:
+      jiti: 2.4.2
+    transitivePeerDependencies:
+      - supports-color
 
   eslint@9.30.0(jiti@2.4.2):
     dependencies:
@@ -6877,6 +7329,8 @@ snapshots:
       is-typed-array: 1.1.15
       possible-typed-array-names: 1.1.0
       reflect.getprototypeof: 1.0.10
+
+  typescript@5.7.3: {}
 
   typescript@5.8.2: {}
 

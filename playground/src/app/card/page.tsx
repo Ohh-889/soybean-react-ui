@@ -4,8 +4,8 @@ import {
   Card
   //   ButtonIcon,
   //   Badge,
-} from 'skyroc-ui'; // 假设这些是你自己封装的 React 组件
-import type { ThemeSize } from 'skyroc-ui';
+} from 'soybean-react-ui'; // 假设这些是你自己封装的 React 组件
+import type { ThemeSize } from 'soybean-react-ui';
 
 const sizes: ThemeSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
 

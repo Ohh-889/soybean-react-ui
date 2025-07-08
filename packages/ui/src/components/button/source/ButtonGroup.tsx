@@ -1,4 +1,4 @@
-import { buttonGroupVariants, cn } from '@skyroc-ui/variants';
+import { buttonGroupVariants, cn } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
 import type { ButtonGroupProps } from '../type';

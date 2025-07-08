@@ -1,5 +1,5 @@
 {
-  "name": "skyroc-ui",
+  "name": "soybean-react-ui",
   "type": "module",
   "version": "0.0.1",
   "private": true,
@@ -12,11 +12,12 @@
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "1.2.3",
-    "@skyroc-ui/variants": "workspace:*",
+    "@soybean-react-ui/variants": "workspace:*",
     "lucide-react": "0.525.0",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "soybean-react-ui/slot": "workspace:*",
+    "soybean-react-ui/tabs": "workspace:*"
   },
   "devDependencies": {
     "@turbo/gen": "2.5.0",

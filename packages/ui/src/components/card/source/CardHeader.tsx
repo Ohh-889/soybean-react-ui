@@ -1,4 +1,4 @@
-import { cardVariants, cn } from '@skyroc-ui/variants';
+import { cardVariants, cn } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
 import type { CardHeaderProps } from '../type';

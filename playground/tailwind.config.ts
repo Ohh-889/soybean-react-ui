@@ -1,4 +1,4 @@
-import { soybeanUIPlugin } from 'skyroc-tailwind-plugin';
+import { soybeanUIPlugin } from 'soybean-react-ui/tailwind-plugin';
 import type { Config } from 'tailwindcss';
 
 const config: Config = {

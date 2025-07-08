@@ -1,4 +1,4 @@
-import type { CardSlots, ClassValue, ClassValueProp, ThemeSize } from '@skyroc-ui/variants';
+import type { CardSlots, ClassValue, ClassValueProp, ThemeSize } from '@soybean-react-ui/variants';
 import type { ReactNode } from 'react';
 
 export interface CardRootProps

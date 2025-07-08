@@ -1,5 +1,5 @@
 {
-  "name": "skyroc-tailwind-plugin",
+  "name": "soybean-react-ui/tailwind-plugin",
   "type": "module",
   "version": "0.0.1",
   "sideEffects": false,
