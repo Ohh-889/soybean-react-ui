@@ -1,4 +1,4 @@
-import type { ClassValue } from 'clsx';
+import type { ClassValue, ThemeSize } from '@soybean-react-ui/variants';
 import type { ReactNode } from 'react';
 
 export type AsTag =
@@ -36,6 +36,12 @@ export interface PrimitiveProps {
   asChild?: boolean;
 }
 
-export type BaseProps<T> = Omit<T, 'className'> & {
+export type BaseNodeProps<T> = Omit<T, 'className'> & {
   className?: ClassValue;
+  size?: ThemeSize;
+};
+
+export type BaseProps<T> = T & {
+  className?: ClassValue;
+  size?: ThemeSize;
 };

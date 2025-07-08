@@ -1,15 +1,8 @@
-import type {
-  ButtonShadow,
-  ButtonShape,
-  ButtonVariant,
-  ThemeColor,
-  ThemeOrientation,
-  ThemeSize
-} from '@skyroc-ui/variants';
+import type { ButtonShadow, ButtonShape, ButtonVariant, ThemeColor, ThemeOrientation } from '@soybean-react-ui/variants';
 
-import type { BaseProps, PrimitiveProps } from '../../types/other';
+import type { BaseNodeProps, PrimitiveProps } from '../../types/other';
 
-export interface ButtonProps extends PrimitiveProps, BaseProps<React.ButtonHTMLAttributes<HTMLButtonElement>> {
+export interface ButtonProps extends PrimitiveProps, BaseNodeProps<React.ButtonHTMLAttributes<HTMLButtonElement>> {
   asIconButton?: boolean;
   color?: ThemeColor;
   fitContent?: boolean;
@@ -17,12 +10,11 @@ export interface ButtonProps extends PrimitiveProps, BaseProps<React.ButtonHTMLA
   loading?: boolean;
   shadow?: ButtonShadow;
   shape?: ButtonShape;
-  size?: ThemeSize;
   trailing?: React.ReactNode;
   variant?: ButtonVariant;
 }
 
-export interface ButtonGroupProps extends BaseProps<React.HTMLAttributes<HTMLDivElement>> {
+export interface ButtonGroupProps extends BaseNodeProps<React.HTMLAttributes<HTMLDivElement>> {
   orientation?: ThemeOrientation;
 }
 
