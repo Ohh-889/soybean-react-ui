@@ -1,0 +1,138 @@
+import React from 'react';
+import { useComposedRefs } from 'soybean-react-ui/compose-refs';
+import { createContextScope } from 'soybean-react-ui/context';
+import { type Slot, createSlot } from 'soybean-react-ui/slot';
+
+type SlotProps = React.ComponentPropsWithoutRef<typeof Slot>;
+type CollectionElement = HTMLElement;
+interface CollectionProps extends SlotProps {
+  scope: any;
+}
+
+// We have resorted to returning slots directly rather than exposing primitives that can then
+// be slotted like `<CollectionItem as={Slot}>…</CollectionItem>`.
+// This is because we encountered issues with generic types that cannot be statically analysed
+// due to creating them dynamically via createCollection.
+
+function createCollection<ItemElement extends HTMLElement, ItemData = Record<string, unknown>>(name: string) {
+  /* -----------------------------------------------------------------------------------------------
+   * CollectionProvider
+   * --------------------------------------------------------------------------------------------- */
+
+  const PROVIDER_NAME = `${name}CollectionProvider`;
+
+  const [createCollectionContext, createCollectionScope] = createContextScope(PROVIDER_NAME);
+
+  type ContextValue = {
+    collectionRef: React.RefObject<CollectionElement | null>;
+    itemMap: Map<React.RefObject<ItemElement | null>, { ref: React.RefObject<ItemElement | null> } & ItemData>;
+  };
+
+  const [CollectionProviderImpl, useCollectionContext] = createCollectionContext<ContextValue>(PROVIDER_NAME, {
+    collectionRef: { current: null },
+    itemMap: new Map()
+  });
+
+  const CollectionProvider: React.FC<{ children?: React.ReactNode; scope: any }> = props => {
+    const { children, scope } = props;
+
+    const ref = React.useRef<CollectionElement>(null);
+
+    const itemMap = React.useRef<ContextValue['itemMap']>(new Map()).current;
+    return (
+      <CollectionProviderImpl
+        collectionRef={ref}
+        itemMap={itemMap}
+        scope={scope}
+      >
+        {children}
+      </CollectionProviderImpl>
+    );
+  };
+
+  CollectionProvider.displayName = PROVIDER_NAME;
+
+  /* -----------------------------------------------------------------------------------------------
+   * CollectionSlot
+   * --------------------------------------------------------------------------------------------- */
+
+  const COLLECTION_SLOT_NAME = `${name}CollectionSlot`;
+
+  const CollectionSlotImpl = createSlot(COLLECTION_SLOT_NAME);
+  const CollectionSlot = React.forwardRef<CollectionElement, CollectionProps>((props, forwardedRef) => {
+    const { children, scope } = props;
+    const context = useCollectionContext(COLLECTION_SLOT_NAME, scope);
+    const composedRefs = useComposedRefs(forwardedRef, context.collectionRef);
+    return <CollectionSlotImpl ref={composedRefs}>{children}</CollectionSlotImpl>;
+  });
+
+  CollectionSlot.displayName = COLLECTION_SLOT_NAME;
+
+  /* -----------------------------------------------------------------------------------------------
+   * CollectionItem
+   * --------------------------------------------------------------------------------------------- */
+
+  const ITEM_SLOT_NAME = `${name}CollectionItemSlot`;
+  const ITEM_DATA_ATTR = 'data-soybean-collection-item';
+
+  type CollectionItemSlotProps = ItemData & {
+    children: React.ReactNode;
+    scope: any;
+  };
+
+  const CollectionItemSlotImpl = createSlot(ITEM_SLOT_NAME);
+  const CollectionItemSlot = React.forwardRef<ItemElement, CollectionItemSlotProps>((props, forwardedRef) => {
+    const { children, scope, ...itemData } = props;
+    const ref = React.useRef<ItemElement>(null);
+    const composedRefs = useComposedRefs(forwardedRef, ref);
+    const context = useCollectionContext(ITEM_SLOT_NAME, scope);
+
+    React.useEffect(() => {
+      context.itemMap.set(ref, { ref, ...(itemData as unknown as ItemData) });
+      return () => {
+        context.itemMap.delete(ref);
+      };
+    });
+
+    return (
+      <CollectionItemSlotImpl
+        {...{ [ITEM_DATA_ATTR]: '' }}
+        ref={composedRefs}
+      >
+        {children}
+      </CollectionItemSlotImpl>
+    );
+  });
+
+  CollectionItemSlot.displayName = ITEM_SLOT_NAME;
+
+  /* -----------------------------------------------------------------------------------------------
+   * useCollection
+   * --------------------------------------------------------------------------------------------- */
+
+  function useCollection(scope: any) {
+    const context = useCollectionContext(`${name}CollectionConsumer`, scope);
+
+    const getItems = React.useCallback(() => {
+      const collectionNode = context.collectionRef.current;
+      if (!collectionNode) return [];
+      const orderedNodes = Array.from(collectionNode.querySelectorAll(`[${ITEM_DATA_ATTR}]`));
+      const items = Array.from(context.itemMap.values());
+      const orderedItems = items.sort(
+        (a, b) => orderedNodes.indexOf(a.ref.current!) - orderedNodes.indexOf(b.ref.current!)
+      );
+      return orderedItems;
+    }, [context.collectionRef, context.itemMap]);
+
+    return getItems;
+  }
+
+  return [
+    { ItemSlot: CollectionItemSlot, Provider: CollectionProvider, Slot: CollectionSlot },
+    useCollection,
+    createCollectionScope
+  ] as const;
+}
+
+export { createCollection };
+export type { CollectionProps };
