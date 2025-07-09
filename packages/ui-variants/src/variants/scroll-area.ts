@@ -1,22 +1,104 @@
 import { tv } from 'tailwind-variants';
 
 export const scrollAreaVariants = tv({
+  compoundVariants: [
+    {
+      class: {
+        scrollbar: 'h-1.5'
+      },
+      orientation: 'horizontal',
+      size: 'xs'
+    },
+    {
+      class: {
+        scrollbar: 'w-1.5'
+      },
+      orientation: 'vertical',
+      size: 'xs'
+    },
+    {
+      class: {
+        scrollbar: 'h-2'
+      },
+      orientation: 'horizontal',
+      size: 'sm'
+    },
+    {
+      class: {
+        scrollbar: 'w-2'
+      },
+      orientation: 'vertical',
+      size: 'sm'
+    },
+    {
+      class: {
+        scrollbar: 'h-2.5'
+      },
+      orientation: 'horizontal',
+      size: 'md'
+    },
+    {
+      class: {
+        scrollbar: 'w-2.5'
+      },
+      orientation: 'vertical',
+      size: 'md'
+    },
+    {
+      class: {
+        scrollbar: 'h-3'
+      },
+      orientation: 'horizontal',
+      size: 'lg'
+    },
+    {
+      class: {
+        scrollbar: 'w-3'
+      },
+      orientation: 'vertical',
+      size: 'lg'
+    },
+    {
+      class: {
+        scrollbar: 'h-3.5'
+      },
+      orientation: 'horizontal',
+      size: 'xl'
+    },
+    {
+      class: {
+        scrollbar: 'w-3.5'
+      },
+      orientation: 'vertical',
+      size: 'xl'
+    },
+    {
+      class: {
+        scrollbar: 'h-4'
+      },
+      orientation: 'horizontal',
+      size: '2xl'
+    },
+    {
+      class: {
+        scrollbar: 'w-4'
+      },
+      orientation: 'vertical',
+      size: '2xl'
+    }
+  ],
+  defaultVariants: {
+    orientation: 'vertical',
+    size: 'md'
+  },
   slots: {
+    corner: '',
     root: 'relative overflow-hidden',
-    viewport: 'size-full rounded-inherit',
     scrollbar: 'flex touch-none select-none transition-colors-200',
     thumb: 'relative flex-1 rounded-full bg-border',
-    corner: ''
+    viewport: 'size-full rounded-inherit'
   },
   variants: {
-    size: {
-      xs: {},
-      sm: {},
-      md: {},
-      lg: {},
-      xl: {},
-      '2xl': {}
-    },
     orientation: {
       horizontal: {
         scrollbar: 'flex-col p-px border-t border-t-transparent'
@@ -24,97 +106,15 @@ export const scrollAreaVariants = tv({
       vertical: {
         scrollbar: 'h-full p-px border-l border-l-transparent'
       }
+    },
+    size: {
+      '2xl': {},
+      lg: {},
+      md: {},
+      sm: {},
+      xl: {},
+      xs: {}
     }
-  },
-  compoundVariants: [
-    {
-      size: 'xs',
-      orientation: 'horizontal',
-      class: {
-        scrollbar: 'h-1.5'
-      }
-    },
-    {
-      size: 'xs',
-      orientation: 'vertical',
-      class: {
-        scrollbar: 'w-1.5'
-      }
-    },
-    {
-      size: 'sm',
-      orientation: 'horizontal',
-      class: {
-        scrollbar: 'h-2'
-      }
-    },
-    {
-      size: 'sm',
-      orientation: 'vertical',
-      class: {
-        scrollbar: 'w-2'
-      }
-    },
-    {
-      size: 'md',
-      orientation: 'horizontal',
-      class: {
-        scrollbar: 'h-2.5'
-      }
-    },
-    {
-      size: 'md',
-      orientation: 'vertical',
-      class: {
-        scrollbar: 'w-2.5'
-      }
-    },
-    {
-      size: 'lg',
-      orientation: 'horizontal',
-      class: {
-        scrollbar: 'h-3'
-      }
-    },
-    {
-      size: 'lg',
-      orientation: 'vertical',
-      class: {
-        scrollbar: 'w-3'
-      }
-    },
-    {
-      size: 'xl',
-      orientation: 'horizontal',
-      class: {
-        scrollbar: 'h-3.5'
-      }
-    },
-    {
-      size: 'xl',
-      orientation: 'vertical',
-      class: {
-        scrollbar: 'w-3.5'
-      }
-    },
-    {
-      size: '2xl',
-      orientation: 'horizontal',
-      class: {
-        scrollbar: 'h-4'
-      }
-    },
-    {
-      size: '2xl',
-      orientation: 'vertical',
-      class: {
-        scrollbar: 'w-4'
-      }
-    }
-  ],
-  defaultVariants: {
-    size: 'md',
-    orientation: 'vertical'
   }
 });
 
