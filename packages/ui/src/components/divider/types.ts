@@ -8,6 +8,8 @@ export interface DividerRootProps extends BaseNodeProps<_SeparatorProps> {
   border?: DividerBorder;
 }
 
+export type { DividerBorder };
+
 export interface DividerLabelProps extends BaseNodeProps<React.ComponentProps<'span'>> {
   align?: ThemeAlign;
   orientation?: ThemeOrientation;
