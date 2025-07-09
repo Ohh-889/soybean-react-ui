@@ -2,6 +2,7 @@ export * from './shared';
 
 export * from './types';
 
+export * from './variants/badge';
 export * from './variants/button';
 export * from './variants/button-group';
 export * from './variants/card';
