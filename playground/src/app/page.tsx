@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Button } from 'skyroc-ui';
+import { Button } from 'soybean-react-ui';
 
 export default function Home() {
   return (
@@ -13,6 +13,9 @@ export default function Home() {
         <Link href="/card">Card</Link>
       </Button>
 
+      <Button asChild>
+        <Link href="/tabs">Tabs</Link>
+      </Button>
       <a
         className="flex items-center gap-2 hover:underline hover:underline-offset-4"
         href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"

@@ -1,6 +1,18 @@
 @import 'tailwindcss';
-@config "../../tailwind.config.ts";
-
 
 @source "../../../packages/ui/src/**/*.{ts,tsx}";
 @source "../../../packages/ui-variants/src/**/*.{ts,tsx}";
+
+@config "../../tailwind.config.ts";
+
+
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+html {
+  overflow-x: hidden;
+}

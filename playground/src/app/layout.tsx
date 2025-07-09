@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import { Card } from 'soybean-react-ui';
 
 const geistSans = Geist({
   subsets: ['latin'],
@@ -17,14 +18,27 @@ export const metadata: Metadata = {
   title: 'Create Next App'
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        id="app"
+      >
+        <div className="h-full">
+          <Card
+            flexHeight
+            className="h-full lt-sm:h-auto"
+            title="Soybean UI Components"
+          >
+            {children}
+          </Card>
+        </div>
+      </body>
     </html>
   );
 }
