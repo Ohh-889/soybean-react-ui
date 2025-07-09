@@ -4,51 +4,51 @@ import type { PluginCreator } from 'tailwindcss/plugin';
 export type HslColorString = `${number} ${number}% ${number}%`;
 export type PluginOptions = Parameters<PluginCreator>[0];
 export type ThemeCSSVars = {
-  '--accent': HslColorString;
-  '--accent-foreground': HslColorString;
-  '--background': HslColorString;
-  '--border': HslColorString;
-  '--card': HslColorString;
-  '--card-foreground': HslColorString;
-  '--destructive': HslColorString;
-  '--destructive-foreground': HslColorString;
-  '--foreground': HslColorString;
-  '--input': HslColorString;
-  '--muted': HslColorString;
-  '--muted-foreground': HslColorString;
-  '--popover': HslColorString;
-  '--popover-foreground': HslColorString;
-  '--primary': HslColorString;
-  '--primary-foreground': HslColorString;
-  '--ring': HslColorString;
-  '--secondary': HslColorString;
-  '--secondary-foreground': HslColorString;
+  accent: HslColorString;
+  'accent-foreground': HslColorString;
+  background: HslColorString;
+  border: HslColorString;
+  card: HslColorString;
+  'card-foreground': HslColorString;
+  destructive: HslColorString;
+  'destructive-foreground': HslColorString;
+  foreground: HslColorString;
+  input: HslColorString;
+  muted: HslColorString;
+  'muted-foreground': HslColorString;
+  popover: HslColorString;
+  'popover-foreground': HslColorString;
+  primary: HslColorString;
+  'primary-foreground': HslColorString;
+  ring: HslColorString;
+  secondary: HslColorString;
+  'secondary-foreground': HslColorString;
 };
 
 export type ThemeCSSVarKey = keyof ThemeCSSVars;
 
 export type FeedbackColorOfThemeCssVars = {
-  '--carbon': HslColorString;
-  '--carbon-foreground': HslColorString;
-  '--info': HslColorString;
-  '--info-foreground': HslColorString;
-  '--success': HslColorString;
-  '--success-foreground': HslColorString;
-  '--warning': HslColorString;
-  '--warning-foreground': HslColorString;
+  carbon: HslColorString;
+  'carbon-foreground': HslColorString;
+  info: HslColorString;
+  'info-foreground': HslColorString;
+  success: HslColorString;
+  'success-foreground': HslColorString;
+  warning: HslColorString;
+  'warning-foreground': HslColorString;
 };
 
 export type FeedbackColorOfThemeCssVarKey = keyof FeedbackColorOfThemeCssVars;
 
 export type SidebarColorOfThemeCssVars = {
-  '--sidebar-accent': HslColorString;
-  '--sidebar-accent-foreground': HslColorString;
-  '--sidebar-background': HslColorString;
-  '--sidebar-border': HslColorString;
-  '--sidebar-foreground': HslColorString;
-  '--sidebar-primary': HslColorString;
-  '--sidebar-primary-foreground': HslColorString;
-  '--sidebar-ring': HslColorString;
+  'sidebar-accent': HslColorString;
+  'sidebar-accent-foreground': HslColorString;
+  'sidebar-background': HslColorString;
+  'sidebar-border': HslColorString;
+  'sidebar-foreground': HslColorString;
+  'sidebar-primary': HslColorString;
+  'sidebar-primary-foreground': HslColorString;
+  'sidebar-ring': HslColorString;
 };
 
 export type SidebarColorOfThemeCssVarKey = keyof SidebarColorOfThemeCssVars;

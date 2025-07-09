@@ -17,7 +17,7 @@ export const builtinColors = themes.map(theme => theme.name) as ThemeConfigColor
 
 export const builtinColorMap = themes.reduce(
   (acc, theme) => {
-    acc[theme.name as ThemeConfigColor] = theme.cssVars.light['--primary'];
+    acc[theme.name as ThemeConfigColor] = theme.cssVars.light.primary;
     return acc;
   },
   {} as Record<ThemeConfigColor, string>
