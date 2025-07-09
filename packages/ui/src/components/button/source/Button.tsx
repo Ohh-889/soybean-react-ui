@@ -1,7 +1,7 @@
+import { Slot } from '@radix-ui/react-slot';
 import { buttonVariants, cn } from '@soybean-react-ui/variants';
 import { Loader2 } from 'lucide-react';
 import { forwardRef } from 'react';
-import { Slot } from 'soybean-react-ui/react-slot';
 
 import type { ButtonProps } from '../type';
 
