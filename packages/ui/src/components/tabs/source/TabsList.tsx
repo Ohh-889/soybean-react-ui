@@ -20,11 +20,9 @@ const TabsList = forwardRef<React.ElementRef<typeof List>, TabsListProps>((props
 
   const mergedRef = useComposedRefs(ref, tabsListRef);
 
-  const { list } = tabsVariants({ orientation, size });
+  const { indicator, indicatorRoot, list } = tabsVariants({ orientation, size });
 
   const mergedCls = cn(list(), className);
-
-  const { indicator, indicatorRoot } = tabsVariants({ size });
 
   const mergedRootCls = cn(indicatorRoot(), classNames?.indicatorRoot);
 

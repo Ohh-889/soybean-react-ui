@@ -7,7 +7,9 @@ import type { TabsRootProps } from '../types';
 const TabRoot = forwardRef<React.ElementRef<typeof Root>, TabsRootProps>((props, ref) => {
   const { className, fill, orientation, size, ...rest } = props;
 
-  const mergedCls = cn(tabsVariants({ fill, orientation, size }), className);
+  const { root } = tabsVariants({ fill, orientation, size });
+
+  const mergedCls = cn(root(), className);
 
   return (
     <Root
