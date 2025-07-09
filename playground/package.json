@@ -17,10 +17,10 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@soybean-react-ui/tailwind-plugin": "workspace:*",
     "@tailwindcss/postcss": "4.1.11",
     "eslint": "9.30.0",
     "eslint-config-next": "15.3.4",
-    "soybean-react-ui/tailwind-plugin": "workspace:*",
     "tailwindcss": "4.1.11"
   }
 }

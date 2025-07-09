@@ -1,5 +1,5 @@
 {
-  "name": "soybean-react-ui/tailwind-plugin",
+  "name": "@soybean-react-ui/tailwind-plugin",
   "type": "module",
   "version": "0.0.1",
   "sideEffects": false,
@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@unocss/core": "66.3.2",
+    "@soybean-react-ui/color": "workspace:*",
     "tailwindcss": "4.1.11"
   }
 }
