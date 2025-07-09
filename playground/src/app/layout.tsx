@@ -32,7 +32,7 @@ export default async function RootLayout({
         <div className="h-full">
           <Card
             flexHeight
-            className="h-full lt-sm:h-auto"
+            className="h-full max-sm:h-auto"
             title="Soybean UI Components"
           >
             {children}

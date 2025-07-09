@@ -15,8 +15,12 @@ export default function DemoTabs({ items }: DemoTabsProps) {
 
   return (
     <Tabs
+      enableIndicator={false}
       items={items}
       value={currentTab}
+      classNames={{
+        list: 'flex-wrap justify-start'
+      }}
     />
   );
 }
