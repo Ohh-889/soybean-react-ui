@@ -36,6 +36,8 @@ export interface PrimitiveProps {
   asChild?: boolean;
 }
 
+export type { ClassValue };
+
 export type BaseNodeProps<T> = Omit<T, 'className'> & {
   className?: ClassValue;
   size?: ThemeSize;
@@ -44,4 +46,9 @@ export type BaseNodeProps<T> = Omit<T, 'className'> & {
 export type BaseProps<T> = T & {
   className?: ClassValue;
   size?: ThemeSize;
+};
+
+export type PropsSlot = {
+  leading?: ReactNode;
+  trailing?: ReactNode;
 };
