@@ -3,6 +3,7 @@ export * from './shared';
 export * from './types';
 
 export * from './variants/accordion';
+export * from './variants/alert';
 export * from './variants/badge';
 export * from './variants/button';
 export * from './variants/button-group';
