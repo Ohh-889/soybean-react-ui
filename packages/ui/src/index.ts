@@ -4,6 +4,8 @@ export * from './components/alert';
 
 export * from './components/alert-dialog';
 
+export * from './components/aspect-ratio';
+
 export * from './components/badge';
 
 export * from './components/button';
