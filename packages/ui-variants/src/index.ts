@@ -7,6 +7,7 @@ export * from './variants/alert';
 export * from './variants/alert-dialog';
 export * from './variants/avatar';
 export * from './variants/badge';
+export * from './variants/breadcrumb';
 export * from './variants/button';
 export * from './variants/button-group';
 export * from './variants/card';

@@ -1,4 +1,10 @@
-import type { ButtonShadow, ButtonShape, ButtonVariant, ThemeColor, ThemeOrientation } from '@soybean-react-ui/variants';
+import type {
+  ButtonShadow,
+  ButtonShape,
+  ButtonVariant,
+  ThemeColor,
+  ThemeOrientation
+} from '@soybean-react-ui/variants';
 
 import type { BaseNodeProps, PrimitiveProps } from '../../types/other';
 
