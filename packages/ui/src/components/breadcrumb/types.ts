@@ -39,6 +39,7 @@ export type BreadcrumbProps<T extends BreadcrumbItem> = BreadcrumbRootProps & {
    */
   ellipsis?: true | [number, number] | null;
   ellipsisIcon?: React.ReactNode;
+  handleItemClick?: (item: T) => void;
   items: T[];
   renderEllipsis?: (items: T[]) => React.ReactNode;
   renderItem?: (item: T) => React.ReactNode;

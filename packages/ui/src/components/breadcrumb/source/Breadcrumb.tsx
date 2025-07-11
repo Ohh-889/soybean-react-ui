@@ -31,8 +31,19 @@ function renderBreadcrumbContent<T extends BreadcrumbItem>(item: T, renderItem: 
 }
 
 const Breadcrumb = <T extends BreadcrumbItem>(props: BreadcrumbProps<T>, ref: Ref<HTMLElement>) => {
-  const { className, classNames, ellipsis, ellipsisIcon, items, renderEllipsis, renderItem, separator, size, ...rest } =
-    props;
+  const {
+    className,
+    classNames,
+    ellipsis,
+    ellipsisIcon,
+    handleItemClick,
+    items,
+    renderEllipsis,
+    renderItem,
+    separator,
+    size,
+    ...rest
+  } = props;
 
   const computedEllipsisRange = getEllipsisRange();
 
@@ -106,6 +117,7 @@ const Breadcrumb = <T extends BreadcrumbItem>(props: BreadcrumbProps<T>, ref: Re
               <BreadcrumbItemContent
                 className={classNames?.item}
                 size={size}
+                onClick={() => handleItemClick?.(item)}
               >
                 {item.leading}
 
