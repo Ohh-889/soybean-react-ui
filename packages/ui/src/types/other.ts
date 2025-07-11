@@ -52,3 +52,5 @@ export type PropsSlot = {
   leading?: ReactNode;
   trailing?: ReactNode;
 };
+
+export type BaseComponentProps<T extends keyof React.JSX.IntrinsicElements> = BaseNodeProps<React.ComponentProps<T>>;
