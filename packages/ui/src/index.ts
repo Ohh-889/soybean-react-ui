@@ -20,6 +20,8 @@ export * from './components/carousel';
 
 export * from './components/divider';
 
+export * from './components/label';
+
 export * from './components/scroll-area';
 
 export * from './components/sonner';
