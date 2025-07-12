@@ -1,3 +1,5 @@
+'use client';
+
 import type { Ref } from 'react';
 import { Fragment, forwardRef } from 'react';
 

@@ -1,3 +1,5 @@
+'use client';
+
 import { ChevronsLeftRightEllipsis } from 'lucide-react';
 import Link from 'next/link';
 import { Breadcrumb, Card } from 'soybean-react-ui';
