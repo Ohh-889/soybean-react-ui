@@ -12,6 +12,7 @@ export * from './variants/button';
 export * from './variants/button-group';
 export * from './variants/card';
 export * from './variants/carousel';
+export * from './variants/checkbox';
 export * from './variants/divider';
 export * from './variants/label';
 export * from './variants/scroll-area';

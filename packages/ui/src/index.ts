@@ -18,6 +18,8 @@ export * from './components/card';
 
 export * from './components/carousel';
 
+export * from './components/checkbox';
+
 export * from './components/divider';
 
 export * from './components/label';
