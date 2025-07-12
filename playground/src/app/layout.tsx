@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import { Card } from 'soybean-react-ui';
+import { Card, Sonner } from 'soybean-react-ui';
 
 const geistSans = Geist({
   subsets: ['latin'],
@@ -38,6 +38,8 @@ export default async function RootLayout({
             {children}
           </Card>
         </div>
+
+        <Sonner />
       </body>
     </html>
   );
