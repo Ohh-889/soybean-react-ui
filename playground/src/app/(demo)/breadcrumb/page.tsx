@@ -2,18 +2,31 @@
 
 import { ChevronsLeftRightEllipsis } from 'lucide-react';
 import Link from 'next/link';
-import { Breadcrumb, Card } from 'soybean-react-ui';
+import type { BreadcrumbItem } from 'soybean-react-ui';
+import { Breadcrumb, Card, toast } from 'soybean-react-ui';
 
 import { items, items2, items3, items4, sizes } from './modules/shared';
 
 const BreadcrumbPage = () => {
+  function handleItemClick(item: BreadcrumbItem) {
+    toast.success(`You clicked ${item.label}`, {
+      classNames: {
+        title: '!text-xs',
+        toast: '!w-auto !px-2 !py-1.5'
+      },
+      position: 'top-center'
+    });
+  }
   return (
     <div className="flex-c gap-4">
       <Card
         split
         title="Default"
       >
-        <Breadcrumb items={items} />
+        <Breadcrumb
+          handleItemClick={handleItemClick}
+          items={items}
+        />
       </Card>
 
       <Card
