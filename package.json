@@ -9,6 +9,7 @@
   "scripts": {
     "build": "turbo run build",
     "check-types": "turbo run check-types",
+    "deploy:playground": "pnpm --filter soybean-react-ui-playground deploy",
     "dev": "turbo run dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
@@ -28,5 +29,10 @@
     "tsup": "8.5.0",
     "turbo": "2.5.4",
     "typescript": "5.8.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "esbuild": "0.25.5"
+    }
   }
 }
