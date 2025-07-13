@@ -8,6 +8,7 @@
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "dev": "next dev --turbopack",
     "lint": "next lint",
+    "pages:build": "opennextjs-cloudflare build",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "start": "next start",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload"
