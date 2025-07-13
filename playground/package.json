@@ -8,7 +8,6 @@
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "dev": "next dev --turbopack",
     "lint": "next lint",
-    "pages:build": "opennextjs-cloudflare build",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "start": "next start",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload"
@@ -28,7 +27,8 @@
     "@tailwindcss/postcss": "4.1.11",
     "eslint": "9.30.0",
     "eslint-config-next": "15.3.4",
-    "tailwindcss": "4.1.11"
+    "tailwindcss": "4.1.11",
+    "wrangler": "^4.24.3"
   },
   "pnpm": {
     "overrides": {
