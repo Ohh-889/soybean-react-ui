@@ -6,7 +6,8 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true
   },
   images: {
-    domains: ['picsum.photos'] // 👈 添加允许的域名
+    domains: ['picsum.photos'],
+    unoptimized: true
   },
   typescript: {
     ignoreBuildErrors: true
