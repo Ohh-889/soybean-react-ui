@@ -56,3 +56,5 @@ export type PropsSlot = {
 export type BaseComponentProps<T extends keyof React.JSX.IntrinsicElements> = BaseNodeProps<
   React.ComponentPropsWithRef<T>
 >;
+
+export type AcceptableValue = string | number | bigint | Record<string, any> | null;
