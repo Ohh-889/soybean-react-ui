@@ -1,27 +1,35 @@
 {
   "name": "@soybean-react-ui/variants",
-  "version": "0.0.2-beta.5",
+  "type": "module",
+  "version": "0.0.1",
+  "private": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./src/index.ts",
-      "import": "./src/index.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
     }
   },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "typings": "./dist/index.d.ts",
-  "files": ["./dist"],
+  "files": ["dist"],
   "scripts": {
-    "build": "vite build"
+    "build": "tsdown",
+    "dev": "tsdown --watch  ./src/index.ts"
   },
   "dependencies": {
     "clsx": "2.1.1",
     "tailwind-merge": "3.3.0",
     "tailwind-variants": "1.0.0"
+  },
+  "devDependencies": {
+    "fast-glob": "^3.3.3",
+    "tsdown": "^0.12.9",
+    "typescript": "5.8.2"
   }
 }

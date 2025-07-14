@@ -2,7 +2,7 @@
   "name": "soybean-react-ui",
   "type": "module",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -25,8 +25,12 @@
   "types": "./dist/index.d.ts",
   "files": ["dist"],
   "scripts": {
-    "build": "tsdown",
-    "dev": "tsdown --watch  ./src/index.ts"
+    "build": "pnpm build:variants && pnpm build:ui ",
+    "build:ui": "tsdown",
+    "build:variants": "pnpm --filter @soybean-react-ui/variants build",
+    "dev": "pnpm dev:variants & pnpm dev:ui",
+    "dev:ui": "tsdown --watch  ./src/index.ts",
+    "dev:variants": "pnpm --filter @soybean-react-ui/variants dev"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.11",

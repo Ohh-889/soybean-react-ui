@@ -9,11 +9,11 @@ import type { BaseNodeProps, ClassValue } from '../../types/other';
 
 export type AvatarUi = Partial<Record<AvatarSlots, ClassValue>>;
 
-export type AvatarRootProps = BaseNodeProps<_AvatarRootProps>;
+export interface AvatarRootProps extends BaseNodeProps<_AvatarRootProps> {}
 
-export type AvatarFallbackProps = BaseNodeProps<_AvatarFallbackProps>;
+export interface AvatarFallbackProps extends BaseNodeProps<_AvatarFallbackProps> {}
 
-export type AvatarImageProps = BaseNodeProps<_AvatarImageProps>;
+export interface AvatarImageProps extends BaseNodeProps<_AvatarImageProps> {}
 
 export interface AvatarProps extends AvatarImageProps, Pick<AvatarFallbackProps, 'delayMs'> {
   classNames?: AvatarUi;

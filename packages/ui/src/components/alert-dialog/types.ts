@@ -16,17 +16,17 @@ export type AlertDialogUi = Partial<Record<DialogSlots, ClassValue>> & {
 
 export type AlertType = Extract<ThemeColor, 'destructive' | 'info' | 'success' | 'warning'>;
 
-export type AlertDialogContentProps = BaseNodeProps<_AlertDialogContentProps>;
+export interface AlertDialogContentProps extends BaseNodeProps<_AlertDialogContentProps> {}
 
-export type AlertDialogDescriptionProps = BaseNodeProps<_AlertDialogDescriptionProps>;
+export interface AlertDialogDescriptionProps extends BaseNodeProps<_AlertDialogDescriptionProps> {}
 
 export type AlertDialogFooterProps = BaseComponentProps<'div'>;
 
 export type AlertDialogHeaderProps = BaseComponentProps<'div'>;
 
-export type AlertDialogOverlayProps = BaseNodeProps<_AlertDialogOverlayProps>;
+export interface AlertDialogOverlayProps extends BaseNodeProps<_AlertDialogOverlayProps> {}
 
-export type AlertDialogTitleProps = BaseNodeProps<_AlertDialogTitleProps>;
+export interface AlertDialogTitleProps extends BaseNodeProps<_AlertDialogTitleProps> {}
 
 export type AlertDialogProps = BaseNodeProps<_AlertDialogProps> &
   AlertDialogContentProps &

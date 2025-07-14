@@ -2,4 +2,4 @@ import type { AspectRatioProps as _AspectRatioProps } from '@radix-ui/react-aspe
 
 import type { BaseNodeProps } from '../../types/other';
 
-export type AspectRatioProps = BaseNodeProps<_AspectRatioProps>;
+export interface AspectRatioProps extends BaseNodeProps<_AspectRatioProps> {}

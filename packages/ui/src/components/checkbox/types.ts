@@ -8,15 +8,15 @@ import type { BaseComponentProps, BaseNodeProps, ClassValue, ThemeColor } from '
 
 export type CheckboxUi = Partial<Record<CheckboxSlots, ClassValue>>;
 
-export type CheckboxControlProps = BaseNodeProps<_CheckboxRootProps> & {
+export interface CheckboxControlProps extends BaseNodeProps<_CheckboxRootProps> {
   color?: ThemeColor;
-};
+}
 
-export type CheckboxIndicatorProps = BaseNodeProps<_CheckboxIndicatorProps>;
+export interface CheckboxIndicatorProps extends BaseNodeProps<_CheckboxIndicatorProps> {}
 
-export type CheckboxRootProps = BaseComponentProps<'div'>;
+export interface CheckboxRootProps extends BaseComponentProps<'div'> {}
 
-export type CheckboxProps = CheckboxControlProps & {
+export interface CheckboxProps extends CheckboxControlProps {
   classNames?: CheckboxUi;
   forceMountIndicator?: true;
-};
+}

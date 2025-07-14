@@ -1,4 +1,11 @@
-import type { ClassValue, ThemeSize } from '@soybean-react-ui/variants';
+import type {
+  ClassValue,
+  ThemeAlign,
+  ThemeColor,
+  ThemeOrientation,
+  ThemeSide,
+  ThemeSize
+} from '@soybean-react-ui/variants';
 import type { ReactNode } from 'react';
 
 export type AsTag =
@@ -36,8 +43,6 @@ export interface PrimitiveProps {
   asChild?: boolean;
 }
 
-export type { ClassValue };
-
 export type BaseNodeProps<T> = Omit<T, 'className'> & {
   className?: ClassValue;
   size?: ThemeSize;
@@ -58,3 +63,5 @@ export type BaseComponentProps<T extends keyof React.JSX.IntrinsicElements> = Ba
 >;
 
 export type AcceptableValue = string | number | bigint | Record<string, any> | null;
+
+export type { ClassValue, ThemeAlign, ThemeColor, ThemeOrientation, ThemeSide, ThemeSize };
