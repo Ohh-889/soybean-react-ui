@@ -13,6 +13,7 @@ export default defineConfig(
   sort.configs['flat/recommended'],
   {
     rules: {
+      '@typescript-eslint/no-empty-object-type': 'none',
       'import/newline-after-import': 'error',
       'import/no-absolute-path': 'warn',
       'import/no-empty-named-blocks': ['error'],
