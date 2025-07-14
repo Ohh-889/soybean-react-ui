@@ -21,7 +21,9 @@
   "scripts": {
     "build": "next build",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "worker:build": "opennextjs-cloudflare build",
+    "build:ui": "pnpm --filter soybean-react-ui build",
+    "deploy": "pnpm run build:ui && pnpm run worker:build && opennextjs-cloudflare deploy",
     "dev": "pnpm run dev:playground & pnpm run dev:ui",
     "dev:playground": "next dev --turbopack",
     "dev:ui": "pnpm --filter soybean-react-ui dev",
