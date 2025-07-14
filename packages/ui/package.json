@@ -4,11 +4,29 @@
   "version": "0.0.1",
   "private": true,
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js",
+      "require": "./dist/utils/index.js"
+    },
+    "./*": {
+      "types": "./dist/components/*/index.d.ts",
+      "import": "./dist/components/*/index.js",
+      "require": "./dist/components/*/index.js"
+    }
   },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
   "scripts": {
-    "check-types": "tsc --noEmit",
-    "lint": "eslint . --max-warnings 0"
+    "build": "tsdown",
+    "dev": "tsdown --watch  ./src/index.ts"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.11",
@@ -34,6 +52,9 @@
     "@turbo/gen": "2.5.0",
     "@types/node": "22.15.3",
     "@types/react": "19.1.0",
-    "@types/react-dom": "19.1.1"
+    "@types/react-dom": "19.1.1",
+    "fast-glob": "^3.3.3",
+    "tsdown": "^0.12.9",
+    "typescript": "5.8.2"
   }
 }
