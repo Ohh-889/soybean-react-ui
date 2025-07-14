@@ -1,7 +1,23 @@
 {
   "name": "soybean-react-ui-playground",
+  "type": "module",
   "version": "0.1.0",
   "private": true,
+  "description": "soybean-ui is an ui library like shadcn for React.",
+  "author": {
+    "name": "Ohh",
+    "email": "15093262@qq.com",
+    "url": "https://github.com/Ohh-889"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/Ohh-889/soybean-react-ui",
+  "repository": {
+    "url": "https://github.com/Ohh-889/soybean-react-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Ohh-889/soybean-react-ui/issues"
+  },
+  "keywords": ["UI", "tailwind-css", "shadcn-ui", "react"],
   "scripts": {
     "build": "next build",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
