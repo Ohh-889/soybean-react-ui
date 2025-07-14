@@ -2,7 +2,7 @@ import { cardVariants, cn } from '@soybean-react-ui/variants';
 import React, { isValidElement } from 'react';
 
 import { If } from '../../if';
-import type { CardProps } from '../type';
+import type { CardProps } from '../types';
 
 import { CardContent } from './CardContent';
 import { CardFooter } from './CardFooter';

@@ -1,7 +1,7 @@
 import { cardVariants, cn } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
-import type { CardHeaderProps } from '../type';
+import type { CardHeaderProps } from '../types';
 
 export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>((props, ref) => {
   const { className, size, ...rest } = props;

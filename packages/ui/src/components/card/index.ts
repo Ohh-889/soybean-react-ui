@@ -6,4 +6,4 @@ export * from './source/CardRoot';
 export * from './source/CardTitle';
 export * from './source/CardTitleRoot';
 
-export * from './type';
+export * from './types';

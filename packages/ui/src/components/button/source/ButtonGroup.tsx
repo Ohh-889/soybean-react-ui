@@ -1,7 +1,7 @@
 import { buttonGroupVariants, cn } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
-import type { ButtonGroupProps } from '../type';
+import type { ButtonGroupProps } from '../types';
 
 export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>((props, ref) => {
   const { children, className, orientation, ...rest } = props;

@@ -3,7 +3,7 @@ import { buttonVariants, cn } from '@soybean-react-ui/variants';
 import { Loader2 } from 'lucide-react';
 import { forwardRef } from 'react';
 
-import type { ButtonProps } from '../type';
+import type { ButtonProps } from '../types';
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   const {

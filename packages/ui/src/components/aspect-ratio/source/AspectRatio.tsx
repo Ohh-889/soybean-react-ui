@@ -2,7 +2,7 @@ import { Root } from '@radix-ui/react-aspect-ratio';
 import { cn } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
-import type { AspectRatioProps } from '../type';
+import type { AspectRatioProps } from '../types';
 
 const AspectRatio = forwardRef<React.ElementRef<typeof Root>, AspectRatioProps>((props, ref) => {
   const { className, ...rest } = props;

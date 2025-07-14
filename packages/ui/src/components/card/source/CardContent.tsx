@@ -1,7 +1,7 @@
 import { cardVariants, cn } from '@soybean-react-ui/variants';
 import React from 'react';
 
-import type { CardContentProps } from '../type';
+import type { CardContentProps } from '../types';
 
 export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>((props, ref) => {
   const { className, flexHeight, size, ...rest } = props;
