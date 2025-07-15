@@ -1,7 +1,7 @@
-export { default as Tabs } from './source/Tabs';
-export { default as TabsContent } from './source/TabsContent';
-export { default as TabsList } from './source/TabsList';
-export { default as TabsRoot } from './source/TabsRoot';
-export { default as TabsTrigger } from './source/TabsTrigger';
+export { default as Tabs } from './Tabs';
+export { default as TabsContent } from './TabsContent';
+export { default as TabsList } from './TabsList';
+export { default as TabsRoot } from './TabsRoot';
+export { default as TabsTrigger } from './TabsTrigger';
 
 export * from './types';

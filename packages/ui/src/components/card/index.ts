@@ -1,9 +1,9 @@
-export * from './source/Card';
-export * from './source/CardContent';
-export * from './source/CardFooter';
-export * from './source/CardHeader';
-export * from './source/CardRoot';
-export * from './source/CardTitle';
-export * from './source/CardTitleRoot';
+export * from './Card';
+export * from './CardContent';
+export * from './CardFooter';
+export * from './CardHeader';
+export * from './CardRoot';
+export * from './CardTitle';
+export * from './CardTitleRoot';
 
 export * from './types';

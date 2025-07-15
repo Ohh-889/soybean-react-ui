@@ -1,2 +1,2 @@
-export { default as AspectRatio } from './source/AspectRatio';
+export { default as AspectRatio } from './AspectRatio';
 export type { AspectRatioProps } from './types';

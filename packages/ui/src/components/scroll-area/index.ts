@@ -1,7 +1,7 @@
-export { default as ScrollArea } from './source/ScrollArea';
-export { default as ScrollAreaRoot } from './source/ScrollAreaRoot';
-export { default as ScrollAreaScrollbar } from './source/ScrollAreaScrollbar';
-export { default as ScrollAreaThumb } from './source/ScrollAreaThumb';
-export { default as ScrollAreaViewport } from './source/ScrollAreaViewport';
+export { default as ScrollArea } from './ScrollArea';
+export { default as ScrollAreaRoot } from './ScrollAreaRoot';
+export { default as ScrollAreaScrollbar } from './ScrollAreaScrollbar';
+export { default as ScrollAreaThumb } from './ScrollAreaThumb';
+export { default as ScrollAreaViewport } from './ScrollAreaViewport';
 
 export * from './types';

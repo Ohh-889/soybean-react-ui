@@ -1,5 +1,5 @@
-export { default as Chip } from './source/Chip';
-export { default as ChipContent } from './source/ChipContent';
-export { default as ChipRoot } from './source/ChipRoot';
+export { default as Chip } from './Chip';
+export { default as ChipContent } from './ChipContent';
+export { default as ChipRoot } from './ChipRoot';
 
 export * from './types';
