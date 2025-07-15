@@ -82,7 +82,7 @@ const ChipPage = () => {
           ))}
         </div>
 
-        <div className="flex mt-6 gap-3">
+        <div className="flex gap-3 mt-6">
           {sizes.map(size => (
             <div key={size}>
               <Chip

@@ -1,6 +1,8 @@
-import { breadcrumbVariants, cn } from '@soybean-react-ui/variants';
 import { Ellipsis } from 'lucide-react';
 
+import { cn } from '@/lib/utils';
+
+import { breadcrumbVariants } from './breadcrumb-variants';
 import type { BreadcrumbEllipsisProps } from './types';
 
 const BreadcrumbEllipsis = (props: BreadcrumbEllipsisProps) => {

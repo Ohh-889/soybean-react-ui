@@ -1,8 +1,10 @@
 'use client';
 
-import { carouselVariants, cn } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { carouselVariants } from './carousel-variants';
 import { useCarousel } from './context';
 import type { CarouselContentProps } from './types';
 

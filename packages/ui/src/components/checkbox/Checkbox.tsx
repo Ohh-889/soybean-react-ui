@@ -2,11 +2,11 @@ import { Check, Minus } from 'lucide-react';
 import React, { forwardRef } from 'react';
 
 import CheckboxLabel from '../label/Label';
-import type { CheckboxProps } from './types';
 
 import CheckboxControl from './CheckboxControl';
 import CheckboxIndicator from './CheckboxIndicator';
 import CheckboxRoot from './CheckboxRoot';
+import type { CheckboxProps } from './types';
 
 const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>((props, ref) => {
   const { children, className, classNames, forceMountIndicator, size, ...rest } = props;

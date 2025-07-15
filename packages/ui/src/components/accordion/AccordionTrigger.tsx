@@ -1,9 +1,11 @@
 import { Trigger } from '@radix-ui/react-accordion';
 import { Slot } from '@radix-ui/react-slot';
-import { accordionVariants, cn } from '@soybean-react-ui/variants';
 import { ChevronDown } from 'lucide-react';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { accordionVariants } from './accordion-variants';
 import type { AccordionTriggerProps } from './types';
 
 const AccordionTrigger = forwardRef<React.ElementRef<typeof Trigger>, AccordionTriggerProps>((props, ref) => {

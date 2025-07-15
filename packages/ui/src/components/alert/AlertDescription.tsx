@@ -1,6 +1,8 @@
-import { alertVariants, cn } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { alertVariants } from './alert-variants';
 import type { AlertDescriptionProps } from './types';
 
 const AlertDescription = forwardRef<HTMLDivElement, AlertDescriptionProps>((props, ref) => {

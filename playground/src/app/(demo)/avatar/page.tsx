@@ -10,7 +10,7 @@ const sizes: ThemeSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
 
 const AvatarPage = () => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex gap-4 flex-col">
       <Card
         split
         title="Default"
@@ -43,7 +43,7 @@ const AvatarPage = () => {
         split
         title="Sizes"
       >
-        <div className="flex flex-wrap gap-[12px]">
+        <div className="flex gap-[12px] flex-wrap">
           {sizes.map(size => (
             <div
               className="flex-c-center"

@@ -1,4 +1,5 @@
 import { colord } from 'colord';
+
 import type { ColorPalette, ColorPaletteNumber } from './types';
 
 const CMY_HUES = [180, 300, 60];

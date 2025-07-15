@@ -1,12 +1,6 @@
-import type {
-  ButtonShadow,
-  ButtonShape,
-  ButtonVariant,
-  ThemeColor,
-  ThemeOrientation
-} from '@soybean-react-ui/variants';
+import type { BaseNodeProps, PrimitiveProps, ThemeColor, ThemeOrientation } from '@/types/other';
 
-import type { BaseNodeProps, PrimitiveProps } from '../../types/other';
+import type { ButtonShadow, ButtonShape, ButtonVariant } from './button-variants';
 
 export interface ButtonProps extends PrimitiveProps, BaseNodeProps<React.ButtonHTMLAttributes<HTMLButtonElement>> {
   asIconButton?: boolean;

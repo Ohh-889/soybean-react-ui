@@ -1,6 +1,8 @@
-import { chipVariants, cn } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { chipVariants } from './chip-variants';
 import type { ChipContentProps } from './types';
 
 const ChipContent = forwardRef<HTMLSpanElement, ChipContentProps>((props, ref) => {

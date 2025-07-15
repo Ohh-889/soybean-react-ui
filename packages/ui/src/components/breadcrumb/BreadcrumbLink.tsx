@@ -1,7 +1,9 @@
 import { Slot } from '@radix-ui/react-slot';
-import { breadcrumbVariants, cn } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { breadcrumbVariants } from './breadcrumb-variants';
 import type { BreadcrumbLinkProps } from './types';
 
 const BreadcrumbLink = forwardRef<HTMLAnchorElement, BreadcrumbLinkProps>((props, ref) => {

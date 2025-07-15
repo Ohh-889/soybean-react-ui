@@ -1,7 +1,9 @@
 import { Root } from '@radix-ui/react-label';
-import { cn, labelVariants } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { labelVariants } from './label-variants';
 import type { LabelProps } from './types';
 
 const Label = forwardRef<React.ComponentRef<typeof Root>, LabelProps>((props, ref) => {

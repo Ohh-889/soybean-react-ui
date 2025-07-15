@@ -3,8 +3,6 @@
 import type { Ref } from 'react';
 import { Fragment, forwardRef } from 'react';
 
-import type { BreadcrumbItem, BreadcrumbProps } from './types';
-
 import BreadcrumbEllipsis from './BreadcrumbEllipsis';
 import BreadcrumbItemContent from './BreadcrumbItem';
 import BreadcrumbLink from './BreadcrumbLink';
@@ -12,6 +10,7 @@ import BreadcrumbList from './BreadcrumbList';
 import BreadcrumbPage from './BreadcrumbPage';
 import BreadcrumbRoot from './BreadcrumbRoot';
 import BreadcrumbSeparator from './BreadcrumbSeparator';
+import type { BreadcrumbItem, BreadcrumbProps } from './types';
 
 type EllipsisProps<T extends BreadcrumbItem> = Pick<
   BreadcrumbProps<T>,

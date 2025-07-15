@@ -1,17 +1,17 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: ['src/index.ts'],
   clean: true,
   dts: true,
+  entry: ['src/index.ts'],
   format: ['cjs', 'esm'],
+  minify: false,
   outExtension: ctx => {
     return {
       js: ctx.format === 'cjs' ? '.cjs' : '.mjs'
     };
   },
+  shims: true,
   sourcemap: false,
-  target: 'node14',
-  minify: false,
-  shims: true
+  target: 'node14'
 });

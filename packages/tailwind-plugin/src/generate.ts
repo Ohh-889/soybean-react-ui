@@ -151,21 +151,21 @@ function getColorCSSVars(color: FeedbackColorOfThemeCssVars): Record<string, str
     const key = item as CSSVarKey;
 
     if (!themeCSSVarKeys.includes(key)) {
+      // eslint-disable-next-line no-continue
       continue;
     }
 
     result[`--${key}`] = value; // 原始变量，如 "--primary": "220 90% 55%"
 
-
     if (themeColorKeys.includes(key)) {
-    const hsl = `hsl(${value.split(' ').join(', ')})`;
+      const hsl = `hsl(${value.split(' ').join(', ')})`;
 
-    const colorPalette = generateColorPalette(hsl); // { 100: "#f0f", 200: "#e0e", ... }
+      const colorPalette = generateColorPalette(hsl); // { 100: "#f0f", 200: "#e0e", ... }
 
-    for (const [num, hex] of Object.entries(colorPalette)) {
-      const { h, l, s } = colord(hex).toHsl();
-      result[`--${key}-${num}`] = `${h} ${s}% ${l}%`; // "--primary-100": "220 90% 95%"
-     }
+      for (const [num, hex] of Object.entries(colorPalette)) {
+        const { h, l, s } = colord(hex).toHsl();
+        result[`--${key}-${num}`] = `${h} ${s}% ${l}%`; // "--primary-100": "220 90% 95%"
+      }
     }
   }
 
@@ -229,18 +229,17 @@ export function generateCSSVars(theme: PresetShadcnOptions, onlyOne = true): obj
 
     const darkThemeSelector = addThemeName ? `.theme-${themeName}${darkSelector}` : darkSelector;
 
-
     const darkThemeCSSVars = getColorCSSVars({ ...feedbackColor.dark, ...dark, ...sidebar.dark });
 
     const lightThemeCSSVars = getColorCSSVars({ ...feedbackColor.light, ...light, ...sidebar.light });
 
     return {
+      [darkThemeSelector]: {
+        ...darkThemeCSSVars
+      },
       [themeSelector]: {
         ...lightThemeCSSVars,
         '--radius': `${radius}rem`
-      },
-      [darkThemeSelector]: {
-        ...darkThemeCSSVars,
       }
     };
   }

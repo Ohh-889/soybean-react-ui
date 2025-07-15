@@ -1,6 +1,6 @@
-import type { BadgeShape, BadgeVariant, ThemeColor } from '@soybean-react-ui/variants';
+import type { BaseNodeProps, ThemeColor } from '@/types/other';
 
-import type { BaseNodeProps } from '../../types/other';
+import type { BadgeShape, BadgeVariant } from './badge-variants';
 
 export interface BadgeProps extends BaseNodeProps<React.ComponentProps<'div'>> {
   /** The color of the badge. */

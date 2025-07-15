@@ -1,7 +1,9 @@
 import { Root } from '@radix-ui/react-separator';
-import { cn, dividerVariants } from '@soybean-react-ui/variants';
 import React from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { dividerVariants } from './divider-variants';
 import type { DividerRootProps } from './types';
 
 const DividerRoot = React.forwardRef<HTMLDivElement, DividerRootProps>((props, ref) => {

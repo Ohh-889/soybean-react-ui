@@ -20,9 +20,8 @@
   "keywords": ["UI", "tailwind-css", "shadcn-ui", "react"],
   "scripts": {
     "build": "next build",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
-    "worker:build": "opennextjs-cloudflare build",
     "build:ui": "pnpm --filter soybean-react-ui build",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "deploy": "pnpm run build:ui && pnpm run worker:build && opennextjs-cloudflare deploy",
     "dev": "pnpm run dev:playground & pnpm run dev:ui",
     "dev:playground": "next dev --turbopack",
@@ -30,7 +29,8 @@
     "lint": "next lint",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "start": "next start",
-    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload"
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "worker:build": "opennextjs-cloudflare build"
   },
   "dependencies": {
     "embla-carousel-autoplay": "^8.6.0",

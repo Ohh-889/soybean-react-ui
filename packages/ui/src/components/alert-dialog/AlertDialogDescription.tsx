@@ -1,7 +1,9 @@
 import { Description } from '@radix-ui/react-alert-dialog';
-import { cn, dialogVariants } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { dialogVariants } from './alert-dialog-variants';
 import type { AlertDialogDescriptionProps } from './types';
 
 const AlertDialogDescription = forwardRef<React.ElementRef<typeof Description>, AlertDialogDescriptionProps>(

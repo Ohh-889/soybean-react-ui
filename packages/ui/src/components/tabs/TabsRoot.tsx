@@ -1,7 +1,9 @@
 import { Root } from '@radix-ui/react-tabs';
-import { cn, tabsVariants } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { tabsVariants } from './tabs-variants';
 import type { TabsRootProps } from './types';
 
 const TabRoot = forwardRef<React.ElementRef<typeof Root>, TabsRootProps>((props, ref) => {

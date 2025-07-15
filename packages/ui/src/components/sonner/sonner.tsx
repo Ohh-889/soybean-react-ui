@@ -1,10 +1,11 @@
 'use client';
 
-import { cn } from '@soybean-react-ui/variants';
 import { useTheme } from 'next-themes';
 import type { CSSProperties } from 'react';
 import type { ToasterProps } from 'sonner';
 import { Toaster as Sonner } from 'sonner';
+
+import { cn } from '@/lib/utils';
 
 const css = {
   '--border-radius': 'var(--radius - 2px)',

@@ -7,9 +7,10 @@ import type {
   AccordionSingleProps,
   AccordionTriggerProps as _AccordionTriggerProps
 } from '@radix-ui/react-accordion';
-import type { AccordionSlots } from '@soybean-react-ui/variants';
 
-import type { BaseNodeProps, ClassValue, PropsSlot, ThemeSize } from '../../types/other';
+import type { BaseNodeProps, ClassValue, PropsSlot, ThemeSize } from '@/types/other';
+
+import type { AccordionSlots } from './accordion-variants';
 
 /** The ui of the accordion. */
 export type AccordionUi = Partial<Record<AccordionSlots, ClassValue>>;

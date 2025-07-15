@@ -35,11 +35,11 @@ function ScrollAreaDemo() {
         title="Vertical"
       >
         <ScrollArea
-          className="h-72 w-48 border rounded-md"
+          className="border rounded-md h-72 w-48"
           orientation="vertical"
         >
           <div className="p-4">
-            <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4>
+            <h4 className="mb-4 text-sm leading-none font-medium">Tags</h4>
 
             {tags.map(tag => (
               <div key={tag}>
@@ -57,23 +57,23 @@ function ScrollAreaDemo() {
         title="Horizontal"
       >
         <ScrollArea
-          className="w-96 whitespace-nowrap border rounded-md"
+          className="border rounded-md w-96 whitespace-nowrap"
           orientation="horizontal"
         >
-          <div className="w-max flex p-4 space-x-4">
+          <div className="flex p-4 space-x-4 w-max">
             {works.map(work => (
               <div key={work.id}>
                 <figure className="shrink-0">
-                  <div className="overflow-hidden rounded-md">
+                  <div className="rounded-md overflow-hidden">
                     <img
                       alt={`Photo by ${work.artist}`}
-                      className="aspect-[3/4] h-56 w-36 object-cover"
+                      className="object-cover aspect-[3/4] h-56 w-36"
                       src={work.art}
                     />
                   </div>
-                  <figcaption className="pt-2 text-xs text-muted-foreground">
+                  <figcaption className="text-xs pt-2 text-muted-foreground">
                     Photo by
-                    <span className="text-foreground font-semibold">{work.artist}</span>
+                    <span className="font-semibold text-foreground">{work.artist}</span>
                   </figcaption>
                 </figure>
               </div>

@@ -1,6 +1,7 @@
 import { Root } from '@radix-ui/react-aspect-ratio';
-import { cn } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
+
+import { cn } from '@/lib/utils';
 
 import type { AspectRatioProps } from './types';
 

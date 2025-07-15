@@ -1,7 +1,9 @@
 import { Root } from '@radix-ui/react-accordion';
-import { accordionVariants, cn } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { accordionVariants } from './accordion-variants';
 import type { AccordionRootProps } from './types';
 
 const AccordionRoot = forwardRef<React.ElementRef<typeof Root>, AccordionRootProps>((props, ref) => {

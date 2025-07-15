@@ -6,9 +6,10 @@ import type {
   AlertDialogProps as _AlertDialogProps,
   AlertDialogTitleProps as _AlertDialogTitleProps
 } from '@radix-ui/react-alert-dialog';
-import type { DialogSlots, ThemeColor } from '@soybean-react-ui/variants';
 
-import type { BaseComponentProps, BaseNodeProps, ClassValue } from '../../types/other';
+import type { BaseComponentProps, BaseNodeProps, ClassValue, ThemeColor } from '@/types/other';
+
+import type { DialogSlots } from './alert-dialog-variants';
 
 export type AlertDialogUi = Partial<Record<DialogSlots, ClassValue>> & {
   icon?: string;

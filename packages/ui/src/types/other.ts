@@ -1,12 +1,20 @@
-import type {
-  ClassValue,
-  ThemeAlign,
-  ThemeColor,
-  ThemeOrientation,
-  ThemeSide,
-  ThemeSize
-} from '@soybean-react-ui/variants';
+import { type ClassValue } from 'clsx';
 import type { ReactNode } from 'react';
+
+export type ThemeColor = 'accent' | 'carbon' | 'destructive' | 'info' | 'primary' | 'secondary' | 'success' | 'warning';
+
+export type ThemeSize = '2xl' | 'lg' | 'md' | 'sm' | 'xl' | 'xs';
+
+export type ThemeOrientation = 'horizontal' | 'vertical';
+
+export type ThemeAlign = 'center' | 'end' | 'start';
+
+export type ThemeSide = 'bottom' | 'left' | 'right' | 'top';
+
+export type ClassValueProp = {
+  /** class name */
+  className?: ClassValue;
+};
 
 export type AsTag =
   | 'a'
@@ -64,4 +72,4 @@ export type BaseComponentProps<T extends keyof React.JSX.IntrinsicElements> = Ba
 
 export type AcceptableValue = string | number | bigint | Record<string, any> | null;
 
-export type { ClassValue, ThemeAlign, ThemeColor, ThemeOrientation, ThemeSide, ThemeSize };
+export type { ClassValue };

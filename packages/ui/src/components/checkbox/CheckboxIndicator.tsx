@@ -1,7 +1,9 @@
 import { Indicator } from '@radix-ui/react-checkbox';
-import { checkboxVariants, cn } from '@soybean-react-ui/variants';
 import React from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { checkboxVariants } from './checkbox-variants';
 import type { CheckboxIndicatorProps } from './types';
 
 const CheckboxIndicator = React.forwardRef<React.ComponentRef<typeof Indicator>, CheckboxIndicatorProps>(

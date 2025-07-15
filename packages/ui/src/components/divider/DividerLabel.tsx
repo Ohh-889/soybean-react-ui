@@ -1,6 +1,8 @@
-import { cn, dividerVariants } from '@soybean-react-ui/variants';
 import React from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { dividerVariants } from './divider-variants';
 import type { DividerLabelProps } from './types';
 
 const DividerLabel = React.forwardRef<HTMLSpanElement, DividerLabelProps>((props, ref) => {

@@ -1,9 +1,11 @@
-import type { CarouselSlots, ClassValue } from '@soybean-react-ui/variants';
 import type useEmblaCarousel from 'embla-carousel-react';
 import { type UseEmblaCarouselType } from 'embla-carousel-react';
 
-import type { BaseComponentProps } from '../../types/other';
+import type { BaseComponentProps, ClassValue } from '@/types/other';
+
 import type { ButtonProps } from '../button';
+
+import type { CarouselSlots } from './carousel-variants';
 
 export type CarouselApi = UseEmblaCarouselType[1];
 export type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;

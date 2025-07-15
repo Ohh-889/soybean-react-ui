@@ -1,7 +1,9 @@
 import { Trigger } from '@radix-ui/react-tabs';
-import { cn, tabsVariants } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { tabsVariants } from './tabs-variants';
 import type { TabsTriggerProps } from './types';
 
 const TabsTrigger = forwardRef<React.ElementRef<typeof Trigger>, TabsTriggerProps>((props, ref) => {

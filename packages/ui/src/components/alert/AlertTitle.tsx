@@ -1,6 +1,8 @@
-import { alertVariants, cn } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { alertVariants } from './alert-variants';
 import type { AlertTitleProps } from './types';
 
 const AlertTitle = forwardRef<HTMLDivElement, AlertTitleProps>((props, ref) => {

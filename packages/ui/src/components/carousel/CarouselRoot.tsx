@@ -1,10 +1,12 @@
 'use client';
 
-import { carouselVariants, cn } from '@soybean-react-ui/variants';
 import useEmblaCarousel from 'embla-carousel-react';
 import { forwardRef, useCallback, useEffect, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { carouselVariants } from './carousel-variants';
 import { CarouselContext } from './context';
 import type { CarouselApi, CarouselRootProps } from './types';
 

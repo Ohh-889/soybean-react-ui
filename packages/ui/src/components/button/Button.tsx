@@ -1,8 +1,10 @@
 import { Slot } from '@radix-ui/react-slot';
-import { buttonVariants, cn } from '@soybean-react-ui/variants';
 import { Loader2 } from 'lucide-react';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { buttonVariants } from './button-variants';
 import type { ButtonProps } from './types';
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {

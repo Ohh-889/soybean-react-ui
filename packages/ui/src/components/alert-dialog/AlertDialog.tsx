@@ -4,14 +4,13 @@ import { Slot } from '@radix-ui/react-slot';
 import { CircleAlert, CircleCheck, CircleX, Info } from 'lucide-react';
 import { forwardRef } from 'react';
 
-import type { AlertDialogProps, AlertType } from './types';
-
 import AlertDialogContent from './AlertDialogContent';
 import AlertDialogDescription from './AlertDialogDescription';
 import AlertDialogFooter from './AlertDialogFooter';
 import AlertDialogHeader from './AlertDialogHeader';
 import AlertDialogOverlay from './AlertDialogOverlay';
 import AlertDialogTitle from './AlertDialogTitle';
+import type { AlertDialogProps, AlertType } from './types';
 
 const iconRecord: Record<AlertType, React.ReactNode> = {
   destructive: <CircleX className="text-destructive" />,

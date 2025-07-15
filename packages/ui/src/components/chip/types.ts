@@ -1,6 +1,6 @@
-import type { ChipPosition, ChipSlots, ClassValue, ThemeColor, ThemeSize } from '@soybean-react-ui/variants';
+import type { BaseComponentProps, ClassValue, ThemeColor, ThemeSize } from '@/types/other';
 
-import type { BaseComponentProps } from '../../types';
+import type { ChipPosition, ChipSlots } from './chip-variants';
 
 export type ChipRootProps = BaseComponentProps<'div'>;
 

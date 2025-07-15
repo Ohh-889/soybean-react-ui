@@ -1,12 +1,12 @@
 import type {
   ScrollAreaProps as _ScrollAreaProps,
   ScrollAreaScrollbarProps as _ScrollAreaScrollbarProps,
-  ScrollAreaViewportProps as _ScrollAreaViewportProps,
-  ScrollAreaThumbProps as _ScrollAreaThumbProps
+  ScrollAreaThumbProps as _ScrollAreaThumbProps,
+  ScrollAreaViewportProps as _ScrollAreaViewportProps
 } from '@radix-ui/react-scroll-area';
-import type { ClassValue, ClassValueProp, ScrollAreaSlots } from '@soybean-react-ui/variants';
+import type { BaseNodeProps, ClassValue } from '@/types/other';
 
-import type { BaseNodeProps } from '../../types/other';
+import type { ScrollAreaSlots } from './scroll-area-variants';
 
 export type ScrollAreaUi = Partial<Record<ScrollAreaSlots, ClassValue>>;
 

@@ -1,7 +1,9 @@
 import { Root } from '@radix-ui/react-scroll-area';
-import { cn, scrollAreaVariants } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { scrollAreaVariants } from './scroll-area-variants';
 import type { ScrollAreaRootProps } from './types';
 
 const ScrollAreaRoot = forwardRef<React.ElementRef<typeof Root>, ScrollAreaRootProps>((props, ref) => {

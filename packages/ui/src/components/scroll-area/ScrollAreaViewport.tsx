@@ -1,7 +1,9 @@
 import { Viewport } from '@radix-ui/react-scroll-area';
-import { cn, scrollAreaVariants } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { scrollAreaVariants } from './scroll-area-variants';
 import type { ScrollAreaViewportProps } from './types';
 
 const ScrollAreaViewport = forwardRef<React.ElementRef<typeof Viewport>, ScrollAreaViewportProps>((props, ref) => {

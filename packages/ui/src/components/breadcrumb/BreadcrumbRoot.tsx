@@ -1,6 +1,8 @@
-import { breadcrumbVariants, cn } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { breadcrumbVariants } from './breadcrumb-variants';
 import type { BreadcrumbRootProps } from './types';
 
 const BreadcrumbRoot = forwardRef<HTMLElement, BreadcrumbRootProps>((props, ref) => {

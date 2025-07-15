@@ -1,5 +1,6 @@
-import { badgeVariants, cn } from '@soybean-react-ui/variants';
+import { cn } from '@/lib/utils';
 
+import { badgeVariants } from './badge-variants';
 import type { BadgeProps } from './types';
 
 const Badge = (props: BadgeProps) => {

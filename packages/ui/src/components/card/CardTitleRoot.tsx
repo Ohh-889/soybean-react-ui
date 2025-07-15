@@ -1,6 +1,8 @@
-import { cardVariants, cn } from '@soybean-react-ui/variants';
 import React from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { cardVariants } from './card-variants';
 import type { CardTitleRootProps } from './types';
 
 export const CardTitleRoot = React.forwardRef<HTMLDivElement, CardTitleRootProps>((props, ref) => {

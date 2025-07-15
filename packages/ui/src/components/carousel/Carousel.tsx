@@ -1,13 +1,13 @@
 import { Children, forwardRef } from 'react';
 
-import { isFunction } from '../../utils';
-import type { CarouselProps } from './types';
+import { isFunction } from '@/lib/typed';
 
 import CarouselContent from './CarouselContent';
 import CarouselItem from './CarouselItem';
 import CarouselNext from './CarouselNext';
 import CarouselPrevious from './CarouselPrevious';
 import CarouselRoot from './CarouselRoot';
+import type { CarouselProps } from './types';
 
 const Carousel = forwardRef<HTMLDivElement, CarouselProps>((props, ref) => {
   const { children, className, classNames, counts, nextProps, previousProps, size, ...rest } = props;

@@ -1,8 +1,10 @@
 import { Root } from '@radix-ui/react-avatar';
-import { avatarVariants, cn } from '@soybean-react-ui/variants';
 import type { ElementRef } from 'react';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { avatarVariants } from './avatar-variants';
 import type { AvatarRootProps } from './types';
 
 const AvatarRoot = forwardRef<ElementRef<typeof Root>, AvatarRootProps>((props, ref) => {

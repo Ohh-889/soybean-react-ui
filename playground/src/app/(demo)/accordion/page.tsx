@@ -59,7 +59,7 @@ function AccordionDemo() {
         split
         title="Size"
       >
-        <div className="flex flex-wrap justify-between gap-4">
+        <div className="gap-4 flex flex-wrap justify-between">
           {sizes.map(size => (
             <Card
               split

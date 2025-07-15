@@ -1,7 +1,9 @@
-import { breadcrumbVariants, cn } from '@soybean-react-ui/variants';
 import { ChevronRight } from 'lucide-react';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { breadcrumbVariants } from './breadcrumb-variants';
 import type { BreadcrumbSeparatorProps } from './types';
 
 const BreadcrumbSeparator = forwardRef<HTMLLIElement, BreadcrumbSeparatorProps>((props, ref) => {

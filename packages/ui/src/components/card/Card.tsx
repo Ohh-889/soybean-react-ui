@@ -1,8 +1,8 @@
-import { cardVariants, cn } from '@soybean-react-ui/variants';
 import React, { isValidElement } from 'react';
 
+import { cn } from '@/lib/utils';
+
 import { If } from '../if';
-import type { CardProps } from './types';
 
 import { CardContent } from './CardContent';
 import { CardFooter } from './CardFooter';
@@ -10,6 +10,8 @@ import { CardHeader } from './CardHeader';
 import { CardRoot } from './CardRoot';
 import { CardTitle } from './CardTitle';
 import { CardTitleRoot } from './CardTitleRoot';
+import { cardVariants } from './card-variants';
+import type { CardProps } from './types';
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
   const {

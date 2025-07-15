@@ -2,11 +2,10 @@ import { Image } from '@radix-ui/react-avatar';
 import type { ElementRef } from 'react';
 import { forwardRef } from 'react';
 
-import type { AvatarProps } from './types';
-
 import AvatarFallback from './AvatarFallback';
 import AvatarImage from './AvatarImage';
 import AvatarRoot from './AvatarRoot';
+import type { AvatarProps } from './types';
 
 const Avatar = forwardRef<ElementRef<typeof Image>, AvatarProps>((props, ref) => {
   const { className, classNames, delayMs, fallback, size, ...rest } = props;

@@ -1,16 +1,17 @@
 'use client';
 
 import type { Root } from '@radix-ui/react-accordion';
-import { accordionVariants, cn } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
-import type { AccordionProps } from './types';
+import { cn } from '@/lib/utils';
 
 import AccordionContent from './AccordionContent';
 import AccordionHeader from './AccordionHeader';
 import AccordionItem from './AccordionItem';
 import AccordionRoot from './AccordionRoot';
 import AccordionTrigger from './AccordionTrigger';
+import { accordionVariants } from './accordion-variants';
+import type { AccordionProps } from './types';
 
 const Accordion = forwardRef<React.ElementRef<typeof Root>, AccordionProps>((props, ref) => {
   const { className, classNames, items, size, triggerIcon, triggerLeading, triggerTrailing, ...rest } = props;

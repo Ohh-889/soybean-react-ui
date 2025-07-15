@@ -1,10 +1,13 @@
 'use client';
 
-import { carouselVariants, cn } from '@soybean-react-ui/variants';
 import { ChevronRight } from 'lucide-react';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
 import { Button } from '../button';
+
+import { carouselVariants } from './carousel-variants';
 import { useCarousel } from './context';
 import type { CarouselNextProps } from './types';
 

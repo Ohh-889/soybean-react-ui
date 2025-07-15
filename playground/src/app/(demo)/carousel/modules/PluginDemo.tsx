@@ -18,7 +18,7 @@ const PluginDemo = () => {
           plugins={[Autoplay({ delay: 2000 })]}
         >
           <Card className="w-[310px] h-[310px]">
-            <div className="size-full flex-center flex-col">
+            <div className="size-full flex-col flex-center">
               <Image
                 alt="1"
                 height={260}
@@ -82,7 +82,7 @@ const PluginDemo = () => {
             className="w-[310px] h-[310px]"
             title="5"
           >
-            <span className="text-4xl font-semibold size-full flex-center">5</span>
+            <span className="font-semibold size-full flex-center text-4xl">5</span>
           </Card>
         </Carousel>
       </div>

@@ -1,7 +1,9 @@
 import { Thumb } from '@radix-ui/react-scroll-area';
-import { cn, scrollAreaVariants } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { scrollAreaVariants } from './scroll-area-variants';
 import type { ScrollAreaThumbProps } from './types';
 
 const ScrollAreaScrollbar = forwardRef<React.ElementRef<typeof Thumb>, ScrollAreaThumbProps>((props, ref) => {

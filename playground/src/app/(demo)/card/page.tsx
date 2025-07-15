@@ -12,7 +12,7 @@ const DemoCard: React.FC = () => {
         split
         title="Size"
       >
-        <div className="w-1/2 i-flex-c pr-[10px] max-sm:w-full max-sm:pr-0">
+        <div className="max-sm:w-full w-1/2 i-flex-c pr-[10px] max-sm:pr-0">
           {sizes.map(size => (
             <Card
               className="mb-[12px]"

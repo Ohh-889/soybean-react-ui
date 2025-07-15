@@ -4,9 +4,10 @@ import type {
   TabsProps as _TabsRootProps,
   TabsTriggerProps as _TabsTriggerProps
 } from '@radix-ui/react-tabs';
-import type { ClassValue, TabsFill, TabsSlots, ThemeOrientation } from '@soybean-react-ui/variants';
 
-import type { BaseProps } from '../../types/other';
+import type { BaseProps, ClassValue, ThemeOrientation } from '@/types/other';
+
+import type { TabsFill, TabsSlots } from './tabs-variants';
 
 export interface IndicatorStyle {
   position: number | null;

@@ -1,13 +1,14 @@
 import { Slot } from '@radix-ui/react-slot';
-import { alertVariants, cn } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
-import type { AlertProps } from './types';
+import { cn } from '@/lib/utils';
 
 import AlertDescription from './AlertDescription';
 import AlertRoot from './AlertRoot';
 import AlertTitle from './AlertTitle';
 import AlertWrapper from './AlertWrapper';
+import { alertVariants } from './alert-variants';
+import type { AlertProps } from './types';
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {
   const {

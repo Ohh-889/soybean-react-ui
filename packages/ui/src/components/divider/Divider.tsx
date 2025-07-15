@@ -1,9 +1,8 @@
 import React from 'react';
 
-import type { DividerProps } from './types';
-
 import DividerLabel from './DividerLabel';
 import DividerRoot from './DividerRoot';
+import type { DividerProps } from './types';
 
 const Divider = React.forwardRef<HTMLDivElement, DividerProps>((props, ref) => {
   const { align, children, className, classNames, leading, orientation, size, trailing, ...rest } = props;

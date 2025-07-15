@@ -16,8 +16,8 @@
     "build": "tsup"
   },
   "dependencies": {
-    "@unocss/core": "66.3.2",
     "@soybean-react-ui/color": "workspace:*",
+    "@unocss/core": "66.3.2",
     "tailwindcss": "4.1.11"
   }
 }

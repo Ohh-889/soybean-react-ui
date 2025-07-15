@@ -1,7 +1,9 @@
 import { Root } from '@radix-ui/react-checkbox';
-import { checkboxVariants, cn } from '@soybean-react-ui/variants';
 import React from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { checkboxVariants } from './checkbox-variants';
 import type { CheckboxControlProps } from './types';
 
 const CheckboxControl = React.forwardRef<React.ComponentRef<typeof Root>, CheckboxControlProps>((props, ref) => {

@@ -1,9 +1,8 @@
 import { forwardRef } from 'react';
 
-import type { ChipProps } from './types';
-
 import ChipContent from './ChipContent';
 import ChipRoot from './ChipRoot';
+import type { ChipProps } from './types';
 
 const Chip = forwardRef<HTMLDivElement, ChipProps>((props, ref) => {
   const { children, className, classNames, color, content, open = true, position, size, ...rest } = props;

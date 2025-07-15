@@ -1,5 +1,8 @@
-import type { CardSlots, ClassValue, ClassValueProp, ThemeSize } from '@soybean-react-ui/variants';
 import type { ReactNode } from 'react';
+
+import type { ClassValue, ClassValueProp, ThemeSize } from '@/types/other';
+
+import type { CardSlots } from './card-variants';
 
 export interface CardRootProps
   extends ClassValueProp,

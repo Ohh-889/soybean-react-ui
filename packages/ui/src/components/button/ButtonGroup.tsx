@@ -1,6 +1,8 @@
-import { buttonGroupVariants, cn } from '@soybean-react-ui/variants';
 import { forwardRef } from 'react';
 
+import { cn } from '@/lib/utils';
+
+import { buttonGroupVariants } from './button-group-variants';
 import type { ButtonGroupProps } from './types';
 
 export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>((props, ref) => {
