@@ -22,9 +22,6 @@ export default defineConfig({
     'build:done': () => {
       console.log('🎉 Build completed successfully!');
       console.log('📦 Generated files in ./dist/');
-    },
-    'build:prepare': () => {
-      console.log('📦 Building JavaScript files with Tsdown...');
     }
   },
   minify: false,
