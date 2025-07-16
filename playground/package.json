@@ -20,9 +20,10 @@
   "keywords": ["UI", "tailwind-css", "shadcn-ui", "react"],
   "scripts": {
     "build": "next build",
+    "build:registry": "pnpm --filter soybean-react-ui register",
     "build:ui": "pnpm --filter soybean-react-ui build",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
-    "deploy": "pnpm run build:ui && pnpm run worker:build && opennextjs-cloudflare deploy",
+    "deploy": "pnpm run build:registry && pnpm run build:ui && pnpm run worker:build && opennextjs-cloudflare deploy",
     "dev": "pnpm run dev:playground & pnpm run dev:ui",
     "dev:playground": "next dev --turbopack",
     "dev:ui": "pnpm --filter soybean-react-ui dev",
