@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sonner",
+  "type": "registry:ui",
+  "title": "Sonner",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/sonner/index.ts",
+      "content": "export { toast, useSonner } from 'sonner';\n\nexport { default as Sonner } from './sonner';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/sonner/index.ts"
+    },
+    {
+      "path": "src/components/sonner/sonner.tsx",
+      "content": "'use client';\n\nimport { useTheme } from 'next-themes';\nimport type { CSSProperties } from 'react';\nimport type { ToasterProps } from 'sonner';\nimport { Toaster as Sonner } from 'sonner';\n\nimport { cn } from '@/lib/utils';\n\nconst css = {\n  '--border-radius': 'var(--radius - 2px)',\n  '--error-text': 'hsl(var(--destructive))',\n  '--info-text': 'hsl(var(--info))',\n  '--normal-bg': 'hsl(var(--background))',\n  '--normal-border': 'hsl(var(--border))',\n  '--normal-text': 'hsl(var(--foreground))',\n  '--success-text': 'hsl(var(--success))',\n  '--warning-text': 'hsl(var(--warning))',\n  pointerEvents: 'auto'\n};\n\nconst toastVariants =\n  '!border-border !bg-card !text-card-foreground !shadow-[0_4px_6px_-1px_rgb(0_0_0_/_0.1),_0_2px_4px_-2px_rgb(0_0_0_/_0.1)] group  !opacity-100';\n\nconst actionButton =\n  '!inline-flex  justify-center  px-2  gap-1 leading-5  whitespace-nowrap   focus-visible:shadow-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:pointer-events-none disabled:opacity-50 !bg-primary !text-primary-foreground ';\n\nconst cancelButton =\n  '!inline-flex  justify-center px-2  gap-1 leading-5  whitespace-nowrap   focus-visible:shadow-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:pointer-events-none disabled:opacity-50 !border !border-border !bg-background !text-foreground active:shadow-[0_4px_6px_-1px_rgb(0_0_0_/_0.1),_0_2px_4px_-2px_rgb(0_0_0_/_0.1)]';\n\nconst description = 'text-xs !text-muted-foreground';\n\nconst icon =\n  'group-data-[type=success]:text-success group-data-[type=info]:text-info group-data-[type=warning]:text-warning group-data-[type=error]:text-error';\n\nconst title = 'text-sm font-medium';\n\n// eslint-disable-next-line complexity\nconst Toaster = (props: ToasterProps) => {\n  const { theme = 'system' } = useTheme();\n\n  const { expand = true, style = css as CSSProperties, toastOptions, ...rest } = props;\n\n  return (\n    <Sonner\n      expand={expand}\n      style={style}\n      theme={theme as ToasterProps['theme']}\n      toastOptions={{\n        classNames: {\n          actionButton: cn(actionButton, toastOptions?.classNames?.actionButton),\n          cancelButton: cn(cancelButton, toastOptions?.classNames?.cancelButton),\n          description: cn(description, toastOptions?.classNames?.description),\n          icon: cn(icon, toastOptions?.classNames?.icon),\n          title: cn(title, toastOptions?.classNames?.title),\n          toast: cn(toastVariants, toastOptions?.classNames?.toast)\n        }\n      }}\n      {...rest}\n    />\n  );\n};\n\nexport default Toaster;\n",
+      "type": "registry:ui",
+      "target": "components/sonner/sonner.tsx"
+    },
+    {
+      "path": "src/components/sonner/types.ts",
+      "content": "export type { Action, ExternalToast, ToastClassnames, ToasterProps, ToastT, ToastToDismiss } from 'sonner';\n",
+      "type": "registry:ui",
+      "target": "components/sonner/types.ts"
+    }
+  ]
+}

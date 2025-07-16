@@ -1,0 +1,51 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "avatar",
+  "type": "registry:ui",
+  "title": "Avatar",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/avatar/Avatar.tsx",
+      "content": "import { Image } from '@radix-ui/react-avatar';\nimport type { ElementRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport AvatarFallback from './AvatarFallback';\nimport AvatarImage from './AvatarImage';\nimport AvatarRoot from './AvatarRoot';\nimport type { AvatarProps } from './types';\n\nconst Avatar = forwardRef<ElementRef<typeof Image>, AvatarProps>((props, ref) => {\n  const { className, classNames, delayMs, fallback, size, ...rest } = props;\n\n  return (\n    <AvatarRoot\n      className={classNames?.root}\n      size={size}\n    >\n      <AvatarImage\n        className={className || classNames?.image}\n        ref={ref}\n        {...rest}\n      />\n\n      <AvatarFallback\n        className={classNames?.fallback}\n        delayMs={delayMs}\n      >\n        {fallback}\n      </AvatarFallback>\n    </AvatarRoot>\n  );\n});\n\nAvatar.displayName = Image.displayName;\n\nexport default Avatar;\n",
+      "type": "registry:ui",
+      "target": "components/avatar/Avatar.tsx"
+    },
+    {
+      "path": "src/components/avatar/AvatarFallback.tsx",
+      "content": "import { Fallback } from '@radix-ui/react-avatar';\nimport type { ElementRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { avatarVariants } from './avatar-variants';\nimport type { AvatarFallbackProps } from './types';\n\nconst AvatarFallback = forwardRef<ElementRef<typeof Fallback>, AvatarFallbackProps>((props, ref) => {\n  const { className, ...rest } = props;\n\n  const { fallback } = avatarVariants();\n\n  const mergedCls = cn(fallback(), className);\n\n  return (\n    <Fallback\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nAvatarFallback.displayName = Fallback.displayName;\n\nexport default AvatarFallback;\n",
+      "type": "registry:ui",
+      "target": "components/avatar/AvatarFallback.tsx"
+    },
+    {
+      "path": "src/components/avatar/AvatarImage.tsx",
+      "content": "import { Image } from '@radix-ui/react-avatar';\nimport type { ElementRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { avatarVariants } from './avatar-variants';\nimport type { AvatarImageProps } from './types';\n\nconst AvatarImage = forwardRef<ElementRef<typeof Image>, AvatarImageProps>((props, ref) => {\n  const { className, ...rest } = props;\n\n  const { image } = avatarVariants();\n\n  const mergedCls = cn(image(), className);\n\n  return (\n    <Image\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nAvatarImage.displayName = Image.displayName;\n\nexport default AvatarImage;\n",
+      "type": "registry:ui",
+      "target": "components/avatar/AvatarImage.tsx"
+    },
+    {
+      "path": "src/components/avatar/AvatarRoot.tsx",
+      "content": "import { Root } from '@radix-ui/react-avatar';\nimport type { ElementRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { avatarVariants } from './avatar-variants';\nimport type { AvatarRootProps } from './types';\n\nconst AvatarRoot = forwardRef<ElementRef<typeof Root>, AvatarRootProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { root } = avatarVariants({ size });\n\n  const mergedCls = cn(root(), className);\n\n  return (\n    <Root\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nAvatarRoot.displayName = Root.displayName;\n\nexport default AvatarRoot;\n",
+      "type": "registry:ui",
+      "target": "components/avatar/AvatarRoot.tsx"
+    },
+    {
+      "path": "src/components/avatar/avatar-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const avatarVariants = tv({\n  defaultVariants: {\n    size: 'md'\n  },\n  slots: {\n    fallback: 'flex justify-center items-center size-full rounded-full bg-muted font-medium',\n    image: 'aspect-square size-full object-cover',\n    root: 'relative flex shrink-0 overflow-hidden rounded-full'\n  },\n  variants: {\n    size: {\n      '2xl': {\n        root: 'size-16'\n      },\n      lg: {\n        root: 'size-12'\n      },\n      md: {\n        root: 'size-10'\n      },\n      sm: {\n        root: 'size-8'\n      },\n      xl: {\n        root: 'size-14'\n      },\n      xs: {\n        root: 'size-6'\n      }\n    }\n  }\n});\n\nexport type AvatarSlots = keyof typeof avatarVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/avatar/avatar-variants.ts"
+    },
+    {
+      "path": "src/components/avatar/index.ts",
+      "content": "export { default as Avatar } from './Avatar';\nexport { default as AvatarFallback } from './AvatarFallback';\nexport { default as AvatarImage } from './AvatarImage';\nexport { default as AvatarRoot } from './AvatarRoot';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/avatar/index.ts"
+    },
+    {
+      "path": "src/components/avatar/types.ts",
+      "content": "import type {\n  AvatarFallbackProps as _AvatarFallbackProps,\n  AvatarImageProps as _AvatarImageProps,\n  AvatarProps as _AvatarRootProps\n} from '@radix-ui/react-avatar';\n\nimport type { BaseNodeProps, ClassValue } from '@/types/other';\n\nimport type { AvatarSlots } from './avatar-variants';\n\nexport type AvatarUi = Partial<Record<AvatarSlots, ClassValue>>;\n\nexport interface AvatarRootProps extends BaseNodeProps<_AvatarRootProps> {}\n\nexport interface AvatarFallbackProps extends BaseNodeProps<_AvatarFallbackProps> {}\n\nexport interface AvatarImageProps extends BaseNodeProps<_AvatarImageProps> {}\n\nexport interface AvatarProps extends AvatarImageProps, Pick<AvatarFallbackProps, 'delayMs'> {\n  classNames?: AvatarUi;\n  fallback?: React.ReactNode;\n}\n",
+      "type": "registry:ui",
+      "target": "components/avatar/types.ts"
+    }
+  ]
+}

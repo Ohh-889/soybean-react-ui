@@ -1,0 +1,57 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scroll-area",
+  "type": "registry:ui",
+  "title": "Scroll Area",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/scroll-area/ScrollArea.tsx",
+      "content": "import { ScrollAreaCorner } from '@radix-ui/react-scroll-area';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport ScrollAreaRoot from './ScrollAreaRoot';\nimport ScrollAreaScrollbar from './ScrollAreaScrollbar';\nimport ScrollAreaThumb from './ScrollAreaThumb';\nimport ScrollAreaViewport from './ScrollAreaViewport';\nimport type { ScrollAreaProps } from './types';\n\nconst ScrollArea = forwardRef<React.ElementRef<typeof ScrollAreaRoot>, ScrollAreaProps>((props, ref) => {\n  const { children, className, classNames, forceMount, nonce, orientation, size, ...rest } = props;\n\n  return (\n    <ScrollAreaRoot\n      className={className}\n      {...rest}\n      ref={ref}\n    >\n      <ScrollAreaViewport\n        className={classNames?.viewport}\n        nonce={nonce}\n      >\n        {children}\n      </ScrollAreaViewport>\n\n      <ScrollAreaScrollbar\n        className={classNames?.scrollbar}\n        forceMount={forceMount}\n        orientation={orientation}\n        size={size}\n      >\n        <ScrollAreaThumb className={classNames?.thumb} />\n      </ScrollAreaScrollbar>\n\n      <ScrollAreaCorner className={cn(classNames?.corner)} />\n    </ScrollAreaRoot>\n  );\n});\n\nScrollArea.displayName = 'ScrollArea';\n\nexport default ScrollArea;\n",
+      "type": "registry:ui",
+      "target": "components/scroll-area/ScrollArea.tsx"
+    },
+    {
+      "path": "src/components/scroll-area/ScrollAreaRoot.tsx",
+      "content": "import { Root } from '@radix-ui/react-scroll-area';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { scrollAreaVariants } from './scroll-area-variants';\nimport type { ScrollAreaRootProps } from './types';\n\nconst ScrollAreaRoot = forwardRef<React.ElementRef<typeof Root>, ScrollAreaRootProps>((props, ref) => {\n  const { className, ...rest } = props;\n\n  const { root } = scrollAreaVariants();\n\n  const mergedCls = cn(root(), className);\n\n  return (\n    <Root\n      className={mergedCls}\n      {...rest}\n      ref={ref}\n    />\n  );\n});\n\nScrollAreaRoot.displayName = 'ScrollAreaRoot';\n\nexport default ScrollAreaRoot;\n",
+      "type": "registry:ui",
+      "target": "components/scroll-area/ScrollAreaRoot.tsx"
+    },
+    {
+      "path": "src/components/scroll-area/ScrollAreaScrollbar.tsx",
+      "content": "import { Scrollbar } from '@radix-ui/react-scroll-area';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { scrollAreaVariants } from './scroll-area-variants';\nimport type { ScrollAreaScrollbarProps } from './types';\n\nconst ScrollAreaScrollbar = forwardRef<React.ElementRef<typeof Scrollbar>, ScrollAreaScrollbarProps>((props, ref) => {\n  const { className, orientation, size, ...rest } = props;\n\n  const { scrollbar } = scrollAreaVariants({ orientation, size });\n\n  const mergedCls = cn(scrollbar(), className);\n\n  return (\n    <Scrollbar\n      className={mergedCls}\n      orientation={orientation}\n      {...rest}\n      ref={ref}\n    />\n  );\n});\n\nScrollAreaScrollbar.displayName = 'ScrollAreaScrollbar';\n\nexport default ScrollAreaScrollbar;\n",
+      "type": "registry:ui",
+      "target": "components/scroll-area/ScrollAreaScrollbar.tsx"
+    },
+    {
+      "path": "src/components/scroll-area/ScrollAreaThumb.tsx",
+      "content": "import { Thumb } from '@radix-ui/react-scroll-area';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { scrollAreaVariants } from './scroll-area-variants';\nimport type { ScrollAreaThumbProps } from './types';\n\nconst ScrollAreaScrollbar = forwardRef<React.ElementRef<typeof Thumb>, ScrollAreaThumbProps>((props, ref) => {\n  const { className, ...rest } = props;\n\n  const { thumb } = scrollAreaVariants();\n\n  const mergedCls = cn(thumb(), className);\n\n  return (\n    <Thumb\n      className={mergedCls}\n      {...rest}\n      ref={ref}\n    />\n  );\n});\n\nScrollAreaScrollbar.displayName = 'ScrollAreaScrollbar';\n\nexport default ScrollAreaScrollbar;\n",
+      "type": "registry:ui",
+      "target": "components/scroll-area/ScrollAreaThumb.tsx"
+    },
+    {
+      "path": "src/components/scroll-area/ScrollAreaViewport.tsx",
+      "content": "import { Viewport } from '@radix-ui/react-scroll-area';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { scrollAreaVariants } from './scroll-area-variants';\nimport type { ScrollAreaViewportProps } from './types';\n\nconst ScrollAreaViewport = forwardRef<React.ElementRef<typeof Viewport>, ScrollAreaViewportProps>((props, ref) => {\n  const { className, ...rest } = props;\n\n  const { viewport } = scrollAreaVariants();\n\n  const mergedCls = cn(viewport(), className);\n\n  return (\n    <Viewport\n      className={mergedCls}\n      {...rest}\n      ref={ref}\n    />\n  );\n});\n\nScrollAreaViewport.displayName = 'ScrollAreaViewport';\n\nexport default ScrollAreaViewport;\n",
+      "type": "registry:ui",
+      "target": "components/scroll-area/ScrollAreaViewport.tsx"
+    },
+    {
+      "path": "src/components/scroll-area/index.ts",
+      "content": "export { default as ScrollArea } from './ScrollArea';\nexport { default as ScrollAreaRoot } from './ScrollAreaRoot';\nexport { default as ScrollAreaScrollbar } from './ScrollAreaScrollbar';\nexport { default as ScrollAreaThumb } from './ScrollAreaThumb';\nexport { default as ScrollAreaViewport } from './ScrollAreaViewport';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/scroll-area/index.ts"
+    },
+    {
+      "path": "src/components/scroll-area/scroll-area-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const scrollAreaVariants = tv({\n  compoundVariants: [\n    {\n      class: {\n        scrollbar: 'h-1.5'\n      },\n      orientation: 'horizontal',\n      size: 'xs'\n    },\n    {\n      class: {\n        scrollbar: 'w-1.5'\n      },\n      orientation: 'vertical',\n      size: 'xs'\n    },\n    {\n      class: {\n        scrollbar: 'h-2'\n      },\n      orientation: 'horizontal',\n      size: 'sm'\n    },\n    {\n      class: {\n        scrollbar: 'w-2'\n      },\n      orientation: 'vertical',\n      size: 'sm'\n    },\n    {\n      class: {\n        scrollbar: 'h-2.5'\n      },\n      orientation: 'horizontal',\n      size: 'md'\n    },\n    {\n      class: {\n        scrollbar: 'w-2.5'\n      },\n      orientation: 'vertical',\n      size: 'md'\n    },\n    {\n      class: {\n        scrollbar: 'h-3'\n      },\n      orientation: 'horizontal',\n      size: 'lg'\n    },\n    {\n      class: {\n        scrollbar: 'w-3'\n      },\n      orientation: 'vertical',\n      size: 'lg'\n    },\n    {\n      class: {\n        scrollbar: 'h-3.5'\n      },\n      orientation: 'horizontal',\n      size: 'xl'\n    },\n    {\n      class: {\n        scrollbar: 'w-3.5'\n      },\n      orientation: 'vertical',\n      size: 'xl'\n    },\n    {\n      class: {\n        scrollbar: 'h-4'\n      },\n      orientation: 'horizontal',\n      size: '2xl'\n    },\n    {\n      class: {\n        scrollbar: 'w-4'\n      },\n      orientation: 'vertical',\n      size: '2xl'\n    }\n  ],\n  defaultVariants: {\n    orientation: 'vertical',\n    size: 'md'\n  },\n  slots: {\n    corner: '',\n    root: 'relative overflow-hidden',\n    scrollbar: 'flex touch-none select-none transition-colors-200',\n    thumb: 'relative flex-1 rounded-full bg-border',\n    viewport: 'size-full rounded-inherit'\n  },\n  variants: {\n    orientation: {\n      horizontal: {\n        scrollbar: 'flex-col p-px border-t border-t-transparent'\n      },\n      vertical: {\n        scrollbar: 'h-full p-px border-l border-l-transparent'\n      }\n    },\n    size: {\n      '2xl': {},\n      lg: {},\n      md: {},\n      sm: {},\n      xl: {},\n      xs: {}\n    }\n  }\n});\n\nexport type ScrollAreaSlots = keyof typeof scrollAreaVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/scroll-area/scroll-area-variants.ts"
+    },
+    {
+      "path": "src/components/scroll-area/types.ts",
+      "content": "import type {\n  ScrollAreaProps as _ScrollAreaProps,\n  ScrollAreaScrollbarProps as _ScrollAreaScrollbarProps,\n  ScrollAreaThumbProps as _ScrollAreaThumbProps,\n  ScrollAreaViewportProps as _ScrollAreaViewportProps\n} from '@radix-ui/react-scroll-area';\nimport type { BaseNodeProps, ClassValue } from '@/types/other';\n\nimport type { ScrollAreaSlots } from './scroll-area-variants';\n\nexport type ScrollAreaUi = Partial<Record<ScrollAreaSlots, ClassValue>>;\n\nexport interface ScrollAreaRootProps extends BaseNodeProps<_ScrollAreaProps> {}\n\nexport interface ScrollAreaScrollbarProps extends BaseNodeProps<_ScrollAreaScrollbarProps> {}\n\nexport interface ScrollAreaThumbProps extends BaseNodeProps<_ScrollAreaThumbProps> {}\n\nexport interface ScrollAreaViewportProps extends BaseNodeProps<_ScrollAreaViewportProps> {}\n\nexport interface ScrollAreaProps\n  extends ScrollAreaRootProps,\n    Omit<ScrollAreaScrollbarProps, 'dir'>,\n    Omit<ScrollAreaViewportProps, 'dir'> {\n  classNames?: ScrollAreaUi;\n}\n",
+      "type": "registry:ui",
+      "target": "components/scroll-area/types.ts"
+    }
+  ]
+}

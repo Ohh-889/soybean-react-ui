@@ -1,0 +1,789 @@
+{
+  "homepage": "https://your-docs-site.com",
+  "items": [
+    {
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/accordion/Accordion.tsx",
+          "target": "components/accordion/Accordion.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/accordion/AccordionContent.tsx",
+          "target": "components/accordion/AccordionContent.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/accordion/AccordionHeader.tsx",
+          "target": "components/accordion/AccordionHeader.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/accordion/AccordionItem.tsx",
+          "target": "components/accordion/AccordionItem.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/accordion/AccordionRoot.tsx",
+          "target": "components/accordion/AccordionRoot.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/accordion/AccordionTrigger.tsx",
+          "target": "components/accordion/AccordionTrigger.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/accordion/accordion-variants.ts",
+          "target": "components/accordion/accordion-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/accordion/index.ts",
+          "target": "components/accordion/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/accordion/types.ts",
+          "target": "components/accordion/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "accordion",
+      "title": "Accordion",
+      "type": "registry:ui"
+    },
+    {
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/alert/Alert.tsx",
+          "target": "components/alert/Alert.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert/AlertDescription.tsx",
+          "target": "components/alert/AlertDescription.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert/AlertRoot.tsx",
+          "target": "components/alert/AlertRoot.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert/AlertTitle.tsx",
+          "target": "components/alert/AlertTitle.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert/AlertWrapper.tsx",
+          "target": "components/alert/AlertWrapper.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert/alert-variants.ts",
+          "target": "components/alert/alert-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert/index.ts",
+          "target": "components/alert/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert/types.ts",
+          "target": "components/alert/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "alert",
+      "title": "Alert",
+      "type": "registry:ui"
+    },
+    {
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/alert-dialog/AlertDialog.tsx",
+          "target": "components/alert-dialog/AlertDialog.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert-dialog/AlertDialogAction.tsx",
+          "target": "components/alert-dialog/AlertDialogAction.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert-dialog/AlertDialogCancel.tsx",
+          "target": "components/alert-dialog/AlertDialogCancel.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert-dialog/AlertDialogContent.tsx",
+          "target": "components/alert-dialog/AlertDialogContent.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert-dialog/AlertDialogDescription.tsx",
+          "target": "components/alert-dialog/AlertDialogDescription.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert-dialog/AlertDialogFooter.tsx",
+          "target": "components/alert-dialog/AlertDialogFooter.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert-dialog/AlertDialogHeader.tsx",
+          "target": "components/alert-dialog/AlertDialogHeader.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert-dialog/AlertDialogOverlay.tsx",
+          "target": "components/alert-dialog/AlertDialogOverlay.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert-dialog/AlertDialogTitle.tsx",
+          "target": "components/alert-dialog/AlertDialogTitle.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert-dialog/alert-dialog-variants.ts",
+          "target": "components/alert-dialog/alert-dialog-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert-dialog/index.ts",
+          "target": "components/alert-dialog/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/alert-dialog/types.ts",
+          "target": "components/alert-dialog/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "alert-dialog",
+      "title": "Alert Dialog",
+      "type": "registry:ui"
+    },
+    {
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/aspect-ratio/AspectRatio.tsx",
+          "target": "components/aspect-ratio/AspectRatio.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/aspect-ratio/index.ts",
+          "target": "components/aspect-ratio/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/aspect-ratio/types.ts",
+          "target": "components/aspect-ratio/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "aspect-ratio",
+      "title": "Aspect Ratio",
+      "type": "registry:ui"
+    },
+    {
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/avatar/Avatar.tsx",
+          "target": "components/avatar/Avatar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/avatar/AvatarFallback.tsx",
+          "target": "components/avatar/AvatarFallback.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/avatar/AvatarImage.tsx",
+          "target": "components/avatar/AvatarImage.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/avatar/AvatarRoot.tsx",
+          "target": "components/avatar/AvatarRoot.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/avatar/avatar-variants.ts",
+          "target": "components/avatar/avatar-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/avatar/index.ts",
+          "target": "components/avatar/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/avatar/types.ts",
+          "target": "components/avatar/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "avatar",
+      "title": "Avatar",
+      "type": "registry:ui"
+    },
+    {
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/badge/Badge.tsx",
+          "target": "components/badge/Badge.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/badge/badge-variants.ts",
+          "target": "components/badge/badge-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/badge/index.ts",
+          "target": "components/badge/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/badge/types.ts",
+          "target": "components/badge/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "badge",
+      "title": "Badge",
+      "type": "registry:ui"
+    },
+    {
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/breadcrumb/Breadcrumb.tsx",
+          "target": "components/breadcrumb/Breadcrumb.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/breadcrumb/BreadcrumbEllipsis.tsx",
+          "target": "components/breadcrumb/BreadcrumbEllipsis.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/breadcrumb/BreadcrumbItem.tsx",
+          "target": "components/breadcrumb/BreadcrumbItem.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/breadcrumb/BreadcrumbLink.tsx",
+          "target": "components/breadcrumb/BreadcrumbLink.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/breadcrumb/BreadcrumbList.tsx",
+          "target": "components/breadcrumb/BreadcrumbList.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/breadcrumb/BreadcrumbPage.tsx",
+          "target": "components/breadcrumb/BreadcrumbPage.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/breadcrumb/BreadcrumbRoot.tsx",
+          "target": "components/breadcrumb/BreadcrumbRoot.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/breadcrumb/BreadcrumbSeparator.tsx",
+          "target": "components/breadcrumb/BreadcrumbSeparator.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/breadcrumb/breadcrumb-variants.ts",
+          "target": "components/breadcrumb/breadcrumb-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/breadcrumb/index.ts",
+          "target": "components/breadcrumb/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/breadcrumb/types.ts",
+          "target": "components/breadcrumb/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "breadcrumb",
+      "title": "Breadcrumb",
+      "type": "registry:ui"
+    },
+    {
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "files": [
+        {
+          "path": "src/components/button/Button.tsx",
+          "target": "components/button/Button.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/button/ButtonGroup.tsx",
+          "target": "components/button/ButtonGroup.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/button/button-group-variants.ts",
+          "target": "components/button/button-group-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/button/button-variants.ts",
+          "target": "components/button/button-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/button/index.ts",
+          "target": "components/button/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/button/types.ts",
+          "target": "components/button/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "button",
+      "title": "Button",
+      "type": "registry:ui"
+    },
+    {
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/card/Card.tsx",
+          "target": "components/card/Card.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/card/CardContent.tsx",
+          "target": "components/card/CardContent.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/card/CardFooter.tsx",
+          "target": "components/card/CardFooter.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/card/CardHeader.tsx",
+          "target": "components/card/CardHeader.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/card/CardRoot.tsx",
+          "target": "components/card/CardRoot.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/card/CardTitle.tsx",
+          "target": "components/card/CardTitle.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/card/CardTitleRoot.tsx",
+          "target": "components/card/CardTitleRoot.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/card/card-variants.ts",
+          "target": "components/card/card-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/card/index.ts",
+          "target": "components/card/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/card/types.ts",
+          "target": "components/card/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "card",
+      "title": "Card",
+      "type": "registry:ui"
+    },
+    {
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/carousel/Carousel.tsx",
+          "target": "components/carousel/Carousel.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/carousel/CarouselContent.tsx",
+          "target": "components/carousel/CarouselContent.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/carousel/CarouselItem.tsx",
+          "target": "components/carousel/CarouselItem.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/carousel/CarouselNext.tsx",
+          "target": "components/carousel/CarouselNext.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/carousel/CarouselPrevious.tsx",
+          "target": "components/carousel/CarouselPrevious.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/carousel/CarouselRoot.tsx",
+          "target": "components/carousel/CarouselRoot.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/carousel/carousel-variants.ts",
+          "target": "components/carousel/carousel-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/carousel/context.ts",
+          "target": "components/carousel/context.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/carousel/index.ts",
+          "target": "components/carousel/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/carousel/types.ts",
+          "target": "components/carousel/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "carousel",
+      "title": "Carousel",
+      "type": "registry:ui"
+    },
+    {
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/checkbox/Checkbox.tsx",
+          "target": "components/checkbox/Checkbox.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/checkbox/CheckboxControl.tsx",
+          "target": "components/checkbox/CheckboxControl.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/checkbox/CheckboxIndicator.tsx",
+          "target": "components/checkbox/CheckboxIndicator.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/checkbox/CheckboxRoot.tsx",
+          "target": "components/checkbox/CheckboxRoot.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/checkbox/checkbox-variants.ts",
+          "target": "components/checkbox/checkbox-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/checkbox/index.ts",
+          "target": "components/checkbox/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/checkbox/types.ts",
+          "target": "components/checkbox/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "checkbox",
+      "title": "Checkbox",
+      "type": "registry:ui"
+    },
+    {
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/chip/Chip.tsx",
+          "target": "components/chip/Chip.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/chip/ChipContent.tsx",
+          "target": "components/chip/ChipContent.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/chip/ChipRoot.tsx",
+          "target": "components/chip/ChipRoot.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/chip/chip-variants.ts",
+          "target": "components/chip/chip-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/chip/index.ts",
+          "target": "components/chip/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/chip/types.ts",
+          "target": "components/chip/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "chip",
+      "title": "Chip",
+      "type": "registry:ui"
+    },
+    {
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/divider/Divider.tsx",
+          "target": "components/divider/Divider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/divider/DividerLabel.tsx",
+          "target": "components/divider/DividerLabel.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/divider/DividerRoot.tsx",
+          "target": "components/divider/DividerRoot.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/divider/divider-variants.ts",
+          "target": "components/divider/divider-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/divider/index.ts",
+          "target": "components/divider/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/divider/types.ts",
+          "target": "components/divider/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "divider",
+      "title": "Divider",
+      "type": "registry:ui"
+    },
+    {
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/if/If.tsx",
+          "target": "components/if/If.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/if/index.ts",
+          "target": "components/if/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/if/type.ts",
+          "target": "components/if/type.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "if",
+      "title": "If",
+      "type": "registry:ui"
+    },
+    {
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/label/Label.tsx",
+          "target": "components/label/Label.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/label/index.ts",
+          "target": "components/label/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/label/label-variants.ts",
+          "target": "components/label/label-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/label/types.ts",
+          "target": "components/label/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "label",
+      "title": "Label",
+      "type": "registry:ui"
+    },
+    {
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/scroll-area/ScrollArea.tsx",
+          "target": "components/scroll-area/ScrollArea.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/scroll-area/ScrollAreaRoot.tsx",
+          "target": "components/scroll-area/ScrollAreaRoot.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/scroll-area/ScrollAreaScrollbar.tsx",
+          "target": "components/scroll-area/ScrollAreaScrollbar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/scroll-area/ScrollAreaThumb.tsx",
+          "target": "components/scroll-area/ScrollAreaThumb.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/scroll-area/ScrollAreaViewport.tsx",
+          "target": "components/scroll-area/ScrollAreaViewport.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/scroll-area/index.ts",
+          "target": "components/scroll-area/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/scroll-area/scroll-area-variants.ts",
+          "target": "components/scroll-area/scroll-area-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/scroll-area/types.ts",
+          "target": "components/scroll-area/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "scroll-area",
+      "title": "Scroll Area",
+      "type": "registry:ui"
+    },
+    {
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/sonner/index.ts",
+          "target": "components/sonner/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/sonner/sonner.tsx",
+          "target": "components/sonner/sonner.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/sonner/types.ts",
+          "target": "components/sonner/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "sonner",
+      "title": "Sonner",
+      "type": "registry:ui"
+    },
+    {
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/components/tabs/Tabs.tsx",
+          "target": "components/tabs/Tabs.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/tabs/TabsContent.tsx",
+          "target": "components/tabs/TabsContent.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/tabs/TabsList.tsx",
+          "target": "components/tabs/TabsList.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/tabs/TabsRoot.tsx",
+          "target": "components/tabs/TabsRoot.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/tabs/TabsTrigger.tsx",
+          "target": "components/tabs/TabsTrigger.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/tabs/index.ts",
+          "target": "components/tabs/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/tabs/tabs-variants.ts",
+          "target": "components/tabs/tabs-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/tabs/types.ts",
+          "target": "components/tabs/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "tabs",
+      "title": "Tabs",
+      "type": "registry:ui"
+    },
+    {
+      "files": [
+        {
+          "path": "src/types/other.ts",
+          "target": "types/other.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "other",
+      "title": "Other",
+      "type": "registry:ui"
+    }
+  ],
+  "name": "soybean-react-ui"
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "badge",
+  "type": "registry:ui",
+  "title": "Badge",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/badge/Badge.tsx",
+      "content": "import { cn } from '@/lib/utils';\n\nimport { badgeVariants } from './badge-variants';\nimport type { BadgeProps } from './types';\n\nconst Badge = (props: BadgeProps) => {\n  const { className, color, shape, size, variant, ...rest } = props;\n\n  const mergedCls = cn(badgeVariants({ color, shape, size, variant }), className);\n\n  return (\n    <div\n      {...rest}\n      className={mergedCls}\n    />\n  );\n};\n\nexport default Badge;\n",
+      "type": "registry:ui",
+      "target": "components/badge/Badge.tsx"
+    },
+    {
+      "path": "src/components/badge/badge-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\nimport type { VariantProps } from 'tailwind-variants';\n\nexport const badgeVariants = tv({\n  base: 'inline-flex items-center border font-semibold',\n  compoundVariants: [\n    {\n      class: `bg-primary text-primary-foreground`,\n      color: 'primary',\n      variant: 'solid'\n    },\n    {\n      class: `bg-destructive text-destructive-foreground`,\n      color: 'destructive',\n      variant: 'solid'\n    },\n    {\n      class: `bg-success text-success-foreground`,\n      color: 'success',\n      variant: 'solid'\n    },\n    {\n      class: `bg-warning text-warning-foreground`,\n      color: 'warning',\n      variant: 'solid'\n    },\n    {\n      class: `bg-info text-info-foreground`,\n      color: 'info',\n      variant: 'solid'\n    },\n    {\n      class: `bg-carbon text-carbon-foreground`,\n      color: 'carbon',\n      variant: 'solid'\n    },\n    {\n      class: `bg-secondary text-secondary-foreground`,\n      color: 'secondary',\n      variant: 'solid'\n    },\n    {\n      class: `bg-accent text-accent-foreground`,\n      color: 'accent',\n      variant: 'solid'\n    },\n    {\n      class: 'bg-primary/10',\n      color: 'primary',\n      variant: ['soft', 'ghost']\n    },\n    {\n      class: 'bg-destructive/10',\n      color: 'destructive',\n      variant: ['soft', 'ghost']\n    },\n    {\n      class: 'bg-success/10',\n      color: 'success',\n      variant: ['soft', 'ghost']\n    },\n    {\n      class: 'bg-warning/10',\n      color: 'warning',\n      variant: ['soft', 'ghost']\n    },\n    {\n      class: 'bg-info/10',\n      color: 'info',\n      variant: ['soft', 'ghost']\n    },\n    {\n      class: 'bg-carbon/10',\n      color: 'carbon',\n      variant: ['soft', 'ghost']\n    },\n    {\n      class: 'bg-secondary-foreground/5',\n      color: 'secondary',\n      variant: ['soft', 'ghost']\n    },\n    {\n      class: 'bg-accent-foreground/5',\n      color: 'accent',\n      variant: ['soft', 'ghost']\n    }\n  ],\n  defaultVariants: {\n    color: 'primary',\n    shape: 'auto',\n    size: 'md',\n    variant: 'solid'\n  },\n  variants: {\n    color: {\n      accent: 'border-accent-foreground/50 text-accent-foreground',\n      carbon: 'border-carbon text-carbon',\n      destructive: 'border-destructive text-destructive',\n      info: 'border-info text-info',\n      primary: 'border-primary text-primary',\n      secondary: 'border-secondary-foreground/50 text-secondary-foreground',\n      success: 'border-success text-success',\n      warning: 'border-warning text-warning'\n    },\n    shape: {\n      auto: 'rounded-md',\n      rounded: 'rounded-full'\n    },\n    size: {\n      '2xl': 'gap-2 h-7 px-4 text-base',\n      lg: 'gap-1.25 h-5 px-2.5 text-xs',\n      md: 'gap-1 h-4.5 px-2 text-2xs',\n      sm: 'gap-0.75 h-4 px-1.5 text-3xs',\n      xl: 'gap-1.5 h-6 px-3 text-sm',\n      xs: 'gap-0.5 h-3.5 px-1 text-4xs'\n    },\n    variant: {\n      ghost: '',\n      outline: 'bg-background',\n      pure: 'bg-background text-foreground border-border',\n      raw: 'bg-transparent border-0',\n      soft: 'border-0',\n      solid: ''\n    }\n  }\n});\n\ntype BadgeVariants = VariantProps<typeof badgeVariants>;\n\nexport type BadgeVariant = NonNullable<BadgeVariants['variant']>;\n\nexport type BadgeShape = NonNullable<BadgeVariants['shape']>;\n",
+      "type": "registry:ui",
+      "target": "components/badge/badge-variants.ts"
+    },
+    {
+      "path": "src/components/badge/index.ts",
+      "content": "export { default as Badge } from './Badge';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/badge/index.ts"
+    },
+    {
+      "path": "src/components/badge/types.ts",
+      "content": "import type { BaseNodeProps, ThemeColor } from '@/types/other';\n\nimport type { BadgeShape, BadgeVariant } from './badge-variants';\n\nexport interface BadgeProps extends BaseNodeProps<React.ComponentProps<'div'>> {\n  /** The color of the badge. */\n  color?: ThemeColor;\n  /** The shape of the badge. */\n  shape?: BadgeShape;\n  /** The variant of the badge. */\n  variant?: BadgeVariant;\n}\n\nexport type { BadgeShape, BadgeVariant };\n",
+      "type": "registry:ui",
+      "target": "components/badge/types.ts"
+    }
+  ]
+}

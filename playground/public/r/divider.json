@@ -1,0 +1,45 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "divider",
+  "type": "registry:ui",
+  "title": "Divider",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/divider/Divider.tsx",
+      "content": "import React from 'react';\n\nimport DividerLabel from './DividerLabel';\nimport DividerRoot from './DividerRoot';\nimport type { DividerProps } from './types';\n\nconst Divider = React.forwardRef<HTMLDivElement, DividerProps>((props, ref) => {\n  const { align, children, className, classNames, leading, orientation, size, trailing, ...rest } = props;\n\n  return (\n    <DividerRoot\n      className={className || classNames?.root}\n      orientation={orientation}\n      {...rest}\n      ref={ref}\n    >\n      {leading}\n\n      {Boolean(children) && (\n        <DividerLabel\n          align={align}\n          className={classNames?.label}\n          orientation={orientation}\n          size={size}\n          {...rest}\n        >\n          {children}\n        </DividerLabel>\n      )}\n\n      {trailing}\n    </DividerRoot>\n  );\n});\n\nDivider.displayName = 'Divider';\n\nexport default Divider;\n",
+      "type": "registry:ui",
+      "target": "components/divider/Divider.tsx"
+    },
+    {
+      "path": "src/components/divider/DividerLabel.tsx",
+      "content": "import React from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { dividerVariants } from './divider-variants';\nimport type { DividerLabelProps } from './types';\n\nconst DividerLabel = React.forwardRef<HTMLSpanElement, DividerLabelProps>((props, ref) => {\n  const { align, className, orientation, size, ...rest } = props;\n\n  const { label } = dividerVariants({ align, orientation, size });\n\n  const mergedCls = cn(label(), className);\n\n  return (\n    <span\n      className={mergedCls}\n      {...rest}\n      ref={ref}\n    />\n  );\n});\n\nDividerLabel.displayName = 'DividerLabel';\n\nexport default DividerLabel;\n",
+      "type": "registry:ui",
+      "target": "components/divider/DividerLabel.tsx"
+    },
+    {
+      "path": "src/components/divider/DividerRoot.tsx",
+      "content": "import { Root } from '@radix-ui/react-separator';\nimport React from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { dividerVariants } from './divider-variants';\nimport type { DividerRootProps } from './types';\n\nconst DividerRoot = React.forwardRef<HTMLDivElement, DividerRootProps>((props, ref) => {\n  const { border, className, orientation, ...rest } = props;\n\n  const { root } = dividerVariants({ border, orientation });\n\n  const mergedCls = cn(root(), className);\n\n  return (\n    <Root\n      className={mergedCls}\n      {...rest}\n      ref={ref}\n    />\n  );\n});\n\nDividerRoot.displayName = 'DividerRoot';\n\nexport default DividerRoot;\n",
+      "type": "registry:ui",
+      "target": "components/divider/DividerRoot.tsx"
+    },
+    {
+      "path": "src/components/divider/divider-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\nimport type { VariantProps } from 'tailwind-variants';\n\nexport const dividerVariants = tv({\n  compoundVariants: [\n    {\n      class: {\n        label: 'px-0.75 py-1.5'\n      },\n      orientation: 'vertical',\n      size: 'xs'\n    },\n    {\n      class: {\n        label: 'px-1.5 py-0.75'\n      },\n      orientation: 'horizontal',\n      size: 'xs'\n    },\n    {\n      class: {\n        label: 'px-0.875 py-1.75'\n      },\n      orientation: 'vertical',\n      size: 'sm'\n    },\n    {\n      class: {\n        label: 'px-1.75 py-0.875'\n      },\n      orientation: 'horizontal',\n      size: 'sm'\n    },\n    {\n      class: {\n        label: 'px-1 py-2'\n      },\n      orientation: 'vertical',\n      size: 'md'\n    },\n    {\n      class: {\n        label: 'px-2 py-1'\n      },\n      orientation: 'horizontal',\n      size: 'md'\n    },\n    {\n      class: {\n        label: 'px-1.125 py-2.25'\n      },\n      orientation: 'vertical',\n      size: 'lg'\n    },\n    {\n      class: {\n        label: 'px-2.25 py-1.125'\n      },\n      orientation: 'horizontal',\n      size: 'lg'\n    },\n    {\n      class: {\n        label: 'px-1.25 py-2.5'\n      },\n      orientation: 'vertical',\n      size: 'xl'\n    },\n    {\n      class: {\n        label: 'px-2.5 py-1.25'\n      },\n      orientation: 'horizontal',\n      size: 'xl'\n    },\n    {\n      class: {\n        label: 'px-1.5 py-3'\n      },\n      orientation: 'vertical',\n      size: '2xl'\n    },\n    {\n      class: {\n        label: 'px-3 py-1.5'\n      },\n      orientation: 'horizontal',\n      size: '2xl'\n    }\n  ],\n  defaultVariants: {\n    align: 'center',\n    border: 'solid',\n    orientation: 'horizontal',\n    size: 'md'\n  },\n  slots: {\n    label: `absolute top-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center text-muted-foreground bg-background`,\n    root: `relative shrink-0 border-border`\n  },\n  variants: {\n    align: {\n      center: {\n        label: 'left-1/2'\n      },\n      end: {\n        label: 'left-15/16 sm:left-7/8 md:left-9/10 lg:left-11/12'\n      },\n      start: {\n        label: 'left-1/16 sm:left-1/8 md:left-1/10 lg:left-1/12'\n      }\n    },\n    border: {\n      dashed: {\n        root: 'border-dashed'\n      },\n      dotted: {\n        root: 'border-dotted'\n      },\n      solid: {\n        root: 'border-solid'\n      }\n    },\n    orientation: {\n      horizontal: {\n        label: 'h-[1px]',\n        root: 'w-full border-t'\n      },\n      vertical: {\n        label: 'w-[1px]',\n        root: 'h-full border-l'\n      }\n    },\n    size: {\n      '2xl': {\n        label: 'text-2xl'\n      },\n      lg: {\n        label: 'text-base'\n      },\n      md: {\n        label: 'text-sm'\n      },\n      sm: {\n        label: 'text-xs'\n      },\n      xl: {\n        label: 'text-lg'\n      },\n      xs: {\n        label: 'text-2xs'\n      }\n    }\n  }\n});\n\ntype DividerVariants = VariantProps<typeof dividerVariants>;\n\nexport type DividerBorder = NonNullable<DividerVariants['border']>;\n\nexport type DividerSlots = keyof typeof dividerVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/divider/divider-variants.ts"
+    },
+    {
+      "path": "src/components/divider/index.ts",
+      "content": "export { default as Divider } from './Divider';\nexport { default as DividerLabel } from './DividerLabel';\nexport { default as DividerRoot } from './DividerRoot';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/divider/index.ts"
+    },
+    {
+      "path": "src/components/divider/types.ts",
+      "content": "import type { SeparatorProps as _SeparatorProps } from '@radix-ui/react-separator';\n\nimport type { BaseNodeProps, ClassValue, PropsSlot, ThemeAlign, ThemeOrientation } from '@/types/other';\n\nimport type { DividerBorder, DividerSlots } from './divider-variants';\n\nexport interface DividerRootProps extends BaseNodeProps<_SeparatorProps> {\n  border?: DividerBorder;\n}\n\nexport type { DividerBorder };\n\nexport interface DividerLabelProps extends BaseNodeProps<React.ComponentProps<'span'>> {\n  align?: ThemeAlign;\n  orientation?: ThemeOrientation;\n}\n\nexport type DividerUi = Partial<Record<DividerSlots, ClassValue>>;\n\nexport interface DividerProps\n  extends DividerRootProps,\n    Pick<DividerLabelProps, 'align' | 'orientation' | 'size'>,\n    PropsSlot {\n  classNames?: DividerUi;\n}\n",
+      "type": "registry:ui",
+      "target": "components/divider/types.ts"
+    }
+  ]
+}

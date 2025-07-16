@@ -1,0 +1,45 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "chip",
+  "type": "registry:ui",
+  "title": "Chip",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/chip/Chip.tsx",
+      "content": "import { forwardRef } from 'react';\n\nimport ChipContent from './ChipContent';\nimport ChipRoot from './ChipRoot';\nimport type { ChipProps } from './types';\n\nconst Chip = forwardRef<HTMLDivElement, ChipProps>((props, ref) => {\n  const { children, className, classNames, color, content, open = true, position, size, ...rest } = props;\n\n  return (\n    <ChipRoot\n      className={className || classNames?.root}\n      ref={ref}\n      {...rest}\n    >\n      {children}\n\n      {open && (\n        <ChipContent\n          className={classNames?.content}\n          color={color}\n          position={position}\n          size={size}\n        >\n          {content}\n        </ChipContent>\n      )}\n    </ChipRoot>\n  );\n});\n\nChip.displayName = 'Chip';\n\nexport default Chip;\n",
+      "type": "registry:ui",
+      "target": "components/chip/Chip.tsx"
+    },
+    {
+      "path": "src/components/chip/ChipContent.tsx",
+      "content": "import { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { chipVariants } from './chip-variants';\nimport type { ChipContentProps } from './types';\n\nconst ChipContent = forwardRef<HTMLSpanElement, ChipContentProps>((props, ref) => {\n  const { className, color, position, size, ...rest } = props;\n\n  const { content } = chipVariants({ color, position, size });\n\n  const mergedCls = cn(content(), className);\n\n  return (\n    <span\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nChipContent.displayName = 'ChipContent';\n\nexport default ChipContent;\n",
+      "type": "registry:ui",
+      "target": "components/chip/ChipContent.tsx"
+    },
+    {
+      "path": "src/components/chip/ChipRoot.tsx",
+      "content": "import { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { chipVariants } from './chip-variants';\nimport type { ChipRootProps } from './types';\n\nconst ChipRoot = forwardRef<HTMLDivElement, ChipRootProps>((props, ref) => {\n  const { className, ...rest } = props;\n\n  const { root } = chipVariants();\n\n  const mergedCls = cn(root(), className);\n\n  return (\n    <div\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nChipRoot.displayName = 'ChipRoot';\n\nexport default ChipRoot;\n",
+      "type": "registry:ui",
+      "target": "components/chip/ChipRoot.tsx"
+    },
+    {
+      "path": "src/components/chip/chip-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\nimport type { VariantProps } from 'tailwind-variants';\n\nexport const chipVariants = tv({\n  defaultVariants: {\n    color: 'primary',\n    position: 'top-right',\n    size: 'md'\n  },\n  slots: {\n    content: `absolute flex justify-center items-center whitespace-nowrap rounded-full transform`,\n    root: 'relative'\n  },\n  variants: {\n    color: {\n      accent: {\n        content: 'bg-accent text-accent-foreground'\n      },\n      carbon: {\n        content: 'bg-carbon text-carbon-foreground'\n      },\n      destructive: {\n        content: 'bg-destructive text-destructive-foreground'\n      },\n      info: {\n        content: 'bg-info text-info-foreground'\n      },\n      primary: {\n        content: 'bg-primary text-primary-foreground'\n      },\n      secondary: {\n        content: 'bg-secondary text-secondary-foreground'\n      },\n      success: {\n        content: 'bg-success text-success-foreground'\n      },\n      warning: {\n        content: 'bg-warning text-warning-foreground'\n      }\n    },\n    position: {\n      'bottom-left': {\n        content: 'left-0 bottom-0 -translate-x-1/2 translate-y-1/2'\n      },\n      'bottom-right': {\n        content: 'right-0 bottom-0 translate-x-1/2 translate-y-1/2'\n      },\n      'top-left': {\n        content: 'left-0 top-0 -translate-x-1/2 -translate-y-1/2'\n      },\n      'top-right': {\n        content: 'right-0 top-0 translate-x-1/2 -translate-y-1/2'\n      }\n    },\n    size: {\n      '2xl': {\n        content: `min-h-5 px-2.5 text-base leading-relaxed`\n      },\n      lg: {\n        content: `min-h-3.5 px-1.75 text-xs leading-relaxed`\n      },\n      md: {\n        content: `min-h-3 px-1.5 text-2xs leading-relaxed`\n      },\n      sm: {\n        content: `min-h-2.5 px-1.25 text-3xs leading-relaxed`\n      },\n      xl: {\n        content: `min-h-4 px-2 text-sm leading-relaxed`\n      },\n      xs: {\n        content: `min-h-2 px-1 text-4xs leading-relaxed`\n      }\n    }\n  }\n});\n\ntype ChipVariants = VariantProps<typeof chipVariants>;\n\nexport type ChipPosition = NonNullable<ChipVariants['position']>;\n\nexport type ChipSlots = keyof typeof chipVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/chip/chip-variants.ts"
+    },
+    {
+      "path": "src/components/chip/index.ts",
+      "content": "export { default as Chip } from './Chip';\nexport { default as ChipContent } from './ChipContent';\nexport { default as ChipRoot } from './ChipRoot';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/chip/index.ts"
+    },
+    {
+      "path": "src/components/chip/types.ts",
+      "content": "import type { BaseComponentProps, ClassValue, ThemeColor, ThemeSize } from '@/types/other';\n\nimport type { ChipPosition, ChipSlots } from './chip-variants';\n\nexport type ChipRootProps = BaseComponentProps<'div'>;\n\nexport interface ChipContentProps extends BaseComponentProps<'span'> {\n  color?: ThemeColor;\n  position?: ChipPosition;\n  size?: ThemeSize;\n}\n\nexport type ChipUi = Partial<Record<ChipSlots, ClassValue>>;\n\nexport interface ChipProps\n  extends Omit<ChipRootProps, 'color' | 'content'>,\n    Pick<ChipContentProps, 'color' | 'position' | 'size'> {\n  classNames?: ChipUi;\n  content?: React.ReactNode;\n  open?: boolean;\n}\n\nexport { ChipPosition };\n",
+      "type": "registry:ui",
+      "target": "components/chip/types.ts"
+    }
+  ]
+}

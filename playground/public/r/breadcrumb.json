@@ -1,0 +1,75 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "breadcrumb",
+  "type": "registry:ui",
+  "title": "Breadcrumb",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/breadcrumb/Breadcrumb.tsx",
+      "content": "'use client';\n\nimport type { Ref } from 'react';\nimport { Fragment, forwardRef } from 'react';\n\nimport BreadcrumbEllipsis from './BreadcrumbEllipsis';\nimport BreadcrumbItemContent from './BreadcrumbItem';\nimport BreadcrumbLink from './BreadcrumbLink';\nimport BreadcrumbList from './BreadcrumbList';\nimport BreadcrumbPage from './BreadcrumbPage';\nimport BreadcrumbRoot from './BreadcrumbRoot';\nimport BreadcrumbSeparator from './BreadcrumbSeparator';\nimport type { BreadcrumbItem, BreadcrumbProps } from './types';\n\ntype EllipsisProps<T extends BreadcrumbItem> = Pick<\n  BreadcrumbProps<T>,\n  'className' | 'ellipsisIcon' | 'items' | 'renderEllipsis'\n>;\n\nconst Ellipsis = <T extends BreadcrumbItem>({ className, ellipsisIcon, items, renderEllipsis }: EllipsisProps<T>) => {\n  if (!renderEllipsis) return <BreadcrumbEllipsis className={className}>{ellipsisIcon}</BreadcrumbEllipsis>;\n\n  return renderEllipsis(items);\n};\n\nfunction renderBreadcrumbContent<T extends BreadcrumbItem>(item: T, renderItem: BreadcrumbProps<T>['renderItem']) {\n  if (renderItem) return renderItem(item);\n\n  if (item.href) return <BreadcrumbLink {...item}>{item.label}</BreadcrumbLink>;\n\n  return <BreadcrumbPage {...item}>{item.label}</BreadcrumbPage>;\n}\n\nconst Breadcrumb = <T extends BreadcrumbItem>(props: BreadcrumbProps<T>, ref: Ref<HTMLElement>) => {\n  const {\n    className,\n    classNames,\n    ellipsis,\n    ellipsisIcon,\n    handleItemClick,\n    items,\n    renderEllipsis,\n    renderItem,\n    separator,\n    size,\n    ...rest\n  } = props;\n\n  const computedEllipsisRange = getEllipsisRange();\n\n  const itemsFilterEllipsis = getItemsFilterEllipsis();\n\n  const startEllipsisIndex = computedEllipsisRange?.[0];\n\n  const ellipsisItems = computedEllipsisRange ? items.slice(computedEllipsisRange[0], computedEllipsisRange[1]) : [];\n\n  function getItemsFilterEllipsis() {\n    if (!computedEllipsisRange) return items;\n\n    const [start, end] = computedEllipsisRange;\n\n    return [...items.slice(0, start), ...items.slice(end)];\n  }\n\n  function getEllipsisRange() {\n    /** when the item count is greater than 4, we will show ellipsis */\n    const MIN_ITEM_COUNT_WITH_ELLIPSIS = 5;\n\n    if (!ellipsis || items.length < MIN_ITEM_COUNT_WITH_ELLIPSIS) return null;\n\n    if (ellipsis === true) {\n      return [1, items.length - 2];\n    }\n\n    let [start, end] = ellipsis;\n\n    if (start === 0) {\n      start = 1;\n    }\n\n    if (end === items.length) {\n      end = items.length - 1;\n    }\n\n    return [start, end];\n  }\n\n  return (\n    <BreadcrumbRoot\n      className={className || classNames?.root}\n      size={size}\n      {...rest}\n      ref={ref}\n    >\n      <BreadcrumbList\n        className={classNames?.list}\n        size={size}\n      >\n        {itemsFilterEllipsis.map((item, index) => {\n          const isEllipsis = startEllipsisIndex && startEllipsisIndex === index;\n\n          const isShowSeparator = index < itemsFilterEllipsis.length - 1;\n\n          return (\n            <Fragment key={item.value}>\n              {isEllipsis && (\n                <>\n                  <Ellipsis<T>\n                    className={classNames?.ellipsis}\n                    ellipsisIcon={ellipsisIcon}\n                    items={ellipsisItems}\n                    renderEllipsis={renderEllipsis}\n                  />\n                  {separator || <BreadcrumbSeparator className={classNames?.separator} />}\n                </>\n              )}\n\n              <BreadcrumbItemContent\n                className={classNames?.item}\n                size={size}\n                onClick={() => handleItemClick?.(item)}\n              >\n                {item.leading}\n\n                {renderBreadcrumbContent(item, renderItem)}\n\n                {item.trailing}\n              </BreadcrumbItemContent>\n\n              {isShowSeparator && (separator || <BreadcrumbSeparator className={classNames?.separator} />)}\n            </Fragment>\n          );\n        })}\n      </BreadcrumbList>\n    </BreadcrumbRoot>\n  );\n};\n\nBreadcrumb.displayName = 'Breadcrumb';\n\nexport default forwardRef(Breadcrumb);\n",
+      "type": "registry:ui",
+      "target": "components/breadcrumb/Breadcrumb.tsx"
+    },
+    {
+      "path": "src/components/breadcrumb/BreadcrumbEllipsis.tsx",
+      "content": "import { Ellipsis } from 'lucide-react';\n\nimport { cn } from '@/lib/utils';\n\nimport { breadcrumbVariants } from './breadcrumb-variants';\nimport type { BreadcrumbEllipsisProps } from './types';\n\nconst BreadcrumbEllipsis = (props: BreadcrumbEllipsisProps) => {\n  const { children, className, ...rest } = props;\n\n  const { ellipsis } = breadcrumbVariants();\n\n  const mergedCls = cn(ellipsis, className);\n  return (\n    <span\n      aria-hidden=\"true\"\n      className={mergedCls}\n      role=\"presentation\"\n      {...rest}\n    >\n      {children || <Ellipsis />}\n      <span className=\"sr-only\">More</span>\n    </span>\n  );\n};\n\nBreadcrumbEllipsis.displayName = 'BreadcrumbEllipsis';\n\nexport default BreadcrumbEllipsis;\n",
+      "type": "registry:ui",
+      "target": "components/breadcrumb/BreadcrumbEllipsis.tsx"
+    },
+    {
+      "path": "src/components/breadcrumb/BreadcrumbItem.tsx",
+      "content": "import { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { breadcrumbVariants } from './breadcrumb-variants';\nimport type { BreadcrumbItemProps } from './types';\n\nconst BreadcrumbItem = forwardRef<HTMLLIElement, BreadcrumbItemProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { item } = breadcrumbVariants({ size });\n\n  const mergedCls = cn(item(), className);\n\n  return (\n    <li\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nBreadcrumbItem.displayName = 'BreadcrumbItem';\n\nexport default BreadcrumbItem;\n",
+      "type": "registry:ui",
+      "target": "components/breadcrumb/BreadcrumbItem.tsx"
+    },
+    {
+      "path": "src/components/breadcrumb/BreadcrumbLink.tsx",
+      "content": "import { Slot } from '@radix-ui/react-slot';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { breadcrumbVariants } from './breadcrumb-variants';\nimport type { BreadcrumbLinkProps } from './types';\n\nconst BreadcrumbLink = forwardRef<HTMLAnchorElement, BreadcrumbLinkProps>((props, ref) => {\n  const { asChild, className, ...rest } = props;\n\n  const Comp = asChild ? Slot : 'a';\n\n  const { link } = breadcrumbVariants();\n\n  const mergedCls = cn(link(), className);\n\n  return (\n    <Comp\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nBreadcrumbLink.displayName = 'BreadcrumbLink';\n\nexport default BreadcrumbLink;\n",
+      "type": "registry:ui",
+      "target": "components/breadcrumb/BreadcrumbLink.tsx"
+    },
+    {
+      "path": "src/components/breadcrumb/BreadcrumbList.tsx",
+      "content": "import { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { breadcrumbVariants } from './breadcrumb-variants';\nimport type { BreadcrumbListProps } from './types';\n\nconst BreadcrumbList = forwardRef<HTMLOListElement, BreadcrumbListProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { list } = breadcrumbVariants({ size });\n\n  const mergedCls = cn(list(), className);\n\n  return (\n    <ol\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nBreadcrumbList.displayName = 'BreadcrumbList';\n\nexport default BreadcrumbList;\n",
+      "type": "registry:ui",
+      "target": "components/breadcrumb/BreadcrumbList.tsx"
+    },
+    {
+      "path": "src/components/breadcrumb/BreadcrumbPage.tsx",
+      "content": "import { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { breadcrumbVariants } from './breadcrumb-variants';\nimport type { BreadcrumbPageProps } from './types';\n\nconst BreadcrumbPage = forwardRef<HTMLSpanElement, BreadcrumbPageProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { page } = breadcrumbVariants({ size });\n\n  const mergedCls = cn(page(), className);\n\n  return (\n    <span\n      aria-current=\"page\"\n      aria-disabled=\"true\"\n      className={mergedCls}\n      ref={ref}\n      role=\"link\"\n      {...rest}\n    />\n  );\n});\n\nBreadcrumbPage.displayName = 'BreadcrumbPage';\n\nexport default BreadcrumbPage;\n",
+      "type": "registry:ui",
+      "target": "components/breadcrumb/BreadcrumbPage.tsx"
+    },
+    {
+      "path": "src/components/breadcrumb/BreadcrumbRoot.tsx",
+      "content": "import { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { breadcrumbVariants } from './breadcrumb-variants';\nimport type { BreadcrumbRootProps } from './types';\n\nconst BreadcrumbRoot = forwardRef<HTMLElement, BreadcrumbRootProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { root } = breadcrumbVariants({ size });\n\n  const mergedCls = cn(root(), className);\n\n  return (\n    <nav\n      aria-label=\"breadcrumb\"\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nBreadcrumbRoot.displayName = 'BreadcrumbRoot';\n\nexport default BreadcrumbRoot;\n",
+      "type": "registry:ui",
+      "target": "components/breadcrumb/BreadcrumbRoot.tsx"
+    },
+    {
+      "path": "src/components/breadcrumb/BreadcrumbSeparator.tsx",
+      "content": "import { ChevronRight } from 'lucide-react';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { breadcrumbVariants } from './breadcrumb-variants';\nimport type { BreadcrumbSeparatorProps } from './types';\n\nconst BreadcrumbSeparator = forwardRef<HTMLLIElement, BreadcrumbSeparatorProps>((props, ref) => {\n  const { children, className, ...rest } = props;\n\n  const { separator } = breadcrumbVariants();\n\n  const mergedCls = cn(separator(), className);\n\n  return (\n    <li\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    >\n      {children ?? <ChevronRight />}\n    </li>\n  );\n});\n\nBreadcrumbSeparator.displayName = 'BreadcrumbSeparator';\n\nexport default BreadcrumbSeparator;\n",
+      "type": "registry:ui",
+      "target": "components/breadcrumb/BreadcrumbSeparator.tsx"
+    },
+    {
+      "path": "src/components/breadcrumb/breadcrumb-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const breadcrumbVariants = tv({\n  defaultVariants: {\n    size: 'md'\n  },\n  slots: {\n    ellipsis: 'flex items-center justify-center',\n    item: 'inline-flex items-center list-none',\n    link: 'hover:text-foreground transition-colors-200 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-primary',\n    list: 'flex flex-wrap items-center my-0 break-words text-muted-foreground',\n    page: 'font-normal text-foreground',\n    root: '',\n    separator: 'text-muted-foreground flex-shrink-0 list-none'\n  },\n  variants: {\n    size: {\n      '2xl': {\n        item: 'gap-3.5',\n        list: 'gap-4.5',\n        root: 'text-xl'\n      },\n      lg: {\n        item: 'gap-2.5',\n        list: 'gap-3.5',\n        root: 'text-base'\n      },\n      md: {\n        item: 'gap-2',\n        list: 'gap-3',\n        root: 'text-sm'\n      },\n      sm: {\n        item: 'gap-1.75',\n        list: 'gap-2.5',\n        root: 'text-xs'\n      },\n      xl: {\n        item: 'gap-3',\n        list: 'gap-4',\n        root: 'text-lg'\n      },\n      xs: {\n        item: 'gap-1.5',\n        list: 'gap-2',\n        root: 'text-2xs'\n      }\n    }\n  }\n});\n\nexport type BreadcrumbSlots = keyof typeof breadcrumbVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/breadcrumb/breadcrumb-variants.ts"
+    },
+    {
+      "path": "src/components/breadcrumb/index.ts",
+      "content": "export { default as Breadcrumb } from './Breadcrumb';\nexport { default as BreadcrumbEllipsis } from './BreadcrumbEllipsis';\nexport { default as BreadcrumbItemContent } from './BreadcrumbItem';\nexport { default as BreadcrumbLink } from './BreadcrumbLink';\nexport { default as BreadcrumbList } from './BreadcrumbList';\nexport { default as BreadcrumbPage } from './BreadcrumbPage';\nexport { default as BreadcrumbRoot } from './BreadcrumbRoot';\nexport { default as BreadcrumbSeparator } from './BreadcrumbSeparator';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/breadcrumb/index.ts"
+    },
+    {
+      "path": "src/components/breadcrumb/types.ts",
+      "content": "import type { BaseComponentProps, ClassValue, PropsSlot } from '@/types/other';\n\nimport type { BreadcrumbSlots } from './breadcrumb-variants';\n\nexport type BreadcrumbEllipsisProps = BaseComponentProps<'span'>;\n\nexport type BreadcrumbItemProps = BaseComponentProps<'li'>;\n\nexport type BreadcrumbLinkProps = BaseComponentProps<'a'> & {\n  asChild?: boolean;\n};\n\nexport type BreadcrumbListProps = BaseComponentProps<'ol'>;\n\nexport type BreadcrumbPageProps = BaseComponentProps<'span'>;\n\nexport type BreadcrumbRootProps = BaseComponentProps<'nav'>;\n\nexport type BreadcrumbSeparatorProps = BaseComponentProps<'li'>;\n\nexport interface BreadcrumbItem extends BreadcrumbLinkProps, PropsSlot {\n  className?: ClassValue;\n  label: React.ReactNode;\n  value: string;\n}\n\nexport type BreadcrumbUi = Partial<Record<BreadcrumbSlots, ClassValue>>;\n\nexport type BreadcrumbProps<T extends BreadcrumbItem> = BreadcrumbRootProps & {\n  classNames?: Omit<BreadcrumbUi, 'link' | 'page'>;\n  /**\n   * the range of items to show ellipsis\n   *\n   * when the item count is greater than 4, we will show ellipsis\n   *\n   * start: the start index of the ellipsis\n   *\n   * end: the end index of the ellipsis.\n   */\n  ellipsis?: true | [number, number] | null;\n  ellipsisIcon?: React.ReactNode;\n  handleItemClick?: (item: T) => void;\n  items: T[];\n  renderEllipsis?: (items: T[]) => React.ReactNode;\n  renderItem?: (item: T) => React.ReactNode;\n  separator?: React.ReactNode;\n};\n",
+      "type": "registry:ui",
+      "target": "components/breadcrumb/types.ts"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "accordion",
+  "type": "registry:ui",
+  "title": "Accordion",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/accordion/Accordion.tsx",
+      "content": "'use client';\n\nimport type { Root } from '@radix-ui/react-accordion';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport AccordionContent from './AccordionContent';\nimport AccordionHeader from './AccordionHeader';\nimport AccordionItem from './AccordionItem';\nimport AccordionRoot from './AccordionRoot';\nimport AccordionTrigger from './AccordionTrigger';\nimport { accordionVariants } from './accordion-variants';\nimport type { AccordionProps } from './types';\n\nconst Accordion = forwardRef<React.ElementRef<typeof Root>, AccordionProps>((props, ref) => {\n  const { className, classNames, items, size, triggerIcon, triggerLeading, triggerTrailing, ...rest } = props;\n\n  const { root } = accordionVariants({ size });\n\n  const mergedCls = cn(root(), className);\n\n  return (\n    <AccordionRoot\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    >\n      {items.map(item => (\n        <AccordionItem\n          className={classNames?.item}\n          disabled={item.disabled}\n          key={item.value}\n          value={item.value}\n        >\n          <AccordionHeader className={classNames?.header}>\n            <AccordionTrigger\n              className={classNames?.trigger}\n              classNames={classNames}\n              icon={triggerIcon}\n              leading={item.leading || triggerLeading}\n              size={size}\n              trailing={item.trailing || triggerTrailing}\n            >\n              {item.title}\n            </AccordionTrigger>\n          </AccordionHeader>\n\n          <AccordionContent\n            className={classNames?.content}\n            size={size}\n          >\n            {item.children}\n          </AccordionContent>\n        </AccordionItem>\n      ))}\n    </AccordionRoot>\n  );\n});\nAccordion.displayName = 'Accordion';\n\nexport default Accordion;\n",
+      "type": "registry:ui",
+      "target": "components/accordion/Accordion.tsx"
+    },
+    {
+      "path": "src/components/accordion/AccordionContent.tsx",
+      "content": "import { Content } from '@radix-ui/react-accordion';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { accordionVariants } from './accordion-variants';\nimport type { AccordionContentProps } from './types';\n\nconst AccordionContent = forwardRef<ComponentRef<typeof Content>, AccordionContentProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { content } = accordionVariants({ size });\n\n  const mergedCls = cn(content(), className);\n\n  return (\n    <Content\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\nAccordionContent.displayName = Content.displayName;\n\nexport default AccordionContent;\n",
+      "type": "registry:ui",
+      "target": "components/accordion/AccordionContent.tsx"
+    },
+    {
+      "path": "src/components/accordion/AccordionHeader.tsx",
+      "content": "import { Header } from '@radix-ui/react-accordion';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { accordionVariants } from './accordion-variants';\nimport type { AccordionHeaderProps } from './types';\n\nconst AccordionHeader = forwardRef<React.ElementRef<typeof Header>, AccordionHeaderProps>((props, ref) => {\n  const { className, ...rest } = props;\n\n  const { header } = accordionVariants();\n\n  const mergedCls = cn(header(), className);\n\n  return (\n    <Header\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\nAccordionHeader.displayName = Header.displayName;\n\nexport default AccordionHeader;\n",
+      "type": "registry:ui",
+      "target": "components/accordion/AccordionHeader.tsx"
+    },
+    {
+      "path": "src/components/accordion/AccordionItem.tsx",
+      "content": "import { Item } from '@radix-ui/react-accordion';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { accordionVariants } from './accordion-variants';\nimport type { AccordionItemProps } from './types';\n\nconst AccordionItem = forwardRef<React.ElementRef<typeof Item>, AccordionItemProps>((props, ref) => {\n  const { className, ...rest } = props;\n\n  const { item } = accordionVariants();\n\n  const mergedCls = cn(item(), className);\n\n  return (\n    <Item\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\nAccordionItem.displayName = Item.displayName;\n\nexport default AccordionItem;\n",
+      "type": "registry:ui",
+      "target": "components/accordion/AccordionItem.tsx"
+    },
+    {
+      "path": "src/components/accordion/AccordionRoot.tsx",
+      "content": "import { Root } from '@radix-ui/react-accordion';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { accordionVariants } from './accordion-variants';\nimport type { AccordionRootProps } from './types';\n\nconst AccordionRoot = forwardRef<React.ElementRef<typeof Root>, AccordionRootProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { root } = accordionVariants({ size });\n\n  const mergedCls = cn(root(), className);\n\n  return (\n    <Root\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\nAccordionRoot.displayName = Root.displayName;\n\nexport default AccordionRoot;\n",
+      "type": "registry:ui",
+      "target": "components/accordion/AccordionRoot.tsx"
+    },
+    {
+      "path": "src/components/accordion/AccordionTrigger.tsx",
+      "content": "import { Trigger } from '@radix-ui/react-accordion';\nimport { Slot } from '@radix-ui/react-slot';\nimport { ChevronDown } from 'lucide-react';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { accordionVariants } from './accordion-variants';\nimport type { AccordionTriggerProps } from './types';\n\nconst AccordionTrigger = forwardRef<React.ElementRef<typeof Trigger>, AccordionTriggerProps>((props, ref) => {\n  const { children, className, classNames, icon, leading, size, trailing, ...rest } = props;\n\n  const { trigger, triggerIcon, triggerLeadingIcon } = accordionVariants({ size });\n\n  const mergedCls = cn(trigger(), className);\n\n  const leadingIcon = cn(triggerLeadingIcon(), classNames?.triggerLeadingIcon);\n\n  const iconCls = cn(triggerIcon(), classNames?.triggerIcon);\n\n  return (\n    <Trigger\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    >\n      <Slot className={leadingIcon}>{leading}</Slot>\n\n      {children}\n\n      {trailing}\n\n      <Slot className={iconCls}>{icon || <ChevronDown />}</Slot>\n    </Trigger>\n  );\n});\nAccordionTrigger.displayName = Trigger.displayName;\n\nexport default AccordionTrigger;\n",
+      "type": "registry:ui",
+      "target": "components/accordion/AccordionTrigger.tsx"
+    },
+    {
+      "path": "src/components/accordion/accordion-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const accordionVariants = tv({\n  defaultVariants: {\n    size: 'md'\n  },\n  slots: {\n    content: [`overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up`],\n    header: 'flex',\n    item: 'border-b',\n    root: '',\n    trigger: [\n      `flex-1 flex items-center justify-start font-medium transition-all duration-200 bg-transparent`,\n      `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-primary`,\n      `hover:underline [&[data-state=open]>.trigger-icon]:rotate-180`\n    ],\n    triggerIcon: `trigger-icon ml-auto shrink-0 text-muted-foreground transition-transform duration-200`,\n    triggerLeadingIcon: `shrink-0`\n  },\n  variants: {\n    size: {\n      '2xl': {\n        content: 'data-[state=open]:pb-6',\n        root: 'text-2xl',\n        trigger: 'py-6 gap-6'\n      },\n      lg: {\n        content: 'data-[state=open]:pb-4.5',\n        root: 'text-base',\n        trigger: 'py-4.5 gap-4.5'\n      },\n      md: {\n        content: 'data-[state=open]:pb-4',\n        root: 'text-sm',\n        trigger: 'py-4 gap-4'\n      },\n      sm: {\n        content: 'data-[state=open]:pb-3.5',\n        root: 'text-xs',\n        trigger: 'py-3.5 gap-3.5'\n      },\n      xl: {\n        content: 'data-[state=open]:pb-5',\n        root: 'text-lg',\n        trigger: 'py-5 gap-5'\n      },\n      xs: {\n        content: 'data-[state=open]:pb-3',\n        root: 'text-2xs',\n        trigger: 'py-3 gap-3'\n      }\n    }\n  }\n});\n\nexport type AccordionSlots = keyof typeof accordionVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/accordion/accordion-variants.ts"
+    },
+    {
+      "path": "src/components/accordion/index.ts",
+      "content": "export { default as Accordion } from './Accordion';\nexport { default as AccordionContent } from './AccordionContent';\nexport { default as AccordionHeader } from './AccordionHeader';\nexport { default as AccordionItem } from './AccordionItem';\nexport { default as AccordionRoot } from './AccordionRoot';\nexport { default as AccordionTrigger } from './AccordionTrigger';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/accordion/index.ts"
+    },
+    {
+      "path": "src/components/accordion/types.ts",
+      "content": "import type {\n  AccordionContentProps as _AccordionContentProps,\n  AccordionHeaderProps as _AccordionHeaderProps,\n  AccordionItemProps as _AccordionItemProps,\n  // eslint-disable-next-line sort-imports\n  AccordionMultipleProps,\n  AccordionSingleProps,\n  AccordionTriggerProps as _AccordionTriggerProps\n} from '@radix-ui/react-accordion';\n\nimport type { BaseNodeProps, ClassValue, PropsSlot, ThemeSize } from '@/types/other';\n\nimport type { AccordionSlots } from './accordion-variants';\n\n/** The ui of the accordion. */\nexport type AccordionUi = Partial<Record<AccordionSlots, ClassValue>>;\n\nexport type AccordionRootProps = BaseNodeProps<AccordionSingleProps> | BaseNodeProps<AccordionMultipleProps>;\n\nexport interface AccordionHeaderProps extends BaseNodeProps<_AccordionHeaderProps> {}\n\nexport interface AccordionContentProps extends BaseNodeProps<_AccordionContentProps> {}\n\nexport interface AccordionItemProps extends BaseNodeProps<_AccordionItemProps> {}\n\nexport interface AccordionTriggerProps extends BaseNodeProps<_AccordionTriggerProps>, PropsSlot {\n  /** The ui of the accordion trigger. */\n  classNames?: Pick<AccordionUi, 'triggerIcon' | 'triggerLeadingIcon'>;\n  icon?: React.ReactNode;\n}\n\n// Accordion\nexport interface AccordionItemData extends Pick<AccordionItemProps, 'disabled' | 'value'> {\n  children: React.ReactNode;\n  leading?: React.ReactNode;\n  title: React.ReactNode;\n  trailing?: React.ReactNode;\n}\n\nexport type AccordionProps<T extends AccordionItemData = AccordionItemData> = AccordionRootProps & {\n  classNames?: AccordionUi;\n  items: T[];\n  size?: ThemeSize;\n  triggerIcon?: React.ReactNode;\n  triggerLeading?: React.ReactNode;\n  triggerTrailing?: React.ReactNode;\n};\n",
+      "type": "registry:ui",
+      "target": "components/accordion/types.ts"
+    }
+  ]
+}

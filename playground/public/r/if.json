@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "if",
+  "type": "registry:ui",
+  "title": "If",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/if/If.tsx",
+      "content": "import type { IfProps } from './type';\n\nfunction If({ children, condition, fallback }: IfProps) {\n  return condition ? children : fallback;\n}\n\nexport default If;\n",
+      "type": "registry:ui",
+      "target": "components/if/If.tsx"
+    },
+    {
+      "path": "src/components/if/index.ts",
+      "content": "export { default as If } from './If';\n\nexport * from './type';\n",
+      "type": "registry:ui",
+      "target": "components/if/index.ts"
+    },
+    {
+      "path": "src/components/if/type.ts",
+      "content": "import type { ReactNode } from 'react';\n\nexport interface IfProps {\n  /**\n   * The children to render\n   */\n  children?: ReactNode;\n  /**\n   * If true, the children will be rendered\n   */\n  condition: boolean;\n  /**\n   * The fallback to render\n   */\n  fallback?: ReactNode;\n}\n",
+      "type": "registry:ui",
+      "target": "components/if/type.ts"
+    }
+  ]
+}

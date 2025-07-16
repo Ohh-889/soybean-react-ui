@@ -1,0 +1,51 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "checkbox",
+  "type": "registry:ui",
+  "title": "Checkbox",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/checkbox/Checkbox.tsx",
+      "content": "import { Check, Minus } from 'lucide-react';\nimport React, { forwardRef } from 'react';\n\nimport CheckboxLabel from '../label/Label';\n\nimport CheckboxControl from './CheckboxControl';\nimport CheckboxIndicator from './CheckboxIndicator';\nimport CheckboxRoot from './CheckboxRoot';\nimport type { CheckboxProps } from './types';\n\nconst Checkbox = forwardRef<HTMLDivElement, CheckboxProps>((props, ref) => {\n  const { children, className, classNames, forceMountIndicator, size, ...rest } = props;\n\n  const isIndeterminate = rest.checked === 'indeterminate';\n\n  return (\n    <CheckboxRoot\n      className={className || classNames?.root}\n      ref={ref}\n    >\n      <CheckboxControl\n        className={classNames?.control}\n        size={size}\n        {...rest}\n      >\n        <CheckboxIndicator\n          className={classNames?.indicator}\n          forceMount={forceMountIndicator}\n        >\n          {isIndeterminate ? <Minus className=\"size-full\" /> : <Check className=\"size-full\" />}\n        </CheckboxIndicator>\n      </CheckboxControl>\n\n      {children && (\n        <CheckboxLabel\n          className={classNames?.label}\n          htmlFor={rest.id}\n        >\n          {children}\n        </CheckboxLabel>\n      )}\n    </CheckboxRoot>\n  );\n});\n\nCheckbox.displayName = 'Checkbox';\n\nexport default Checkbox;\n",
+      "type": "registry:ui",
+      "target": "components/checkbox/Checkbox.tsx"
+    },
+    {
+      "path": "src/components/checkbox/CheckboxControl.tsx",
+      "content": "import { Root } from '@radix-ui/react-checkbox';\nimport React from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { checkboxVariants } from './checkbox-variants';\nimport type { CheckboxControlProps } from './types';\n\nconst CheckboxControl = React.forwardRef<React.ComponentRef<typeof Root>, CheckboxControlProps>((props, ref) => {\n  const { className, color, size, ...rest } = props;\n\n  const { control } = checkboxVariants({ color, size });\n\n  const mergedCls = cn(control(), className);\n\n  return (\n    <Root\n      className={mergedCls}\n      {...rest}\n      ref={ref}\n    />\n  );\n});\n\nCheckboxControl.displayName = 'CheckboxControl';\n\nexport default CheckboxControl;\n",
+      "type": "registry:ui",
+      "target": "components/checkbox/CheckboxControl.tsx"
+    },
+    {
+      "path": "src/components/checkbox/CheckboxIndicator.tsx",
+      "content": "import { Indicator } from '@radix-ui/react-checkbox';\nimport React from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { checkboxVariants } from './checkbox-variants';\nimport type { CheckboxIndicatorProps } from './types';\n\nconst CheckboxIndicator = React.forwardRef<React.ComponentRef<typeof Indicator>, CheckboxIndicatorProps>(\n  (props, ref) => {\n    const { className, ...rest } = props;\n\n    const { indicator } = checkboxVariants();\n\n    const mergedCls = cn(indicator(), className);\n\n    return (\n      <Indicator\n        className={mergedCls}\n        {...rest}\n        ref={ref}\n      />\n    );\n  }\n);\n\nCheckboxIndicator.displayName = 'CheckboxIndicator';\n\nexport default CheckboxIndicator;\n",
+      "type": "registry:ui",
+      "target": "components/checkbox/CheckboxIndicator.tsx"
+    },
+    {
+      "path": "src/components/checkbox/CheckboxRoot.tsx",
+      "content": "import React from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { checkboxVariants } from './checkbox-variants';\nimport type { CheckboxRootProps } from './types';\n\nconst CheckboxRoot = React.forwardRef<HTMLDivElement, CheckboxRootProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { root } = checkboxVariants({ size });\n\n  const mergedCls = cn(root(), className);\n\n  return (\n    <div\n      className={mergedCls}\n      {...rest}\n      ref={ref}\n    />\n  );\n});\n\nCheckboxRoot.displayName = 'CheckboxRoot';\n\nexport default CheckboxRoot;\n",
+      "type": "registry:ui",
+      "target": "components/checkbox/CheckboxRoot.tsx"
+    },
+    {
+      "path": "src/components/checkbox/checkbox-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const checkboxVariants = tv({\n  defaultVariants: {\n    color: 'primary',\n    orientation: 'horizontal',\n    size: 'md'\n  },\n  slots: {\n    control: [\n      'peer shrink-0 rounded-sm border shadow',\n      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background ',\n      'disabled:cursor-not-allowed disabled:opacity-50'\n    ],\n    groupRoot: 'flex',\n    indicator: 'size-full flex items-center justify-center text-current',\n    label: '',\n    root: 'flex items-center'\n  },\n  variants: {\n    color: {\n      accent: {\n        control: `border-accent-foreground/50 focus-visible:ring-accent-foreground/20 data-[state=checked]:bg-accent-foreground/5 data-[state=checked]:text-accent-foreground data-[state=indeterminate]:bg-accent-foreground/5 data-[state=indeterminate]:text-accent-foreground`\n      },\n      carbon: {\n        control: `border-carbon focus-visible:ring-carbon data-[state=checked]:bg-carbon data-[state=checked]:text-carbon-foreground data-[state=indeterminate]:bg-carbon data-[state=indeterminate]:text-carbon-foreground`\n      },\n      destructive: {\n        control: `border-destructive focus-visible:ring-destructive data-[state=checked]:bg-destructive data-[state=checked]:text-destructive-foreground data-[state=indeterminate]:bg-destructive data-[state=indeterminate]:text-destructive-foreground`\n      },\n      info: {\n        control: `border-info focus-visible:ring-info data-[state=checked]:bg-info data-[state=checked]:text-info-foreground data-[state=indeterminate]:bg-info data-[state=indeterminate]:text-info-foreground`\n      },\n      primary: {\n        control: `border-primary focus-visible:ring-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=indeterminate]:bg-primary data-[state=indeterminate]:text-primary-foreground`\n      },\n      secondary: {\n        control: `border-secondary-foreground/50 focus-visible:ring-secondary-foreground/20 data-[state=checked]:bg-secondary-foreground/5 data-[state=checked]:text-secondary-foreground data-[state=indeterminate]:bg-secondary-foreground/5 data-[state=indeterminate]:text-secondary-foreground`\n      },\n      success: {\n        control: `border-success focus-visible:ring-success data-[state=checked]:bg-success data-[state=checked]:text-success-foreground data-[state=indeterminate]:bg-success data-[state=indeterminate]:text-success-foreground`\n      },\n      warning: {\n        control: `border-warning focus-visible:ring-warning data-[state=checked]:bg-warning data-[state=checked]:text-warning-foreground data-[state=indeterminate]:bg-warning data-[state=indeterminate]:text-warning-foreground`\n      }\n    },\n    orientation: {\n      horizontal: {\n        groupRoot: 'items-center'\n      },\n      vertical: {\n        groupRoot: 'flex-col'\n      }\n    },\n    size: {\n      '2xl': {\n        control: 'size-6',\n        groupRoot: 'gap-x-4.5 gap-y-3.5',\n        root: 'gap-3.5'\n      },\n      lg: {\n        control: 'size-4.5',\n        groupRoot: 'gap-x-3.5 gap-y-2.5',\n        root: 'gap-2.5'\n      },\n      md: {\n        control: 'size-4',\n        groupRoot: 'gap-x-3 gap-y-2',\n        root: 'gap-2'\n      },\n      sm: {\n        control: 'size-3.5',\n        groupRoot: 'gap-x-2.5 gap-y-1.75',\n        root: 'gap-1.75'\n      },\n      xl: {\n        control: 'size-5',\n        groupRoot: 'gap-x-4 gap-y-3',\n        root: 'gap-3'\n      },\n      xs: {\n        control: 'size-3',\n        groupRoot: 'gap-x-2 gap-y-1.5',\n        root: 'gap-1.5'\n      }\n    }\n  }\n});\n\nexport type CheckboxSlots = keyof typeof checkboxVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/checkbox/checkbox-variants.ts"
+    },
+    {
+      "path": "src/components/checkbox/index.ts",
+      "content": "export { default as Checkbox } from './Checkbox';\nexport { default as CheckboxControl } from './CheckboxControl';\nexport { default as CheckboxIndicator } from './CheckboxIndicator';\nexport { default as CheckboxRoot } from './CheckboxRoot';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/checkbox/index.ts"
+    },
+    {
+      "path": "src/components/checkbox/types.ts",
+      "content": "import type {\n  CheckboxIndicatorProps as _CheckboxIndicatorProps,\n  CheckboxProps as _CheckboxRootProps\n} from '@radix-ui/react-checkbox';\n\nimport type { BaseComponentProps, BaseNodeProps, ClassValue, ThemeColor } from '@/types/other';\n\nimport type { CheckboxSlots } from './checkbox-variants';\n\nexport type CheckboxUi = Partial<Record<CheckboxSlots, ClassValue>>;\n\nexport interface CheckboxControlProps extends BaseNodeProps<_CheckboxRootProps> {\n  color?: ThemeColor;\n}\n\nexport interface CheckboxIndicatorProps extends BaseNodeProps<_CheckboxIndicatorProps> {}\n\nexport interface CheckboxRootProps extends BaseComponentProps<'div'> {}\n\nexport interface CheckboxProps extends CheckboxControlProps {\n  classNames?: CheckboxUi;\n  forceMountIndicator?: true;\n}\n",
+      "type": "registry:ui",
+      "target": "components/checkbox/types.ts"
+    }
+  ]
+}

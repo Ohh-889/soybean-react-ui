@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "label",
+  "type": "registry:ui",
+  "title": "Label",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/label/Label.tsx",
+      "content": "import { Root } from '@radix-ui/react-label';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { labelVariants } from './label-variants';\nimport type { LabelProps } from './types';\n\nconst Label = forwardRef<React.ComponentRef<typeof Root>, LabelProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const mergedCls = cn(labelVariants({ size }), className);\n\n  return (\n    <Root\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nLabel.displayName = Root.displayName;\n\nexport default Label;\n",
+      "type": "registry:ui",
+      "target": "components/label/Label.tsx"
+    },
+    {
+      "path": "src/components/label/index.ts",
+      "content": "export { default as Label } from './Label';\n\nexport type { LabelProps } from './types';\n",
+      "type": "registry:ui",
+      "target": "components/label/index.ts"
+    },
+    {
+      "path": "src/components/label/label-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const labelVariants = tv({\n  base: 'font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',\n  defaultVariants: {\n    size: 'md'\n  },\n  variants: {\n    size: {\n      '2xl': 'text-xl',\n      lg: 'text-base',\n      md: 'text-sm',\n      sm: 'text-xs',\n      xl: 'text-lg',\n      xs: 'text-2xs'\n    }\n  }\n});\n",
+      "type": "registry:ui",
+      "target": "components/label/label-variants.ts"
+    },
+    {
+      "path": "src/components/label/types.ts",
+      "content": "import type { LabelProps as _LabelProps } from '@radix-ui/react-label';\n\nimport type { BaseNodeProps } from '@/types/other';\n\nexport interface LabelProps extends BaseNodeProps<_LabelProps> {}\n",
+      "type": "registry:ui",
+      "target": "components/label/types.ts"
+    }
+  ]
+}

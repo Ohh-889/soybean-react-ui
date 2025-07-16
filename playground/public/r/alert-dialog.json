@@ -1,0 +1,81 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "alert-dialog",
+  "type": "registry:ui",
+  "title": "Alert Dialog",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "src/components/alert-dialog/AlertDialog.tsx",
+      "content": "import type { Content } from '@radix-ui/react-alert-dialog';\nimport { AlertDialog as AlertDialogRoot, Portal, Trigger } from '@radix-ui/react-alert-dialog';\nimport { Slot } from '@radix-ui/react-slot';\nimport { CircleAlert, CircleCheck, CircleX, Info } from 'lucide-react';\nimport { forwardRef } from 'react';\n\nimport AlertDialogContent from './AlertDialogContent';\nimport AlertDialogDescription from './AlertDialogDescription';\nimport AlertDialogFooter from './AlertDialogFooter';\nimport AlertDialogHeader from './AlertDialogHeader';\nimport AlertDialogOverlay from './AlertDialogOverlay';\nimport AlertDialogTitle from './AlertDialogTitle';\nimport type { AlertDialogProps, AlertType } from './types';\n\nconst iconRecord: Record<AlertType, React.ReactNode> = {\n  destructive: <CircleX className=\"text-destructive\" />,\n  info: <Info className=\"text-info\" />,\n  success: <CircleCheck className=\"text-success\" />,\n  warning: <CircleAlert className=\"text-warning\" />\n};\n\nconst AlertDialog = forwardRef<React.ElementRef<typeof Content>, AlertDialogProps>((props, ref) => {\n  const {\n    children,\n    className,\n    classNames,\n    description,\n    footer,\n    forceMountOverlay,\n    forceMountPortal,\n    icon,\n    size,\n    title,\n    trigger,\n    type,\n    ...rest\n  } = props;\n\n  return (\n    <AlertDialogRoot {...props}>\n      <Trigger asChild>{trigger}</Trigger>\n\n      <Portal forceMount={forceMountPortal}>\n        <AlertDialogOverlay\n          className={classNames?.overlay}\n          forceMount={forceMountOverlay}\n        />\n\n        <AlertDialogContent\n          {...rest}\n          className={className || classNames?.content}\n          ref={ref}\n          size={size}\n        >\n          <AlertDialogHeader\n            className={classNames?.header}\n            size={size}\n          >\n            <AlertDialogTitle\n              className={classNames?.title}\n              size={size}\n            >\n              {icon || (type && <Slot className={classNames?.icon || ''}>{iconRecord[type]}</Slot>)}\n              {title}\n            </AlertDialogTitle>\n\n            {description && (\n              <AlertDialogDescription\n                className={classNames?.description}\n                size={size}\n              >\n                {description}\n              </AlertDialogDescription>\n            )}\n          </AlertDialogHeader>\n\n          {children}\n\n          {footer && (\n            <AlertDialogFooter\n              className={classNames?.footer}\n              size={size}\n            >\n              {footer}\n            </AlertDialogFooter>\n          )}\n        </AlertDialogContent>\n      </Portal>\n    </AlertDialogRoot>\n  );\n});\n\nAlertDialog.displayName = 'AlertDialog';\n\nexport default AlertDialog;\n",
+      "type": "registry:ui",
+      "target": "components/alert-dialog/AlertDialog.tsx"
+    },
+    {
+      "path": "src/components/alert-dialog/AlertDialogAction.tsx",
+      "content": "import { Action } from '@radix-ui/react-alert-dialog';\nimport { forwardRef } from 'react';\n\nimport { Button, type ButtonProps } from '../button';\n\nconst AlertDialogAction = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {\n  return (\n    <Action asChild>\n      <Button\n        {...props}\n        ref={ref}\n      />\n    </Action>\n  );\n});\n\nAlertDialogAction.displayName = 'AlertDialogAction';\n\nexport default AlertDialogAction;\n",
+      "type": "registry:ui",
+      "target": "components/alert-dialog/AlertDialogAction.tsx"
+    },
+    {
+      "path": "src/components/alert-dialog/AlertDialogCancel.tsx",
+      "content": "import { Cancel } from '@radix-ui/react-alert-dialog';\nimport { forwardRef } from 'react';\n\nimport { Button, type ButtonProps } from '../button';\n\nconst AlertDialogCancel = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {\n  const { variant = 'plain', ...rest } = props;\n\n  return (\n    <Cancel asChild>\n      <Button\n        {...rest}\n        ref={ref}\n        variant={variant}\n      />\n    </Cancel>\n  );\n});\n\nAlertDialogCancel.displayName = 'AlertDialogCancel';\n\nexport default AlertDialogCancel;\n",
+      "type": "registry:ui",
+      "target": "components/alert-dialog/AlertDialogCancel.tsx"
+    },
+    {
+      "path": "src/components/alert-dialog/AlertDialogContent.tsx",
+      "content": "import { Content } from '@radix-ui/react-alert-dialog';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { dialogVariants } from './alert-dialog-variants';\nimport type { AlertDialogContentProps } from './types';\n\nconst AlertDialogContent = forwardRef<React.ElementRef<typeof Content>, AlertDialogContentProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { content } = dialogVariants({ size });\n\n  const mergedClass = cn(content(), className);\n  return (\n    <Content\n      {...rest}\n      className={mergedClass}\n      ref={ref}\n    />\n  );\n});\n\nAlertDialogContent.displayName = 'AlertDialogContent';\n\nexport default AlertDialogContent;\n",
+      "type": "registry:ui",
+      "target": "components/alert-dialog/AlertDialogContent.tsx"
+    },
+    {
+      "path": "src/components/alert-dialog/AlertDialogDescription.tsx",
+      "content": "import { Description } from '@radix-ui/react-alert-dialog';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { dialogVariants } from './alert-dialog-variants';\nimport type { AlertDialogDescriptionProps } from './types';\n\nconst AlertDialogDescription = forwardRef<React.ElementRef<typeof Description>, AlertDialogDescriptionProps>(\n  (props, ref) => {\n    const { className, size, ...rest } = props;\n\n    const { description } = dialogVariants({ size });\n\n    const mergedClass = cn(description(), className);\n    return (\n      <Description\n        {...rest}\n        className={mergedClass}\n        ref={ref}\n      />\n    );\n  }\n);\n\nAlertDialogDescription.displayName = 'AlertDialogDescription';\n\nexport default AlertDialogDescription;\n",
+      "type": "registry:ui",
+      "target": "components/alert-dialog/AlertDialogDescription.tsx"
+    },
+    {
+      "path": "src/components/alert-dialog/AlertDialogFooter.tsx",
+      "content": "import { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { dialogVariants } from './alert-dialog-variants';\nimport type { AlertDialogFooterProps } from './types';\n\nconst AlertDialogFooter = forwardRef<HTMLDivElement, AlertDialogFooterProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { footer } = dialogVariants({ size });\n\n  const mergedClass = cn(footer(), className);\n  return (\n    <div\n      {...rest}\n      className={mergedClass}\n      ref={ref}\n    />\n  );\n});\n\nAlertDialogFooter.displayName = 'AlertDialogFooter';\n\nexport default AlertDialogFooter;\n",
+      "type": "registry:ui",
+      "target": "components/alert-dialog/AlertDialogFooter.tsx"
+    },
+    {
+      "path": "src/components/alert-dialog/AlertDialogHeader.tsx",
+      "content": "import { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { dialogVariants } from './alert-dialog-variants';\nimport type { AlertDialogHeaderProps } from './types';\n\nconst AlertDialogHeader = forwardRef<HTMLDivElement, AlertDialogHeaderProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { header } = dialogVariants({ size });\n\n  const mergedClass = cn(header(), className);\n  return (\n    <div\n      {...rest}\n      className={mergedClass}\n      ref={ref}\n    />\n  );\n});\n\nAlertDialogHeader.displayName = 'AlertDialogHeader';\n\nexport default AlertDialogHeader;\n",
+      "type": "registry:ui",
+      "target": "components/alert-dialog/AlertDialogHeader.tsx"
+    },
+    {
+      "path": "src/components/alert-dialog/AlertDialogOverlay.tsx",
+      "content": "import { Overlay } from '@radix-ui/react-alert-dialog';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { dialogVariants } from './alert-dialog-variants';\nimport type { AlertDialogOverlayProps } from './types';\n\nconst AlertDialogOverlay = forwardRef<React.ElementRef<typeof Overlay>, AlertDialogOverlayProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { overlay } = dialogVariants({ size });\n\n  const mergedClass = cn(overlay(), className);\n  return (\n    <Overlay\n      {...rest}\n      className={mergedClass}\n      ref={ref}\n    />\n  );\n});\n\nAlertDialogOverlay.displayName = 'AlertDialogOverlay';\n\nexport default AlertDialogOverlay;\n",
+      "type": "registry:ui",
+      "target": "components/alert-dialog/AlertDialogOverlay.tsx"
+    },
+    {
+      "path": "src/components/alert-dialog/AlertDialogTitle.tsx",
+      "content": "import { Title } from '@radix-ui/react-alert-dialog';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { dialogVariants } from './alert-dialog-variants';\nimport type { AlertDialogTitleProps } from './types';\n\nconst AlertDialogTitle = forwardRef<React.ElementRef<typeof Title>, AlertDialogTitleProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { title } = dialogVariants({ size });\n\n  const mergedClass = cn(title(), className);\n  return (\n    <Title\n      {...rest}\n      className={mergedClass}\n      ref={ref}\n    />\n  );\n});\n\nAlertDialogTitle.displayName = 'AlertDialogTitle';\n\nexport default AlertDialogTitle;\n",
+      "type": "registry:ui",
+      "target": "components/alert-dialog/AlertDialogTitle.tsx"
+    },
+    {
+      "path": "src/components/alert-dialog/alert-dialog-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const dialogVariants = tv({\n  defaultVariants: {\n    size: 'md'\n  },\n  slots: {\n    closeIcon: `absolute`,\n    content: [\n      `fixed left-[50%] top-[50%] z-50 flex flex-col w-full border bg-background shadow-lg translate-x-[-50%] translate-y-[-50%] md:w-full duration-200 sm:rounded-lg`,\n      `data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]`,\n      `data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]`\n    ],\n    description: `text-muted-foreground`,\n    footer: `flex flex-col-reverse sm:flex-row sm:justify-end`,\n    header: `flex flex-col text-center sm:text-left`,\n    overlay: [\n      `fixed inset-0 z-50 bg-black/80`,\n      `data-[state=open]:animate-in data-[state=open]:fade-in-0`,\n      `data-[state=closed]:animate-out data-[state=closed]:fade-out-0`\n    ],\n    title: `flex items-center font-semibold leading-none tracking-tight`\n  },\n  variants: {\n    size: {\n      '2xl': {\n        closeIcon: 'right-6 top-6',\n        content: `gap-y-6 max-w-3xl px-7 py-6 text-xl`,\n        description: 'text-xl',\n        footer: 'gap-6',\n        header: 'gap-y-6',\n        title: 'gap-x-3.5 text-2xl'\n      },\n      lg: {\n        closeIcon: 'right-4 top-4',\n        content: `gap-y-4 max-w-xl px-5 py-4 text-base`,\n        description: 'text-base',\n        footer: 'gap-4',\n        header: 'gap-y-4',\n        title: 'gap-x-2.5 text-lg'\n      },\n      md: {\n        closeIcon: 'right-3 top-3',\n        content: `gap-y-3 max-w-lg px-4 py-3 text-sm`,\n        description: 'text-sm',\n        footer: 'gap-3',\n        header: 'gap-y-3',\n        title: 'gap-x-2 text-base'\n      },\n      sm: {\n        closeIcon: 'right-2 top-2',\n        content: `gap-y-2 max-w-md px-3 py-2 text-xs`,\n        description: 'text-xs',\n        footer: 'gap-2',\n        header: 'gap-y-2',\n        title: 'gap-x-1.75 text-sm'\n      },\n      xl: {\n        closeIcon: 'right-5 top-5',\n        content: `gap-y-5 max-w-2xl px-6 py-5 text-lg`,\n        description: 'text-lg',\n        footer: 'gap-5',\n        header: 'gap-y-5',\n        title: 'gap-x-3 text-xl'\n      },\n      xs: {\n        closeIcon: 'right-1.5 top-1.5',\n        content: `gap-y-1.5 max-w-md px-2 py-1.5 text-2xs`,\n        description: 'text-2xs',\n        footer: 'gap-1.5',\n        header: 'gap-y-1.5',\n        title: 'gap-x-1.5 text-xs'\n      }\n    }\n  }\n});\n\nexport type DialogSlots = keyof typeof dialogVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/alert-dialog/alert-dialog-variants.ts"
+    },
+    {
+      "path": "src/components/alert-dialog/index.ts",
+      "content": "export { default as AlertDialog } from './AlertDialog';\nexport { default as AlertDialogAction } from './AlertDialogAction';\nexport { default as AlertDialogCancel } from './AlertDialogCancel';\nexport { default as AlertDialogContent } from './AlertDialogContent';\nexport { default as AlertDialogDescription } from './AlertDialogDescription';\nexport { default as AlertDialogFooter } from './AlertDialogFooter';\nexport { default as AlertDialogHeader } from './AlertDialogHeader';\nexport { default as AlertDialogOverlay } from './AlertDialogOverlay';\nexport { default as AlertDialogTitle } from './AlertDialogTitle';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/alert-dialog/index.ts"
+    },
+    {
+      "path": "src/components/alert-dialog/types.ts",
+      "content": "import type {\n  AlertDialogContentProps as _AlertDialogContentProps,\n  AlertDialogDescriptionProps as _AlertDialogDescriptionProps,\n  AlertDialogOverlayProps as _AlertDialogOverlayProps,\n  AlertDialogPortalProps as _AlertDialogPortalProps,\n  AlertDialogProps as _AlertDialogProps,\n  AlertDialogTitleProps as _AlertDialogTitleProps\n} from '@radix-ui/react-alert-dialog';\n\nimport type { BaseComponentProps, BaseNodeProps, ClassValue, ThemeColor } from '@/types/other';\n\nimport type { DialogSlots } from './alert-dialog-variants';\n\nexport type AlertDialogUi = Partial<Record<DialogSlots, ClassValue>> & {\n  icon?: string;\n};\n\nexport type AlertType = Extract<ThemeColor, 'destructive' | 'info' | 'success' | 'warning'>;\n\nexport interface AlertDialogContentProps extends BaseNodeProps<_AlertDialogContentProps> {}\n\nexport interface AlertDialogDescriptionProps extends BaseNodeProps<_AlertDialogDescriptionProps> {}\n\nexport type AlertDialogFooterProps = BaseComponentProps<'div'>;\n\nexport type AlertDialogHeaderProps = BaseComponentProps<'div'>;\n\nexport interface AlertDialogOverlayProps extends BaseNodeProps<_AlertDialogOverlayProps> {}\n\nexport interface AlertDialogTitleProps extends BaseNodeProps<_AlertDialogTitleProps> {}\n\nexport type AlertDialogProps = BaseNodeProps<_AlertDialogProps> &\n  AlertDialogContentProps &\n  _AlertDialogPortalProps & {\n    classNames?: AlertDialogUi;\n    description?: string;\n    disabledPortal?: boolean;\n    footer?: React.ReactNode;\n    forceMountOverlay?: true;\n    forceMountPortal?: true;\n    icon?: React.ReactNode;\n    title?: React.ReactNode;\n    trigger?: React.ReactNode;\n    type?: AlertType;\n  };\n",
+      "type": "registry:ui",
+      "target": "components/alert-dialog/types.ts"
+    }
+  ]
+}
