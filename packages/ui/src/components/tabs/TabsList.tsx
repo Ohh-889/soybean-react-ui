@@ -1,12 +1,14 @@
 'use client';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { List } from '@radix-ui/react-tabs';
-import { cn, tabsVariants } from '@soybean-react-ui/variants';
 import type { CSSProperties } from 'react';
 import { forwardRef, useEffect, useRef, useState } from 'react';
 
+import { cn } from '@/lib/utils';
+
 import { If } from '../if';
 
+import { tabsVariants } from './tabs-variants';
 import type { IndicatorStyle, TabsListProps } from './types';
 
 const TabsList = forwardRef<React.ElementRef<typeof List>, TabsListProps>((props, ref) => {
