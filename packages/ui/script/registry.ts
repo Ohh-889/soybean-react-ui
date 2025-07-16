@@ -2,6 +2,8 @@ import { exec } from 'node:child_process';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
+import { rimraf } from 'rimraf';
+
 import { registerType } from './registry-type';
 import { getRegistryUi } from './registry-ui';
 import { registryUtils } from './registry-utils';
@@ -14,7 +16,7 @@ const registry = {
       dependencies: ['tailwind-variants', 'lucide-react'],
       files: [],
       name: 'index',
-      registryDependencies: ['utils'],
+      registryDependencies: ['utils', 'types'],
       type: 'registry:style'
     },
     ...getRegistryUi(),
@@ -28,6 +30,11 @@ async function writeRegistry() {
   const registryJson = JSON.stringify(registry, null, 2);
   // eslint-disable-next-line n/prefer-global/process
   await fs.writeFile(path.join(process.cwd(), `registry.json`), registryJson);
+
+  // eslint-disable-next-line n/prefer-global/process
+  const targetPath = path.join(process.cwd(), `../../playground/public/r`);
+  console.log('🧹 Deleting:', targetPath);
+  rimraf.sync(targetPath);
 }
 
 async function buildRegistry() {
