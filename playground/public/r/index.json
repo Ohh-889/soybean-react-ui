@@ -7,7 +7,8 @@
     "lucide-react"
   ],
   "registryDependencies": [
-    "utils"
+    "utils",
+    "types"
   ],
   "files": [],
   "cssVars": {}

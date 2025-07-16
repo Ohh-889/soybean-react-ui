@@ -1,9 +1,11 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "divider",
-  "type": "registry:ui",
+  "type": "registry:block",
   "title": "Divider",
-  "dependencies": [],
+  "dependencies": [
+    "@radix-ui/react-separator"
+  ],
   "files": [
     {
       "path": "src/components/divider/Divider.tsx",

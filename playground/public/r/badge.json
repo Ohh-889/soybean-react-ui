@@ -1,9 +1,8 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "badge",
-  "type": "registry:ui",
+  "type": "registry:block",
   "title": "Badge",
-  "dependencies": [],
   "files": [
     {
       "path": "src/components/badge/Badge.tsx",

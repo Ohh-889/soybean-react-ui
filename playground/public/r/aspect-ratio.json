@@ -1,9 +1,11 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "aspect-ratio",
-  "type": "registry:ui",
+  "type": "registry:block",
   "title": "Aspect Ratio",
-  "dependencies": [],
+  "dependencies": [
+    "@radix-ui/react-aspect-ratio"
+  ],
   "files": [
     {
       "path": "src/components/aspect-ratio/AspectRatio.tsx",

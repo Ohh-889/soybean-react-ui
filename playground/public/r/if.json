@@ -1,9 +1,8 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "if",
-  "type": "registry:ui",
+  "type": "registry:block",
   "title": "If",
-  "dependencies": [],
   "files": [
     {
       "path": "src/components/if/If.tsx",

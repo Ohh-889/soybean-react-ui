@@ -1,9 +1,8 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "chip",
-  "type": "registry:ui",
+  "type": "registry:block",
   "title": "Chip",
-  "dependencies": [],
   "files": [
     {
       "path": "src/components/chip/Chip.tsx",

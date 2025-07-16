@@ -1,9 +1,11 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "breadcrumb",
-  "type": "registry:ui",
+  "type": "registry:block",
   "title": "Breadcrumb",
-  "dependencies": [],
+  "dependencies": [
+    "@radix-ui/react-slot"
+  ],
   "files": [
     {
       "path": "src/components/breadcrumb/Breadcrumb.tsx",

@@ -1,9 +1,14 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "carousel",
-  "type": "registry:ui",
+  "type": "registry:block",
   "title": "Carousel",
-  "dependencies": [],
+  "dependencies": [
+    "embla-carousel-react"
+  ],
+  "registryDependencies": [
+    "button"
+  ],
   "files": [
     {
       "path": "src/components/carousel/Carousel.tsx",

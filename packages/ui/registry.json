@@ -1,8 +1,21 @@
 {
-  "homepage": "https://your-docs-site.com",
+  "homepage": "https://ui-playground.ohh-889.com/",
   "items": [
     {
-      "dependencies": [],
+      "cssVars": {},
+      "dependencies": [
+        "tailwind-variants",
+        "lucide-react"
+      ],
+      "files": [],
+      "name": "index",
+      "registryDependencies": [
+        "utils",
+        "types"
+      ],
+      "type": "registry:style"
+    },
+    {
       "files": [
         {
           "path": "src/components/accordion/Accordion.tsx",
@@ -52,10 +65,13 @@
       ],
       "name": "accordion",
       "title": "Accordion",
-      "type": "registry:ui"
+      "type": "registry:block",
+      "dependencies": [
+        "@radix-ui/react-accordion",
+        "@radix-ui/react-slot"
+      ]
     },
     {
-      "dependencies": [],
       "files": [
         {
           "path": "src/components/alert/Alert.tsx",
@@ -100,10 +116,12 @@
       ],
       "name": "alert",
       "title": "Alert",
-      "type": "registry:ui"
+      "type": "registry:block",
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ]
     },
     {
-      "dependencies": [],
       "files": [
         {
           "path": "src/components/alert-dialog/AlertDialog.tsx",
@@ -168,10 +186,16 @@
       ],
       "name": "alert-dialog",
       "title": "Alert Dialog",
-      "type": "registry:ui"
+      "type": "registry:block",
+      "dependencies": [
+        "@radix-ui/react-alert-dialog",
+        "@radix-ui/react-slot"
+      ],
+      "registryDependencies": [
+        "button"
+      ]
     },
     {
-      "dependencies": [],
       "files": [
         {
           "path": "src/components/aspect-ratio/AspectRatio.tsx",
@@ -191,10 +215,12 @@
       ],
       "name": "aspect-ratio",
       "title": "Aspect Ratio",
-      "type": "registry:ui"
+      "type": "registry:block",
+      "dependencies": [
+        "@radix-ui/react-aspect-ratio"
+      ]
     },
     {
-      "dependencies": [],
       "files": [
         {
           "path": "src/components/avatar/Avatar.tsx",
@@ -234,10 +260,12 @@
       ],
       "name": "avatar",
       "title": "Avatar",
-      "type": "registry:ui"
+      "type": "registry:block",
+      "dependencies": [
+        "@radix-ui/react-avatar"
+      ]
     },
     {
-      "dependencies": [],
       "files": [
         {
           "path": "src/components/badge/Badge.tsx",
@@ -262,10 +290,9 @@
       ],
       "name": "badge",
       "title": "Badge",
-      "type": "registry:ui"
+      "type": "registry:block"
     },
     {
-      "dependencies": [],
       "files": [
         {
           "path": "src/components/breadcrumb/Breadcrumb.tsx",
@@ -325,12 +352,12 @@
       ],
       "name": "breadcrumb",
       "title": "Breadcrumb",
-      "type": "registry:ui"
-    },
-    {
+      "type": "registry:block",
       "dependencies": [
         "@radix-ui/react-slot"
-      ],
+      ]
+    },
+    {
       "files": [
         {
           "path": "src/components/button/Button.tsx",
@@ -365,10 +392,12 @@
       ],
       "name": "button",
       "title": "Button",
-      "type": "registry:ui"
+      "type": "registry:block",
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ]
     },
     {
-      "dependencies": [],
       "files": [
         {
           "path": "src/components/card/Card.tsx",
@@ -423,10 +452,9 @@
       ],
       "name": "card",
       "title": "Card",
-      "type": "registry:ui"
+      "type": "registry:block"
     },
     {
-      "dependencies": [],
       "files": [
         {
           "path": "src/components/carousel/Carousel.tsx",
@@ -481,10 +509,15 @@
       ],
       "name": "carousel",
       "title": "Carousel",
-      "type": "registry:ui"
+      "type": "registry:block",
+      "dependencies": [
+        "embla-carousel-react"
+      ],
+      "registryDependencies": [
+        "button"
+      ]
     },
     {
-      "dependencies": [],
       "files": [
         {
           "path": "src/components/checkbox/Checkbox.tsx",
@@ -524,10 +557,12 @@
       ],
       "name": "checkbox",
       "title": "Checkbox",
-      "type": "registry:ui"
+      "type": "registry:block",
+      "dependencies": [
+        "@radix-ui/react-checkbox"
+      ]
     },
     {
-      "dependencies": [],
       "files": [
         {
           "path": "src/components/chip/Chip.tsx",
@@ -562,10 +597,9 @@
       ],
       "name": "chip",
       "title": "Chip",
-      "type": "registry:ui"
+      "type": "registry:block"
     },
     {
-      "dependencies": [],
       "files": [
         {
           "path": "src/components/divider/Divider.tsx",
@@ -600,10 +634,12 @@
       ],
       "name": "divider",
       "title": "Divider",
-      "type": "registry:ui"
+      "type": "registry:block",
+      "dependencies": [
+        "@radix-ui/react-separator"
+      ]
     },
     {
-      "dependencies": [],
       "files": [
         {
           "path": "src/components/if/If.tsx",
@@ -623,10 +659,9 @@
       ],
       "name": "if",
       "title": "If",
-      "type": "registry:ui"
+      "type": "registry:block"
     },
     {
-      "dependencies": [],
       "files": [
         {
           "path": "src/components/label/Label.tsx",
@@ -651,10 +686,12 @@
       ],
       "name": "label",
       "title": "Label",
-      "type": "registry:ui"
+      "type": "registry:block",
+      "dependencies": [
+        "@radix-ui/react-label"
+      ]
     },
     {
-      "dependencies": [],
       "files": [
         {
           "path": "src/components/scroll-area/ScrollArea.tsx",
@@ -699,10 +736,12 @@
       ],
       "name": "scroll-area",
       "title": "Scroll Area",
-      "type": "registry:ui"
+      "type": "registry:block",
+      "dependencies": [
+        "@radix-ui/react-scroll-area"
+      ]
     },
     {
-      "dependencies": [],
       "files": [
         {
           "path": "src/components/sonner/index.ts",
@@ -722,10 +761,13 @@
       ],
       "name": "sonner",
       "title": "Sonner",
-      "type": "registry:ui"
+      "type": "registry:block",
+      "dependencies": [
+        "sonner",
+        "next-themes"
+      ]
     },
     {
-      "dependencies": [],
       "files": [
         {
           "path": "src/components/tabs/Tabs.tsx",
@@ -770,19 +812,42 @@
       ],
       "name": "tabs",
       "title": "Tabs",
-      "type": "registry:ui"
+      "type": "registry:block",
+      "dependencies": [
+        "@radix-ui/react-tabs",
+        "@radix-ui/react-compose-refs"
+      ]
     },
     {
       "files": [
         {
           "path": "src/types/other.ts",
           "target": "types/other.ts",
-          "type": "registry:ui"
+          "type": "registry:file"
         }
       ],
-      "name": "other",
-      "title": "Other",
-      "type": "registry:ui"
+      "name": "types",
+      "title": "Types",
+      "type": "registry:file"
+    },
+    {
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "files": [
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/lib/typed.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "name": "utils",
+      "title": "Utils",
+      "type": "registry:lib"
     }
   ],
   "name": "soybean-react-ui"

@@ -1,9 +1,12 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "accordion",
-  "type": "registry:ui",
+  "type": "registry:block",
   "title": "Accordion",
-  "dependencies": [],
+  "dependencies": [
+    "@radix-ui/react-accordion",
+    "@radix-ui/react-slot"
+  ],
   "files": [
     {
       "path": "src/components/accordion/Accordion.tsx",

@@ -1,9 +1,11 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "checkbox",
-  "type": "registry:ui",
+  "type": "registry:block",
   "title": "Checkbox",
-  "dependencies": [],
+  "dependencies": [
+    "@radix-ui/react-checkbox"
+  ],
   "files": [
     {
       "path": "src/components/checkbox/Checkbox.tsx",

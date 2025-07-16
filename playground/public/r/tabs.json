@@ -1,9 +1,12 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "tabs",
-  "type": "registry:ui",
+  "type": "registry:block",
   "title": "Tabs",
-  "dependencies": [],
+  "dependencies": [
+    "@radix-ui/react-tabs",
+    "@radix-ui/react-compose-refs"
+  ],
   "files": [
     {
       "path": "src/components/tabs/Tabs.tsx",
