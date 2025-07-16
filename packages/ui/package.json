@@ -26,7 +26,9 @@
   "files": ["dist"],
   "scripts": {
     "build": "tsdown",
-    "dev": "tsdown --watch  ./src/index.ts"
+    "build:registry": "shadcn build -o ../../playground/public/r",
+    "dev": "tsdown --watch ./src/index.ts",
+    "register": "tsx script/registry.ts"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.11",
@@ -56,7 +58,9 @@
     "@types/react": "19.1.0",
     "@types/react-dom": "19.1.1",
     "fast-glob": "^3.3.3",
+    "shadcn": "^2.9.0",
     "tsdown": "^0.12.9",
+    "tsx": "^4.20.3",
     "typescript": "5.8.2"
   }
 }
