@@ -1,5 +1,4 @@
 'use client';
-
 import { createContext, useContext } from 'react';
 
 import type { CarouselContextProps } from './types';
@@ -10,7 +9,7 @@ export function useCarousel() {
   const context = useContext(CarouselContext);
 
   if (!context) {
-    throw new Error('useCarousel must be used within a <Carousel />');
+    throw new Error('useCarousel must be used within a <CarouselRoot />');
   }
 
   return context;
