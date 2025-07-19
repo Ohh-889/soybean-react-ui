@@ -1,0 +1,28 @@
+{
+  "name": "docs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "build:index": "tsx scripts/build-flexsearch-index.ts",
+    "dev": "next dev --turbopack",
+    "lint": "next lint",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "15.4.1",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.1.11",
+    "@types/jsdom": "21.1.7",
+    "@types/node": "20.17.21",
+    "@types/react": "19.0.10",
+    "@types/react-dom": "19.0.4",
+    "jsdom": "26.1.0",
+    "tailwindcss": "4.1.11",
+    "tsx": "4.20.3",
+    "typescript": "5.8.2"
+  }
+}
