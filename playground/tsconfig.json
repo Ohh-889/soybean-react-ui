@@ -7,8 +7,7 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "paths": {
-      "@/*": ["./src/*"],
-      "soybean-react-ui/*": ["../../packages/ui/src/*"]
+      "@/*": ["../packages/ui/src/*"]
     },
     "resolveJsonModule": true,
     "allowJs": true,

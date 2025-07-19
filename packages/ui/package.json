@@ -5,19 +5,7 @@
   "private": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.js"
-    },
-    "./utils": {
-      "types": "./dist/lib/index.d.ts",
-      "import": "./dist/lib/index.js",
-      "require": "./dist/lib/index.js"
-    },
-    "./*": {
-      "types": "./dist/components/*/index.d.ts",
-      "import": "./dist/components/*/index.js",
-      "require": "./dist/components/*/index.js"
+      "import": "./src/index.ts"
     }
   },
   "main": "./dist/index.js",
@@ -25,10 +13,12 @@
   "types": "./dist/index.d.ts",
   "files": ["dist"],
   "scripts": {
-    "build": "tsdown",
+    "build": "set:exports:prod && pnpm run build:components && pnpm run build:registry",
+    "build:components": "tsdown",
     "build:registry": "shadcn build -o ../../playground/public/r",
-    "dev": "tsdown --watch ./src/index.ts",
-    "register": "tsx script/registry.ts"
+    "dev": "tsx script/fix-pkg.ts dev",
+    "register": "tsx script/registry.ts",
+    "set:exports:prod": "tsx script/fix-pkg.ts prod"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "1.2.11",
@@ -42,6 +32,7 @@
     "@radix-ui/react-separator": "1.1.7",
     "@radix-ui/react-slot": "1.2.3",
     "@radix-ui/react-tabs": "1.1.12",
+    "@soybean-react-ui/tailwind-plugin": "workspace:*",
     "clsx": "2.1.1",
     "embla-carousel-react": "8.6.0",
     "lucide-react": "0.525.0",
