@@ -18,7 +18,7 @@
     "build:registry": "shadcn build -o ../../playground/public/r",
     "dev": "tsx script/fix-pkg.ts dev",
     "pgk:prod": "tsx script/fix-pkg.ts prod",
-    "register": "tsx script/registry.ts"
+    "registry": "tsx script/registry.ts"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "1.2.11",
