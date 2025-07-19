@@ -53,9 +53,6 @@ importers:
 
   docs:
     dependencies:
-      flexsearch:
-        specifier: ^0.8.205
-        version: 0.8.205
       next:
         specifier: 15.4.1
         version: 15.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -67,31 +64,31 @@ importers:
         version: 19.1.0(react@19.1.0)
     devDependencies:
       '@tailwindcss/postcss':
-        specifier: ^4
+        specifier: 4.1.11
         version: 4.1.11
       '@types/jsdom':
-        specifier: ^21.1.7
+        specifier: 21.1.7
         version: 21.1.7
       '@types/node':
-        specifier: ^20
-        version: 20.19.8
+        specifier: 20.17.21
+        version: 20.17.21
       '@types/react':
-        specifier: ^19
-        version: 19.1.0
+        specifier: 19.0.10
+        version: 19.0.10
       '@types/react-dom':
-        specifier: ^19
-        version: 19.1.1(@types/react@19.1.0)
+        specifier: 19.0.4
+        version: 19.0.4(@types/react@19.0.10)
       jsdom:
-        specifier: ^26.1.0
+        specifier: 26.1.0
         version: 26.1.0
       tailwindcss:
-        specifier: ^4
+        specifier: 4.1.11
         version: 4.1.11
       tsx:
         specifier: 4.20.3
         version: 4.20.3
       typescript:
-        specifier: ^5
+        specifier: 5.8.2
         version: 5.8.2
 
   packages/color:
@@ -212,7 +209,7 @@ importers:
   playground:
     dependencies:
       embla-carousel-autoplay:
-        specifier: ^8.6.0
+        specifier: 8.6.0
         version: 8.6.0(embla-carousel@8.6.0)
       lucide-react:
         specifier: 0.525.0
@@ -234,7 +231,7 @@ importers:
         specifier: ^3
         version: 3.3.1
       '@opennextjs/cloudflare':
-        specifier: ^1.5.1
+        specifier: 1.5.1
         version: 1.5.1(wrangler@4.24.3)
       '@soybean-react-ui/tailwind-plugin':
         specifier: workspace:*
@@ -252,10 +249,10 @@ importers:
         specifier: 4.1.11
         version: 4.1.11
       tailwindcss-animate:
-        specifier: ^1.0.7
+        specifier: 1.0.7
         version: 1.0.7(tailwindcss@4.1.11)
       wrangler:
-        specifier: ^4.24.3
+        specifier: 4.24.3
         version: 4.24.3
 
 packages:
@@ -2353,6 +2350,7 @@ packages:
   '@smithy/middleware-endpoint@4.1.14':
     resolution: {integrity: sha512-+BGLpK5D93gCcSEceaaYhUD/+OCGXM1IDaq/jKUQ+ujB0PTWlWN85noodKw/IPFZhIKFCNEe19PGd/reUMeLSQ==}
     engines: {node: '>=18.0.0'}
+    deprecated: Please upgrade to @smithy/middleware-endpoint@4.1.15 or higher to fix a bug preventing the resolution of ENV and config file custom endpoints https://github.com/smithy-lang/smithy-typescript/issues/1645
 
   '@smithy/middleware-retry@2.3.1':
     resolution: {integrity: sha512-P2bGufFpFdYcWvqpyqqmalRtwFUNUA8vHjJR5iGqbfR6mp65qKOLcUd6lTr4S9Gn/enynSrSf3p3FVgVAf6bXA==}
@@ -2804,16 +2802,24 @@ packages:
   '@types/node@18.19.118':
     resolution: {integrity: sha512-hIPK0hSrrcaoAu/gJMzN3QClXE4QdCdFvaenJ0JsjIbExP1JFFVH+RHcBt25c9n8bx5dkIfqKE+uw6BmBns7ug==}
 
-  '@types/node@20.19.8':
-    resolution: {integrity: sha512-HzbgCY53T6bfu4tT7Aq3TvViJyHjLjPNaAS3HOuMc9pw97KHsUtXNX4L+wu59g1WnjsZSko35MbEqnO58rihhw==}
+  '@types/node@20.17.21':
+    resolution: {integrity: sha512-yw1WZ94lZpdZbpnaF+WRvlN/Sx2EZWe/YZVdK4mC4u02/ql6Ozen8qbRJhOtltOxCg97/kpijhGs5X6STwkvbg==}
 
   '@types/node@22.15.3':
     resolution: {integrity: sha512-lX7HFZeHf4QG/J7tBZqrCAXwz9J5RD56Y6MpP0eJkka8p+K0RY/yBTW7CYFJ4VGCclxqOLKmiGP5juQc6MKgcw==}
+
+  '@types/react-dom@19.0.4':
+    resolution: {integrity: sha512-4fSQ8vWFkg+TGhePfUzVmat3eC14TXYSsiiDSLI0dVLsrm9gZFABjPy/Qu6TKgl1tq1Bu1yDsuQgY3A3DOjCcg==}
+    peerDependencies:
+      '@types/react': ^19.0.0
 
   '@types/react-dom@19.1.1':
     resolution: {integrity: sha512-jFf/woGTVTjUJsl2O7hcopJ1r0upqoq/vIOoCj0yLh3RIXxWcljlpuZ+vEBRXsymD1jhfeJrlyTy/S1UW+4y1w==}
     peerDependencies:
       '@types/react': ^19.0.0
+
+  '@types/react@19.0.10':
+    resolution: {integrity: sha512-JuRQ9KXLEjaUNjTWpzuR231Z2WpIwczOkBEIvbHNCzQefFIT0L8IqE6NV6ULLyC1SI/i234JnDoMkfg+RjQj2g==}
 
   '@types/react@19.1.0':
     resolution: {integrity: sha512-UaicktuQI+9UKyA4njtDOGBD/67t8YEBt2xdfqu8+gP9hqPUPsiXlNPcpS2gVdjmis5GKPG3fCxbQLVgxsQZ8w==}
@@ -4081,9 +4087,6 @@ packages:
 
   flatted@3.3.3:
     resolution: {integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==}
-
-  flexsearch@0.8.205:
-    resolution: {integrity: sha512-REFjMqy86DKkCTJ4gIE42c9MVm9t1vUWfEub/8taixYuhvyu4jd4XmFALk5VuKW4GH4VLav8A4BJboTsslHF1w==}
 
   for-each@0.3.5:
     resolution: {integrity: sha512-dKx12eRCVIzqCxFGplyFKJMPvLEWgmNtUrpTiJIR5u97zEhRG8ySrtboPHZXx7daLxQVrl643cTzbab2tkQjxg==}
@@ -6193,6 +6196,9 @@ packages:
   undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
 
+  undici-types@6.19.8:
+    resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
+
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
@@ -6563,7 +6569,7 @@ snapshots:
       '@aws-crypto/sha256-js': 3.0.0
       '@aws-crypto/supports-web-crypto': 3.0.0
       '@aws-crypto/util': 3.0.0
-      '@aws-sdk/types': 3.398.0
+      '@aws-sdk/types': 3.840.0
       '@aws-sdk/util-locate-window': 3.804.0
       '@aws-sdk/util-utf8-browser': 3.259.0
       tslib: 1.14.1
@@ -6581,7 +6587,7 @@ snapshots:
   '@aws-crypto/sha256-js@3.0.0':
     dependencies:
       '@aws-crypto/util': 3.0.0
-      '@aws-sdk/types': 3.398.0
+      '@aws-sdk/types': 3.840.0
       tslib: 1.14.1
 
   '@aws-crypto/sha256-js@5.2.0':
@@ -6600,7 +6606,7 @@ snapshots:
 
   '@aws-crypto/util@3.0.0':
     dependencies:
-      '@aws-sdk/types': 3.398.0
+      '@aws-sdk/types': 3.840.0
       '@aws-sdk/util-utf8-browser': 3.259.0
       tslib: 1.14.1
 
@@ -8131,7 +8137,7 @@ snapshots:
 
   '@img/sharp-wasm32@0.33.5':
     dependencies:
-      '@emnapi/runtime': 1.4.3
+      '@emnapi/runtime': 1.4.4
     optional: true
 
   '@img/sharp-wasm32@0.34.1':
@@ -9642,7 +9648,7 @@ snapshots:
 
   '@types/jsdom@21.1.7':
     dependencies:
-      '@types/node': 20.19.8
+      '@types/node': 22.15.3
       '@types/tough-cookie': 4.0.5
       parse5: 7.3.0
 
@@ -9661,17 +9667,25 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
-  '@types/node@20.19.8':
+  '@types/node@20.17.21':
     dependencies:
-      undici-types: 6.21.0
+      undici-types: 6.19.8
 
   '@types/node@22.15.3':
     dependencies:
       undici-types: 6.21.0
 
+  '@types/react-dom@19.0.4(@types/react@19.0.10)':
+    dependencies:
+      '@types/react': 19.0.10
+
   '@types/react-dom@19.1.1(@types/react@19.1.0)':
     dependencies:
       '@types/react': 19.1.0
+
+  '@types/react@19.0.10':
+    dependencies:
+      csstype: 3.1.3
 
   '@types/react@19.1.0':
     dependencies:
@@ -11164,8 +11178,6 @@ snapshots:
       keyv: 4.5.4
 
   flatted@3.3.3: {}
-
-  flexsearch@0.8.205: {}
 
   for-each@0.3.5:
     dependencies:
@@ -13502,6 +13514,8 @@ snapshots:
       quansync: 0.2.10
 
   undici-types@5.26.5: {}
+
+  undici-types@6.19.8: {}
 
   undici-types@6.21.0: {}
 
