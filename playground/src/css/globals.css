@@ -1,10 +1,9 @@
-@import 'tailwindcss';
+@import '../../../global.css';
 
 @plugin "tailwindcss-animate";
 
 @source "../../../packages/ui/src/**/*.{ts,tsx}";
 
-@config "../../tailwind.config.ts";
 
 html,
 body,

@@ -11,6 +11,9 @@ importers:
 
   .:
     devDependencies:
+      '@soybean-react-ui/tailwind-plugin':
+        specifier: workspace:*
+        version: link:packages/tailwind-plugin
       '@soybeanjs/eslint-config':
         specifier: 1.7.0
         version: 1.7.0(@typescript-eslint/utils@8.35.0(eslint@9.30.0(jiti@2.4.2))(typescript@5.8.2))(@unocss/eslint-config@66.3.2(eslint@9.30.0(jiti@2.4.2))(typescript@5.8.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-react-hooks@5.2.0(eslint@9.30.0(jiti@2.4.2)))(eslint-plugin-react-refresh@0.4.20(eslint@9.30.0(jiti@2.4.2)))(eslint-plugin-react@7.37.5(eslint@9.30.0(jiti@2.4.2)))(eslint@9.30.0(jiti@2.4.2))(svelte-eslint-parser@1.2.0)(typescript@5.8.2)
@@ -41,6 +44,9 @@ importers:
       prettier:
         specifier: 3.6.0
         version: 3.6.0
+      tailwindcss:
+        specifier: 4.1.11
+        version: 4.1.11
       tsup:
         specifier: 8.5.0
         version: 8.5.0(jiti@2.4.2)(postcss@8.5.6)(tsx@4.20.3)(typescript@5.8.2)(yaml@2.8.0)
@@ -196,6 +202,9 @@ importers:
       shadcn:
         specifier: 2.9.0
         version: 2.9.0(@types/node@22.15.3)(typescript@5.8.2)
+      tailwindcss:
+        specifier: 4.1.11
+        version: 4.1.11
       tsdown:
         specifier: 0.12.9
         version: 0.12.9(typescript@5.8.2)

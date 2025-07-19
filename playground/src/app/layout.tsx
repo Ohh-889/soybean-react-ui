@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import './globals.css';
+import '../css/globals.css';
 import { Card, Sonner } from 'soybean-react-ui';
 
 const geistSans = Geist({
