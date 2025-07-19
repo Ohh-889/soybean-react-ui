@@ -13,12 +13,12 @@
   "types": "./dist/index.d.ts",
   "files": ["dist"],
   "scripts": {
-    "build": "set:exports:prod && pnpm run build:components && pnpm run build:registry",
+    "build": "pnpm run pgk:prod && pnpm run build:components && pnpm run registry",
     "build:components": "tsdown",
     "build:registry": "shadcn build -o ../../playground/public/r",
     "dev": "tsx script/fix-pkg.ts dev",
-    "register": "tsx script/registry.ts",
-    "set:exports:prod": "tsx script/fix-pkg.ts prod"
+    "pgk:prod": "tsx script/fix-pkg.ts prod",
+    "register": "tsx script/registry.ts"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "1.2.11",
