@@ -1,7 +1,9 @@
 @import 'tailwindcss';
 
-@source "../../../packages/ui/src/**/*.{ts,tsx}";
 @plugin "tailwindcss-animate";
+
+@source "../../../packages/ui/src/**/*.{ts,tsx}";
+
 @config "../../tailwind.config.ts";
 
 html,

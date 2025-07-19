@@ -1,8 +1,10 @@
 import { soybeanUIPlugin } from '@soybean-react-ui/tailwind-plugin';
 import type { Config } from 'tailwindcss';
 
+import baseConfig from '../tailwind.config';
+
 const config: Config = {
-  darkMode: 'class',
+  ...(baseConfig as Config),
   plugins: [soybeanUIPlugin()]
 };
 
