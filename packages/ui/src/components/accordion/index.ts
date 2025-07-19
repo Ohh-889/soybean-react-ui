@@ -4,5 +4,6 @@ export { default as AccordionHeader } from './AccordionHeader';
 export { default as AccordionItem } from './AccordionItem';
 export { default as AccordionRoot } from './AccordionRoot';
 export { default as AccordionTrigger } from './AccordionTrigger';
+export { default as AccordionUi } from './AccordionUI';
 
 export * from './types';

@@ -13,7 +13,7 @@ import type { BaseNodeProps, ClassValue, PropsSlot, ThemeSize } from '@/types/ot
 import type { AccordionSlots } from './accordion-variants';
 
 /** The ui of the accordion. */
-export type AccordionUi = Partial<Record<AccordionSlots, ClassValue>>;
+export type AccordionClassNames = Partial<Record<AccordionSlots, ClassValue>>;
 
 export type AccordionRootProps = BaseNodeProps<AccordionSingleProps> | BaseNodeProps<AccordionMultipleProps>;
 
@@ -25,7 +25,7 @@ export interface AccordionItemProps extends BaseNodeProps<_AccordionItemProps> {
 
 export interface AccordionTriggerProps extends BaseNodeProps<_AccordionTriggerProps>, PropsSlot {
   /** The ui of the accordion trigger. */
-  classNames?: Pick<AccordionUi, 'triggerIcon' | 'triggerLeadingIcon'>;
+  classNames?: Pick<AccordionClassNames, 'triggerIcon' | 'triggerLeadingIcon'>;
   icon?: React.ReactNode;
 }
 
@@ -38,7 +38,7 @@ export interface AccordionItemData extends Pick<AccordionItemProps, 'disabled' |
 }
 
 export type AccordionProps<T extends AccordionItemData = AccordionItemData> = AccordionRootProps & {
-  classNames?: AccordionUi;
+  classNames?: AccordionClassNames;
   items: T[];
   size?: ThemeSize;
   triggerIcon?: React.ReactNode;

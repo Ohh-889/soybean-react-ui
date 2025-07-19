@@ -5,7 +5,9 @@ export const accordionVariants = tv({
     size: 'md'
   },
   slots: {
-    content: [`overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up`],
+    content: [
+      `overflow-hidden transition will-change-auto data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up`
+    ],
     header: 'flex',
     item: 'border-b',
     root: '',

@@ -22,6 +22,8 @@ export * from './components/checkbox';
 
 export * from './components/chip';
 
+export * from './components/config-provider';
+
 export * from './components/divider';
 
 export * from './components/label';
