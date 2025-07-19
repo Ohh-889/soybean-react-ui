@@ -2,7 +2,7 @@
 
 @source "../../../packages/ui/src/**/*.{ts,tsx}";
 @source "../../../packages/ui-variants/src/**/*.{ts,tsx}";
-
+@plugin "tailwindcss-animate";
 @config "../../tailwind.config.ts";
 
 html,

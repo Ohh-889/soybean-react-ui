@@ -17,7 +17,12 @@
   "bugs": {
     "url": "https://github.com/Ohh-889/soybean-react-ui/issues"
   },
-  "keywords": ["UI", "tailwind-css", "shadcn-ui", "react"],
+  "keywords": [
+    "UI",
+    "tailwind-css",
+    "shadcn-ui",
+    "react"
+  ],
   "scripts": {
     "build": "next build",
     "build:registry": "pnpm --filter soybean-react-ui register",
@@ -49,6 +54,7 @@
     "eslint": "9.30.0",
     "eslint-config-next": "15.3.4",
     "tailwindcss": "4.1.11",
+    "tailwindcss-animate": "^1.0.7",
     "wrangler": "^4.24.3"
   },
   "pnpm": {

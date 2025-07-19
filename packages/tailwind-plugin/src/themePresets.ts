@@ -13,18 +13,18 @@ export function skyrocUITheme(addBase: PluginOptions['addBase'], options: Soybea
     ...baseStyles,
     '@keyframes shadcn-collapsible-down': {
       from: { height: '0' },
-      to: { height: 'var(--soybean-collapsible-content-height)' }
+      to: { height: 'var(--radix-collapsible-content-height)' }
     },
     '@keyframes shadcn-collapsible-up': {
-      from: { height: 'var(--soybean-collapsible-content-height)' },
+      from: { height: 'var(--radix-collapsible-content-height)' },
       to: { height: '0' }
     },
     '@keyframes shadcn-down': {
       from: { height: '0' },
-      to: { height: 'var(--soybean-accordion-content-height)' }
+      to: { height: 'var(--radix-accordion-content-height)' }
     },
     '@keyframes shadcn-up': {
-      from: { height: 'var(--soybean-accordion-content-height)' },
+      from: { height: 'var(--radix-accordion-content-height)' },
       to: { height: '0' }
     },
     'html.size-2xl': {
