@@ -7,22 +7,21 @@ import { cn } from '@/lib/utils';
 import { buttonVariants } from './button-variants';
 import type { ButtonProps } from './types';
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
+const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   const {
     asChild = false,
-    asIconButton,
     children,
     className,
-    color = asIconButton ? 'carbon' : 'primary',
+    color,
     disabled,
     fitContent,
     leading,
     loading,
     shadow,
-    shape = asIconButton ? 'square' : 'auto',
+    shape,
     size,
     trailing,
-    variant = asIconButton ? 'ghost' : 'solid',
+    variant,
     ...rest
   } = props;
 
@@ -30,7 +29,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) =>
 
   const Comp = asChild ? Slot : 'button';
 
-  const mergedCls = cn(buttonVariants({ color, fitContent, shadow, shape, size, variant }), className);
+  // eslint-disable-next-line sort/object-properties
+  const mergedCls = cn(buttonVariants({ color, fitContent, shadow, size, shape, variant }), className);
 
   if (asChild) {
     return (
@@ -58,4 +58,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) =>
     </Comp>
   );
 });
+
 Button.displayName = 'Button';
+
+export default Button;

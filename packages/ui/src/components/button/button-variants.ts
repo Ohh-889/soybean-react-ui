@@ -1,357 +1,424 @@
+/* eslint-disable sort/object-properties */
 import { tv } from 'tailwind-variants';
 import type { VariantProps } from 'tailwind-variants';
 
 export const buttonVariants = tv({
   base: [
-    'inline-flex items-center justify-center font-medium transition-all-200',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background ',
-    'disabled:pointer-events-none disabled:opacity-50'
+    'inline-flex items-center justify-center font-medium transition-all-200 cursor-pointer',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+    'disabled:cursor-not-allowed disabled:opacity-50'
   ],
   compoundVariants: [
     {
-      class: `bg-destructive text-destructive-foreground hover:bg-destructive/80 active:bg-destructive-600`,
       color: 'destructive',
-      variant: 'solid'
+      variant: 'solid',
+      class: `bg-destructive text-destructive-foreground hover:bg-destructive/80 active:bg-destructive-600`
     },
     {
-      class: `bg-success text-success-foreground hover:bg-success/80 active:bg-success-600`,
       color: 'success',
-      variant: 'solid'
+      variant: 'solid',
+      class: `bg-success text-success-foreground hover:bg-success/80 active:bg-success-600`
     },
     {
-      class: `bg-warning text-warning-foreground hover:bg-warning/80 active:bg-warning-600`,
       color: 'warning',
-      variant: 'solid'
+      variant: 'solid',
+      class: `bg-warning text-warning-foreground hover:bg-warning/80 active:bg-warning-600`
     },
     {
-      class: `bg-info text-info-foreground hover:bg-info/80 active:bg-info-600`,
       color: 'info',
-      variant: 'solid'
+      variant: 'solid',
+      class: `bg-info text-info-foreground hover:bg-info/80 active:bg-info-600`
     },
     {
-      class: `bg-carbon text-carbon-foreground hover:bg-carbon/80 active:bg-carbon-600`,
       color: 'carbon',
-      variant: 'solid'
+      variant: 'solid',
+      class: `bg-carbon text-carbon-foreground hover:bg-carbon/80 active:bg-carbon-600`
     },
     {
-      class: `bg-secondary text-secondary-foreground hover:bg-secondary/80 active:bg-secondary-foreground/20`,
       color: 'secondary',
-      variant: 'solid'
+      variant: 'solid',
+      class: `bg-secondary text-secondary-foreground hover:bg-secondary/80 active:bg-secondary-foreground/20`
     },
     {
-      class: `bg-accent text-accent-foreground hover:bg-accent/80 active:bg-accent-foreground/20`,
       color: 'accent',
-      variant: 'solid'
+      variant: 'solid',
+      class: `bg-accent text-accent-foreground hover:bg-accent/80 active:bg-accent-foreground/20`
     },
     {
-      class: 'text-primary',
       color: 'primary',
-      variant: ['outline', 'dashed', 'soft', 'ghost', 'link']
+      variant: ['outline', 'dashed', 'soft', 'ghost', 'link'],
+      class: 'text-primary'
     },
     {
-      class: 'text-destructive',
       color: 'destructive',
-      variant: ['outline', 'dashed', 'soft', 'ghost', 'link']
+      variant: ['outline', 'dashed', 'soft', 'ghost', 'link'],
+      class: 'text-destructive'
     },
     {
-      class: 'text-success',
       color: 'success',
-      variant: ['outline', 'dashed', 'soft', 'ghost', 'link']
+      variant: ['outline', 'dashed', 'soft', 'ghost', 'link'],
+      class: 'text-success'
     },
     {
-      class: 'text-warning',
       color: 'warning',
-      variant: ['outline', 'dashed', 'soft', 'ghost', 'link']
+      variant: ['outline', 'dashed', 'soft', 'ghost', 'link'],
+      class: 'text-warning'
     },
     {
-      class: 'text-info',
       color: 'info',
-      variant: ['outline', 'dashed', 'soft', 'ghost', 'link']
+      variant: ['outline', 'dashed', 'soft', 'ghost', 'link'],
+      class: 'text-info'
     },
     {
-      class: 'text-carbon',
       color: 'carbon',
-      variant: ['outline', 'dashed', 'soft', 'ghost', 'link']
+      variant: ['outline', 'dashed', 'soft', 'ghost', 'link'],
+      class: 'text-carbon'
     },
     {
-      class: 'text-secondary-foreground',
       color: 'secondary',
-      variant: ['outline', 'dashed', 'soft', 'ghost', 'link']
+      variant: ['outline', 'dashed', 'soft', 'ghost', 'link'],
+      class: 'text-secondary-foreground'
     },
     {
-      class: 'text-accent-foreground',
       color: 'accent',
-      variant: ['outline', 'dashed', 'soft', 'ghost', 'link']
+      variant: ['outline', 'dashed', 'soft', 'ghost', 'link'],
+      class: 'text-accent-foreground'
     },
     {
-      class: 'hover:bg-primary/10 active:bg-primary/20',
       color: 'primary',
-      variant: ['outline', 'dashed', 'ghost']
+      variant: ['outline', 'dashed', 'ghost'],
+      class: 'hover:bg-primary/10 active:bg-primary/20'
     },
     {
-      class: 'hover:bg-destructive/10 active:bg-destructive/20',
       color: 'destructive',
-      variant: ['outline', 'dashed', 'ghost']
+      variant: ['outline', 'dashed', 'ghost'],
+      class: 'hover:bg-destructive/10 active:bg-destructive/20'
     },
     {
-      class: 'hover:bg-success/10 active:bg-success/20',
       color: 'success',
-      variant: ['outline', 'dashed', 'ghost']
+      variant: ['outline', 'dashed', 'ghost'],
+      class: 'hover:bg-success/10 active:bg-success/20'
     },
     {
-      class: 'hover:bg-warning/10 active:bg-warning/20',
       color: 'warning',
-      variant: ['outline', 'dashed', 'ghost']
+      variant: ['outline', 'dashed', 'ghost'],
+      class: 'hover:bg-warning/10 active:bg-warning/20'
     },
     {
-      class: 'hover:bg-info/10 active:bg-info/20',
       color: 'info',
-      variant: ['outline', 'dashed', 'ghost']
+      variant: ['outline', 'dashed', 'ghost'],
+      class: 'hover:bg-info/10 active:bg-info/20'
     },
     {
-      class: 'hover:bg-carbon/10 active:bg-carbon/20',
       color: 'carbon',
-      variant: ['outline', 'dashed', 'ghost']
+      variant: ['outline', 'dashed', 'ghost'],
+      class: 'hover:bg-carbon/10 active:bg-carbon/20'
     },
     {
-      class: 'hover:bg-secondary-foreground/10 active:bg-secondary-foreground/20',
       color: 'secondary',
-      variant: ['outline', 'dashed', 'ghost']
+      variant: ['outline', 'dashed', 'ghost'],
+      class: 'hover:bg-secondary-foreground/10 active:bg-secondary-foreground/20'
     },
     {
-      class: 'hover:bg-accent-foreground/10 active:bg-accent-foreground/20',
       color: 'accent',
-      variant: ['outline', 'dashed', 'ghost']
+      variant: ['outline', 'dashed', 'ghost'],
+      class: 'hover:bg-accent-foreground/10 active:bg-accent-foreground/20'
     },
     {
-      class: 'hover:border-primary hover:text-primary',
       color: 'primary',
-      variant: 'plain'
+      variant: 'plain',
+      class: 'hover:border-primary hover:text-primary'
     },
     {
-      class: 'hover:border-destructive hover:text-destructive',
       color: 'destructive',
-      variant: 'plain'
+      variant: 'plain',
+      class: 'hover:border-destructive hover:text-destructive'
     },
     {
-      class: 'hover:border-success hover:text-success',
       color: 'success',
-      variant: 'plain'
+      variant: 'plain',
+      class: 'hover:border-success hover:text-success'
     },
     {
-      class: 'hover:border-warning hover:text-warning',
       color: 'warning',
-      variant: 'plain'
+      variant: 'plain',
+      class: 'hover:border-warning hover:text-warning'
     },
     {
-      class: 'hover:border-info hover:text-info',
       color: 'info',
-      variant: 'plain'
+      variant: 'plain',
+      class: 'hover:border-info hover:text-info'
     },
     {
-      class: 'hover:border-carbon hover:text-carbon',
       color: 'carbon',
-      variant: 'plain'
+      variant: 'plain',
+      class: 'hover:border-carbon hover:text-carbon'
     },
     {
-      class: 'hover:border-secondary-foreground hover:text-secondary-foreground',
       color: 'secondary',
-      variant: 'plain'
+      variant: 'plain',
+      class: 'hover:border-secondary-foreground hover:text-secondary-foreground'
     },
     {
-      class: 'hover:border-accent-foreground hover:text-accent-foreground',
       color: 'accent',
-      variant: 'plain'
+      variant: 'plain',
+      class: 'hover:border-accent-foreground hover:text-accent-foreground'
     },
     {
-      class: 'border-primary',
       color: 'primary',
-      variant: ['outline', 'dashed']
+      variant: ['outline', 'dashed'],
+      class: 'border-primary'
     },
     {
-      class: 'border-destructive',
       color: 'destructive',
-      variant: ['outline', 'dashed']
+      variant: ['outline', 'dashed'],
+      class: 'border-destructive'
     },
     {
-      class: 'border-success',
       color: 'success',
-      variant: ['outline', 'dashed']
+      variant: ['outline', 'dashed'],
+      class: 'border-success'
     },
     {
-      class: 'border-warning',
       color: 'warning',
-      variant: ['outline', 'dashed']
+      variant: ['outline', 'dashed'],
+      class: 'border-warning'
     },
     {
-      class: 'border-info',
       color: 'info',
-      variant: ['outline', 'dashed']
+      variant: ['outline', 'dashed'],
+      class: 'border-info'
     },
     {
-      class: 'border-carbon',
       color: 'carbon',
-      variant: ['outline', 'dashed']
+      variant: ['outline', 'dashed'],
+      class: 'border-carbon'
     },
     {
-      class: 'border-secondary-foreground',
       color: 'secondary',
-      variant: ['outline', 'dashed']
+      variant: ['outline', 'dashed'],
+      class: 'border-secondary-foreground'
     },
     {
-      class: 'border-accent-foreground',
       color: 'accent',
-      variant: ['outline', 'dashed']
+      variant: ['outline', 'dashed'],
+      class: 'border-accent-foreground'
     },
     {
-      class: 'bg-destructive/10 hover:bg-destructive/10 active:bg-destructive/20',
       color: 'destructive',
-      variant: 'soft'
+      variant: 'soft',
+      class: 'bg-destructive/10 hover:bg-destructive/10 active:bg-destructive/20'
     },
     {
-      class: 'bg-success/10 hover:bg-success/10 active:bg-success/20',
       color: 'success',
-      variant: 'soft'
+      variant: 'soft',
+      class: 'bg-success/10 hover:bg-success/10 active:bg-success/20'
     },
     {
-      class: 'bg-warning/10 hover:bg-warning/10 active:bg-warning/20',
       color: 'warning',
-      variant: 'soft'
+      variant: 'soft',
+      class: 'bg-warning/10 hover:bg-warning/10 active:bg-warning/20'
     },
     {
-      class: 'bg-info/10 hover:bg-info/10 active:bg-info/20',
       color: 'info',
-      variant: 'soft'
+      variant: 'soft',
+      class: 'bg-info/10 hover:bg-info/10 active:bg-info/20'
     },
     {
-      class: 'bg-carbon/10 hover:bg-carbon/10 active:bg-carbon/20',
       color: 'carbon',
-      variant: 'soft'
+      variant: 'soft',
+      class: 'bg-carbon/10 hover:bg-carbon/10 active:bg-carbon/20'
     },
     {
-      class: 'bg-secondary-foreground/10 hover:bg-secondary-foreground/10 active:bg-secondary-foreground/20',
       color: 'secondary',
-      variant: 'soft'
+      variant: 'soft',
+      class: 'bg-secondary-foreground/10 hover:bg-secondary-foreground/10 active:bg-secondary-foreground/20'
     },
     {
-      class: 'bg-accent-foreground/10 hover:bg-accent-foreground/10 active:bg-accent-foreground/20',
       color: 'accent',
-      variant: 'soft'
+      variant: 'soft',
+      class: 'bg-accent-foreground/10 hover:bg-accent-foreground/10 active:bg-accent-foreground/20'
     },
     {
-      class: 'h-6 w-6',
-      shape: ['square', 'circle'],
-      size: 'xs'
-    },
-    {
-      class: 'h-7 w-7',
-      shape: ['square', 'circle'],
-      size: 'sm'
-    },
-    {
-      class: 'h-9 w-9',
-      shape: ['square', 'circle'],
-      size: 'lg'
-    },
-    {
-      class: 'h-10 w-10',
-      shape: ['square', 'circle'],
-      size: 'xl'
-    },
-    {
-      class: 'h-12 w-12',
-      shape: ['square', 'circle'],
-      size: '2xl'
-    },
-    {
-      class: 'shadow-none',
+      variant: ['ghost', 'link'],
       shadow: ['sm', 'md', 'lg'],
-      variant: ['ghost', 'link']
+      class: 'shadow-none'
     },
     {
-      class: 'active:shadow-md',
+      variant: 'plain',
       shadow: 'sm',
-      variant: 'plain'
+      class: 'active:shadow-md'
     },
     {
-      class: 'active:shadow-lg',
+      variant: 'plain',
       shadow: 'md',
-      variant: 'plain'
+      class: 'active:shadow-lg'
     },
     {
-      class: 'active:shadow-xl',
+      variant: 'plain',
       shadow: 'lg',
-      variant: 'plain'
+      class: 'active:shadow-xl'
     },
     {
-      class: 'active:shadow-sm',
+      variant: 'pure',
       shadow: 'sm',
-      variant: 'pure'
+      class: 'active:shadow-sm'
     },
     {
-      class: 'active:shadow-md',
+      variant: 'pure',
       shadow: 'md',
-      variant: 'pure'
+      class: 'active:shadow-md'
     },
     {
-      class: 'active:shadow-lg',
+      variant: 'pure',
       shadow: 'lg',
-      variant: 'pure'
+      class: 'active:shadow-lg'
+    },
+    {
+      size: 'xs',
+      fitContent: true,
+      class: 'p-0.75'
+    },
+    {
+      size: 'sm',
+      fitContent: true,
+      class: 'p-0.875'
+    },
+    {
+      size: 'md',
+      fitContent: true,
+      class: 'p-1'
+    },
+    {
+      size: 'lg',
+      fitContent: true,
+      class: 'p-1.25'
+    },
+    {
+      size: 'xl',
+      fitContent: true,
+      class: 'p-1.5'
+    },
+    {
+      size: '2xl',
+      fitContent: true,
+      class: 'p-1.75'
+    },
+    {
+      size: 'xs',
+      fitContent: false,
+      class: 'h-6 px-1.5'
+    },
+    {
+      size: 'sm',
+      fitContent: false,
+      class: 'h-7 px-2'
+    },
+    {
+      size: 'md',
+      fitContent: false,
+      class: 'h-8 px-4'
+    },
+    {
+      size: 'lg',
+      fitContent: false,
+      class: 'h-9 px-6'
+    },
+    {
+      size: 'xl',
+      fitContent: false,
+      class: 'h-10 px-8'
+    },
+    {
+      size: '2xl',
+      fitContent: false,
+      class: 'h-12 px-10'
+    },
+    {
+      size: 'xs',
+      fitContent: false,
+      shape: ['square', 'circle'],
+      class: 'w-6'
+    },
+    {
+      size: 'sm',
+      fitContent: false,
+      shape: ['square', 'circle'],
+      class: 'w-7'
+    },
+    {
+      size: 'lg',
+      fitContent: false,
+      shape: ['square', 'circle'],
+      class: 'w-9'
+    },
+    {
+      size: 'xl',
+      fitContent: false,
+      shape: ['square', 'circle'],
+      class: 'w-10'
+    },
+    {
+      size: '2xl',
+      fitContent: false,
+      shape: ['square', 'circle'],
+      class: 'w-12'
     }
   ],
-  defaultVariants: {
-    color: 'primary',
-    fitContent: false,
-    shadow: 'sm',
-    shape: 'auto',
-    size: 'md',
-    variant: 'solid'
-  },
   variants: {
     color: {
-      accent: `focus-visible:ring-accent-foreground/20`,
-      carbon: `focus-visible:ring-carbon`,
-      destructive: `focus-visible:ring-destructive`,
-      info: `focus-visible:ring-info`,
       primary: `focus-visible:ring-primary`,
-      secondary: `focus-visible:ring-secondary-foreground/20`,
+      destructive: `focus-visible:ring-destructive`,
       success: `focus-visible:ring-success`,
-      warning: `focus-visible:ring-warning`
+      warning: `focus-visible:ring-warning`,
+      info: `focus-visible:ring-info`,
+      carbon: `focus-visible:ring-carbon`,
+      secondary: `focus-visible:ring-secondary-foreground/20`,
+      accent: `focus-visible:ring-accent-foreground/20`
     },
-    fitContent: {
-      true: 'size-fit! p-0.5'
+    size: {
+      xs: 'gap-1 text-2xs',
+      sm: 'gap-2 text-xs',
+      md: 'gap-3 text-sm',
+      lg: 'gap-4 text-base',
+      xl: 'gap-5 text-lg',
+      '2xl': 'gap-6 text-xl'
     },
     shadow: {
-      lg: 'shadow-lg',
-      md: 'shadow-md',
       none: 'shadow-none',
-      sm: 'shadow-sm'
+      sm: 'shadow-sm',
+      md: 'shadow-md',
+      lg: 'shadow-lg'
     },
-    // eslint-disable-next-line sort/object-properties
-    size: {
-      '2xl': 'h-12 px-10 gap-6 text-xl',
-      lg: 'h-9 px-6 gap-4 text-base',
-      md: 'h-8 px-4 gap-3 text-sm',
-      sm: 'h-7 px-2 gap-2 text-xs',
-      xl: 'h-10 px-8 gap-5 text-lg',
-      xs: 'h-6 px-1.5 gap-1 text-2xs'
+    fitContent: {
+      true: 'w-fit h-fit',
+      false: ''
+    },
+    variant: {
+      solid: 'bg-primary text-primary-foreground hover:bg-primary/80 active:bg-primary-600',
+      pure: 'border border-border bg-background text-accent-foreground hover:bg-accent/60 active:bg-accent',
+      plain: 'border border-border bg-background text-foreground',
+      outline: 'border bg-background',
+      dashed: 'border border-dashed bg-background',
+      soft: 'bg-primary/10 hover:bg-primary/10 active:bg-primary/20',
+      ghost: 'bg-transparent',
+      link: 'bg-transparent underline-offset-4 hover:underline'
     },
     shape: {
       auto: 'rounded-md',
-      circle: 'h-8 w-8 p-0 gap-0 rounded-full',
       rounded: 'rounded-full',
-      square: 'h-8 w-8 p-0 gap-0 rounded-md'
-    },
-    variant: {
-      dashed: 'border border-dashed bg-background',
-      ghost: 'bg-transparent',
-      link: 'bg-transparent underline-offset-4 hover:underline',
-      outline: 'border bg-background',
-      plain: 'border border-border bg-background text-foreground',
-      pure: 'border border-border bg-background text-accent-foreground hover:bg-accent/60 active:bg-accent',
-      soft: 'bg-primary/10 hover:bg-primary/10 active:bg-primary/20',
-      solid: 'bg-primary text-primary-foreground hover:bg-primary/80 active:bg-primary-600'
+      square: 'h-8 w-8 p-0 gap-0 rounded-md',
+      circle: 'h-8 w-8 p-0 gap-0 rounded-full'
     }
+  },
+
+  defaultVariants: {
+    color: 'primary',
+    variant: 'solid',
+    size: 'md',
+    shape: 'auto',
+    shadow: 'sm',
+    fitContent: false
   }
 });
 
