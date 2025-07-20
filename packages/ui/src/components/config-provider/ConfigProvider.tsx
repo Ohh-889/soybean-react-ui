@@ -3,9 +3,9 @@
 import { ConfigContext } from './context';
 import type { ComponentConfig, ConfigProviderProps } from './types';
 
-const COMPONENT_KEYS = ['accordion'] satisfies (keyof ComponentConfig)[];
+const COMPONENT_KEYS = ['accordion', 'alert', 'icon'] satisfies (keyof ComponentConfig)[];
 
-export const ConfigProvider = (props: ConfigProviderProps) => {
+const ConfigProvider = (props: ConfigProviderProps) => {
   const { children, direction = 'ltr', size = 'md', theme = { color: 'default' }, ...rest } = props;
 
   const componentConfig = Object.fromEntries(
@@ -21,3 +21,5 @@ export const ConfigProvider = (props: ConfigProviderProps) => {
 
   return <ConfigContext.Provider value={componentConfig}>{children}</ConfigContext.Provider>;
 };
+
+export default ConfigProvider;

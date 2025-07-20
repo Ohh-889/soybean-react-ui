@@ -6,7 +6,7 @@ import type { ComponentConfig } from './types';
 
 export const ConfigContext = createContext<ComponentConfig>({});
 
-export const useComponentConfig = <T extends keyof ComponentConfig>(component: T) => {
+export const useComponentConfig = <T extends keyof ComponentConfig>(component: T): ComponentConfig[T] => {
   const config = useContext(ConfigContext);
 
   if (!config) {
