@@ -26,12 +26,20 @@ export * from './components/config-provider';
 
 export * from './components/divider';
 
+export * from './components/icon';
+
 export * from './components/label';
+
+export * from './components/label';
+
+export * from './components/popover';
 
 export * from './components/scroll-area';
 
 export * from './components/sonner';
 
 export * from './components/tabs';
+
+export * from './lib';
 
 export * from './types';
