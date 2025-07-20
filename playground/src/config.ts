@@ -1,11 +1,11 @@
-class Config {
-  private _githubUrl = 'https://github.com/Ohh-889/soybean-react-ui';
-
-  get githubUrl() {
-    return this._githubUrl;
+const config = {
+  githubUrl: 'https://github.com/Ohh-889/soybean-react-ui',
+  // eslint-disable-next-line n/prefer-global/process
+  isDev: process.env.NODE_ENV === 'development',
+  META_THEME_COLORS: {
+    dark: '#030712',
+    light: '#fafafa'
   }
-}
-
-const config = new Config();
+} as const;
 
 export default config;
