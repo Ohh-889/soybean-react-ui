@@ -1,6 +1,6 @@
 import { Rocket, Terminal, TriangleAlert, X } from 'lucide-react';
 import React from 'react';
-import { Alert, type AlertVariant, Button, Card, type ThemeColor, type ThemeSize } from 'soybean-react-ui';
+import { Alert, type AlertVariant, ButtonIcon, Card, type ThemeColor, type ThemeSize } from 'soybean-react-ui';
 
 const colors: ThemeColor[] = ['primary', 'destructive', 'success', 'warning', 'info', 'carbon', 'secondary', 'accent'];
 const variants: AlertVariant[] = ['solid', 'pure', 'outline', 'soft', 'ghost'];
@@ -8,7 +8,7 @@ const sizes: ThemeSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
 
 const AlertPage = () => {
   return (
-    <div className="flex-c gap-4">
+    <div className="flex-c gap-4 bg-primary">
       <Card
         split
         title="Color"
@@ -76,9 +76,12 @@ const AlertPage = () => {
           title="Error"
           variant="ghost"
           trailing={
-            <Button asIconButton>
+            <ButtonIcon
+              fitContent={false}
+              variant="ghost"
+            >
               <X />
-            </Button>
+            </ButtonIcon>
           }
         />
       </Card>

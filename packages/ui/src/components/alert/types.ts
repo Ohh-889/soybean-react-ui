@@ -19,12 +19,10 @@ export type AlertIconProps = BaseNodeProps<React.ComponentProps<'div'>> & {
 
 export type AlertCloseProps = BaseNodeProps<React.ComponentProps<'button'>>;
 
-export type AlertUi = Partial<Record<AlertSlots, ClassValue>>;
+export type AlertClassNames = Partial<Record<AlertSlots, ClassValue>>;
 
 export interface AlertProps extends Omit<AlertRootProps, 'title'>, PropsSlot {
-  classNames?: AlertUi;
-  closable?: boolean;
-  close?: boolean;
+  classNames?: AlertClassNames;
   description?: React.ReactNode;
   icon?: React.ReactNode;
   title?: React.ReactNode;

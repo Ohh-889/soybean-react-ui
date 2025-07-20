@@ -1,6 +1,6 @@
 import { Loader, Minus, Pause, Plus, SkipBack, SkipForward } from 'lucide-react';
 import React from 'react';
-import { Button, ButtonGroup, Card } from 'soybean-react-ui';
+import { Button, ButtonGroup, ButtonIcon, Card } from 'soybean-react-ui';
 
 const colors = ['primary', 'destructive', 'success', 'warning', 'info', 'carbon', 'secondary', 'accent'] as const;
 const variants = ['solid', 'pure', 'plain', 'outline', 'dashed', 'soft', 'ghost', 'link'] as const;
@@ -82,6 +82,7 @@ const DemoButton = () => {
           </Button>
           <div className="flex-c-center">
             <Button
+              fitContent
               color="destructive"
               shape="square"
               variant="plain"
@@ -92,6 +93,7 @@ const DemoButton = () => {
           </div>
           <div className="flex-c-center">
             <Button
+              fitContent
               color="success"
               shape="circle"
               variant="outline"
@@ -102,6 +104,7 @@ const DemoButton = () => {
           </div>
           <div className="flex-c-center">
             <Button
+              fitContent
               color="warning"
               shape="square"
               variant="dashed"
@@ -111,12 +114,9 @@ const DemoButton = () => {
             <div className="text-[12px] text-[#666]">square</div>
           </div>
           <div className="flex-c-center">
-            <Button
-              asIconButton
-              shape="circle"
-            >
+            <ButtonIcon shape="circle">
               <Minus />
-            </Button>
+            </ButtonIcon>
             <div className="text-[12px] text-[#666]">circle</div>
           </div>
         </div>
@@ -272,15 +272,15 @@ const DemoButton = () => {
       >
         <div className="w-[100px]">
           <ButtonGroup orientation="vertical">
-            <Button variant="dashed">
+            <ButtonIcon variant="dashed">
               <SkipBack />
-            </Button>
-            <Button variant="dashed">
+            </ButtonIcon>
+            <ButtonIcon variant="dashed">
               <Pause />
-            </Button>
-            <Button variant="dashed">
+            </ButtonIcon>
+            <ButtonIcon variant="dashed">
               <SkipForward />
-            </Button>
+            </ButtonIcon>
           </ButtonGroup>
         </div>
       </Card>
@@ -290,15 +290,15 @@ const DemoButton = () => {
         title="Button Icon"
       >
         <div className="flex flex-wrap gap-[12px]">
-          <Button asIconButton>
+          <ButtonIcon>
             <SkipBack />
-          </Button>
-          <Button asIconButton>
+          </ButtonIcon>
+          <ButtonIcon>
             <SkipForward />
-          </Button>
-          <Button asIconButton>
+          </ButtonIcon>
+          <ButtonIcon>
             <Pause />
-          </Button>
+          </ButtonIcon>
         </div>
       </Card>
 
@@ -307,27 +307,21 @@ const DemoButton = () => {
         title="Button Icon: fitContent"
       >
         <div className="flex flex-wrap gap-12px">
-          <Button
-            asIconButton
-            fitContent
-            className="p-0.5 text-xl"
-          >
+          <ButtonIcon className="p-0.5 text-xl">
             <SkipBack />
-          </Button>
-          <Button
-            asIconButton
+          </ButtonIcon>
+          <ButtonIcon
             fitContent
             className="p-0.5 text-xl"
           >
             <SkipForward />
-          </Button>
-          <Button
-            asIconButton
+          </ButtonIcon>
+          <ButtonIcon
             fitContent
             className="p-0.5 text-xl"
           >
             <Pause />
-          </Button>
+          </ButtonIcon>
         </div>
       </Card>
     </div>
