@@ -10,7 +10,7 @@ const DemoTitle = () => {
 
   const title = currentTab.charAt(0).toUpperCase() + currentTab.slice(1);
 
-  return title;
+  return <h3 className="font-semibold tracking-tight text-base">{title} Demo</h3>;
 };
 
 export default DemoTitle;

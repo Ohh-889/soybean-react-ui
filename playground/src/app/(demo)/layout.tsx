@@ -4,7 +4,7 @@ import process from 'node:process';
 
 import Link from 'next/link';
 import React from 'react';
-import { ScrollArea } from 'soybean-react-ui';
+import { Card, ScrollArea } from 'soybean-react-ui';
 
 import DemoTabs from './modules/DemoTabs';
 import DemoTitle from './modules/DemoTitle';
@@ -43,15 +43,13 @@ function DemoLayout({ children }: { children: React.ReactNode }) {
     <>
       <DemoTabs items={componentTabs} />
 
-      <div className="h-full p-[18px]">
-        <div className="h-full mb-8 border border-gray-200 rounded-xl bg-white p-6 shadow-lg transition-all dark:border-neutral-700 dark:bg-neutral-800 hover:shadow-xl">
-          <h3 className="border-gray-200 text-xl dark:border-neutral-700 mb-4 border-b pb-2 text-gray-800 font-bold dark:text-gray-100">
-            Demo <DemoTitle />
-          </h3>
-
-          <ScrollArea className="h-full pb-20">{children}</ScrollArea>
-        </div>
-      </div>
+      <Card
+        className="h-full"
+        classNames={{ content: 'flex-c gap-3 ' }}
+        title={<DemoTitle />}
+      >
+        {children}
+      </Card>
     </>
   );
 }

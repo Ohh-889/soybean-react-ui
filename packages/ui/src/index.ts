@@ -15,7 +15,6 @@ export * from './components/breadcrumb';
 export * from './components/button';
 
 export * from './components/card';
-
 export * from './components/carousel';
 
 export * from './components/checkbox';
@@ -37,6 +36,8 @@ export * from './components/popover';
 export * from './components/scroll-area';
 
 export * from './components/sonner';
+
+export * from './components/switch';
 
 export * from './components/tabs';
 

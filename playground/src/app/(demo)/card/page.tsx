@@ -1,6 +1,6 @@
 import { Rocket, X } from 'lucide-react';
 import React from 'react';
-import { Badge, Button, Card } from 'soybean-react-ui'; // 假设这些是你自己封装的 React 组件
+import { Badge, ButtonIcon, Card } from 'soybean-react-ui'; // 假设这些是你自己封装的 React 组件
 import type { ThemeSize } from 'soybean-react-ui';
 
 const sizes: ThemeSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
@@ -37,13 +37,9 @@ const DemoCard: React.FC = () => {
               size={size}
               title={`Size: ${size}`}
               extra={
-                <Button
-                  asIconButton
-                  fitContent
-                  size={size}
-                >
+                <ButtonIcon size={size}>
                   <X />
-                </Button>
+                </ButtonIcon>
               }
             >
               <p className="text-gray-500 dark:text-neutral-400">Content</p>
