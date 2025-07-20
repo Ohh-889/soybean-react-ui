@@ -234,12 +234,13 @@ export function generateCSSVars(theme: PresetShadcnOptions, onlyOne = true): obj
     const lightThemeCSSVars = getColorCSSVars({ ...feedbackColor.light, ...light, ...sidebar.light });
 
     return {
-      [darkThemeSelector]: {
-        ...darkThemeCSSVars
-      },
+      // eslint-disable-next-line sort/object-properties
       [themeSelector]: {
         ...lightThemeCSSVars,
         '--radius': `${radius}rem`
+      },
+      [darkThemeSelector]: {
+        ...darkThemeCSSVars
       }
     };
   }
