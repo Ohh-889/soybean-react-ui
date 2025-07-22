@@ -7,24 +7,8 @@ import DropdownMenuLabel from './DropdownMenuLabel';
 import DropdownMenuSeparator from './DropdownMenuSeparator';
 import DropdownMenuSubContent from './DropdownMenuSubContent';
 import DropdownMenuSubTrigger from './DropdownMenuSubTrigger';
-import type {
-  DropdownMenuLabelOption,
-  DropdownMenuOptionData,
-  DropdownMenuOptionProps,
-  DropdownMenuSeparatorOption,
-  DropdownMenuSubOption
-} from './types';
-
-function isLabel(opt: DropdownMenuOptionData): opt is DropdownMenuLabelOption {
-  return opt.type === 'label';
-}
-function isSeparator(opt: DropdownMenuOptionData): opt is DropdownMenuSeparatorOption {
-  return opt.type === 'separator';
-}
-
-function isSub(opt: DropdownMenuOptionData): opt is DropdownMenuSubOption {
-  return opt.type === 'sub';
-}
+import { isLabel, isSeparator, isSub } from './shared';
+import type { DropdownMenuOptionProps } from './types';
 
 const DropdownMenuOption = (props: DropdownMenuOptionProps) => {
   const { classNames, item, size } = props;

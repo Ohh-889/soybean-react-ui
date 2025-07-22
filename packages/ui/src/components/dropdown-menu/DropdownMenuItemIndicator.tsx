@@ -13,7 +13,7 @@ const DropdownMenuItemIndicator = forwardRef<ComponentRef<typeof ItemIndicator>,
 
     const { itemIndicator } = menuVariants({ size });
 
-    const mergedCls = cn(itemIndicator, className);
+    const mergedCls = cn(itemIndicator(), className);
 
     return (
       <ItemIndicator

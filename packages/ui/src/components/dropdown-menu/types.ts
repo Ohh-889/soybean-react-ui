@@ -8,6 +8,8 @@ import type {
   DropdownMenuLabelProps as _DropdownMenuLabelProps,
   DropdownMenuPortalProps as _DropdownMenuPortalProps,
   DropdownMenuProps as _DropdownMenuProps,
+  DropdownMenuRadioGroupProps as _DropdownMenuRadioGroupProps,
+  DropdownMenuRadioItemProps as _DropdownMenuRadioItemProps,
   DropdownMenuSeparatorProps as _DropdownMenuSeparatorProps,
   DropdownMenuSub as _DropdownMenuSub,
   DropdownMenuSubContentProps as _DropdownMenuSubContentProps,
@@ -104,17 +106,60 @@ export interface DropdownMenuPortalContentProps
 
 // Checkbox
 export interface DropdownMenuCheckboxItemProps extends BaseNodeProps<_DropdownMenuCheckboxItemProps> {
-  classNames?: Pick<DropdownMenuClassNames, 'item' | 'itemIcon' | 'itemIndicator'>;
+  classNames?: Pick<DropdownMenuClassNames, 'item' | 'itemIndicator' | 'shortcut'>;
   indicatorIcon?: ReactNode;
   leading?: ReactNode;
-  leadingIcon?: ReactNode;
+  shortcut?: string | string[];
   trailing?: ReactNode;
 }
+
+export type DropdownMenuCheckboxGroupItemProps =
+  | DropdownMenuLabelOption
+  | DropdownMenuSeparatorOption
+  | (Omit<DropdownMenuCheckboxItemProps, 'children'> & {
+      label?: ReactNode;
+    });
 
 export interface DropdownMenuCheckboxGroupProps
   extends DropdownMenuCommonProps,
     BaseNodeProps<_DropdownMenuGroupProps> {
-  items: DropdownMenuOptionData[];
+  checks?: string[];
+  items: DropdownMenuCheckboxGroupItemProps[];
+  onChecksChange?: (checks: string[]) => void;
+}
+
+export interface DropdownMenuCheckboxProps
+  extends Omit<DropdownMenuCheckboxGroupProps, 'dir'>,
+    BaseNodeProps<_DropdownMenuProps> {
+  contentProps?: Omit<DropdownMenuContentProps, 'arrowClass' | 'className'>;
+}
+
+// Radio
+export interface DropdownMenuRadioItemProps extends BaseNodeProps<_DropdownMenuRadioItemProps> {
+  classNames?: Pick<DropdownMenuClassNames, 'item' | 'itemIndicator' | 'radioIndicatorIcon' | 'shortcut'>;
+  indicatorIcon?: ReactNode;
+  leading?: ReactNode;
+  shortcut?: string | string[];
+  trailing?: ReactNode;
+}
+
+export type DropdownMenuRadioGroupItemProps =
+  | DropdownMenuLabelOption
+  | DropdownMenuSeparatorOption
+  | (Omit<DropdownMenuRadioItemProps, 'children'> & {
+      label?: ReactNode;
+    });
+
+export interface DropdownMenuRadioGroupProps
+  extends DropdownMenuCommonProps,
+    BaseNodeProps<_DropdownMenuRadioGroupProps> {
+  items: DropdownMenuRadioGroupItemProps[];
+}
+
+export interface DropdownMenuRadioProps
+  extends Omit<DropdownMenuRadioGroupProps, 'dir'>,
+    BaseNodeProps<_DropdownMenuProps> {
+  contentProps?: Omit<DropdownMenuContentProps, 'arrowClass' | 'className'>;
 }
 
 export type DropdownMenuArrowProps = BaseNodeProps<_DropdownMenuArrowProps>;

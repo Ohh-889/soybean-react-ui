@@ -5,7 +5,7 @@ import DropdownMenuContent from './DropdownMenuContent';
 import type { DropdownMenuPortalContentProps } from './types';
 
 const DropdownMenuPortalContent = (props: DropdownMenuPortalContentProps) => {
-  const { children, container, forceMountContent, forceMountPortal, showArrow, ...rest } = props;
+  const { arrowClass, children, container, forceMountContent, forceMountPortal, showArrow, ...rest } = props;
 
   return (
     <Portal
@@ -18,7 +18,7 @@ const DropdownMenuPortalContent = (props: DropdownMenuPortalContentProps) => {
       >
         {children}
 
-        {showArrow && <DropdownMenuArrow />}
+        {showArrow && <DropdownMenuArrow className={arrowClass} />}
       </DropdownMenuContent>
     </Portal>
   );
