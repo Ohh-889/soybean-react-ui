@@ -1,6 +1,7 @@
 import type {
   // eslint-disable-next-line sort/import-members
   PopoverPortalProps,
+  PopoverAnchorProps as _PopoverAnchorProps,
   PopoverArrowProps as _PopoverArrowProps,
   PopoverContentProps as _PopoverContentProps,
   PopoverProps as _PopoverProps
@@ -28,3 +29,5 @@ export type PopoverProps = _PopoverProps &
     showArrow?: boolean;
     trigger?: React.ReactNode;
   };
+
+export type PopoverAnchorProps = BaseNodeProps<_PopoverAnchorProps>;
