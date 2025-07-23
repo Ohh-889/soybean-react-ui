@@ -17,6 +17,7 @@ import {
   Users
 } from 'lucide-react';
 import Link from 'next/link';
+import config from '../../../../config';
 import type { DropdownMenuCheckboxProps, DropdownMenuProps, DropdownMenuRadioProps } from 'soybean-react-ui';
 import { toast } from 'soybean-react-ui';
 
@@ -30,7 +31,7 @@ export const menus: DropdownMenuProps['items'] = [
   },
   {
     label: 'Profile',
-    leading: <User className="shrink-0 text-muted-foreground" />,
+    leading: <User className="text-primary" />,
     onClick: () => {
       toast.success('Profile', {
         description: 'Profile',
@@ -40,212 +41,98 @@ export const menus: DropdownMenuProps['items'] = [
     },
     shortcut: ['command', 'shift', 'p']
   },
-  { label: 'Billing', leading: <CreditCard className="shrink-0 text-muted-foreground" />, shortcut: ['command', 'b'] },
-  { label: 'Settings', leading: <Settings className="shrink-0 text-muted-foreground" />, shortcut: ['command', 's'] },
+  { label: 'Billing', leading: <CreditCard />, shortcut: ['command', 'b'] },
+  { label: 'Settings', leading: <Settings />, shortcut: ['command', 's'] },
   {
     label: 'Keyboard shortcuts',
-    leading: <Keyboard className="shrink-0 text-muted-foreground" />,
+    leading: <Keyboard />,
     shortcut: ['command', 'k']
   },
   { type: 'separator' },
-  { label: 'Team', leading: <Users className="shrink-0 text-muted-foreground" />, shortcut: ['command', 'shift', 't'] },
+  { label: 'Team', leading: <Users />, shortcut: ['command', 'shift', 't'] },
   {
     label: (
       <Link
-        href="https://github.com"
+        href={config.githubUrl}
         target="_blank"
       >
         Github
       </Link>
     ),
-    leading: <Github className="shrink-0 text-muted-foreground" />,
+    leading: <Github />,
     trailing: <ArrowUpRight className="shrink-0 self-start text-muted-foreground size-3 -ml-2" />
   },
   {
     children: [
       {
         label: 'Email',
-        leading: <Mail className="shrink-0 text-muted-foreground" />,
+        leading: <Mail />,
         shortcut: ['command', 'shift', 'e']
       },
       {
         label: 'Facebook',
-        leading: <Facebook className="shrink-0 text-muted-foreground" />,
+        leading: <Facebook />,
         shortcut: ['command', 'shift', 'f']
       },
       {
         label: 'Twitter',
-        leading: <Twitter className="shrink-0 text-muted-foreground" />,
+        leading: <Twitter />,
         shortcut: ['command', 'shift', 't']
       },
       {
         children: [
           {
             label: 'Message',
-            leading: <MessageCircle className="shrink-0 text-muted-foreground" />,
+            leading: <MessageCircle />,
             shortcut: ['command', 'm']
           }
         ],
         label: 'More',
-        leading: <CirclePlus className="shrink-0 text-muted-foreground" />,
+        leading: <CirclePlus />,
         type: 'sub'
       }
     ],
     label: 'Invite Users',
-    leading: <UserPlus className="shrink-0 text-muted-foreground" />,
+    leading: <UserPlus />,
     type: 'sub'
   },
   {
     type: 'separator'
   },
-  { label: 'Support', leading: <LifeBuoy className="shrink-0 text-muted-foreground" /> },
-  { disabled: true, label: 'API', leading: <Cloud className="shrink-0 text-muted-foreground" /> },
+  { label: 'Support', leading: <LifeBuoy /> },
+  { disabled: true, label: 'API', leading: <Cloud /> },
   { type: 'separator' },
   {
     label: 'Sign out',
-    leading: <LogOut className="shrink-0 text-muted-foreground" />,
+    leading: <LogOut />,
     shortcut: ['command', 'shift', 'Q']
   }
 ];
 
 export const menus2: DropdownMenuCheckboxProps['items'] = [
-  {
-    label: 'My Account',
-    type: 'label'
-  },
-  {
-    type: 'separator'
-  },
-  {
-    label: 'Profile',
-    leading: <User className="shrink-0 text-muted-foreground" />,
-    shortcut: ['command', 'shift', 'p'],
-    textValue: '01'
-  },
-  {
-    label: 'Billing',
-    leading: <CreditCard className="shrink-0 text-muted-foreground" />,
-    shortcut: ['command', 'b'],
-    textValue: '02'
-  },
-  {
-    label: 'Settings',
-    leading: <Settings className="shrink-0 text-muted-foreground" />,
-    shortcut: ['command', 's'],
-    textValue: '03'
-  },
-  {
-    label: 'Keyboard shortcuts',
-    leading: <Keyboard className="shrink-0 text-muted-foreground" />,
-    shortcut: ['command', 'k'],
-    textValue: '04'
-  },
+  { type: 'label', label: 'My Account' },
   { type: 'separator' },
-  {
-    label: 'Team',
-    leading: <Users className="shrink-0 text-muted-foreground" />,
-    shortcut: ['command', 'shift', 't'],
-    textValue: '05'
-  },
-  {
-    label: (
-      <Link
-        href="https://github.com"
-        target="_blank"
-      >
-        Github
-      </Link>
-    ),
-    leading: <Github className="shrink-0 text-muted-foreground" />,
-    textValue: '06',
-    trailing: <ArrowUpRight className="shrink-0 self-start text-muted-foreground size-3 -ml-2" />
-  },
-  {
-    label: 'Invite Users',
-    leading: <UserPlus className="shrink-0 text-muted-foreground" />,
-    textValue: '07'
-  },
-  {
-    type: 'separator'
-  },
-  { label: 'Support', leading: <LifeBuoy className="shrink-0 text-muted-foreground" />, textValue: '08' },
-  { disabled: true, label: 'API', leading: <Cloud className="shrink-0 text-muted-foreground" />, textValue: '09' },
+  { label: 'Profile', leading: <User />, shortcut: '⇧⌘P', textValue: 'Profile' },
+  { label: 'Billing', leading: <CreditCard />, shortcut: '⌘B', textValue: 'Billing' },
   { type: 'separator' },
-  {
-    label: 'Sign out',
-    leading: <LogOut className="shrink-0 text-muted-foreground" />,
-    shortcut: ['command', 'shift', 'Q'],
-    textValue: '10'
-  }
+  { label: 'Settings', leading: <Settings />, shortcut: '⌘S', textValue: 'Settings' },
+  { type: 'separator' },
+  { label: 'Keyboard shortcuts', leading: <Keyboard />, shortcut: '⌘K', textValue: 'Keyboard shortcuts' }
 ];
 
 export const menus3: DropdownMenuRadioProps['items'] = [
-  {
-    label: 'My Account',
-    type: 'label'
-  },
-  {
-    type: 'separator'
-  },
-  {
-    label: 'Profile',
-    leading: <User className="shrink-0 text-muted-foreground" />,
-    shortcut: ['command', 'shift', 'p'],
-    value: '01'
-  },
-  {
-    label: 'Billing',
-    leading: <CreditCard className="shrink-0 text-muted-foreground" />,
-    shortcut: ['command', 'b'],
-    value: '02'
-  },
-  {
-    label: 'Settings',
-    leading: <Settings className="shrink-0 text-muted-foreground" />,
-    shortcut: ['command', 's'],
-    value: '03'
-  },
-  {
-    label: 'Keyboard shortcuts',
-    leading: <Keyboard className="shrink-0 text-muted-foreground" />,
-    shortcut: ['command', 'k'],
-    value: '04'
-  },
+  { type: 'label', label: 'Tooltip Placement' },
   { type: 'separator' },
-  {
-    label: 'Team',
-    leading: <Users className="shrink-0 text-muted-foreground" />,
-    shortcut: ['command', 'shift', 't'],
-    value: '05'
-  },
-  {
-    label: (
-      <Link
-        href="https://github.com"
-        target="_blank"
-      >
-        Github
-      </Link>
-    ),
-    leading: <Github className="shrink-0 text-muted-foreground" />,
-    trailing: <ArrowUpRight className="shrink-0 self-start text-muted-foreground size-3 -ml-2" />,
-    value: '06'
-  },
-  {
-    label: 'Invite Users',
-    leading: <UserPlus className="shrink-0 text-muted-foreground" />,
-    value: '07'
-  },
-  {
-    type: 'separator'
-  },
-  { label: 'Support', leading: <LifeBuoy className="shrink-0 text-muted-foreground" />, value: '08' },
-  { disabled: true, label: 'API', leading: <Cloud className="shrink-0 text-muted-foreground" />, value: '09' },
-  { type: 'separator' },
-  {
-    label: 'Sign out',
-    leading: <LogOut className="shrink-0 text-muted-foreground" />,
-    shortcut: ['command', 'shift', 'Q'],
-    value: '10'
-  }
+  { value: 'top-start', label: 'Top Start' },
+  { value: 'top', label: 'Top' },
+  { value: 'top-end', label: 'Top End' },
+  { value: 'right-start', label: 'Right Start' },
+  { value: 'right', label: 'Right' },
+  { value: 'right-end', label: 'Right End' },
+  { value: 'bottom-start', label: 'Bottom Start' },
+  { value: 'bottom', label: 'Bottom' },
+  { value: 'bottom-end', label: 'Bottom End' },
+  { value: 'left-start', label: 'Left Start' },
+  { value: 'left', label: 'Left' },
+  { value: 'left-end', label: 'Left End' }
 ];
