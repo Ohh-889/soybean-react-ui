@@ -26,6 +26,8 @@ export * from './components/collapsible';
 
 export * from './components/config-provider';
 
+export * from './components/context-menu';
+
 export * from './components/divider';
 
 export * from './components/dropdown-menu';
@@ -39,6 +41,8 @@ export * from './components/label';
 export * from './components/popover';
 
 export * from './components/scroll-area';
+
+export * from './components/skeleton';
 
 export * from './components/sonner';
 
