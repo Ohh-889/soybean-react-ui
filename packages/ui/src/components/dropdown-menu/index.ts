@@ -14,15 +14,12 @@ export { default as DropdownMenuItemIndicator } from './DropdownMenuItemIndicato
 export { default as DropdownMenuLabel } from './DropdownMenuLabel';
 export { default as DropdownMenuOption } from './DropdownMenuOption';
 
-export { default as DropdownMenuPortalContent } from './DropdownMenuPortalContent';
-
 export { default as DropdownMenuRadio } from './DropdownMenuRadio';
 export { default as DropdownMenuRadioGroup } from './DropdownMenuRadioGroup';
 export { default as DropdownMenuRadioItem } from './DropdownMenuRadioItem';
 
 export { default as DropdownMenuSeparator } from './DropdownMenuSeparator';
 
-export { default as DropdownMenuShortcut } from './DropdownMenuShortcut';
 export { default as DropdownMenuSubContent } from './DropdownMenuSubContent';
 export { default as DropdownMenuSubTrigger } from './DropdownMenuSubTrigger';
 

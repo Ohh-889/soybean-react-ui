@@ -28,6 +28,8 @@ export * from './components/config-provider';
 
 export * from './components/context-menu';
 
+export * from './components/context-menu';
+
 export * from './components/divider';
 
 export * from './components/dropdown-menu';

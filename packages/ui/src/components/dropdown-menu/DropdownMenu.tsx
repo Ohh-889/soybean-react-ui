@@ -1,7 +1,7 @@
 import { Root, Trigger } from '@radix-ui/react-dropdown-menu';
 
+import DropdownMenuContent from './DropdownMenuContent';
 import DropdownMenuOption from './DropdownMenuOption';
-import DropdownMenuPortalContent from './DropdownMenuPortalContent';
 import type { DropdownMenuProps } from './types';
 
 const DropdownMenu = (props: DropdownMenuProps) => {
@@ -17,7 +17,7 @@ const DropdownMenu = (props: DropdownMenuProps) => {
     >
       <Trigger asChild>{children}</Trigger>
 
-      <DropdownMenuPortalContent {...contentProps}>
+      <DropdownMenuContent {...contentProps}>
         {items.map((item, index) => {
           return (
             <DropdownMenuOption
@@ -28,7 +28,7 @@ const DropdownMenu = (props: DropdownMenuProps) => {
             />
           );
         })}
-      </DropdownMenuPortalContent>
+      </DropdownMenuContent>
     </Root>
   );
 };

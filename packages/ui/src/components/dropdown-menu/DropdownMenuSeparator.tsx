@@ -1,28 +1,16 @@
 import { Separator } from '@radix-ui/react-dropdown-menu';
-import type { ComponentRef } from 'react';
-import { forwardRef } from 'react';
 
-import { cn } from '@/lib';
+import MenuSeparator from '../menu/MenuSeparator';
 
-import { menuVariants } from './dropdown-menu-variants';
 import type { DropdownMenuSeparatorProps } from './types';
 
-const DropdownMenuSeparator = forwardRef<ComponentRef<typeof Separator>, DropdownMenuSeparatorProps>((props, ref) => {
-  const { className, size, ...rest } = props;
-
-  const { separator } = menuVariants({ size });
-
-  const mergedCls = cn(separator(), className);
-
+const DropdownMenuSeparator = (props: DropdownMenuSeparatorProps) => {
   return (
-    <Separator
-      className={mergedCls}
-      ref={ref}
-      {...rest}
+    <MenuSeparator
+      component={Separator}
+      {...props}
     />
   );
-});
-
-DropdownMenuSeparator.displayName = 'DropdownMenuSeparator';
+};
 
 export default DropdownMenuSeparator;

@@ -1,6 +1,6 @@
 import { Root, Trigger } from '@radix-ui/react-dropdown-menu';
 
-import DropdownMenuPortalContent from './DropdownMenuPortalContent';
+import DropdownMenuContent from './DropdownMenuContent';
 import DropdownMenuRadioGroup from './DropdownMenuRadioGroup';
 import type { DropdownMenuRadioProps } from './types';
 
@@ -18,7 +18,7 @@ const DropdownMenuRadio = (props: DropdownMenuRadioProps) => {
     >
       <Trigger asChild>{children}</Trigger>
 
-      <DropdownMenuPortalContent
+      <DropdownMenuContent
         arrowClass={classNames?.arrow}
         className={className || classNames?.content}
         size={size}
@@ -29,7 +29,7 @@ const DropdownMenuRadio = (props: DropdownMenuRadioProps) => {
           size={size}
           {...rest}
         />
-      </DropdownMenuPortalContent>
+      </DropdownMenuContent>
     </Root>
   );
 };

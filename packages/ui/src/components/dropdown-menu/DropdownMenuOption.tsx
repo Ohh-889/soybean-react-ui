@@ -1,76 +1,25 @@
-import { Group, Portal, Sub } from '@radix-ui/react-dropdown-menu';
+import { Sub } from '@radix-ui/react-dropdown-menu';
 
-import { cn } from '@/lib';
+import MenuOption from '../menu/MenuOption';
 
 import DropdownMenuItem from './DropdownMenuItem';
 import DropdownMenuLabel from './DropdownMenuLabel';
 import DropdownMenuSeparator from './DropdownMenuSeparator';
 import DropdownMenuSubContent from './DropdownMenuSubContent';
 import DropdownMenuSubTrigger from './DropdownMenuSubTrigger';
-import { isLabel, isSeparator, isSub } from './shared';
 import type { DropdownMenuOptionProps } from './types';
 
 const DropdownMenuOption = (props: DropdownMenuOptionProps) => {
-  const { classNames, item, size } = props;
-
-  if (isSeparator(item)) {
-    return (
-      <DropdownMenuSeparator
-        {...item}
-        className={classNames?.separator}
-        size={size}
-      />
-    );
-  }
-
-  if (isLabel(item)) {
-    return (
-      <DropdownMenuLabel
-        classNames={classNames}
-        size={size}
-        {...item}
-      >
-        {item.label}
-      </DropdownMenuLabel>
-    );
-  }
-
-  if (isSub(item)) {
-    const { label, subContentProps, subProps, ...subTriggerProps } = item;
-    return (
-      <Sub {...subProps}>
-        <DropdownMenuSubTrigger {...subTriggerProps}>{label}</DropdownMenuSubTrigger>
-
-        <Portal>
-          <DropdownMenuSubContent
-            {...subContentProps}
-            className={classNames?.subContent}
-            size={size}
-          >
-            <Group className={cn(classNames?.subContent)}>
-              {item.children.map((child, index) => {
-                return (
-                  <DropdownMenuOption
-                    item={child}
-                    key={String(index)}
-                  />
-                );
-              })}
-            </Group>
-          </DropdownMenuSubContent>
-        </Portal>
-      </Sub>
-    );
-  }
-
   return (
-    <DropdownMenuItem
-      classNames={classNames}
-      size={size}
-      {...item}
-    >
-      {item.label}
-    </DropdownMenuItem>
+    <MenuOption
+      {...props}
+      component={DropdownMenuItem}
+      labelComponent={DropdownMenuLabel}
+      separatorComponent={DropdownMenuSeparator}
+      subComponent={Sub}
+      subContentComponent={DropdownMenuSubContent}
+      subTriggerComponent={DropdownMenuSubTrigger}
+    />
   );
 };
 

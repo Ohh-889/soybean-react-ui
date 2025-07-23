@@ -1,10 +1,7 @@
 import type {
-  DropdownMenuArrowProps as _DropdownMenuArrowProps,
   DropdownMenuCheckboxItemProps as _DropdownMenuCheckboxItemProps,
-  DropdownMenuContentProps as _DropdownMenuContentProps,
   DropdownMenuGroupProps as _DropdownMenuGroupProps,
   DropdownMenuItemIndicatorProps as _DropdownMenuItemIndicatorProps,
-  DropdownMenuItemProps as _DropdownMenuItemProps,
   DropdownMenuLabelProps as _DropdownMenuLabelProps,
   DropdownMenuPortalProps as _DropdownMenuPortalProps,
   DropdownMenuProps as _DropdownMenuProps,
@@ -18,115 +15,56 @@ import type {
 } from '@radix-ui/react-dropdown-menu';
 import type { ReactNode } from 'react';
 
-import type { BaseComponentProps, BaseNodeProps, ClassValue, ThemeSize } from '@/types/other';
+import type { BaseNodeProps } from '@/types/other';
 
-import type { MenuSlots } from './dropdown-menu-variants';
+import type {
+  MenuArrowProps,
+  MenuCheckboxGroupProps,
+  MenuCheckboxItemProps,
+  MenuCommonProps,
+  MenuContentProps,
+  MenuItemIndicatorProps,
+  MenuItemProps,
+  MenuLabelProps,
+  MenuOptionProps,
+  MenuRadioGroupProps,
+  MenuRadioItemProps,
+  MenuSeparatorProps,
+  MenuSubContentProps,
+  MenuSubTriggerProps
+} from '../menu/types';
 
-export type DropdownMenuClassNames = Partial<Record<MenuSlots, ClassValue>>;
+export type DropdownMenuArrowProps = Omit<MenuArrowProps, 'component'>;
 
-// Label
-export interface DropdownMenuLabelProps extends BaseNodeProps<_DropdownMenuLabelProps> {
-  classNames?: Pick<DropdownMenuClassNames, 'itemIcon' | 'label'>;
-  leading?: ReactNode;
-  trailing?: ReactNode;
-}
+export type DropdownMenuContentProps = Omit<MenuContentProps, 'arrowComponent' | 'component' | 'portalComponent'>;
 
 // Item
-export interface DropdownMenuItemProps extends BaseNodeProps<_DropdownMenuItemProps> {
-  classNames?: Pick<DropdownMenuClassNames, 'itemIcon' | 'shortcut'>;
-  leading?: ReactNode;
-  shortcut?: string | string[];
-  trailing?: ReactNode;
-}
+export type DropdownMenuItemProps = Omit<MenuItemProps, 'component'>;
+
+// Label
+export type DropdownMenuLabelProps = Omit<MenuLabelProps, 'component'>;
+
+export type DropdownMenuOptionProps = Omit<
+  MenuOptionProps,
+  'component' | 'labelComponent' | 'separatorComponent' | 'subComponent' | 'subContentComponent' | 'subTriggerComponent'
+>;
 
 // Indicator
-export type DropdownMenuItemIndicatorProps = BaseNodeProps<_DropdownMenuItemIndicatorProps>;
+export type DropdownMenuItemIndicatorProps = Omit<MenuItemIndicatorProps, 'component'>;
 
-export type DropdownMenuSeparatorProps = BaseNodeProps<_DropdownMenuSeparatorProps>;
+export type DropdownMenuSeparatorProps = Omit<MenuSeparatorProps, 'component'>;
 
-// SubTrigger
-export interface DropdownMenuSubTriggerProps extends BaseNodeProps<_DropdownMenuSubTriggerProps> {
-  classNames?: Pick<DropdownMenuClassNames, 'itemIcon' | 'subTriggerIcon'>;
-  leading?: ReactNode;
-  trailing?: ReactNode;
-  trailingIcon?: ReactNode;
-}
+export type DropdownMenuSubContentProps = Omit<MenuSubContentProps, 'component' | 'groupComponent' | 'portalComponent'>;
 
-// MenuShortcut
-export type DropdownMenuShortcutProps = BaseComponentProps<'div'> & {
-  value?: string | string[];
-};
-
-export type DropdownMenuContentProps = BaseNodeProps<_DropdownMenuContentProps>;
-
-export type DropdownMenuSubContentProps = BaseNodeProps<_DropdownMenuSubContentProps>;
-
-export interface DropdownMenuItemOption extends Omit<DropdownMenuItemProps, 'children'> {
-  label?: ReactNode;
-  type?: 'item';
-}
-
-export interface DropdownMenuLabelOption extends Omit<DropdownMenuLabelProps, 'children'> {
-  label?: ReactNode;
-  type: 'label';
-}
-
-export interface DropdownMenuSeparatorOption extends Omit<DropdownMenuSeparatorProps, 'children'> {
-  type: 'separator';
-}
-
-export interface DropdownMenuSubOption extends Omit<DropdownMenuSubTriggerProps, 'children'> {
-  children: DropdownMenuOptionData[];
-  label?: ReactNode;
-  subContentProps?: _DropdownMenuSubContentProps;
-  subProps?: _DropdownMenuSubProps;
-  type: 'sub';
-}
-
-// MenuOptionData
-export type DropdownMenuOptionData =
-  | DropdownMenuItemOption
-  | DropdownMenuLabelOption
-  | DropdownMenuSeparatorOption
-  | DropdownMenuSubOption;
-
-export interface DropdownMenuCommonProps {
-  classNames?: DropdownMenuClassNames;
-  size?: ThemeSize;
-}
-
-export interface DropdownMenuPortalContentProps
-  extends Pick<_DropdownMenuPortalProps, 'container' | 'forceMount'>,
-    Omit<DropdownMenuContentProps, 'forceMount'> {
-  arrowClass?: ClassValue;
-  forceMountContent?: true;
-  forceMountPortal?: true;
-  showArrow?: boolean;
-}
+export type DropdownMenuSubTriggerProps = Omit<MenuSubTriggerProps, 'component'>;
 
 // Checkbox
-export interface DropdownMenuCheckboxItemProps extends BaseNodeProps<_DropdownMenuCheckboxItemProps> {
-  classNames?: Pick<DropdownMenuClassNames, 'item' | 'itemIndicator' | 'shortcut'>;
-  indicatorIcon?: ReactNode;
-  leading?: ReactNode;
-  shortcut?: string | string[];
-  trailing?: ReactNode;
-}
+export type DropdownMenuCheckboxItemProps = Omit<MenuCheckboxItemProps, 'component' | 'indicatorComponent'>;
 
-export type DropdownMenuCheckboxGroupItemProps =
-  | DropdownMenuLabelOption
-  | DropdownMenuSeparatorOption
-  | (Omit<DropdownMenuCheckboxItemProps, 'children'> & {
-      label?: ReactNode;
-    });
-
-export interface DropdownMenuCheckboxGroupProps
-  extends DropdownMenuCommonProps,
-    BaseNodeProps<_DropdownMenuGroupProps> {
-  checks?: string[];
-  items: DropdownMenuCheckboxGroupItemProps[];
-  onChecksChange?: (checks: string[]) => void;
-}
+export type DropdownMenuCheckboxGroupProps = Omit<
+  MenuCheckboxGroupProps,
+  'component' | 'groupComponent' | 'labelComponent' | 'separatorComponent'
+>;
 
 export interface DropdownMenuCheckboxProps
   extends Omit<DropdownMenuCheckboxGroupProps, 'dir'>,
@@ -135,26 +73,12 @@ export interface DropdownMenuCheckboxProps
 }
 
 // Radio
-export interface DropdownMenuRadioItemProps extends BaseNodeProps<_DropdownMenuRadioItemProps> {
-  classNames?: Pick<DropdownMenuClassNames, 'item' | 'itemIndicator' | 'radioIndicatorIcon' | 'shortcut'>;
-  indicatorIcon?: ReactNode;
-  leading?: ReactNode;
-  shortcut?: string | string[];
-  trailing?: ReactNode;
-}
+export type DropdownMenuRadioItemProps = Omit<MenuRadioItemProps, 'component' | 'indicatorComponent'>;
 
-export type DropdownMenuRadioGroupItemProps =
-  | DropdownMenuLabelOption
-  | DropdownMenuSeparatorOption
-  | (Omit<DropdownMenuRadioItemProps, 'children'> & {
-      label?: ReactNode;
-    });
-
-export interface DropdownMenuRadioGroupProps
-  extends DropdownMenuCommonProps,
-    BaseNodeProps<_DropdownMenuRadioGroupProps> {
-  items: DropdownMenuRadioGroupItemProps[];
-}
+export type DropdownMenuRadioGroupProps = Omit<
+  MenuRadioGroupProps,
+  'component' | 'groupComponent' | 'labelComponent' | 'separatorComponent'
+>;
 
 export interface DropdownMenuRadioProps
   extends Omit<DropdownMenuRadioGroupProps, 'dir'>,
@@ -162,15 +86,8 @@ export interface DropdownMenuRadioProps
   contentProps?: Omit<DropdownMenuContentProps, 'arrowClass' | 'className'>;
 }
 
-export type DropdownMenuArrowProps = BaseNodeProps<_DropdownMenuArrowProps>;
-
-export interface DropdownMenuProps extends BaseNodeProps<_DropdownMenuProps> {
+export interface DropdownMenuProps extends BaseNodeProps<_DropdownMenuProps>, MenuCommonProps {
   children?: ReactNode;
-  classNames?: DropdownMenuClassNames;
-  contentProps?: Omit<DropdownMenuPortalContentProps, 'children'>;
-  items: DropdownMenuOptionData[];
-}
-
-export interface DropdownMenuOptionProps extends DropdownMenuCommonProps {
-  item: DropdownMenuOptionData;
+  contentProps?: Omit<DropdownMenuContentProps, 'children'>;
+  items: DropdownMenuOptionProps['item'][];
 }

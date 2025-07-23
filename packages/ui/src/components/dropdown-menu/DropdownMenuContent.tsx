@@ -1,24 +1,20 @@
-import { Content } from '@radix-ui/react-dropdown-menu';
+import { Content, Portal } from '@radix-ui/react-dropdown-menu';
 import type { ComponentRef } from 'react';
 import { forwardRef } from 'react';
 
-import { cn } from '@/lib';
+import MenuContent from '../menu/MenuContent';
 
-import { menuVariants } from './dropdown-menu-variants';
+import DropdownMenuArrow from './DropdownMenuArrow';
 import type { DropdownMenuContentProps } from './types';
 
 const DropdownMenuContent = forwardRef<ComponentRef<typeof Content>, DropdownMenuContentProps>((props, ref) => {
-  const { className, size, ...rest } = props;
-
-  const { content } = menuVariants({ size });
-
-  const mergedCls = cn(content(), className);
-
   return (
-    <Content
-      className={mergedCls}
+    <MenuContent
+      arrowComponent={DropdownMenuArrow}
+      component={Content as typeof MenuContent}
+      portalComponent={Portal}
       ref={ref}
-      {...rest}
+      {...props}
     />
   );
 });

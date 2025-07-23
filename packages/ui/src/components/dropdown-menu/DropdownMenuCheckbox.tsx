@@ -1,7 +1,7 @@
 import { Root, Trigger } from '@radix-ui/react-dropdown-menu';
 
 import DropdownMenuCheckboxGroup from './DropdownMenuCheckboxGroup';
-import DropdownMenuPortalContent from './DropdownMenuPortalContent';
+import DropdownMenuContent from './DropdownMenuContent';
 import type { DropdownMenuCheckboxProps } from './types';
 
 const DropdownMenuCheckbox = (props: DropdownMenuCheckboxProps) => {
@@ -18,7 +18,7 @@ const DropdownMenuCheckbox = (props: DropdownMenuCheckboxProps) => {
     >
       <Trigger asChild>{children}</Trigger>
 
-      <DropdownMenuPortalContent
+      <DropdownMenuContent
         arrowClass={classNames?.arrow}
         className={className || classNames?.content}
         size={size}
@@ -29,7 +29,7 @@ const DropdownMenuCheckbox = (props: DropdownMenuCheckboxProps) => {
           size={size}
           {...rest}
         />
-      </DropdownMenuPortalContent>
+      </DropdownMenuContent>
     </Root>
   );
 };
