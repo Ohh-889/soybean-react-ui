@@ -7,7 +7,7 @@ import type { DropdownMenuSeparatorProps } from './types';
 const DropdownMenuSeparator = (props: DropdownMenuSeparatorProps) => {
   return (
     <MenuSeparator
-      component={Separator}
+      component={Separator as typeof MenuSeparator}
       {...props}
     />
   );
