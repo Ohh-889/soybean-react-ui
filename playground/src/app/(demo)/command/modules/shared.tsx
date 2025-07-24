@@ -46,7 +46,7 @@ export const items: CommandProps['items'] = [
     ],
     label: 'Settings'
   },
-  { type: 'separator' },
+  { alwaysRender: true, type: 'separator' },
   {
     label: 'Help',
     leading: <HelpCircle />,

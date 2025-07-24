@@ -11,6 +11,7 @@ const CommandSeparator = (props: CommandSeparatorProps) => {
   const { separator } = commandVariants({ size });
 
   const mergedClass = cn(separator(), className);
+
   return (
     <_CommandSeparator
       {...rest}

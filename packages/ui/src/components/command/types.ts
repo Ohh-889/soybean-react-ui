@@ -1,4 +1,12 @@
-import type { Command, CommandEmpty, CommandInput, CommandItem, CommandList, CommandRoot } from 'cmdk';
+import type {
+  Command,
+  CommandEmpty,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandRoot,
+  CommandSeparator
+} from 'cmdk';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 
 import type { BaseComponentProps, BaseNodeProps, ClassValue, PropsSlot, ThemeSize } from '@/types/other';
@@ -27,7 +35,7 @@ export type CommandListProps = BaseNodeProps<ComponentPropsWithoutRef<typeof Com
 
 export type CommandRootProps = BaseNodeProps<ComponentPropsWithoutRef<typeof CommandRoot>>;
 
-export type CommandSeparatorProps = BaseComponentProps<'div'>;
+export type CommandSeparatorProps = BaseNodeProps<ComponentPropsWithoutRef<typeof CommandSeparator>>;
 
 export type CommandShortcutProps = BaseComponentProps<'div'> & {
   value?: string | string[];
@@ -61,7 +69,6 @@ export interface CommandProps extends CommandRootProps {
   empty?: ReactNode;
   inputProps?: CommandInputProps;
   items: CommandOptionData[];
-  searchTerm?: string;
 }
 
 export interface CommandDialogProps
