@@ -14,9 +14,7 @@ import type { BaseComponentProps, BaseNodeProps, ClassValue } from '@/types/othe
 
 import type { DialogSlots } from './dialog-variants';
 
-export type AlertDialogClassNames = Partial<Record<DialogSlots, ClassValue>> & {
-  icon?: string;
-};
+export type DialogClassNames = Partial<Record<DialogSlots, ClassValue>>;
 
 export interface DialogCloseProps extends BaseNodeProps<_DialogCloseProps> {
   component?: ComponentType<_DialogCloseProps>;
@@ -44,7 +42,7 @@ export interface DialogTitleProps extends BaseNodeProps<_DialogTitleProps> {
 
 export type DialogProps = BaseNodeProps<_DialogProps> &
   DialogContentProps & {
-    classNames?: AlertDialogClassNames;
+    classNames?: DialogClassNames;
     description?: React.ReactNode;
     footer?: React.ReactNode;
     title?: React.ReactNode;
