@@ -24,6 +24,8 @@ export * from './components/chip';
 
 export * from './components/collapsible';
 
+export * from './components/combobox';
+
 export * from './components/command';
 
 export * from './components/config-provider';
@@ -37,6 +39,8 @@ export * from './components/dialog';
 export * from './components/divider';
 
 export * from './components/dropdown-menu';
+
+export * from './components/hover-card';
 
 export * from './components/icon';
 
