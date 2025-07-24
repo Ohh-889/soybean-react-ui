@@ -36,7 +36,7 @@ export type KeyboardKeyValue = BuiltinKeyboardKey | (string & {});
 export interface KeyboardKeyProps<T extends KeyboardKeyValue | KeyboardKeyValue[] = KeyboardKeyValue>
   extends Omit<BaseComponentProps<'div'>, 'children'> {
   children?: (values: string[]) => React.ReactNode;
-  value: T;
+  value?: T | string[];
   variant?: KeyboardKeyVariant;
 }
 
