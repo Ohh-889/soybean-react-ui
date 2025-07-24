@@ -9,66 +9,38 @@ const ComboboxDemo = () => {
 
   const frameworks = [
     {
-      label: (
-        <div className="flex items-center gap-2">
-          <span>Vue</span>
-          <Check className={cn('ml-auto', value === 'vue' ? 'opacity-100' : 'opacity-0')} />
-        </div>
-      ),
+      label: 'Vue',
+      trailing: <Check className={cn('ml-auto', value === 'vue' ? 'opacity-100' : 'opacity-0')} />,
       value: 'vue'
     },
     {
-      label: (
-        <div className="flex items-center gap-2">
-          <span>React</span>
-          <Check className={cn('ml-auto', value === 'react' ? 'opacity-100' : 'opacity-0')} />
-        </div>
-      ),
+      label: 'React',
+      trailing: <Check className={cn('ml-auto', value === 'react' ? 'opacity-100' : 'opacity-0')} />,
       value: 'react'
     },
     {
-      label: (
-        <div className="flex items-center gap-2">
-          <span>Next.js</span>
-          <Check className={cn('ml-auto', value === 'nextjs' ? 'opacity-100' : 'opacity-0')} />
-        </div>
-      ),
+      label: 'Next.js',
+      trailing: <Check className={cn('ml-auto', value === 'nextjs' ? 'opacity-100' : 'opacity-0')} />,
       value: 'nextjs'
     },
     {
-      label: (
-        <div className="flex items-center gap-2">
-          <span>SvelteKit</span>
-          <Check className={cn('ml-auto', value === 'sveltekit' ? 'opacity-100' : 'opacity-0')} />
-        </div>
-      ),
+      label: 'SvelteKit',
+      trailing: <Check className={cn('ml-auto', value === 'sveltekit' ? 'opacity-100' : 'opacity-0')} />,
       value: 'sveltekit'
     },
     {
-      label: (
-        <div className="flex items-center gap-2">
-          <span>Nuxt</span>
-          <Check className={cn('ml-auto', value === 'nuxt' ? 'opacity-100' : 'opacity-0')} />
-        </div>
-      ),
+      label: 'Nuxt',
+      trailing: <Check className={cn('ml-auto', value === 'nuxt' ? 'opacity-100' : 'opacity-0')} />,
       value: 'nuxt'
     },
     {
-      label: (
-        <div className="flex items-center gap-2">
-          <span>Remix</span>
-          <Check className={cn('ml-auto', value === 'remix' ? 'opacity-100' : 'opacity-0')} />
-        </div>
-      ),
+      label: 'Remix',
+      trailing: <Check className={cn('ml-auto', value === 'remix' ? 'opacity-100' : 'opacity-0')} />,
       value: 'remix'
     },
     {
-      label: (
-        <div className="flex items-center gap-2">
-          <span>Astro</span>
-          <Check className={cn('ml-auto', value === 'astro' ? 'opacity-100' : 'opacity-0')} />
-        </div>
-      ),
+      label: 'Astro',
+      trailing: <Check className={cn('ml-auto', value === 'astro' ? 'opacity-100' : 'opacity-0')} />,
       value: 'astro'
     }
   ];

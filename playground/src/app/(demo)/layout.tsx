@@ -4,10 +4,18 @@ import process from 'node:process';
 
 import Link from 'next/link';
 import React from 'react';
-import { Card, ScrollArea } from 'soybean-react-ui';
+import { Card } from 'soybean-react-ui';
 
 import DemoTabs from './modules/DemoTabs';
 import DemoTitle from './modules/DemoTitle';
+
+const extensions = [
+  {
+    children: null,
+    label: 'Combobox',
+    value: 'combobox'
+  }
+];
 
 // 动态读取组件目录的函数
 function getComponentDirectories() {
@@ -28,7 +36,7 @@ function getComponentDirectories() {
         value: dir.name
       }));
 
-    return componentDirs;
+    return [...componentDirs, ...extensions];
   } catch (error) {
     console.error('读取组件目录失败:', error);
     // 如果读取失败，返回默认值

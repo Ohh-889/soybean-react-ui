@@ -23,7 +23,7 @@ const CommandItem = (props: CommandItemProps) => {
     >
       {isValidElement(leading) ? withClassName(leading, itemIcon()) : leading}
 
-      <span>{children}</span>
+      {children}
 
       {trailing}
 
