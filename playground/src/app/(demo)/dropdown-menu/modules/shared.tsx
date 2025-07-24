@@ -17,9 +17,10 @@ import {
   Users
 } from 'lucide-react';
 import Link from 'next/link';
-import config from '../../../../config';
 import type { DropdownMenuCheckboxProps, DropdownMenuProps, DropdownMenuRadioProps } from 'soybean-react-ui';
 import { toast } from 'soybean-react-ui';
+
+import config from '../../../../config';
 
 export const menus: DropdownMenuProps['items'] = [
   {
@@ -110,7 +111,7 @@ export const menus: DropdownMenuProps['items'] = [
 ];
 
 export const menus2: DropdownMenuCheckboxProps['items'] = [
-  { type: 'label', label: 'My Account' },
+  { label: 'My Account', type: 'label' },
   { type: 'separator' },
   { label: 'Profile', leading: <User />, shortcut: '⇧⌘P', textValue: 'Profile' },
   { label: 'Billing', leading: <CreditCard />, shortcut: '⌘B', textValue: 'Billing' },
@@ -121,18 +122,18 @@ export const menus2: DropdownMenuCheckboxProps['items'] = [
 ];
 
 export const menus3: DropdownMenuRadioProps['items'] = [
-  { type: 'label', label: 'Tooltip Placement' },
+  { label: 'Tooltip Placement', type: 'label' },
   { type: 'separator' },
-  { value: 'top-start', label: 'Top Start' },
-  { value: 'top', label: 'Top' },
-  { value: 'top-end', label: 'Top End' },
-  { value: 'right-start', label: 'Right Start' },
-  { value: 'right', label: 'Right' },
-  { value: 'right-end', label: 'Right End' },
-  { value: 'bottom-start', label: 'Bottom Start' },
-  { value: 'bottom', label: 'Bottom' },
-  { value: 'bottom-end', label: 'Bottom End' },
-  { value: 'left-start', label: 'Left Start' },
-  { value: 'left', label: 'Left' },
-  { value: 'left-end', label: 'Left End' }
+  { label: 'Top Start', value: 'top-start' },
+  { label: 'Top', value: 'top' },
+  { label: 'Top End', value: 'top-end' },
+  { label: 'Right Start', value: 'right-start' },
+  { label: 'Right', value: 'right' },
+  { label: 'Right End', value: 'right-end' },
+  { label: 'Bottom Start', value: 'bottom-start' },
+  { label: 'Bottom', value: 'bottom' },
+  { label: 'Bottom End', value: 'bottom-end' },
+  { label: 'Left Start', value: 'left-start' },
+  { label: 'Left', value: 'left' },
+  { label: 'Left End', value: 'left-end' }
 ];
