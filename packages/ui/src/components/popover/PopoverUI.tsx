@@ -3,6 +3,7 @@ import { Close, Portal, Root, Trigger } from '@radix-ui/react-popover';
 import type { ComponentRef } from 'react';
 import { forwardRef } from 'react';
 
+import PopoverAnchor from './PopoverAnchor';
 import PopoverArrow from './PopoverArrow';
 import PopoverContent from './PopoverContent';
 import type { PopoverProps } from './types';
@@ -34,7 +35,9 @@ const PopoverUI = forwardRef<ComponentRef<typeof Content>, PopoverProps>((props,
       open={open}
       onOpenChange={onOpenChange}
     >
-      <Trigger asChild>{trigger}</Trigger>
+      <PopoverAnchor>
+        <Trigger asChild>{trigger}</Trigger>
+      </PopoverAnchor>
 
       <Portal
         container={container}

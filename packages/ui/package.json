@@ -11,9 +11,7 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "pnpm run pgk:prod && pnpm run build:components && pnpm run registry",
     "build:components": "tsdown",
