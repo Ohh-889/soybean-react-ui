@@ -30,6 +30,8 @@ export * from './components/context-menu';
 
 export * from './components/context-menu';
 
+export * from './components/dialog';
+
 export * from './components/divider';
 
 export * from './components/dropdown-menu';
