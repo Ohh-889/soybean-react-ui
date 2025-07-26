@@ -17,21 +17,23 @@ const Dialog = forwardRef<ComponentRef<typeof Content>, DialogProps>((props, ref
     children,
     className,
     classNames,
+    contentProps,
     defaultOpen,
     description,
     footer,
+    modal,
     onOpenChange,
     open,
     size,
     title,
-    trigger,
-    ...rest
+    trigger
   } = props;
 
   return (
     <Root
       data-slot="dialog-root"
       defaultOpen={defaultOpen}
+      modal={modal}
       open={open}
       onOpenChange={onOpenChange}
     >
@@ -46,7 +48,7 @@ const Dialog = forwardRef<ComponentRef<typeof Content>, DialogProps>((props, ref
         <DialogOverlay className={classNames?.overlay} />
 
         <DialogContent
-          {...rest}
+          {...contentProps}
           className={className || classNames?.content}
           ref={ref}
           size={size}
