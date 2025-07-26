@@ -36,6 +36,8 @@ export * from './components/dialog';
 
 export * from './components/divider';
 
+export * from './components/drawer';
+
 export * from './components/dropdown-menu';
 
 export * from './components/hover-card';

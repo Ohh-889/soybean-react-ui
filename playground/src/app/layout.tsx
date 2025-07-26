@@ -55,7 +55,10 @@ export default async function RootLayout({
           disableTransitionOnChange
           attribute="class"
         >
-          <div className="h-full">
+          <div
+            data-vaul-drawer-wrapper
+            className="h-full"
+          >
             <Card
               className="h-full max-sm:h-auto"
               title="Soybean UI Components"
