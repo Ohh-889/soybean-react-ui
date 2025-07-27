@@ -12,7 +12,7 @@ import type {
   MenuSubContentProps as _MenuSubContentProps,
   MenuSubTriggerProps as _MenuSubTriggerProps
 } from '@radix-ui/react-menu';
-import type { ElementType, ReactNode } from 'react';
+import type { ComponentType, ElementType, ReactNode } from 'react';
 
 import type { BaseComponentProps, BaseNodeProps, ClassValue, ThemeSize } from '@/types/other';
 
@@ -44,7 +44,7 @@ export interface MenuCheckboxGroupProps extends MenuCommonProps, BaseNodeProps<_
 
 export interface MenuCheckboxItemProps extends BaseNodeProps<_MenuCheckboxItemProps> {
   classNames?: Pick<MenuClassNames, 'item' | 'itemIndicator' | 'shortcut'>;
-  component?: ElementType<MenuCheckboxItemProps>;
+  component?: ElementType<_MenuCheckboxItemProps>;
   indicatorComponent?: ElementType<MenuItemIndicatorProps>;
   indicatorIcon?: ReactNode;
   leading?: ReactNode;
@@ -63,15 +63,15 @@ export type MenuContentProps = BaseNodeProps<_MenuContentProps> & {
 // MenuItem
 export interface MenuItemProps extends BaseNodeProps<_MenuItemProps> {
   classNames?: Pick<MenuClassNames, 'item' | 'shortcut'>;
-  component?: ElementType<MenuItemProps>;
+  component?: ComponentType<_MenuItemProps>;
   leading?: ReactNode;
   shortcut?: string | string[];
   trailing?: ReactNode;
 }
 
-export type MenuItemIndicatorProps = BaseNodeProps<_MenuItemIndicatorProps> & {
-  component?: ElementType<MenuItemIndicatorProps>;
-};
+export interface MenuItemIndicatorProps extends BaseNodeProps<_MenuItemIndicatorProps> {
+  component?: ComponentType<_MenuItemIndicatorProps>;
+}
 
 // MenuLabel
 export interface MenuLabelProps extends BaseNodeProps<_MenuLabelProps> {
