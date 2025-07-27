@@ -19,9 +19,10 @@ export const menuVariants = tv({
     ],
     group: '',
     item: [
-      `relative flex items-center rounded-sm outline-none transition-colors duration-200 cursor-default select-none`,
+      `relative flex font-medium items-center rounded-sm outline-none transition-colors duration-200 cursor-default select-none`,
       `focus:bg-accent focus:text-accent-foreground`,
-      `data-[disabled]:pointer-events-none data-[disabled]:opacity-50`
+      `data-[disabled]:pointer-events-none data-[disabled]:opacity-50`,
+      `data-[state=open]:bg-accent data-[state=open]:text-accent-foreground`
     ],
     itemIcon: `shrink-0 text-muted-foreground`,
     itemIndicator: `absolute flex items-center justify-center text-primary`,
