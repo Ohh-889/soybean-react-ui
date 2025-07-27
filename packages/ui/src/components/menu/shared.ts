@@ -14,5 +14,5 @@ export function isSeparator(opt: MenuOptionData | MenuRadioItemOptionProps): opt
 }
 
 export function isSub(opt: MenuOptionData | MenuRadioItemOptionProps): opt is MenuSubOption {
-  return opt.type === 'sub';
+  return opt.type === 'sub' || 'children' in opt;
 }
