@@ -62,6 +62,8 @@ export * from './components/switch';
 
 export * from './components/tabs';
 
+export * from './components/tooltip';
+
 export * from './lib';
 
 export * from './types';
