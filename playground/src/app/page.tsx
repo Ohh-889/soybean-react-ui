@@ -16,21 +16,6 @@ export default function Home() {
       <Button asChild>
         <Link href="/tabs">Tabs</Link>
       </Button>
-      <a
-        className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-        href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <Image
-          aria-hidden
-          alt="File icon"
-          height={16}
-          src="/file.svg"
-          width={16}
-        />
-        Learn
-      </a>
 
       <a
         className="flex items-center gap-2 border font-medium text-sm justify-center rounded-full border-solid border-transparent transition-colors bg-foreground text-background hover:bg-[#383838] dark:hover:bg-[#ccc] sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
