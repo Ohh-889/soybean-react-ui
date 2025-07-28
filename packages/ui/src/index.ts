@@ -62,6 +62,8 @@ export * from './components/switch';
 
 export * from './components/tabs';
 
+export * from './components/textarea';
+
 export * from './components/toggle';
 
 export * from './components/toggle-group';
