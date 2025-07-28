@@ -1,0 +1,27 @@
+import type { ToggleProps } from 'soybean-react-ui';
+import { Card, Toggle } from 'soybean-react-ui';
+
+const sizes: ToggleProps['size'][] = ['sm', 'md', 'lg', 'xl', '2xl'];
+
+const ToggleDemo = () => {
+  return (
+    <Card
+      split
+      title="Size"
+    >
+      <div className="flex gap-12px">
+        {sizes.map(size => (
+          <Toggle
+            key={size}
+            size={size}
+            variant="ghost"
+          >
+            {size}
+          </Toggle>
+        ))}
+      </div>
+    </Card>
+  );
+};
+
+export default ToggleDemo;

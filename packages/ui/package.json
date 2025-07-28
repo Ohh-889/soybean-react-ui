@@ -11,7 +11,9 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "pnpm run pgk:prod && pnpm run build:components && pnpm run registry",
     "build:components": "tsdown",
@@ -42,6 +44,7 @@
     "@radix-ui/react-slot": "1.2.3",
     "@radix-ui/react-switch": "^1.2.5",
     "@radix-ui/react-tabs": "1.1.12",
+    "@radix-ui/react-toggle": "^1.1.9",
     "@radix-ui/react-tooltip": "^1.2.7",
     "@soybean-react-ui/tailwind-plugin": "workspace:*",
     "clsx": "2.1.1",
