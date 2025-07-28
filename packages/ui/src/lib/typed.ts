@@ -96,3 +96,7 @@ export const isEqual = <TType>(x: TType, y: TType): boolean => {
   }
   return true;
 };
+
+export const isBlankString = (value: unknown | undefined) => {
+  return typeof value === 'string' && value === '';
+};
