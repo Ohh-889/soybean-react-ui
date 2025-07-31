@@ -1,21 +1,19 @@
 'use client';
 
-import { forwardRef } from 'react';
-
 import { cn } from '@/lib';
 
 import { keyboardKeyVariants } from './keyboard-key-variants';
 import type { KeyboardKeyProps } from './types';
 import { useKeyboardKey } from './use-keyboard-key';
 
-export const KeyboardKey = forwardRef<HTMLDivElement, KeyboardKeyProps>((props, ref) => {
+export const KeyboardKey = (props: KeyboardKeyProps) => {
   const { children, className, size, value, variant, ...rest } = props;
-
-  const { getKeyboardKey } = useKeyboardKey();
 
   const { item } = keyboardKeyVariants({ size, variant });
 
   const mergedCls = cn(item(), className);
+
+  const { getKeyboardKey } = useKeyboardKey();
 
   const getValues = () => {
     if (!value) {
@@ -34,14 +32,14 @@ export const KeyboardKey = forwardRef<HTMLDivElement, KeyboardKeyProps>((props, 
   return (
     <div
       className={mergedCls}
-      ref={ref}
+      data-size={size}
+      data-slot="keyboard-key"
+      data-variant={variant}
       {...rest}
     >
       {children ? children(values) : values.map(v => <span key={v}>{v}</span>)}
     </div>
   );
-});
-
-KeyboardKey.displayName = 'KeyboardKey';
+};
 
 export default KeyboardKey;

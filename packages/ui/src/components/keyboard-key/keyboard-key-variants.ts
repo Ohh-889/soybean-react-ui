@@ -8,7 +8,7 @@ export const keyboardKeyVariants = tv({
   },
   slots: {
     group: 'flex items-center',
-    item: `inline-flex items-center justify-center w-fit font-medium border border-border  rounded-sm`,
+    item: `inline-flex items-center justify-center w-fit font-medium rounded-sm`,
     separator: 'font-medium text-muted-foreground'
   },
   variants: {
@@ -40,10 +40,10 @@ export const keyboardKeyVariants = tv({
     },
     variant: {
       ghost: {
-        item: ' border-border bg-muted text-muted-foreground'
+        item: 'border-border bg-muted text-muted-foreground border'
       },
       outline: {
-        item: 'border-border bg-background text-muted-foreground'
+        item: 'border-border bg-background text-muted-foreground border'
       },
       solid: {
         item: 'bg-muted-foreground text-muted'

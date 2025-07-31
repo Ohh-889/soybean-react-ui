@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 import type { BaseComponentProps, ClassValue } from '@/types/other';
 
 import type { KeyboardKeySlots, KeyboardKeyVariant } from './keyboard-key-variants';
@@ -40,13 +42,14 @@ export interface KeyboardKeyProps<T extends KeyboardKeyValue | KeyboardKeyValue[
   variant?: KeyboardKeyVariant;
 }
 
-export type KeyboardKeyUi = Partial<Record<KeyboardKeySlots, ClassValue>>;
+export type KeyboardKeyClassNames = Partial<Record<KeyboardKeySlots, ClassValue>>;
 
 export interface KeyboardKeyGroupProps<T extends KeyboardKeyValue | KeyboardKeyValue[] = KeyboardKeyValue>
-  extends Omit<KeyboardKeyProps, 'value'> {
-  separator?: string;
-  ui?: KeyboardKeyUi;
-  values?: T[];
+  extends Omit<KeyboardKeyProps, 'children' | 'value'> {
+  classNames?: KeyboardKeyClassNames;
+  render?: (value: T) => React.ReactNode;
+  separator?: ReactNode;
+  values: T[];
 }
 
 export type { KeyboardKeyVariant };

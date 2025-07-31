@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 export type BuiltinKeyboardKey =
   | 'alt'
@@ -35,7 +35,6 @@ type SpecificKeyboardKeyMap = {
   meta: string;
 };
 
-/* ---------- 静态映射 ---------- */
 export const builtinKeyboardKeyMap: Record<BuiltinKeyboardKey, string> = {
   alt: '',
   arrowdown: '↓',
@@ -64,29 +63,26 @@ export const builtinKeyboardKeyMap: Record<BuiltinKeyboardKey, string> = {
 /*                               Hook                                 */
 /* ------------------------------------------------------------------ */
 export function useKeyboardKey() {
-  const isMacOS = useMemo(() => /Macintosh;/.test(typeof navigator !== 'undefined' ? navigator.userAgent : ''), []);
+  const [isMacOS, setIsMacOS] = useState(false);
 
-  const specificMapRef = useRef<SpecificKeyboardKeyMap>({
-    alt: ' ',
-    ctrl: ' ',
-    meta: ' '
-  });
+  const specificMapRef: SpecificKeyboardKeyMap = {
+    alt: isMacOS ? builtinKeyboardKeyMap.option : 'alt',
+    ctrl: isMacOS ? '⌃' : 'ctrl',
+    meta: isMacOS ? builtinKeyboardKeyMap.command : builtinKeyboardKeyMap.win
+  };
 
-  useEffect(() => {
-    const m = specificMapRef.current;
-    m.meta = isMacOS ? builtinKeyboardKeyMap.command : builtinKeyboardKeyMap.win;
-    m.alt = isMacOS ? builtinKeyboardKeyMap.option : 'alt';
-    m.ctrl = isMacOS ? '⌃' : 'ctrl';
-  }, [isMacOS]);
-
-  const getKeyboardKey = useCallback((value?: KeyboardKeyProps['value']) => {
+  const getKeyboardKey = (value?: KeyboardKeyProps['value']) => {
     if (!value) return '';
 
     if (value === 'meta' || value === 'alt' || value === 'ctrl') {
-      return specificMapRef.current[value as keyof SpecificKeyboardKeyMap];
+      return specificMapRef[value as keyof SpecificKeyboardKeyMap];
     }
 
-    return (builtinKeyboardKeyMap as any)[value] || value.toUpperCase();
+    return builtinKeyboardKeyMap[value as BuiltinKeyboardKey] || value.toUpperCase();
+  };
+
+  useEffect(() => {
+    setIsMacOS(/Macintosh;/.test(navigator.userAgent));
   }, []);
 
   return {
