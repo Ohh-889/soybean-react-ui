@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "config-provider",
+  "type": "registry:block",
+  "title": "Config Provider",
+  "files": [
+    {
+      "path": "src/components/config-provider/ConfigProvider.tsx",
+      "content": "'use client';\n\nimport { ConfigContext } from './context';\nimport type { ComponentConfig, ConfigProviderProps } from './types';\n\nconst COMPONENT_KEYS = ['accordion', 'alert', 'icon'] satisfies (keyof ComponentConfig)[];\n\nconst ConfigProvider = (props: ConfigProviderProps) => {\n  const { children, direction = 'ltr', size = 'md', theme = { color: 'default' }, ...rest } = props;\n\n  const componentConfig = Object.fromEntries(\n    COMPONENT_KEYS.map(key => [\n      key,\n      {\n        ...rest[key],\n        dir: direction,\n        size\n      }\n    ])\n  );\n\n  return <ConfigContext.Provider value={componentConfig}>{children}</ConfigContext.Provider>;\n};\n\nexport default ConfigProvider;\n",
+      "type": "registry:ui",
+      "target": "components/config-provider/ConfigProvider.tsx"
+    },
+    {
+      "path": "src/components/config-provider/context.ts",
+      "content": "'use client';\n\nimport { createContext, useContext } from 'react';\n\nimport type { ComponentConfig } from './types';\n\nexport const ConfigContext = createContext<ComponentConfig>({});\n\nexport const useComponentConfig = <T extends keyof ComponentConfig>(component: T): ComponentConfig[T] => {\n  const config = useContext(ConfigContext);\n\n  if (!config) {\n    throw new Error('useComponentConfig must be used within a ConfigProvider');\n  }\n\n  if (!config?.[component]) return {};\n\n  return config[component];\n};\n",
+      "type": "registry:ui",
+      "target": "components/config-provider/context.ts"
+    },
+    {
+      "path": "src/components/config-provider/index.ts",
+      "content": "export { default as ConfigProvider } from './ConfigProvider';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/config-provider/index.ts"
+    },
+    {
+      "path": "src/components/config-provider/types.ts",
+      "content": "import type { ThemeOptions } from '@soybean-react-ui/tailwind-plugin';\n\nimport type { ThemeSize } from '@/types/other';\n\nimport type { AccordionProps } from '../accordion/types';\nimport type { AlertProps } from '../alert';\nimport type { IconProps } from '../icon';\n\nexport interface ConfigProviderProps extends ConfigProps {\n  children: React.ReactNode;\n}\n\nexport interface ConfigProps extends ComponentConfig {\n  direction?: 'ltr' | 'rtl';\n  size?: ThemeSize;\n  theme?: ThemeOptions;\n}\n\nexport type ComponentConfig = {\n  accordion?: AccordionConfig;\n  alert?: AlertConfig;\n  icon?: IconConfig;\n};\n\nexport type AccordionConfig = Pick<AccordionProps, 'className' | 'classNames' | 'dir' | 'size' | 'triggerIcon'>;\n\nexport type AlertConfig = Pick<\n  AlertProps,\n  'className' | 'classNames' | 'color' | 'icon' | 'leading' | 'size' | 'trailing' | 'variant'\n>;\n\nexport type IconConfig = Pick<IconProps, 'className' | 'color' | 'height' | 'inline' | 'width'>;\n",
+      "type": "registry:ui",
+      "target": "components/config-provider/types.ts"
+    }
+  ]
+}

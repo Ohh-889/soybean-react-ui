@@ -3,12 +3,8 @@
   "name": "carousel",
   "type": "registry:block",
   "title": "Carousel",
-  "dependencies": [
-    "embla-carousel-react"
-  ],
-  "registryDependencies": [
-    "button"
-  ],
+  "dependencies": ["embla-carousel-react"],
+  "registryDependencies": ["button"],
   "files": [
     {
       "path": "src/components/carousel/Carousel.tsx",
@@ -54,7 +50,7 @@
     },
     {
       "path": "src/components/carousel/context.ts",
-      "content": "'use client';\n\nimport { createContext, useContext } from 'react';\n\nimport type { CarouselContextProps } from './types';\n\nexport const CarouselContext = createContext<CarouselContextProps | null>(null);\n\nexport function useCarousel() {\n  const context = useContext(CarouselContext);\n\n  if (!context) {\n    throw new Error('useCarousel must be used within a <Carousel />');\n  }\n\n  return context;\n}\n",
+      "content": "'use client';\nimport { createContext, useContext } from 'react';\n\nimport type { CarouselContextProps } from './types';\n\nexport const CarouselContext = createContext<CarouselContextProps | null>(null);\n\nexport function useCarousel() {\n  const context = useContext(CarouselContext);\n\n  if (!context) {\n    throw new Error('useCarousel must be used within a <CarouselRoot />');\n  }\n\n  return context;\n}\n",
       "type": "registry:ui",
       "target": "components/carousel/context.ts"
     },

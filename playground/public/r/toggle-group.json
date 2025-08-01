@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toggle-group",
+  "type": "registry:block",
+  "title": "Toggle Group",
+  "files": [
+    {
+      "path": "src/components/toggle-group/ToggleGroup.tsx",
+      "content": "import { isFunction } from '@/lib/typed';\n\nimport ToggleGroupItem from './ToggleGroupItem';\nimport ToggleGroupRoot from './ToggleGroupRoot';\nimport type { ToggleGroupProps } from './types';\n\nconst ToggleGroup = (props: ToggleGroupProps) => {\n  const { className, classNames, itemRender, items, size, variant, ...rest } = props;\n\n  return (\n    <ToggleGroupRoot\n      {...rest}\n      className={[classNames?.groupRoot, className]}\n      size={size}\n    >\n      {items.map(item => {\n        const { label, ...restItem } = item;\n\n        return (\n          <ToggleGroupItem\n            key={item.value}\n            size={size}\n            variant={variant}\n            {...restItem}\n          >\n            {isFunction(itemRender) ? itemRender(item) : label}\n          </ToggleGroupItem>\n        );\n      })}\n    </ToggleGroupRoot>\n  );\n};\n\nexport default ToggleGroup;\n",
+      "type": "registry:ui",
+      "target": "components/toggle-group/ToggleGroup.tsx"
+    },
+    {
+      "path": "src/components/toggle-group/ToggleGroupItem.tsx",
+      "content": "import { Item } from '@radix-ui/react-toggle-group';\n\nimport { cn } from '@/lib/utils';\n\nimport { toggleVariants } from '../toggle/toggle-variants';\n\nimport type { ToggleGroupItemProps } from './types';\n\nconst ToggleGroupItem = (props: ToggleGroupItemProps) => {\n  const { className, size, variant, ...rest } = props;\n\n  const { toggle } = toggleVariants({ size, variant });\n\n  const mergedCls = cn(toggle(), className);\n\n  return (\n    <Item\n      className={mergedCls}\n      data-size={size}\n      data-slot=\"toggle-group-item\"\n      data-variant={variant}\n      {...rest}\n    />\n  );\n};\n\nexport default ToggleGroupItem;\n",
+      "type": "registry:ui",
+      "target": "components/toggle-group/ToggleGroupItem.tsx"
+    },
+    {
+      "path": "src/components/toggle-group/ToggleGroupRoot.tsx",
+      "content": "import { Root } from '@radix-ui/react-toggle-group';\n\nimport { cn } from '@/lib/utils';\n\nimport { toggleVariants } from '../toggle/toggle-variants';\n\nimport type { ToggleGroupRootProps } from './types';\n\nconst ToggleGroupRoot = (props: ToggleGroupRootProps) => {\n  const { className, size, ...rest } = props;\n\n  const { groupRoot } = toggleVariants({ size });\n\n  const mergedCls = cn(groupRoot(), className);\n\n  return (\n    <Root\n      data-size={size}\n      data-slot=\"toggle-group\"\n      {...rest}\n      className={mergedCls}\n    />\n  );\n};\n\nexport default ToggleGroupRoot;\n",
+      "type": "registry:ui",
+      "target": "components/toggle-group/ToggleGroupRoot.tsx"
+    },
+    {
+      "path": "src/components/toggle-group/index.ts",
+      "content": "export { default as ToggleGroup } from './ToggleGroup';\nexport { default as ToggleGroupItem } from './ToggleGroupItem';\nexport { default as ToggleGroupRoot } from './ToggleGroupRoot';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/toggle-group/index.ts"
+    },
+    {
+      "path": "src/components/toggle-group/types.ts",
+      "content": "import type {\n  // eslint-disable-next-line sort/import-members\n  ToggleGroupMultipleProps,\n  ToggleGroupSingleProps,\n  ToggleGroupItemProps as _ToggleGroupItemProps\n} from '@radix-ui/react-toggle-group';\nimport type { ReactNode } from 'react';\n\nimport type { BaseNodeProps, ClassValue } from '@/types/other';\n\nimport type { ToggleProps } from '../toggle';\nimport type { ToggleSlots } from '../toggle/toggle-variants';\n\nexport type ToggleGroupRootProps = BaseNodeProps<ToggleGroupMultipleProps> | BaseNodeProps<ToggleGroupSingleProps>;\n\nexport type ToggleGroupItemProps = BaseNodeProps<_ToggleGroupItemProps> & {\n  variant?: ToggleProps['variant'];\n};\n\nexport type ToggleGroupClassNames = Partial<Record<ToggleSlots, ClassValue>>;\n\nexport type ToggleGroupItemData = Omit<ToggleGroupItemProps, 'children'> & {\n  label: ReactNode;\n};\n\nexport type ToggleGroupProps<T extends ToggleGroupItemData = ToggleGroupItemData> = ToggleGroupRootProps & {\n  classNames?: ToggleGroupClassNames;\n  itemRender?: (item: T) => ReactNode;\n  items: T[];\n  variant?: ToggleProps['variant'];\n};\n",
+      "type": "registry:ui",
+      "target": "components/toggle-group/types.ts"
+    }
+  ]
+}

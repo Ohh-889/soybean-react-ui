@@ -1,0 +1,44 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "collapsible",
+  "type": "registry:block",
+  "title": "Collapsible",
+  "files": [
+    {
+      "path": "src/components/collapsible/Collapsible.tsx",
+      "content": "import type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport CollapsibleContent from './CollapsibleContent';\nimport CollapsibleRoot from './CollapsibleRoot';\nimport type { CollapsibleProps } from './types';\n\nconst Collapsible = forwardRef<ComponentRef<typeof CollapsibleRoot>, CollapsibleProps>((props, ref) => {\n  const { children, className, classNames, content, forceMountContent, ...rest } = props;\n\n  return (\n    <CollapsibleRoot\n      className={className || classNames?.root}\n      ref={ref}\n      {...rest}\n    >\n      {children}\n\n      <CollapsibleContent\n        className={classNames?.content}\n        forceMount={forceMountContent}\n      >\n        {content}\n      </CollapsibleContent>\n    </CollapsibleRoot>\n  );\n});\n\nCollapsible.displayName = 'Collapsible';\n\nexport default Collapsible;\n",
+      "type": "registry:ui",
+      "target": "components/collapsible/Collapsible.tsx"
+    },
+    {
+      "path": "src/components/collapsible/CollapsibleContent.tsx",
+      "content": "import { Content } from '@radix-ui/react-collapsible';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { collapsibleVariants } from './collapsible-variants';\nimport type { CollapsibleContentProps } from './types';\n\nconst CollapsibleContent = forwardRef<ComponentRef<typeof Content>, CollapsibleContentProps>((props, ref) => {\n  const { className, ...rest } = props;\n\n  const { content } = collapsibleVariants();\n\n  const mergedCls = cn(content(), className);\n\n  return (\n    <Content\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nCollapsibleContent.displayName = 'CollapsibleContent';\n\nexport default CollapsibleContent;\n",
+      "type": "registry:ui",
+      "target": "components/collapsible/CollapsibleContent.tsx"
+    },
+    {
+      "path": "src/components/collapsible/CollapsibleRoot.tsx",
+      "content": "import { Root } from '@radix-ui/react-collapsible';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { collapsibleVariants } from './collapsible-variants';\nimport type { CollapsibleRootProps } from './types';\n\nconst CollapsibleRoot = forwardRef<ComponentRef<typeof Root>, CollapsibleRootProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { root } = collapsibleVariants({ size });\n\n  const mergedCls = cn(root(), className);\n\n  return (\n    <Root\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nCollapsibleRoot.displayName = 'CollapsibleRoot';\n\nexport default CollapsibleRoot;\n",
+      "type": "registry:ui",
+      "target": "components/collapsible/CollapsibleRoot.tsx"
+    },
+    {
+      "path": "src/components/collapsible/collapsible-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const collapsibleVariants = tv({\n  slots: {\n    content: [\n      'overflow-hidden transition will-change-auto',\n      'data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down'\n    ],\n    root: '',\n    trigger: ''\n  },\n  variants: {\n    size: {\n      '2xl': {\n        root: 'text-xl'\n      },\n      lg: {\n        root: 'text-base'\n      },\n      md: {\n        root: 'text-sm'\n      },\n      sm: {\n        root: 'text-xs'\n      },\n      xl: {\n        root: 'text-lg'\n      },\n      xs: {\n        root: 'text-2xs'\n      }\n    }\n  }\n});\n\nexport type CollapsibleSlots = keyof typeof collapsibleVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/collapsible/collapsible-variants.ts"
+    },
+    {
+      "path": "src/components/collapsible/index.ts",
+      "content": "export { CollapsibleTrigger } from '@radix-ui/react-collapsible';\nexport { default as Collapsible } from './Collapsible';\nexport { default as CollapsibleContent } from './CollapsibleContent';\nexport { default as CollapsibleRoot } from './CollapsibleRoot';\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/collapsible/index.ts"
+    },
+    {
+      "path": "src/components/collapsible/types.ts",
+      "content": "import type {\n  CollapsibleContentProps as _CollapsibleContentProps,\n  CollapsibleProps as _CollapsibleRootProps\n} from '@radix-ui/react-collapsible';\n\nimport type { BaseNodeProps, ClassValue } from '@/types/other';\n\nimport type { CollapsibleSlots } from './collapsible-variants';\n\nexport type CollapsibleRootProps = BaseNodeProps<Omit<_CollapsibleRootProps, 'content'>>;\n\nexport type CollapsibleContentProps = BaseNodeProps<_CollapsibleContentProps>;\n\nexport type CollapsibleClassNames = Partial<Record<CollapsibleSlots, ClassValue>>;\n\nexport interface CollapsibleProps extends CollapsibleRootProps {\n  classNames?: CollapsibleClassNames;\n  content?: React.ReactNode;\n  forceMountContent?: true;\n}\n",
+      "type": "registry:ui",
+      "target": "components/collapsible/types.ts"
+    }
+  ]
+}

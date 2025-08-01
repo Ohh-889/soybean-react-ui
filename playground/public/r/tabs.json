@@ -3,10 +3,7 @@
   "name": "tabs",
   "type": "registry:block",
   "title": "Tabs",
-  "dependencies": [
-    "@radix-ui/react-tabs",
-    "@radix-ui/react-compose-refs"
-  ],
+  "dependencies": ["@radix-ui/react-tabs", "@radix-ui/react-compose-refs"],
   "files": [
     {
       "path": "src/components/tabs/Tabs.tsx",

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hover-card",
+  "type": "registry:block",
+  "title": "Hover Card",
+  "files": [
+    {
+      "path": "src/components/hover-card/HoverCard.tsx",
+      "content": "import { Root, Trigger } from '@radix-ui/react-hover-card';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport HoverCardArrow from './HoverCardArrow';\nimport HoverCardContent from './HoverCardContent';\nimport type { HoverCardProps } from './types';\n\nconst HoverCard = forwardRef<ComponentRef<typeof HoverCardContent>, HoverCardProps>((props, ref) => {\n  const { arrowProps, children, className, classNames, showArrow, trigger, ...rest } = props;\n\n  return (\n    <Root\n      data-slot=\"hover-card-root\"\n      {...rest}\n    >\n      <Trigger\n        asChild\n        data-slot=\"hover-card-trigger\"\n      >\n        {trigger}\n      </Trigger>\n\n      <HoverCardContent\n        className={className || classNames?.content}\n        ref={ref}\n      >\n        {children}\n\n        {showArrow && (\n          <HoverCardArrow\n            {...arrowProps}\n            className={classNames?.arrow}\n          />\n        )}\n      </HoverCardContent>\n    </Root>\n  );\n});\n\nHoverCard.displayName = 'HoverCard';\n\nexport default HoverCard;\n",
+      "type": "registry:ui",
+      "target": "components/hover-card/HoverCard.tsx"
+    },
+    {
+      "path": "src/components/hover-card/HoverCardArrow.tsx",
+      "content": "import { Arrow } from '@radix-ui/react-hover-card';\n\nimport { cn } from '@/lib/utils';\n\nimport { hoverCardVariants } from './hover-card-variants';\nimport type { HoverCardArrowProps } from './types';\n\nconst HoverCardArrow = (props: HoverCardArrowProps) => {\n  const { className, size, ...rest } = props;\n\n  const { arrow } = hoverCardVariants({ size });\n\n  const mergedClass = cn(arrow(), className);\n\n  return (\n    <Arrow\n      {...rest}\n      className={mergedClass}\n      data-slot=\"hover-card-arrow\"\n    />\n  );\n};\n\nexport default HoverCardArrow;\n",
+      "type": "registry:ui",
+      "target": "components/hover-card/HoverCardArrow.tsx"
+    },
+    {
+      "path": "src/components/hover-card/HoverCardContent.tsx",
+      "content": "import { Content, Portal } from '@radix-ui/react-hover-card';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { hoverCardVariants } from './hover-card-variants';\nimport type { HoverCardContentProps } from './types';\n\nconst HoverCardContent = forwardRef<ComponentRef<typeof Content>, HoverCardContentProps>((props, ref) => {\n  const { align = 'center', className, sideOffset = 8, ...rest } = props;\n\n  const { content } = hoverCardVariants();\n\n  const mergedCls = cn(content(), className);\n\n  return (\n    <Portal data-slot=\"hover-card-portal\">\n      <Content\n        align={align}\n        className={mergedCls}\n        data-slot=\"hover-card-content\"\n        ref={ref}\n        sideOffset={sideOffset}\n        {...rest}\n      />\n    </Portal>\n  );\n});\n\nHoverCardContent.displayName = 'HoverCardContent';\n\nexport default HoverCardContent;\n",
+      "type": "registry:ui",
+      "target": "components/hover-card/HoverCardContent.tsx"
+    },
+    {
+      "path": "src/components/hover-card/hover-card-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const hoverCardVariants = tv({\n  slots: {\n    arrow: 'fill-popover stroke-border',\n    content: [\n      `w-auto p-4 rounded-md border bg-popover  text-popover-foreground shadow-md outline-none z-50 will-change-transform`,\n      `data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95 data-[state=open]:fade-in-0  data-[state=open]:animate-in`,\n      `data-[state=closed]:zoom-out-95 data-[state=closed]:fade-out-0  data-[state=closed]:animate-out`,\n      `data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2`\n    ]\n  }\n});\n\nexport type HoverCardSlots = keyof typeof hoverCardVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/hover-card/hover-card-variants.ts"
+    },
+    {
+      "path": "src/components/hover-card/index.ts",
+      "content": "export { Root as HoverCardRoot, Trigger as HoverCardTrigger } from '@radix-ui/react-hover-card';\n\nexport { default as HoverCard } from './HoverCard';\nexport { default as HoverCardArrow } from './HoverCardArrow';\nexport { default as HoverCardContent } from './HoverCardContent';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/hover-card/index.ts"
+    },
+    {
+      "path": "src/components/hover-card/types.ts",
+      "content": "import type {\n  HoverCardArrowProps as _HoverCardArrowProps,\n  HoverCardContentProps as _HoverCardContentProps,\n  HoverCardProps as _HoverCardProps\n} from '@radix-ui/react-hover-card';\n\nimport type { BaseNodeProps, ClassValue } from '@/types/other';\n\nimport type { HoverCardSlots } from './hover-card-variants';\n\nexport type HoverCardClassNames = Partial<Record<HoverCardSlots, ClassValue>>;\n\nexport type HoverCardProps = BaseNodeProps<_HoverCardProps> & {\n  arrowProps?: HoverCardArrowProps;\n  classNames?: HoverCardClassNames;\n  contentProps?: Omit<HoverCardContentProps, 'children' | 'className'>;\n  showArrow?: boolean;\n  trigger?: React.ReactNode;\n};\n\nexport type HoverCardArrowProps = BaseNodeProps<_HoverCardArrowProps>;\n\nexport type HoverCardContentProps = BaseNodeProps<_HoverCardContentProps>;\n",
+      "type": "registry:ui",
+      "target": "components/hover-card/types.ts"
+    }
+  ]
+}

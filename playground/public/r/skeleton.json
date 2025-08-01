@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "skeleton",
+  "type": "registry:block",
+  "title": "Skeleton",
+  "files": [
+    {
+      "path": "src/components/skeleton/Skeleton.tsx",
+      "content": "import { cn } from '@/lib/utils';\n\nimport { skeletonVariants } from './skeleton-variants';\nimport type { SkeletonProps } from './types';\n\nfunction Skeleton(props: SkeletonProps) {\n  const { className, ...rest } = props;\n\n  const mergedCls = cn(skeletonVariants(), className);\n\n  return (\n    <div\n      className={mergedCls}\n      data-slot=\"skeleton\"\n      {...rest}\n    />\n  );\n}\n\nexport default Skeleton;\n",
+      "type": "registry:ui",
+      "target": "components/skeleton/Skeleton.tsx"
+    },
+    {
+      "path": "src/components/skeleton/index.ts",
+      "content": "export { default as Skeleton } from './Skeleton';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/skeleton/index.ts"
+    },
+    {
+      "path": "src/components/skeleton/skeleton-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const skeletonVariants = tv({\n  base: `animate-pulse rounded-md bg-accent-foreground/10`\n});\n",
+      "type": "registry:ui",
+      "target": "components/skeleton/skeleton-variants.ts"
+    },
+    {
+      "path": "src/components/skeleton/types.ts",
+      "content": "import type { BaseComponentProps } from '@/types/other';\n\nexport type SkeletonProps = BaseComponentProps<'div'>;\n",
+      "type": "registry:ui",
+      "target": "components/skeleton/types.ts"
+    }
+  ]
+}

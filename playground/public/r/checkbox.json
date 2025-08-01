@@ -3,9 +3,7 @@
   "name": "checkbox",
   "type": "registry:block",
   "title": "Checkbox",
-  "dependencies": [
-    "@radix-ui/react-checkbox"
-  ],
+  "dependencies": ["@radix-ui/react-checkbox"],
   "files": [
     {
       "path": "src/components/checkbox/Checkbox.tsx",

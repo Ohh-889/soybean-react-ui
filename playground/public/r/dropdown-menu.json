@@ -1,0 +1,116 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dropdown-menu",
+  "type": "registry:block",
+  "title": "Dropdown Menu",
+  "files": [
+    {
+      "path": "src/components/dropdown-menu/DropdownMenu.tsx",
+      "content": "import { Root, Trigger } from '@radix-ui/react-dropdown-menu';\n\nimport DropdownMenuContent from './DropdownMenuContent';\nimport DropdownMenuOption from './DropdownMenuOption';\nimport type { DropdownMenuProps } from './types';\n\nconst DropdownMenu = (props: DropdownMenuProps) => {\n  const { children, classNames, contentProps, defaultOpen, dir, items, modal, onOpenChange, open, size } = props;\n\n  return (\n    <Root\n      defaultOpen={defaultOpen}\n      dir={dir}\n      modal={modal}\n      open={open}\n      onOpenChange={onOpenChange}\n    >\n      <Trigger asChild>{children}</Trigger>\n\n      <DropdownMenuContent {...contentProps}>\n        {items.map((item, index) => {\n          return (\n            <DropdownMenuOption\n              classNames={classNames}\n              item={item}\n              key={String(index)}\n              size={size}\n            />\n          );\n        })}\n      </DropdownMenuContent>\n    </Root>\n  );\n};\n\nexport default DropdownMenu;\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/DropdownMenu.tsx"
+    },
+    {
+      "path": "src/components/dropdown-menu/DropdownMenuArrow.tsx",
+      "content": "import { Arrow } from '@radix-ui/react-dropdown-menu';\n\nimport MenuArrow from '../menu/MenuArrow';\n\nimport type { DropdownMenuArrowProps } from './types';\n\nconst DropdownMenuArrow = (props: DropdownMenuArrowProps) => {\n  return (\n    <MenuArrow\n      {...props}\n      component={Arrow as typeof MenuArrow}\n    />\n  );\n};\n\nexport default DropdownMenuArrow;\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/DropdownMenuArrow.tsx"
+    },
+    {
+      "path": "src/components/dropdown-menu/DropdownMenuCheckbox.tsx",
+      "content": "import { Root, Trigger } from '@radix-ui/react-dropdown-menu';\n\nimport DropdownMenuCheckboxGroup from './DropdownMenuCheckboxGroup';\nimport DropdownMenuContent from './DropdownMenuContent';\nimport type { DropdownMenuCheckboxProps } from './types';\n\nconst DropdownMenuCheckbox = (props: DropdownMenuCheckboxProps) => {\n  const { children, className, classNames, contentProps, defaultOpen, dir, modal, onOpenChange, open, size, ...rest } =\n    props;\n\n  return (\n    <Root\n      defaultOpen={defaultOpen}\n      dir={dir}\n      modal={modal}\n      open={open}\n      onOpenChange={onOpenChange}\n    >\n      <Trigger asChild>{children}</Trigger>\n\n      <DropdownMenuContent\n        arrowClass={classNames?.arrow}\n        className={className || classNames?.content}\n        size={size}\n        {...contentProps}\n      >\n        <DropdownMenuCheckboxGroup\n          classNames={classNames}\n          size={size}\n          {...rest}\n        />\n      </DropdownMenuContent>\n    </Root>\n  );\n};\n\nexport default DropdownMenuCheckbox;\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/DropdownMenuCheckbox.tsx"
+    },
+    {
+      "path": "src/components/dropdown-menu/DropdownMenuCheckboxGroup.tsx",
+      "content": "'use client';\n\nimport { Group } from '@radix-ui/react-dropdown-menu';\n\nimport MenuCheckboxGroup from '../menu/MenuCheckboxGroup';\n\nimport DropdownMenuCheckboxItem from './DropdownMenuCheckboxItem';\nimport DropdownMenuLabel from './DropdownMenuLabel';\nimport DropdownMenuSeparator from './DropdownMenuSeparator';\nimport type { DropdownMenuCheckboxGroupProps } from './types';\n\nconst DropdownMenuCheckboxGroup = (props: DropdownMenuCheckboxGroupProps) => {\n  return (\n    <MenuCheckboxGroup\n      component={DropdownMenuCheckboxItem}\n      groupComponent={Group}\n      labelComponent={DropdownMenuLabel}\n      separatorComponent={DropdownMenuSeparator}\n      {...props}\n    />\n  );\n};\n\nexport default DropdownMenuCheckboxGroup;\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/DropdownMenuCheckboxGroup.tsx"
+    },
+    {
+      "path": "src/components/dropdown-menu/DropdownMenuCheckboxItem.tsx",
+      "content": "import { CheckboxItem } from '@radix-ui/react-dropdown-menu';\n\nimport MenuCheckboxItem from '../menu/MenuCheckboxItem';\n\nimport DropdownMenuItemIndicator from './DropdownMenuItemIndicator';\nimport type { DropdownMenuCheckboxItemProps } from './types';\n\nconst DropdownMenuCheckboxItem = (props: DropdownMenuCheckboxItemProps) => {\n  return (\n    <MenuCheckboxItem\n      component={CheckboxItem as typeof MenuCheckboxItem}\n      indicatorComponent={DropdownMenuItemIndicator}\n      {...props}\n    />\n  );\n};\n\nexport default DropdownMenuCheckboxItem;\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/DropdownMenuCheckboxItem.tsx"
+    },
+    {
+      "path": "src/components/dropdown-menu/DropdownMenuContent.tsx",
+      "content": "import { Content, Portal } from '@radix-ui/react-dropdown-menu';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport MenuContent from '../menu/MenuContent';\n\nimport DropdownMenuArrow from './DropdownMenuArrow';\nimport type { DropdownMenuContentProps } from './types';\n\nconst DropdownMenuContent = forwardRef<ComponentRef<typeof Content>, DropdownMenuContentProps>((props, ref) => {\n  return (\n    <MenuContent\n      arrowComponent={DropdownMenuArrow}\n      component={Content as typeof MenuContent}\n      portalComponent={Portal}\n      ref={ref}\n      {...props}\n    />\n  );\n});\n\nDropdownMenuContent.displayName = 'DropdownMenuContent';\n\nexport default DropdownMenuContent;\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/DropdownMenuContent.tsx"
+    },
+    {
+      "path": "src/components/dropdown-menu/DropdownMenuItem.tsx",
+      "content": "import { Item } from '@radix-ui/react-dropdown-menu';\n\nimport MenuItem from '../menu/MenuItem';\n\nimport type { DropdownMenuItemProps } from './types';\n\nconst DropdownMenuItem = (props: DropdownMenuItemProps) => {\n  return (\n    <MenuItem\n      {...props}\n      component={Item as typeof MenuItem}\n    />\n  );\n};\n\nexport default DropdownMenuItem;\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/DropdownMenuItem.tsx"
+    },
+    {
+      "path": "src/components/dropdown-menu/DropdownMenuItemIndicator.tsx",
+      "content": "import { ItemIndicator } from '@radix-ui/react-dropdown-menu';\n\nimport MenuItemIndicator from '../menu/MenuItemIndicator';\n\nimport type { DropdownMenuItemIndicatorProps } from './types';\n\nconst DropdownMenuItemIndicator = (props: DropdownMenuItemIndicatorProps) => {\n  return (\n    <MenuItemIndicator\n      component={ItemIndicator as typeof MenuItemIndicator}\n      {...props}\n    />\n  );\n};\n\nexport default DropdownMenuItemIndicator;\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/DropdownMenuItemIndicator.tsx"
+    },
+    {
+      "path": "src/components/dropdown-menu/DropdownMenuLabel.tsx",
+      "content": "import { Label } from '@radix-ui/react-dropdown-menu';\n\nimport MenuLabel from '../menu/MenuLabel';\n\nimport type { DropdownMenuLabelProps } from './types';\n\nconst DropdownMenuLabel = (props: DropdownMenuLabelProps) => {\n  return (\n    <MenuLabel\n      component={Label as typeof MenuLabel}\n      {...props}\n    />\n  );\n};\n\nexport default DropdownMenuLabel;\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/DropdownMenuLabel.tsx"
+    },
+    {
+      "path": "src/components/dropdown-menu/DropdownMenuOption.tsx",
+      "content": "import { Sub } from '@radix-ui/react-dropdown-menu';\n\nimport MenuOption from '../menu/MenuOption';\n\nimport DropdownMenuItem from './DropdownMenuItem';\nimport DropdownMenuLabel from './DropdownMenuLabel';\nimport DropdownMenuSeparator from './DropdownMenuSeparator';\nimport DropdownMenuSubContent from './DropdownMenuSubContent';\nimport DropdownMenuSubTrigger from './DropdownMenuSubTrigger';\nimport type { DropdownMenuOptionProps } from './types';\n\nconst DropdownMenuOption = (props: DropdownMenuOptionProps) => {\n  return (\n    <MenuOption\n      {...props}\n      component={DropdownMenuItem}\n      labelComponent={DropdownMenuLabel}\n      separatorComponent={DropdownMenuSeparator}\n      subComponent={Sub}\n      subContentComponent={DropdownMenuSubContent}\n      subTriggerComponent={DropdownMenuSubTrigger}\n    />\n  );\n};\n\nDropdownMenuOption.displayName = 'DropdownMenuOption';\n\nexport default DropdownMenuOption;\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/DropdownMenuOption.tsx"
+    },
+    {
+      "path": "src/components/dropdown-menu/DropdownMenuRadio.tsx",
+      "content": "import { Root, Trigger } from '@radix-ui/react-dropdown-menu';\n\nimport DropdownMenuContent from './DropdownMenuContent';\nimport DropdownMenuRadioGroup from './DropdownMenuRadioGroup';\nimport type { DropdownMenuRadioProps } from './types';\n\nconst DropdownMenuRadio = (props: DropdownMenuRadioProps) => {\n  const { children, className, classNames, contentProps, defaultOpen, dir, modal, onOpenChange, open, size, ...rest } =\n    props;\n\n  return (\n    <Root\n      defaultOpen={defaultOpen}\n      dir={dir}\n      modal={modal}\n      open={open}\n      onOpenChange={onOpenChange}\n    >\n      <Trigger asChild>{children}</Trigger>\n\n      <DropdownMenuContent\n        arrowClass={classNames?.arrow}\n        className={className || classNames?.content}\n        size={size}\n        {...contentProps}\n      >\n        <DropdownMenuRadioGroup\n          classNames={classNames}\n          size={size}\n          {...rest}\n        />\n      </DropdownMenuContent>\n    </Root>\n  );\n};\n\nexport default DropdownMenuRadio;\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/DropdownMenuRadio.tsx"
+    },
+    {
+      "path": "src/components/dropdown-menu/DropdownMenuRadioGroup.tsx",
+      "content": "'use client';\n\nimport { RadioGroup } from '@radix-ui/react-dropdown-menu';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport MenuRadioGroup from '../menu/MenuRadioGroup';\n\nimport DropdownMenuLabel from './DropdownMenuLabel';\nimport DropdownMenuRadioItem from './DropdownMenuRadioItem';\nimport DropdownMenuSeparator from './DropdownMenuSeparator';\nimport type { DropdownMenuRadioGroupProps } from './types';\n\nconst DropdownMenuRadioGroup = forwardRef<ComponentRef<typeof RadioGroup>, DropdownMenuRadioGroupProps>(\n  (props, ref) => {\n    return (\n      <MenuRadioGroup\n        component={DropdownMenuRadioItem}\n        groupComponent={RadioGroup}\n        labelComponent={DropdownMenuLabel}\n        ref={ref}\n        separatorComponent={DropdownMenuSeparator}\n        {...props}\n      />\n    );\n  }\n);\n\nDropdownMenuRadioGroup.displayName = 'DropdownMenuRadioGroup';\n\nexport default DropdownMenuRadioGroup;\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/DropdownMenuRadioGroup.tsx"
+    },
+    {
+      "path": "src/components/dropdown-menu/DropdownMenuRadioItem.tsx",
+      "content": "import { RadioItem } from '@radix-ui/react-dropdown-menu';\n\nimport MenuRadioItem from '../menu/MenuRadioItem';\n\nimport DropdownMenuItemIndicator from './DropdownMenuItemIndicator';\nimport type { DropdownMenuRadioItemProps } from './types';\n\nconst DropdownMenuRadioItem = (props: DropdownMenuRadioItemProps) => {\n  return (\n    <MenuRadioItem\n      component={RadioItem}\n      indicatorComponent={DropdownMenuItemIndicator}\n      {...props}\n    />\n  );\n};\n\nexport default DropdownMenuRadioItem;\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/DropdownMenuRadioItem.tsx"
+    },
+    {
+      "path": "src/components/dropdown-menu/DropdownMenuSeparator.tsx",
+      "content": "import { Separator } from '@radix-ui/react-dropdown-menu';\n\nimport MenuSeparator from '../menu/MenuSeparator';\n\nimport type { DropdownMenuSeparatorProps } from './types';\n\nconst DropdownMenuSeparator = (props: DropdownMenuSeparatorProps) => {\n  return (\n    <MenuSeparator\n      component={Separator as typeof MenuSeparator}\n      {...props}\n    />\n  );\n};\n\nexport default DropdownMenuSeparator;\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/DropdownMenuSeparator.tsx"
+    },
+    {
+      "path": "src/components/dropdown-menu/DropdownMenuSubContent.tsx",
+      "content": "import { Group, Portal, SubContent } from '@radix-ui/react-dropdown-menu';\n\nimport MenuSubContent from '../menu/MenuSubContent';\n\nimport type { DropdownMenuSubContentProps } from './types';\n\nconst DropdownMenuSubContent = (props: DropdownMenuSubContentProps) => {\n  return (\n    <MenuSubContent\n      component={SubContent as typeof MenuSubContent}\n      groupComponent={Group as typeof MenuSubContent}\n      portalComponent={Portal}\n      {...props}\n    />\n  );\n};\n\nexport default DropdownMenuSubContent;\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/DropdownMenuSubContent.tsx"
+    },
+    {
+      "path": "src/components/dropdown-menu/DropdownMenuSubTrigger.tsx",
+      "content": "import { SubTrigger } from '@radix-ui/react-dropdown-menu';\n\nimport MenuSubTrigger from '../menu/MenuSubTrigger';\n\nimport type { DropdownMenuSubTriggerProps } from './types';\n\nconst DropdownMenuSubTrigger = (props: DropdownMenuSubTriggerProps) => {\n  return (\n    <MenuSubTrigger\n      component={SubTrigger as typeof MenuSubTrigger}\n      {...props}\n    />\n  );\n};\n\nexport default DropdownMenuSubTrigger;\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/DropdownMenuSubTrigger.tsx"
+    },
+    {
+      "path": "src/components/dropdown-menu/index.ts",
+      "content": "export { default as DropdownMenu } from './DropdownMenu';\n\nexport { default as DropdownMenuArrow } from './DropdownMenuArrow';\n\nexport { default as DropdownMenuCheckbox } from './DropdownMenuCheckbox';\nexport { default as DropdownMenuCheckboxGroup } from './DropdownMenuCheckboxGroup';\nexport { default as DropdownMenuCheckboxItem } from './DropdownMenuCheckboxItem';\n\nexport { default as DropdownMenuContent } from './DropdownMenuContent';\n\nexport { default as DropdownMenuItem } from './DropdownMenuItem';\nexport { default as DropdownMenuItemIndicator } from './DropdownMenuItemIndicator';\n\nexport { default as DropdownMenuLabel } from './DropdownMenuLabel';\nexport { default as DropdownMenuOption } from './DropdownMenuOption';\n\nexport { default as DropdownMenuRadio } from './DropdownMenuRadio';\nexport { default as DropdownMenuRadioGroup } from './DropdownMenuRadioGroup';\nexport { default as DropdownMenuRadioItem } from './DropdownMenuRadioItem';\n\nexport { default as DropdownMenuSeparator } from './DropdownMenuSeparator';\n\nexport { default as DropdownMenuSubContent } from './DropdownMenuSubContent';\nexport { default as DropdownMenuSubTrigger } from './DropdownMenuSubTrigger';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/index.ts"
+    },
+    {
+      "path": "src/components/dropdown-menu/types.ts",
+      "content": "import type {\n  DropdownMenuCheckboxItemProps as _DropdownMenuCheckboxItemProps,\n  DropdownMenuGroupProps as _DropdownMenuGroupProps,\n  DropdownMenuItemIndicatorProps as _DropdownMenuItemIndicatorProps,\n  DropdownMenuLabelProps as _DropdownMenuLabelProps,\n  DropdownMenuPortalProps as _DropdownMenuPortalProps,\n  DropdownMenuProps as _DropdownMenuProps,\n  DropdownMenuRadioGroupProps as _DropdownMenuRadioGroupProps,\n  DropdownMenuRadioItemProps as _DropdownMenuRadioItemProps,\n  DropdownMenuSeparatorProps as _DropdownMenuSeparatorProps,\n  DropdownMenuSub as _DropdownMenuSub,\n  DropdownMenuSubContentProps as _DropdownMenuSubContentProps,\n  DropdownMenuSubProps as _DropdownMenuSubProps,\n  DropdownMenuSubTriggerProps as _DropdownMenuSubTriggerProps\n} from '@radix-ui/react-dropdown-menu';\nimport type { ReactNode } from 'react';\n\nimport type { BaseNodeProps } from '@/types/other';\n\nimport type {\n  MenuArrowProps,\n  MenuCheckboxGroupProps,\n  MenuCheckboxItemProps,\n  MenuCommonProps,\n  MenuContentProps,\n  MenuItemIndicatorProps,\n  MenuItemProps,\n  MenuLabelProps,\n  MenuOptionProps,\n  MenuRadioGroupProps,\n  MenuRadioItemProps,\n  MenuSeparatorProps,\n  MenuSubContentProps,\n  MenuSubTriggerProps\n} from '../menu/types';\n\nexport type DropdownMenuArrowProps = Omit<MenuArrowProps, 'component'>;\n\nexport type DropdownMenuContentProps = Omit<MenuContentProps, 'arrowComponent' | 'component' | 'portalComponent'>;\n\n// Item\nexport type DropdownMenuItemProps = Omit<MenuItemProps, 'component'>;\n\n// Label\nexport type DropdownMenuLabelProps = Omit<MenuLabelProps, 'component'>;\n\nexport type DropdownMenuOptionProps = Omit<\n  MenuOptionProps,\n  'component' | 'labelComponent' | 'separatorComponent' | 'subComponent' | 'subContentComponent' | 'subTriggerComponent'\n>;\n\n// Indicator\nexport type DropdownMenuItemIndicatorProps = Omit<MenuItemIndicatorProps, 'component'>;\n\nexport type DropdownMenuSeparatorProps = Omit<MenuSeparatorProps, 'component'>;\n\nexport type DropdownMenuSubContentProps = Omit<MenuSubContentProps, 'component' | 'groupComponent' | 'portalComponent'>;\n\nexport type DropdownMenuSubTriggerProps = Omit<MenuSubTriggerProps, 'component'>;\n\n// Checkbox\nexport type DropdownMenuCheckboxItemProps = Omit<MenuCheckboxItemProps, 'component' | 'indicatorComponent'>;\n\nexport type DropdownMenuCheckboxGroupProps = Omit<\n  MenuCheckboxGroupProps,\n  'component' | 'groupComponent' | 'labelComponent' | 'separatorComponent'\n>;\n\nexport interface DropdownMenuCheckboxProps\n  extends Omit<DropdownMenuCheckboxGroupProps, 'dir'>,\n    BaseNodeProps<_DropdownMenuProps> {\n  contentProps?: Omit<DropdownMenuContentProps, 'arrowClass' | 'className'>;\n}\n\n// Radio\nexport type DropdownMenuRadioItemProps = Omit<MenuRadioItemProps, 'component' | 'indicatorComponent'>;\n\nexport type DropdownMenuRadioGroupProps = Omit<\n  MenuRadioGroupProps,\n  'component' | 'groupComponent' | 'labelComponent' | 'separatorComponent'\n>;\n\nexport interface DropdownMenuRadioProps\n  extends Omit<DropdownMenuRadioGroupProps, 'dir'>,\n    BaseNodeProps<_DropdownMenuProps> {\n  contentProps?: Omit<DropdownMenuContentProps, 'arrowClass' | 'className'>;\n}\n\nexport interface DropdownMenuProps extends BaseNodeProps<_DropdownMenuProps>, MenuCommonProps {\n  children?: ReactNode;\n  contentProps?: Omit<DropdownMenuContentProps, 'children'>;\n  items: DropdownMenuOptionProps['item'][];\n}\n",
+      "type": "registry:ui",
+      "target": "components/dropdown-menu/types.ts"
+    }
+  ]
+}

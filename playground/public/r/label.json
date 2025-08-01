@@ -3,9 +3,7 @@
   "name": "label",
   "type": "registry:block",
   "title": "Label",
-  "dependencies": [
-    "@radix-ui/react-label"
-  ],
+  "dependencies": ["@radix-ui/react-label"],
   "files": [
     {
       "path": "src/components/label/Label.tsx",

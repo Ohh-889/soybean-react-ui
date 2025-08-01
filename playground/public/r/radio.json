@@ -1,0 +1,56 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "radio",
+  "type": "registry:block",
+  "title": "Radio",
+  "files": [
+    {
+      "path": "src/components/radio/Radio.tsx",
+      "content": "import RadioLabel from '../label/Label';\n\nimport RadioGroupItem from './RadioGroupItem';\nimport RadioIndicator from './RadioIndicator';\nimport RadioRoot from './RadioRoot';\nimport type { RadioProps } from './types';\n\nconst Radio = (props: RadioProps) => {\n  const { className, classNames, color, id, label, size, value, ...rest } = props;\n\n  return (\n    <RadioRoot\n      className={className || classNames?.root}\n      size={size}\n    >\n      <RadioGroupItem\n        color={color}\n        value={value}\n        id={id || value}\n        {...rest}\n        size={size}\n      >\n        <RadioIndicator\n          className={classNames?.indicator}\n          color={color}\n        />\n      </RadioGroupItem>\n\n      {label && (\n        <RadioLabel\n          className={classNames?.label}\n          htmlFor={id || value}\n          size={size}\n        >\n          {label}\n        </RadioLabel>\n      )}\n    </RadioRoot>\n  );\n};\n\nexport default Radio;\n",
+      "type": "registry:ui",
+      "target": "components/radio/Radio.tsx"
+    },
+    {
+      "path": "src/components/radio/RadioGroup.tsx",
+      "content": "import { Root } from '@radix-ui/react-radio-group';\n\nimport { cn } from '@/lib/utils';\n\nimport Radio from './Radio';\nimport { radioVariants } from './radio-variants';\nimport type { RadioGroupProps } from './types';\n\nconst RadioGroup = (props: RadioGroupProps) => {\n  const { className, classNames, color, items, orientation, size, ...rest } = props;\n\n  const { group } = radioVariants({ orientation, size });\n\n  const mergedCls = cn(group(), className || classNames?.group);\n\n  return (\n    <Root\n      className={mergedCls}\n      {...rest}\n    >\n      {items.map(item => (\n        <Radio\n          classNames={classNames}\n          color={color}\n          key={item.value}\n          size={size}\n          {...item}\n        />\n      ))}\n    </Root>\n  );\n};\n\nexport default RadioGroup;\n",
+      "type": "registry:ui",
+      "target": "components/radio/RadioGroup.tsx"
+    },
+    {
+      "path": "src/components/radio/RadioGroupItem.tsx",
+      "content": "import { Item } from '@radix-ui/react-radio-group';\n\nimport { cn } from '@/lib/utils';\n\nimport { radioVariants } from './radio-variants';\nimport type { RadioGroupItemProps } from './types';\n\nconst RadioGroupItem = (props: RadioGroupItemProps) => {\n  const { className, color, size, ...rest } = props;\n\n  const { control } = radioVariants({ color, size });\n\n  const mergedCls = cn(control(), className);\n\n  return (\n    <Item\n      className={mergedCls}\n      data-color={color}\n      data-size={size}\n      data-slot=\"radio-group-item\"\n      {...rest}\n    />\n  );\n};\n\nexport default RadioGroupItem;\n",
+      "type": "registry:ui",
+      "target": "components/radio/RadioGroupItem.tsx"
+    },
+    {
+      "path": "src/components/radio/RadioIndicator.tsx",
+      "content": "import { Indicator } from '@radix-ui/react-radio-group';\n\nimport { cn } from '@/lib/utils';\n\nimport { radioVariants } from './radio-variants';\nimport type { RadioIndicatorProps } from './types';\n\nconst RadioIndicator = (props: RadioIndicatorProps) => {\n  const { className, color, ...rest } = props;\n\n  const { indicator } = radioVariants({ color });\n\n  const mergedCls = cn(indicator(), className);\n\n  return (\n    <Indicator\n      className={mergedCls}\n      data-color={color}\n      data-slot=\"radio-indicator\"\n      {...rest}\n    />\n  );\n};\n\nexport default RadioIndicator;\n",
+      "type": "registry:ui",
+      "target": "components/radio/RadioIndicator.tsx"
+    },
+    {
+      "path": "src/components/radio/RadioRoot.tsx",
+      "content": "import { cn } from '@/lib/utils';\n\nimport { radioVariants } from './radio-variants';\nimport type { RadioRootProps } from './types';\n\nconst RadioRoot = (props: RadioRootProps) => {\n  const { className, size, ...rest } = props;\n\n  const { root } = radioVariants({ size });\n\n  const mergedCls = cn(root(), className);\n\n  return (\n    <div\n      className={mergedCls}\n      data-size={size}\n      data-slot=\"radio-root\"\n      {...rest}\n    />\n  );\n};\n\nexport default RadioRoot;\n",
+      "type": "registry:ui",
+      "target": "components/radio/RadioRoot.tsx"
+    },
+    {
+      "path": "src/components/radio/index.ts",
+      "content": "export { default as Radio } from './Radio';\n\nexport { default as RadioGroup } from './RadioGroup';\nexport { default as RadioGroupItem } from './RadioGroupItem';\nexport { default as RadioIndicator } from './RadioIndicator';\nexport { default as RadioRoot } from './RadioRoot';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/radio/index.ts"
+    },
+    {
+      "path": "src/components/radio/radio-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const radioVariants = tv({\n  defaultVariants: {\n    color: 'primary',\n    orientation: 'horizontal',\n    size: 'md'\n  },\n  slots: {\n    control: [\n      'peer relative shrink-0 rounded-full border shadow',\n      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background',\n      'disabled:cursor-not-allowed disabled:opacity-50'\n    ],\n    group: 'flex',\n    indicator: 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-1/2 rounded-full ',\n    label: '',\n    root: 'flex items-center'\n  },\n  variants: {\n    color: {\n      accent: {\n        control: `border-accent-foreground focus-visible:ring-accent-foreground/20`,\n        indicator: `bg-accent-foreground/60`\n      },\n      carbon: {\n        control: `border-carbon focus-visible:ring-carbon`,\n        indicator: `bg-carbon`\n      },\n      destructive: {\n        control: `border-destructive focus-visible:ring-destructive`,\n        indicator: `bg-destructive`\n      },\n      info: {\n        control: `border-info focus-visible:ring-info`,\n        indicator: `bg-info`\n      },\n      primary: {\n        control: `border-primary focus-visible:ring-primary`,\n        indicator: `bg-primary`\n      },\n      secondary: {\n        control: `border-secondary-foreground focus-visible:ring-secondary-foreground/20`,\n        indicator: `bg-secondary-foreground/60`\n      },\n      success: {\n        control: `border-success focus-visible:ring-success`,\n        indicator: `bg-success`\n      },\n      warning: {\n        control: `border-warning focus-visible:ring-warning`,\n        indicator: `bg-warning`\n      }\n    },\n    orientation: {\n      horizontal: {\n        group: 'items-center'\n      },\n      vertical: {\n        group: 'flex-col'\n      }\n    },\n    size: {\n      '2xl': {\n        control: 'size-6',\n        group: 'gap-x-4.5 gap-y-3.5',\n        root: 'gap-3.5'\n      },\n      lg: {\n        control: 'size-4.5',\n        group: 'gap-x-3.5 gap-y-2.5',\n        root: 'gap-2.5'\n      },\n      md: {\n        control: 'size-4',\n        group: 'gap-x-3 gap-y-2',\n        root: 'gap-2'\n      },\n      sm: {\n        control: 'size-3.5',\n        group: 'gap-x-2.5 gap-y-1.75',\n        root: 'gap-1.75'\n      },\n      xl: {\n        control: 'size-5',\n        group: 'gap-x-4 gap-y-3',\n        root: 'gap-3'\n      },\n      xs: {\n        control: 'size-3',\n        group: 'gap-x-2 gap-y-1.5',\n        root: 'gap-1.5'\n      }\n    }\n  }\n});\n\nexport type RadioSlots = keyof typeof radioVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/radio/radio-variants.ts"
+    },
+    {
+      "path": "src/components/radio/types.ts",
+      "content": "import type {\n  RadioGroupIndicatorProps as _RadioGroupIndicatorProps,\n  RadioGroupItemProps as _RadioGroupItemProps,\n  RadioGroupProps as _RadioGroupProps\n} from '@radix-ui/react-radio-group';\nimport type { ReactNode } from 'react';\n\nimport type { BaseComponentProps, BaseNodeProps, ClassValue, ThemeColor } from '@/types/other';\n\nimport type { RadioSlots } from './radio-variants';\n\nexport type RadioClassNames = Partial<Record<RadioSlots, ClassValue>>;\n\nexport interface RadioProps extends RadioGroupItemProps {\n  classNames?: Pick<RadioClassNames, 'control' | 'indicator' | 'label' | 'root'>;\n  label?: ReactNode;\n}\n\nexport interface RadioGroupProps extends BaseNodeProps<_RadioGroupProps> {\n  classNames?: RadioClassNames;\n  color?: ThemeColor;\n  items: Omit<RadioProps, 'classNames' | 'color' | 'size'>[];\n}\n\nexport interface RadioGroupItemProps extends BaseNodeProps<_RadioGroupItemProps> {\n  color?: ThemeColor;\n}\n\nexport interface RadioIndicatorProps extends BaseNodeProps<_RadioGroupIndicatorProps> {\n  color?: ThemeColor;\n}\n\nexport interface RadioRootProps extends BaseComponentProps<'div'> {}\n",
+      "type": "registry:ui",
+      "target": "components/radio/types.ts"
+    }
+  ]
+}

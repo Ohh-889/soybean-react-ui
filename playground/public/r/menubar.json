@@ -1,0 +1,92 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "menubar",
+  "type": "registry:block",
+  "title": "Menubar",
+  "files": [
+    {
+      "path": "src/components/menubar/Menubar.tsx",
+      "content": "import MenubarMenu from './MenubarMenu';\nimport MenubarOption from './MenubarOption';\nimport MenubarRoot from './MenubarRoot';\nimport type { MenubarProps } from './types';\n\nconst Menubar = (props: MenubarProps) => {\n  const { classNames, items, size, ...rest } = props;\n\n  return (\n    <MenubarRoot {...rest}>\n      {items.map((item, index) => {\n        const { children, label, ...restItem } = item;\n\n        return (\n          <MenubarMenu\n            classNames={classNames}\n            key={String(index)}\n            size={size}\n            {...restItem}\n            trigger={label}\n          >\n            {children &&\n              children.length > 0 &&\n              children.map((child, childIndex) => {\n                return (\n                  <MenubarOption\n                    classNames={classNames}\n                    item={child}\n                    key={String(childIndex)}\n                    size={size}\n                  />\n                );\n              })}\n          </MenubarMenu>\n        );\n      })}\n    </MenubarRoot>\n  );\n};\n\nexport default Menubar;\n",
+      "type": "registry:ui",
+      "target": "components/menubar/Menubar.tsx"
+    },
+    {
+      "path": "src/components/menubar/MenubarItem.tsx",
+      "content": "import { Item } from '@radix-ui/react-menubar';\n\nimport MenuItem from '../menu/MenuItem';\n\nimport type { MenubarItemProps } from './types';\n\nconst MenubarItem = (props: MenubarItemProps) => {\n  return (\n    <MenuItem\n      {...props}\n      component={Item as typeof MenuItem}\n    />\n  );\n};\n\nexport default MenubarItem;\n",
+      "type": "registry:ui",
+      "target": "components/menubar/MenubarItem.tsx"
+    },
+    {
+      "path": "src/components/menubar/MenubarItemIndicator.tsx",
+      "content": "import { ItemIndicator } from '@radix-ui/react-menubar';\n\nimport MenuItemIndicator from '../menu/MenuItemIndicator';\n\nimport type { MenubarItemIndicatorProps } from './types';\n\nconst MenubarItemIndicator = (props: MenubarItemIndicatorProps) => {\n  return (\n    <MenuItemIndicator\n      component={ItemIndicator as typeof MenuItemIndicator}\n      {...props}\n    />\n  );\n};\n\nexport default MenubarItemIndicator;\n",
+      "type": "registry:ui",
+      "target": "components/menubar/MenubarItemIndicator.tsx"
+    },
+    {
+      "path": "src/components/menubar/MenubarLabel.tsx",
+      "content": "import { Label } from '@radix-ui/react-menubar';\n\nimport MenuLabel from '../menu/MenuLabel';\n\nimport type { MenubarLabelProps } from './types';\n\nconst MenubarLabel = (props: MenubarLabelProps) => {\n  return (\n    <MenuLabel\n      component={Label as typeof MenuLabel}\n      {...props}\n    />\n  );\n};\n\nexport default MenubarLabel;\n",
+      "type": "registry:ui",
+      "target": "components/menubar/MenubarLabel.tsx"
+    },
+    {
+      "path": "src/components/menubar/MenubarMenu.tsx",
+      "content": "import { Content, Menu, Portal } from '@radix-ui/react-menubar';\n\nimport { cn } from '@/lib/utils';\n\nimport { menuVariants } from '../menu/menu-variants';\n\nimport MenubarTrigger from './MenubarTrigger';\nimport type { MenubarMenuProps } from './types';\n\nconst MenubarMenu = (props: MenubarMenuProps) => {\n  const { children, className, classNames, size, trigger, value, ...rest } = props;\n\n  const { content } = menuVariants({ size });\n\n  const mergedCls = cn(content(), className, classNames?.content);\n\n  return (\n    <Menu value={value}>\n      <MenubarTrigger\n        {...rest}\n        classNames={classNames}\n      >\n        {trigger}\n      </MenubarTrigger>\n\n      <Portal>\n        <Content className={mergedCls}>{children}</Content>\n      </Portal>\n    </Menu>\n  );\n};\n\nexport default MenubarMenu;\n",
+      "type": "registry:ui",
+      "target": "components/menubar/MenubarMenu.tsx"
+    },
+    {
+      "path": "src/components/menubar/MenubarOption.tsx",
+      "content": "import { Sub } from '@radix-ui/react-menubar';\n\nimport MenuOption from '../menu/MenuOption';\n\nimport MenubarItem from './MenubarItem';\nimport MenubarLabel from './MenubarLabel';\nimport MenubarSeparator from './MenubarSeparator';\nimport MenubarSubContent from './MenubarSubContent';\nimport MenubarSubTrigger from './MenubarSubTrigger';\nimport type { MenubarOptionProps } from './types';\n\nconst MenubarOption = (props: MenubarOptionProps) => {\n  return (\n    <MenuOption\n      {...props}\n      component={MenubarItem}\n      labelComponent={MenubarLabel}\n      separatorComponent={MenubarSeparator}\n      subComponent={Sub}\n      subContentComponent={MenubarSubContent}\n      subTriggerComponent={MenubarSubTrigger}\n    />\n  );\n};\n\nMenubarOption.displayName = 'MenubarOption';\n\nexport default MenubarOption;\n",
+      "type": "registry:ui",
+      "target": "components/menubar/MenubarOption.tsx"
+    },
+    {
+      "path": "src/components/menubar/MenubarRoot.tsx",
+      "content": "import { Root } from '@radix-ui/react-menubar';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { menubarVariants } from './menubar-variansts';\nimport type { MenubarRootProps } from './types';\n\nconst MenubarRoot = forwardRef<ComponentRef<typeof Root>, MenubarRootProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { root } = menubarVariants({ size });\n\n  const mergedCls = cn(root(), className);\n\n  return (\n    <Root\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nMenubarRoot.displayName = 'MenubarRoot';\n\nexport default MenubarRoot;\n",
+      "type": "registry:ui",
+      "target": "components/menubar/MenubarRoot.tsx"
+    },
+    {
+      "path": "src/components/menubar/MenubarSeparator.tsx",
+      "content": "import { Separator } from '@radix-ui/react-menubar';\n\nimport MenuSeparator from '../menu/MenuSeparator';\n\nimport type { MenubarSeparatorProps } from './types';\n\nconst MenubarSeparator = (props: MenubarSeparatorProps) => {\n  return (\n    <MenuSeparator\n      component={Separator as typeof MenuSeparator}\n      {...props}\n    />\n  );\n};\n\nexport default MenubarSeparator;\n",
+      "type": "registry:ui",
+      "target": "components/menubar/MenubarSeparator.tsx"
+    },
+    {
+      "path": "src/components/menubar/MenubarSubContent.tsx",
+      "content": "import { Group, Portal, SubContent } from '@radix-ui/react-menubar';\n\nimport MenuSubContent from '../menu/MenuSubContent';\n\nimport type { MenubarSubContentProps } from './types';\n\nconst MenubarSubContent = (props: MenubarSubContentProps) => {\n  return (\n    <MenuSubContent\n      component={SubContent as typeof MenuSubContent}\n      groupComponent={Group as typeof MenuSubContent}\n      portalComponent={Portal}\n      {...props}\n    />\n  );\n};\n\nexport default MenubarSubContent;\n",
+      "type": "registry:ui",
+      "target": "components/menubar/MenubarSubContent.tsx"
+    },
+    {
+      "path": "src/components/menubar/MenubarSubTrigger.tsx",
+      "content": "import { SubTrigger } from '@radix-ui/react-menubar';\n\nimport MenuSubTrigger from '../menu/MenuSubTrigger';\n\nimport type { MenubarSubTriggerProps } from './types';\n\nconst MenubarSubTrigger = (props: MenubarSubTriggerProps) => {\n  return (\n    <MenuSubTrigger\n      component={SubTrigger as typeof MenuSubTrigger}\n      {...props}\n    />\n  );\n};\n\nexport default MenubarSubTrigger;\n",
+      "type": "registry:ui",
+      "target": "components/menubar/MenubarSubTrigger.tsx"
+    },
+    {
+      "path": "src/components/menubar/MenubarTrigger.tsx",
+      "content": "import { Trigger } from '@radix-ui/react-menubar';\nimport type { ComponentRef } from 'react';\nimport { forwardRef, isValidElement } from 'react';\n\nimport { withClassName } from '@/lib/compose-props';\nimport { cn } from '@/lib/utils';\n\nimport MenuShortcut from '../menu/MenuShortcut';\nimport { menuVariants } from '../menu/menu-variants';\n\nimport type { MenubarTriggerProps } from './types';\n\nconst MenubarTrigger = forwardRef<ComponentRef<typeof Trigger>, MenubarTriggerProps>((props, ref) => {\n  const { children, className, classNames, leading, shortcut, size, trailing, ...rest } = props;\n\n  const { item, itemIcon } = menuVariants({ size });\n\n  const mergedCls = cn(item(), className || classNames?.trigger);\n\n  return (\n    <Trigger\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    >\n      {isValidElement(leading) ? withClassName(leading, itemIcon()) : leading}\n\n      {children}\n\n      {trailing}\n\n      {shortcut && (\n        <MenuShortcut\n          className={classNames?.shortcut}\n          size={size}\n          value={shortcut}\n        />\n      )}\n    </Trigger>\n  );\n});\n\nMenubarTrigger.displayName = 'MenubarTrigger';\n\nexport default MenubarTrigger;\n",
+      "type": "registry:ui",
+      "target": "components/menubar/MenubarTrigger.tsx"
+    },
+    {
+      "path": "src/components/menubar/index.ts",
+      "content": "export { default as Menubar } from './Menubar';\n\nexport { default as MenubarItem } from './MenubarItem';\nexport { default as MenubarLabel } from './MenubarLabel';\n\nexport { default as MenubarSeparator } from './MenubarSeparator';\nexport { default as MenubarSubContent } from './MenubarSubContent';\nexport { default as MenubarSubTrigger } from './MenubarSubTrigger';\nexport { default as MenubarTrigger } from './MenubarTrigger';\n",
+      "type": "registry:ui",
+      "target": "components/menubar/index.ts"
+    },
+    {
+      "path": "src/components/menubar/menubar-variansts.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const menubarVariants = tv({\n  defaultVariants: {\n    size: 'md'\n  },\n  slots: {\n    root: `flex items-center rounded-md border bg-background shadow-sm`\n  },\n  variants: {\n    size: {\n      '2xl': {\n        root: 'gap-2.5 p-1.25'\n      },\n      lg: {\n        root: 'gap-1.75 p-0.875'\n      },\n      md: {\n        root: 'gap-1.5 p-0.75'\n      },\n      sm: {\n        root: 'gap-1.25 p-0.625 text-xs'\n      },\n      xl: {\n        root: 'gap-2 p-1'\n      },\n      xs: {\n        root: 'gap-1 p-0.5 text-2xs'\n      }\n    }\n  }\n});\n\nexport type MenubarSlots = keyof typeof menubarVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/menubar/menubar-variansts.ts"
+    },
+    {
+      "path": "src/components/menubar/types.ts",
+      "content": "import type {\n  MenubarMenuProps as _MenubarMenuProps,\n  MenubarProps as _MenubarProps,\n  MenubarTriggerProps as _MenubarTriggerProps\n} from '@radix-ui/react-menubar';\nimport type { ReactNode } from 'react';\n\nimport type { BaseNodeProps, ClassValue, ThemeSize } from '@/types/other';\n\nimport type {\n  MenuClassNames,\n  MenuCommonProps,\n  MenuItemIndicatorProps,\n  MenuItemProps,\n  MenuLabelProps,\n  MenuOptionProps,\n  MenuSeparatorProps,\n  MenuSubContentProps,\n  MenuSubTriggerProps\n} from '../menu/types';\n\nexport interface MenubarMenuProps extends Omit<MenubarTriggerProps, 'children' | 'classNames'> {\n  children: ReactNode;\n  classNames?: Pick<MenuClassNames, 'content' | 'shortcut'> & {\n    trigger?: ClassValue;\n  };\n  size?: ThemeSize;\n  trigger: ReactNode;\n  value?: string;\n}\n\n// Item\nexport type MenubarItemProps = Omit<MenuItemProps, 'component'>;\n\n// Label\nexport type MenubarLabelProps = Omit<MenuLabelProps, 'component'>;\n\nexport type MenubarOptionProps = Omit<\n  MenuOptionProps,\n  'component' | 'labelComponent' | 'separatorComponent' | 'subComponent' | 'subContentComponent' | 'subTriggerComponent'\n>;\n\n// Indicator\nexport type MenubarItemIndicatorProps = Omit<MenuItemIndicatorProps, 'component'>;\n\nexport type MenubarSeparatorProps = Omit<MenuSeparatorProps, 'component'>;\n\nexport type MenubarSubContentProps = Omit<MenuSubContentProps, 'component' | 'groupComponent' | 'portalComponent'>;\n\nexport type MenubarSubTriggerProps = Omit<MenuSubTriggerProps, 'component'>;\n\nexport interface MenubarTriggerProps extends BaseNodeProps<_MenubarTriggerProps> {\n  classNames?: Pick<MenuClassNames, 'shortcut'> & {\n    trigger?: ClassValue;\n  };\n  leading?: ReactNode;\n  shortcut?: string | string[];\n  trailing?: ReactNode;\n}\n\ntype MenubarOption = Omit<MenubarMenuProps, 'children' | 'classNames' | 'trigger'> & {\n  children: MenubarOptionProps['item'][];\n  label: ReactNode;\n};\nexport interface MenubarRootProps extends BaseNodeProps<_MenubarProps> {}\n\nexport interface MenubarProps extends Omit<_MenubarProps, 'children'>, Omit<MenuCommonProps, 'classNames'> {\n  classNames?: MenuCommonProps['classNames'] & {\n    trigger?: ClassValue;\n  };\n  items: MenubarOption[];\n}\n",
+      "type": "registry:ui",
+      "target": "components/menubar/types.ts"
+    }
+  ]
+}

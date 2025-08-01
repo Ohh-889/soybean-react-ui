@@ -1,0 +1,98 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "command",
+  "type": "registry:block",
+  "title": "Command",
+  "files": [
+    {
+      "path": "src/components/command/Command.tsx",
+      "content": "import { Command as _Command } from 'cmdk';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport CommandEmpty from './CommandEmpty';\nimport CommandInput from './CommandInput';\nimport CommandList from './CommandList';\nimport CommandOption from './CommandOption';\nimport CommandRoot from './CommandRoot';\nimport type { CommandProps } from './types';\n\nconst Command = forwardRef<ComponentRef<typeof CommandRoot>, CommandProps>((props, ref) => {\n  const { className, classNames, empty = 'No results.', inputProps, items, size, ...rest } = props;\n\n  return (\n    <CommandRoot\n      {...rest}\n      className={className || classNames?.root}\n      ref={ref}\n    >\n      <CommandInput\n        classNames={classNames}\n        size={size}\n        {...inputProps}\n      />\n\n      <CommandList\n        className={classNames?.list}\n        size={size}\n      >\n        <CommandEmpty\n          className={classNames?.empty}\n          size={size}\n        >\n          {empty}\n        </CommandEmpty>\n\n        {items.map((item, index) => (\n          <CommandOption\n            classNames={classNames}\n            item={item}\n            key={String(index)}\n            size={size}\n          />\n        ))}\n      </CommandList>\n    </CommandRoot>\n  );\n});\n\nCommand.displayName = 'Command';\n\nexport default Command;\n",
+      "type": "registry:ui",
+      "target": "components/command/Command.tsx"
+    },
+    {
+      "path": "src/components/command/CommandDialog.tsx",
+      "content": "import { DialogClose, DialogContent, DialogOverlay, DialogPortal, DialogRoot } from '../dialog';\n\nimport type { CommandDialogProps } from './types';\n\nconst CommandDialog = (props: CommandDialogProps) => {\n  const { children, className, classNames, defaultOpen, onOpenChange, open, ...rest } = props;\n\n  return (\n    <DialogRoot\n      defaultOpen={defaultOpen}\n      open={open}\n      onOpenChange={onOpenChange}\n    >\n      <DialogPortal data-slot=\"dialog-portal\">\n        <DialogOverlay className={classNames?.overlay} />\n\n        <DialogContent\n          {...rest}\n          className={className || classNames?.content}\n        >\n          <DialogClose className={classNames?.close} />\n\n          {children}\n        </DialogContent>\n      </DialogPortal>\n    </DialogRoot>\n  );\n};\n\nexport default CommandDialog;\n",
+      "type": "registry:ui",
+      "target": "components/command/CommandDialog.tsx"
+    },
+    {
+      "path": "src/components/command/CommandEmpty.tsx",
+      "content": "import { CommandEmpty as _CommandEmpty } from 'cmdk';\n\nimport { cn } from '@/lib/utils';\n\nimport { commandVariants } from './command-variants';\nimport type { CommandEmptyProps } from './types';\n\nconst CommandEmpty = (props: CommandEmptyProps) => {\n  const { className, size, ...rest } = props;\n\n  const { empty } = commandVariants({ size });\n\n  const mergedClass = cn(empty(), className);\n  return (\n    <_CommandEmpty\n      {...rest}\n      className={mergedClass}\n      data-slot=\"command-empty\"\n    />\n  );\n};\n\nexport default CommandEmpty;\n",
+      "type": "registry:ui",
+      "target": "components/command/CommandEmpty.tsx"
+    },
+    {
+      "path": "src/components/command/CommandGroup.tsx",
+      "content": "import { CommandGroup as _CommandGroup } from 'cmdk';\n\nimport { cn } from '@/lib/utils';\n\nimport { commandVariants } from './command-variants';\nimport type { CommandGroupProps } from './types';\n\nconst CommandGroup = (props: CommandGroupProps) => {\n  const { children, className, classNames, heading, ...rest } = props;\n\n  const { group, groupLabel } = commandVariants();\n\n  const mergedClass = cn(group(), className || classNames?.group);\n\n  const mergedLabelClass = cn(groupLabel(), className || classNames?.groupLabel);\n\n  return (\n    <_CommandGroup\n      {...rest}\n      className={mergedClass}\n      data-slot=\"command-group\"\n    >\n      {heading && <div className={mergedLabelClass}>{heading}</div>}\n\n      {children}\n    </_CommandGroup>\n  );\n};\n\nexport default CommandGroup;\n",
+      "type": "registry:ui",
+      "target": "components/command/CommandGroup.tsx"
+    },
+    {
+      "path": "src/components/command/CommandInput.tsx",
+      "content": "import { CommandInput as _CommandInput } from 'cmdk';\n\nimport { cn } from '@/lib/utils';\n\nimport Icon from '../icon/Icon';\n\nimport { commandVariants } from './command-variants';\nimport type { CommandInputProps } from './types';\n\nconst CommandInput = (props: CommandInputProps) => {\n  const { className, classNames, leading, size, trailing, ...rest } = props;\n\n  const { input, inputIcon, inputWrapper } = commandVariants({ size });\n\n  const mergedClass = cn(input(), className || classNames?.input);\n  const mergedIconClass = cn(inputIcon(), classNames?.inputIcon);\n  const mergedWrapperClass = cn(inputWrapper(), classNames?.inputWrapper);\n\n  return (\n    <div className={mergedWrapperClass}>\n      {leading || (\n        <Icon\n          className={mergedIconClass}\n          icon=\"lucide:search\"\n        />\n      )}\n\n      <_CommandInput\n        {...rest}\n        className={mergedClass}\n        data-slot=\"command-input\"\n      />\n\n      {trailing}\n    </div>\n  );\n};\n\nexport default CommandInput;\n",
+      "type": "registry:ui",
+      "target": "components/command/CommandInput.tsx"
+    },
+    {
+      "path": "src/components/command/CommandItem.tsx",
+      "content": "import { CommandItem as _CommandItem } from 'cmdk';\nimport { isValidElement } from 'react';\n\nimport { withClassName } from '@/lib/compose-props';\nimport { cn } from '@/lib/utils';\n\nimport CommandShortcut from './CommandShortcut';\nimport { commandVariants } from './command-variants';\nimport type { CommandItemProps } from './types';\n\nconst CommandItem = (props: CommandItemProps) => {\n  const { children, className, leading, shortcut, size, trailing, ...rest } = props;\n\n  const { item, itemIcon } = commandVariants({ size });\n\n  const mergedClass = cn(item(), className);\n\n  return (\n    <_CommandItem\n      {...rest}\n      className={mergedClass}\n      data-slot=\"command-item\"\n    >\n      {isValidElement(leading) ? withClassName(leading, itemIcon()) : leading}\n\n      {children}\n\n      {trailing}\n\n      {shortcut && (\n        <CommandShortcut\n          size={size}\n          value={shortcut}\n        />\n      )}\n    </_CommandItem>\n  );\n};\n\nexport default CommandItem;\n",
+      "type": "registry:ui",
+      "target": "components/command/CommandItem.tsx"
+    },
+    {
+      "path": "src/components/command/CommandList.tsx",
+      "content": "import { CommandList as _CommandList } from 'cmdk';\n\nimport { cn } from '@/lib/utils';\n\nimport { commandVariants } from './command-variants';\nimport type { CommandListProps } from './types';\n\nconst CommandList = (props: CommandListProps) => {\n  const { className, size, ...rest } = props;\n\n  const { list } = commandVariants({ size });\n\n  const mergedClass = cn(list(), className);\n  return (\n    <_CommandList\n      {...rest}\n      className={mergedClass}\n      data-slot=\"command-list\"\n    />\n  );\n};\n\nexport default CommandList;\n",
+      "type": "registry:ui",
+      "target": "components/command/CommandList.tsx"
+    },
+    {
+      "path": "src/components/command/CommandOption.tsx",
+      "content": "import CommandGroup from './CommandGroup';\nimport CommandItem from './CommandItem';\nimport CommandSeparator from './CommandSeparator';\nimport { isGroup, isSeparator } from './shared';\nimport type { CommandOptionProps } from './types';\n\nconst CommandOption = (props: CommandOptionProps) => {\n  const { classNames, item, size } = props;\n\n  if (isGroup(item)) {\n    const { children, label, ...rest2 } = item;\n    return (\n      <CommandGroup\n        classNames={classNames}\n        heading={label}\n        {...rest2}\n      >\n        {children.map((child, index) => (\n          <CommandOption\n            classNames={classNames}\n            item={child}\n            key={String(index)}\n            size={size}\n          />\n        ))}\n      </CommandGroup>\n    );\n  }\n\n  if (isSeparator(item)) {\n    return (\n      <CommandSeparator\n        className={classNames?.separator}\n        size={size}\n        {...item}\n      />\n    );\n  }\n\n  return (\n    <CommandItem\n      className={classNames?.item}\n      size={size}\n      {...item}\n    >\n      {item.label}\n    </CommandItem>\n  );\n};\n\nexport default CommandOption;\n",
+      "type": "registry:ui",
+      "target": "components/command/CommandOption.tsx"
+    },
+    {
+      "path": "src/components/command/CommandRoot.tsx",
+      "content": "import { CommandRoot as _CommandRoot } from 'cmdk';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { commandVariants } from './command-variants';\nimport type { CommandRootProps } from './types';\n\nconst CommandRoot = forwardRef<ComponentRef<typeof _CommandRoot>, CommandRootProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { root } = commandVariants({ size });\n\n  const mergedClass = cn(root(), className);\n  return (\n    <_CommandRoot\n      {...rest}\n      className={mergedClass}\n      data-slot=\"command-root\"\n      ref={ref}\n    />\n  );\n});\n\nCommandRoot.displayName = 'CommandRoot';\n\nexport default CommandRoot;\n",
+      "type": "registry:ui",
+      "target": "components/command/CommandRoot.tsx"
+    },
+    {
+      "path": "src/components/command/CommandSeparator.tsx",
+      "content": "import { CommandSeparator as _CommandSeparator } from 'cmdk';\n\nimport { cn } from '@/lib/utils';\n\nimport { commandVariants } from './command-variants';\nimport type { CommandSeparatorProps } from './types';\n\nconst CommandSeparator = (props: CommandSeparatorProps) => {\n  const { className, size, ...rest } = props;\n\n  const { separator } = commandVariants({ size });\n\n  const mergedClass = cn(separator(), className);\n\n  return (\n    <_CommandSeparator\n      {...rest}\n      className={mergedClass}\n      data-slot=\"command-separator\"\n    />\n  );\n};\n\nexport default CommandSeparator;\n",
+      "type": "registry:ui",
+      "target": "components/command/CommandSeparator.tsx"
+    },
+    {
+      "path": "src/components/command/CommandShortcut.tsx",
+      "content": "import { cn } from '@/lib/utils';\n\nimport KeyboardKey from '../keyboard-key/KeyboardKey';\nimport type { KeyboardKeyValue } from '../keyboard-key/types';\n\nimport { commandVariants } from './command-variants';\nimport type { CommandShortcutProps } from './types';\n\nconst CommandShortcut = (props: CommandShortcutProps) => {\n  const { children, className, size, value, ...rest } = props;\n\n  const { shortcut } = commandVariants({ size });\n\n  const mergedClass = cn(shortcut(), className);\n\n  return (\n    <div\n      {...rest}\n      className={mergedClass}\n      data-slot=\"command-shortcut\"\n    >\n      {children || (\n        <KeyboardKey\n          size={size}\n          value={value as KeyboardKeyValue}\n        />\n      )}\n    </div>\n  );\n};\n\nexport default CommandShortcut;\n",
+      "type": "registry:ui",
+      "target": "components/command/CommandShortcut.tsx"
+    },
+    {
+      "path": "src/components/command/command-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const commandVariants = tv({\n  defaultVariants: {\n    size: 'md'\n  },\n  slots: {\n    dialog: `p-0 gap-0`,\n    empty: `text-center`,\n    group: `overflow-hidden text-foreground`,\n    groupLabel: `font-medium text-muted-foreground`,\n    input: `flex w-full rounded-md bg-transparent outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50`,\n    inputIcon: `shrink-0 opacity-50`,\n    inputWrapper: 'flex items-center border-b',\n    item: [\n      `relative flex cursor-default font-medium select-none items-center rounded-sm outline-none`,\n      `data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50`\n    ],\n    itemIcon: 'shrink-0 text-muted-foreground',\n    list: `overflow-y-auto overflow-x-hidden`,\n    root: `flex w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground`,\n    separator: `h-px bg-border`,\n    shortcut: `ml-auto`\n  },\n  variants: {\n    size: {\n      '2xl': {\n        empty: 'py-6',\n        groupLabel: 'p-3',\n        input: 'h-12',\n        inputIcon: 'mr-3.5',\n        inputWrapper: 'px-4.5 py-1.25',\n        item: 'gap-3.5 px-3.5 py-2.5',\n        list: 'max-h-115 py-1.75',\n        root: 'text-xl',\n        separator: '-mx-3.5 my-2'\n      },\n      lg: {\n        empty: 'py-4.5',\n        groupLabel: 'p-2',\n        input: 'h-9',\n        inputIcon: 'mr-2.5',\n        inputWrapper: 'px-3.5 py-0.875',\n        item: 'gap-2.5 px-2.5 py-1.5',\n        list: 'max-h-90 py-1.25',\n        root: 'text-base',\n        separator: '-mx-2.5 my-1.25'\n      },\n      md: {\n        empty: 'py-4 text-sm',\n        groupLabel: 'p-1.75',\n        input: 'h-8',\n        inputIcon: 'mr-2',\n        inputWrapper: 'px-2.5 py-0.75',\n        item: 'gap-2 px-2 py-1.5',\n        list: 'max-h-80 py-1',\n        root: 'text-sm',\n        separator: '-mx-2 my-1'\n      },\n      sm: {\n        empty: 'py-3.5',\n        groupLabel: 'p-1.25',\n        input: 'h-7',\n        inputIcon: 'mr-1.75',\n        inputWrapper: 'px-2 py-0.625',\n        item: 'gap-1.5 px-1.5 py-1',\n        list: 'max-h-75 py-0.875',\n        root: 'text-xs',\n        separator: '-mx-1.5 my-1'\n      },\n      xl: {\n        empty: 'py-5',\n        groupLabel: 'p-2.5',\n        input: 'h-10',\n        inputIcon: 'mr-3',\n        inputWrapper: 'px-4 py-1',\n        item: 'gap-3 px-3 py-2',\n        list: 'max-h-100 py-1.5',\n        root: 'text-lg',\n        separator: '-mx-3 my-1.5'\n      },\n      xs: {\n        empty: 'py-3',\n        groupLabel: 'p-0.75',\n        input: 'h-6',\n        inputIcon: 'mr-1.5',\n        inputWrapper: 'px-1.5 py-0.5',\n        item: 'gap-1 px-1 py-1',\n        list: 'max-h-70 py-0.75',\n        root: 'text-2xs',\n        separator: '-mx-1 my-0.75'\n      }\n    }\n  }\n});\n\nexport type CommandSlots = keyof typeof commandVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/command/command-variants.ts"
+    },
+    {
+      "path": "src/components/command/index.ts",
+      "content": "export { CommandLoading } from 'cmdk';\n\nexport { default as Command } from './Command';\nexport { default as CommandDialog } from './CommandDialog';\nexport { default as CommandEmpty } from './CommandEmpty';\nexport { default as CommandGroup } from './CommandGroup';\nexport { default as CommandInput } from './CommandInput';\nexport { default as CommandItem } from './CommandItem';\nexport { default as CommandList } from './CommandList';\nexport { default as CommandOption } from './CommandOption';\nexport { default as CommandRoot } from './CommandRoot';\nexport { default as CommandSeparator } from './CommandSeparator';\nexport { default as CommandShortcut } from './CommandShortcut';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/command/index.ts"
+    },
+    {
+      "path": "src/components/command/shared.ts",
+      "content": "import type { CommandGroupOptionProps, CommandOptionData, CommandSeparatorOptionProps } from './types';\n\nexport function isGroup(opt: CommandOptionData): opt is CommandGroupOptionProps {\n  return opt.type === 'group' || 'children' in opt;\n}\nexport function isSeparator(opt: CommandOptionData): opt is CommandSeparatorOptionProps {\n  return opt.type === 'separator';\n}\n",
+      "type": "registry:ui",
+      "target": "components/command/shared.ts"
+    },
+    {
+      "path": "src/components/command/types.ts",
+      "content": "import type {\n  Command,\n  CommandEmpty,\n  CommandInput,\n  CommandItem,\n  CommandList,\n  CommandRoot,\n  CommandSeparator\n} from 'cmdk';\nimport type { ComponentPropsWithoutRef, ReactNode } from 'react';\n\nimport type { BaseComponentProps, BaseNodeProps, ClassValue, PropsSlot, ThemeSize } from '@/types/other';\n\nimport type { DialogClassNames, DialogProps } from '../dialog';\n\nimport type { CommandSlots } from './command-variants';\n\nexport type CommandClassNames = Partial<Record<CommandSlots, ClassValue>>;\n\nexport type CommandEmptyProps = BaseNodeProps<ComponentPropsWithoutRef<typeof CommandEmpty>>;\n\nexport type CommandGroupProps = BaseNodeProps<ComponentPropsWithoutRef<(typeof Command)['Group']>> & {\n  classNames?: Pick<CommandClassNames, 'group' | 'groupLabel'>;\n};\n\nexport type CommandInputProps = BaseNodeProps<Omit<ComponentPropsWithoutRef<typeof CommandInput>, 'size'>> & {\n  classNames?: Pick<CommandClassNames, 'input' | 'inputIcon' | 'inputWrapper'>;\n} & PropsSlot;\n\nexport type CommandItemProps = BaseNodeProps<ComponentPropsWithoutRef<typeof CommandItem>> & {\n  shortcut?: string | string[];\n} & PropsSlot;\n\nexport type CommandListProps = BaseNodeProps<ComponentPropsWithoutRef<typeof CommandList>>;\n\nexport type CommandRootProps = BaseNodeProps<ComponentPropsWithoutRef<typeof CommandRoot>>;\n\nexport type CommandSeparatorProps = BaseNodeProps<ComponentPropsWithoutRef<typeof CommandSeparator>>;\n\nexport type CommandShortcutProps = BaseComponentProps<'div'> & {\n  value?: string | string[];\n};\n\nexport type CommandGroupOptionProps = Omit<CommandGroupProps, 'children' | 'heading'> & {\n  children: CommandOptionData[];\n  label?: ReactNode;\n  type?: 'group';\n};\n\nexport type CommandSeparatorOptionProps = CommandSeparatorProps & {\n  type: 'separator';\n};\n\nexport type CommandItemOptionProps = Omit<CommandItemProps, 'children'> & {\n  label?: ReactNode;\n  type?: 'item';\n};\n\nexport type CommandOptionData = CommandGroupOptionProps | CommandSeparatorOptionProps | CommandItemOptionProps;\n\nexport type CommandOptionProps = {\n  classNames?: CommandClassNames;\n  item: CommandOptionData;\n  size?: ThemeSize;\n};\n\nexport interface CommandProps extends CommandRootProps {\n  classNames?: CommandClassNames;\n  empty?: ReactNode;\n  inputProps?: CommandInputProps;\n  items: CommandOptionData[];\n}\n\nexport interface CommandDialogProps\n  extends Omit<DialogProps, 'classNames' | 'description' | 'footer' | 'title' | 'trigger'> {\n  classNames?: Pick<DialogClassNames, 'close' | 'content' | 'overlay'>;\n}\n",
+      "type": "registry:ui",
+      "target": "components/command/types.ts"
+    }
+  ]
+}

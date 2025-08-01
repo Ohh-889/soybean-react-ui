@@ -1,0 +1,116 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "context-menu",
+  "type": "registry:block",
+  "title": "Context Menu",
+  "files": [
+    {
+      "path": "src/components/context-menu/ContextMenu.tsx",
+      "content": "import { Root, Trigger } from '@radix-ui/react-context-menu';\n\nimport ContextMenuContent from './ContextMenuContent';\nimport ContextMenuOption from './ContextMenuOption';\nimport type { ContextMenuProps } from './types';\n\nconst ContextMenu = (props: ContextMenuProps) => {\n  const { children, classNames, contentProps, dir, items, modal, onOpenChange, size } = props;\n\n  return (\n    <Root\n      dir={dir}\n      modal={modal}\n      onOpenChange={onOpenChange}\n    >\n      <Trigger asChild>{children}</Trigger>\n\n      <ContextMenuContent {...contentProps}>\n        {items.map((item, index) => {\n          return (\n            <ContextMenuOption\n              classNames={classNames}\n              item={item}\n              key={String(index)}\n              size={size}\n            />\n          );\n        })}\n      </ContextMenuContent>\n    </Root>\n  );\n};\n\nexport default ContextMenu;\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/ContextMenu.tsx"
+    },
+    {
+      "path": "src/components/context-menu/ContextMenuArrow.tsx",
+      "content": "import { Arrow } from '@radix-ui/react-context-menu';\n\nimport MenuArrow from '../menu/MenuArrow';\n\nimport type { ContextMenuArrowProps } from './types';\n\nconst ContextMenuArrow = (props: ContextMenuArrowProps) => {\n  return (\n    <MenuArrow\n      {...props}\n      component={Arrow as typeof MenuArrow}\n    />\n  );\n};\n\nexport default ContextMenuArrow;\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/ContextMenuArrow.tsx"
+    },
+    {
+      "path": "src/components/context-menu/ContextMenuCheckbox.tsx",
+      "content": "import { Root, Trigger } from '@radix-ui/react-context-menu';\n\nimport ContextMenuCheckboxGroup from './ContextMenuCheckboxGroup';\nimport ContextMenuContent from './ContextMenuContent';\nimport type { ContextMenuCheckboxProps } from './types';\n\nconst ContextMenuCheckbox = (props: ContextMenuCheckboxProps) => {\n  const { children, className, classNames, contentProps, dir, modal, onOpenChange, size, ...rest } = props;\n\n  return (\n    <Root\n      dir={dir}\n      modal={modal}\n      onOpenChange={onOpenChange}\n    >\n      <Trigger asChild>{children}</Trigger>\n\n      <ContextMenuContent\n        arrowClass={classNames?.arrow}\n        className={className || classNames?.content}\n        size={size}\n        {...contentProps}\n      >\n        <ContextMenuCheckboxGroup\n          classNames={classNames}\n          size={size}\n          {...rest}\n        />\n      </ContextMenuContent>\n    </Root>\n  );\n};\n\nexport default ContextMenuCheckbox;\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/ContextMenuCheckbox.tsx"
+    },
+    {
+      "path": "src/components/context-menu/ContextMenuCheckboxGroup.tsx",
+      "content": "import { Group } from '@radix-ui/react-context-menu';\n\nimport MenuCheckboxGroup from '../menu/MenuCheckboxGroup';\n\nimport ContextMenuCheckboxItem from './ContextMenuCheckboxItem';\nimport ContextMenuLabel from './ContextMenuLabel';\nimport ContextMenuSeparator from './ContextMenuSeparator';\nimport type { ContextMenuCheckboxGroupProps } from './types';\n\nconst ContextMenuCheckboxGroup = (props: ContextMenuCheckboxGroupProps) => {\n  return (\n    <MenuCheckboxGroup\n      component={ContextMenuCheckboxItem}\n      groupComponent={Group}\n      labelComponent={ContextMenuLabel}\n      separatorComponent={ContextMenuSeparator}\n      {...props}\n    />\n  );\n};\n\nexport default ContextMenuCheckboxGroup;\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/ContextMenuCheckboxGroup.tsx"
+    },
+    {
+      "path": "src/components/context-menu/ContextMenuCheckboxItem.tsx",
+      "content": "import { CheckboxItem } from '@radix-ui/react-context-menu';\n\nimport MenuCheckboxItem from '../menu/MenuCheckboxItem';\n\nimport ContextMenuItemIndicator from './ContextMenuItemIndicator';\nimport type { ContextMenuCheckboxItemProps } from './types';\n\nconst ContextMenuCheckboxItem = (props: ContextMenuCheckboxItemProps) => {\n  return (\n    <MenuCheckboxItem\n      component={CheckboxItem as typeof MenuCheckboxItem}\n      indicatorComponent={ContextMenuItemIndicator}\n      {...props}\n    />\n  );\n};\n\nexport default ContextMenuCheckboxItem;\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/ContextMenuCheckboxItem.tsx"
+    },
+    {
+      "path": "src/components/context-menu/ContextMenuContent.tsx",
+      "content": "import { Content, Portal } from '@radix-ui/react-context-menu';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport MenuContent from '../menu/MenuContent';\n\nimport ContextMenuArrow from './ContextMenuArrow';\nimport type { ContextMenuContentProps } from './types';\n\nconst ContextMenuContent = forwardRef<ComponentRef<typeof Content>, ContextMenuContentProps>((props, ref) => {\n  return (\n    <MenuContent\n      arrowComponent={ContextMenuArrow}\n      component={Content as typeof MenuContent}\n      portalComponent={Portal}\n      ref={ref}\n      {...props}\n    />\n  );\n});\n\nContextMenuContent.displayName = 'ContextMenuContent';\n\nexport default ContextMenuContent;\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/ContextMenuContent.tsx"
+    },
+    {
+      "path": "src/components/context-menu/ContextMenuItem.tsx",
+      "content": "import { Item } from '@radix-ui/react-context-menu';\n\nimport MenuItem from '../menu/MenuItem';\n\nimport type { ContextMenuItemProps } from './types';\n\nconst ContextMenuItem = (props: ContextMenuItemProps) => {\n  return (\n    <MenuItem\n      {...props}\n      component={Item as typeof MenuItem}\n    />\n  );\n};\n\nexport default ContextMenuItem;\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/ContextMenuItem.tsx"
+    },
+    {
+      "path": "src/components/context-menu/ContextMenuItemIndicator.tsx",
+      "content": "import { ItemIndicator } from '@radix-ui/react-context-menu';\n\nimport MenuItemIndicator from '../menu/MenuItemIndicator';\n\nimport type { ContextMenuItemIndicatorProps } from './types';\n\nconst ContextMenuItemIndicator = (props: ContextMenuItemIndicatorProps) => {\n  return (\n    <MenuItemIndicator\n      component={ItemIndicator as typeof MenuItemIndicator}\n      {...props}\n    />\n  );\n};\n\nexport default ContextMenuItemIndicator;\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/ContextMenuItemIndicator.tsx"
+    },
+    {
+      "path": "src/components/context-menu/ContextMenuLabel.tsx",
+      "content": "import { Label } from '@radix-ui/react-context-menu';\n\nimport MenuLabel from '../menu/MenuLabel';\n\nimport type { ContextMenuLabelProps } from './types';\n\nconst ContextMenuLabel = (props: ContextMenuLabelProps) => {\n  return (\n    <MenuLabel\n      component={Label as typeof MenuLabel}\n      {...props}\n    />\n  );\n};\n\nexport default ContextMenuLabel;\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/ContextMenuLabel.tsx"
+    },
+    {
+      "path": "src/components/context-menu/ContextMenuOption.tsx",
+      "content": "import { Sub } from '@radix-ui/react-context-menu';\n\nimport MenuOption from '../menu/MenuOption';\n\nimport ContextMenuItem from './ContextMenuItem';\nimport ContextMenuLabel from './ContextMenuLabel';\nimport ContextMenuSeparator from './ContextMenuSeparator';\nimport ContextMenuSubContent from './ContextMenuSubContent';\nimport ContextMenuSubTrigger from './ContextMenuSubTrigger';\nimport type { ContextMenuOptionProps } from './types';\n\nconst ContextMenuOption = (props: ContextMenuOptionProps) => {\n  return (\n    <MenuOption\n      {...props}\n      component={ContextMenuItem}\n      labelComponent={ContextMenuLabel}\n      separatorComponent={ContextMenuSeparator}\n      subComponent={Sub}\n      subContentComponent={ContextMenuSubContent}\n      subTriggerComponent={ContextMenuSubTrigger}\n    />\n  );\n};\n\nContextMenuOption.displayName = 'ContextMenuOption';\n\nexport default ContextMenuOption;\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/ContextMenuOption.tsx"
+    },
+    {
+      "path": "src/components/context-menu/ContextMenuRadio.tsx",
+      "content": "import { Root, Trigger } from '@radix-ui/react-context-menu';\n\nimport ContextMenuContent from './ContextMenuContent';\nimport ContextMenuRadioGroup from './ContextMenuRadioGroup';\nimport type { ContextMenuRadioProps } from './types';\n\nconst ContextMenuRadio = (props: ContextMenuRadioProps) => {\n  const { children, className, classNames, contentProps, dir, modal, onOpenChange, size, ...rest } = props;\n\n  return (\n    <Root\n      dir={dir}\n      modal={modal}\n      onOpenChange={onOpenChange}\n    >\n      <Trigger asChild>{children}</Trigger>\n\n      <ContextMenuContent\n        arrowClass={classNames?.arrow}\n        className={className || classNames?.content}\n        size={size}\n        {...contentProps}\n      >\n        <ContextMenuRadioGroup\n          classNames={classNames}\n          size={size}\n          {...rest}\n        />\n      </ContextMenuContent>\n    </Root>\n  );\n};\n\nexport default ContextMenuRadio;\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/ContextMenuRadio.tsx"
+    },
+    {
+      "path": "src/components/context-menu/ContextMenuRadioGroup.tsx",
+      "content": "import { RadioGroup } from '@radix-ui/react-context-menu';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport MenuRadioGroup from '../menu/MenuRadioGroup';\n\nimport ContextMenuLabel from './ContextMenuLabel';\nimport ContextMenuRadioItem from './ContextMenuRadioItem';\nimport ContextMenuSeparator from './ContextMenuSeparator';\nimport type { ContextMenuRadioGroupProps } from './types';\n\nconst ContextMenuRadioGroup = forwardRef<ComponentRef<typeof RadioGroup>, ContextMenuRadioGroupProps>((props, ref) => {\n  return (\n    <MenuRadioGroup\n      component={ContextMenuRadioItem}\n      groupComponent={RadioGroup}\n      labelComponent={ContextMenuLabel}\n      ref={ref}\n      separatorComponent={ContextMenuSeparator}\n      {...props}\n    />\n  );\n});\n\nContextMenuRadioGroup.displayName = 'ContextMenuRadioGroup';\n\nexport default ContextMenuRadioGroup;\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/ContextMenuRadioGroup.tsx"
+    },
+    {
+      "path": "src/components/context-menu/ContextMenuRadioItem.tsx",
+      "content": "import { RadioItem } from '@radix-ui/react-context-menu';\n\nimport MenuRadioItem from '../menu/MenuRadioItem';\n\nimport ContextMenuItemIndicator from './ContextMenuItemIndicator';\nimport type { ContextMenuRadioItemProps } from './types';\n\nconst ContextMenuRadioItem = (props: ContextMenuRadioItemProps) => {\n  return (\n    <MenuRadioItem\n      component={RadioItem}\n      indicatorComponent={ContextMenuItemIndicator}\n      {...props}\n    />\n  );\n};\n\nexport default ContextMenuRadioItem;\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/ContextMenuRadioItem.tsx"
+    },
+    {
+      "path": "src/components/context-menu/ContextMenuSeparator.tsx",
+      "content": "import { Separator } from '@radix-ui/react-context-menu';\n\nimport MenuSeparator from '../menu/MenuSeparator';\n\nimport type { ContextMenuSeparatorProps } from './types';\n\nconst ContextMenuSeparator = (props: ContextMenuSeparatorProps) => {\n  return (\n    <MenuSeparator\n      component={Separator as typeof MenuSeparator}\n      {...props}\n    />\n  );\n};\n\nexport default ContextMenuSeparator;\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/ContextMenuSeparator.tsx"
+    },
+    {
+      "path": "src/components/context-menu/ContextMenuSubContent.tsx",
+      "content": "import { Group, Portal, SubContent } from '@radix-ui/react-context-menu';\n\nimport MenuSubContent from '../menu/MenuSubContent';\n\nimport type { ContextMenuSubContentProps } from './types';\n\nconst ContextMenuSubContent = (props: ContextMenuSubContentProps) => {\n  return (\n    <MenuSubContent\n      component={SubContent as typeof MenuSubContent}\n      groupComponent={Group as typeof MenuSubContent}\n      portalComponent={Portal}\n      {...props}\n    />\n  );\n};\n\nexport default ContextMenuSubContent;\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/ContextMenuSubContent.tsx"
+    },
+    {
+      "path": "src/components/context-menu/ContextMenuSubTrigger.tsx",
+      "content": "import { SubTrigger } from '@radix-ui/react-context-menu';\n\nimport MenuSubTrigger from '../menu/MenuSubTrigger';\n\nimport type { ContextMenuSubTriggerProps } from './types';\n\nconst ContextMenuSubTrigger = (props: ContextMenuSubTriggerProps) => {\n  return (\n    <MenuSubTrigger\n      component={SubTrigger as typeof MenuSubTrigger}\n      {...props}\n    />\n  );\n};\n\nexport default ContextMenuSubTrigger;\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/ContextMenuSubTrigger.tsx"
+    },
+    {
+      "path": "src/components/context-menu/index.ts",
+      "content": "export { default as ContextMenu } from './ContextMenu';\n\nexport { default as ContextMenuArrow } from './ContextMenuArrow';\n\nexport { default as ContextMenuCheckbox } from './ContextMenuCheckbox';\nexport { default as ContextMenuCheckboxGroup } from './ContextMenuCheckboxGroup';\nexport { default as ContextMenuCheckboxItem } from './ContextMenuCheckboxItem';\n\nexport { default as ContextMenuContent } from './ContextMenuContent';\n\nexport { default as ContextMenuItem } from './ContextMenuItem';\nexport { default as ContextMenuItemIndicator } from './ContextMenuItemIndicator';\n\nexport { default as ContextMenuLabel } from './ContextMenuLabel';\nexport { default as ContextMenuOption } from './ContextMenuOption';\n\nexport { default as ContextMenuRadio } from './ContextMenuRadio';\nexport { default as ContextMenuRadioGroup } from './ContextMenuRadioGroup';\nexport { default as ContextMenuRadioItem } from './ContextMenuRadioItem';\n\nexport { default as ContextMenuSeparator } from './ContextMenuSeparator';\n\nexport { default as ContextMenuSubContent } from './ContextMenuSubContent';\nexport { default as ContextMenuSubTrigger } from './ContextMenuSubTrigger';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/index.ts"
+    },
+    {
+      "path": "src/components/context-menu/types.ts",
+      "content": "import type {\n  ContextMenuCheckboxItemProps as _ContextMenuCheckboxItemProps,\n  ContextMenuGroupProps as _ContextMenuGroupProps,\n  ContextMenuItemIndicatorProps as _ContextMenuItemIndicatorProps,\n  ContextMenuLabelProps as _ContextMenuLabelProps,\n  ContextMenuPortalProps as _ContextMenuPortalProps,\n  ContextMenuProps as _ContextMenuProps,\n  ContextMenuRadioGroupProps as _ContextMenuRadioGroupProps,\n  ContextMenuRadioItemProps as _ContextMenuRadioItemProps,\n  ContextMenuSeparatorProps as _ContextMenuSeparatorProps,\n  ContextMenuSub as _ContextMenuSub,\n  ContextMenuSubContentProps as _ContextMenuSubContentProps,\n  ContextMenuSubProps as _ContextMenuSubProps,\n  ContextMenuSubTriggerProps as _ContextMenuSubTriggerProps\n} from '@radix-ui/react-context-menu';\nimport type { ReactNode } from 'react';\n\nimport type { BaseNodeProps } from '@/types/other';\n\nimport type {\n  MenuArrowProps,\n  MenuCheckboxGroupProps,\n  MenuCheckboxItemProps,\n  MenuCommonProps,\n  MenuContentProps,\n  MenuItemIndicatorProps,\n  MenuItemProps,\n  MenuLabelProps,\n  MenuOptionProps,\n  MenuRadioGroupProps,\n  MenuRadioItemProps,\n  MenuSeparatorProps,\n  MenuSubContentProps,\n  MenuSubTriggerProps\n} from '../menu/types';\n\nexport type ContextMenuArrowProps = Omit<MenuArrowProps, 'component'>;\n\nexport type ContextMenuContentProps = Omit<MenuContentProps, 'arrowComponent' | 'component' | 'portalComponent'>;\n\n// Item\nexport type ContextMenuItemProps = Omit<MenuItemProps, 'component'>;\n\n// Label\nexport type ContextMenuLabelProps = Omit<MenuLabelProps, 'component'>;\n\nexport type ContextMenuOptionProps = Omit<\n  MenuOptionProps,\n  'component' | 'labelComponent' | 'separatorComponent' | 'subComponent' | 'subContentComponent' | 'subTriggerComponent'\n>;\n\n// Indicator\nexport type ContextMenuItemIndicatorProps = Omit<MenuItemIndicatorProps, 'component'>;\n\nexport type ContextMenuSeparatorProps = Omit<MenuSeparatorProps, 'component'>;\n\nexport type ContextMenuSubContentProps = Omit<MenuSubContentProps, 'component' | 'groupComponent' | 'portalComponent'>;\n\nexport type ContextMenuSubTriggerProps = Omit<MenuSubTriggerProps, 'component'>;\n\n// Checkbox\nexport type ContextMenuCheckboxItemProps = Omit<MenuCheckboxItemProps, 'component' | 'indicatorComponent'>;\n\nexport type ContextMenuCheckboxGroupProps = Omit<\n  MenuCheckboxGroupProps,\n  'component' | 'groupComponent' | 'labelComponent' | 'separatorComponent'\n>;\n\nexport interface ContextMenuCheckboxProps\n  extends Omit<ContextMenuCheckboxGroupProps, 'dir'>,\n    BaseNodeProps<_ContextMenuProps> {\n  contentProps?: Omit<ContextMenuContentProps, 'arrowClass' | 'className'>;\n}\n\n// Radio\nexport type ContextMenuRadioItemProps = Omit<MenuRadioItemProps, 'component' | 'indicatorComponent'>;\n\nexport type ContextMenuRadioGroupProps = Omit<\n  MenuRadioGroupProps,\n  'component' | 'groupComponent' | 'labelComponent' | 'separatorComponent'\n>;\n\nexport interface ContextMenuRadioProps\n  extends Omit<ContextMenuRadioGroupProps, 'dir'>,\n    BaseNodeProps<_ContextMenuProps> {\n  contentProps?: Omit<ContextMenuContentProps, 'arrowClass' | 'className'>;\n}\n\nexport interface ContextMenuProps extends BaseNodeProps<_ContextMenuProps>, MenuCommonProps {\n  children?: ReactNode;\n  contentProps?: Omit<ContextMenuContentProps, 'children'>;\n  items: ContextMenuOptionProps['item'][];\n}\n",
+      "type": "registry:ui",
+      "target": "components/context-menu/types.ts"
+    }
+  ]
+}

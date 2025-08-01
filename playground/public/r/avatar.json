@@ -3,9 +3,7 @@
   "name": "avatar",
   "type": "registry:block",
   "title": "Avatar",
-  "dependencies": [
-    "@radix-ui/react-avatar"
-  ],
+  "dependencies": ["@radix-ui/react-avatar"],
   "files": [
     {
       "path": "src/components/avatar/Avatar.tsx",

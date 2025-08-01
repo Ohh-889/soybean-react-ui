@@ -1,0 +1,74 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "drawer",
+  "type": "registry:block",
+  "title": "Drawer",
+  "files": [
+    {
+      "path": "src/components/drawer/Drawer.tsx",
+      "content": "import { type ComponentRef, forwardRef } from 'react';\nimport type { Content } from 'vaul';\nimport { Root as _Root } from 'vaul';\n\nimport { DialogFooter, DialogHeader, DialogTrigger } from '../dialog';\n\nimport DrawerClose from './DrawerClose';\nimport DrawerContent from './DrawerContent';\nimport DrawerDescription from './DrawerDescription';\nimport DrawerTitle from './DrawerTitle';\nimport type { DrawerProps } from './types';\n\nconst Drawer = forwardRef<ComponentRef<typeof Content>, DrawerProps>((props, ref) => {\n  const {\n    children,\n    classNames,\n    contentProps,\n    description,\n    footer,\n    shouldScaleBackground = true,\n    showClose,\n    size,\n    title,\n    trigger\n  } = props;\n\n  return (\n    <_Root\n      shouldScaleBackground={shouldScaleBackground}\n      {...props}\n    >\n      <DialogTrigger asChild>{trigger}</DialogTrigger>\n\n      <DrawerContent\n        classNames={classNames}\n        ref={ref}\n        {...contentProps}\n      >\n        <DialogHeader\n          className={classNames?.header}\n          size={size}\n        >\n          <DrawerTitle\n            className={classNames?.title}\n            size={size}\n          >\n            {title}\n          </DrawerTitle>\n\n          <DrawerDescription\n            className={classNames?.description}\n            size={size}\n          >\n            {description}\n          </DrawerDescription>\n        </DialogHeader>\n\n        {showClose && (\n          <DrawerClose\n            className={classNames?.close}\n            size={size}\n          />\n        )}\n\n        {children}\n\n        {footer && (\n          <DialogFooter\n            className={classNames?.footer || '!flex-col-reverse'}\n            size={size}\n          >\n            {footer}\n          </DialogFooter>\n        )}\n      </DrawerContent>\n    </_Root>\n  );\n});\n\nDrawer.displayName = 'Drawer';\n\nexport default Drawer;\n",
+      "type": "registry:ui",
+      "target": "components/drawer/Drawer.tsx"
+    },
+    {
+      "path": "src/components/drawer/DrawerClose.tsx",
+      "content": "import { Drawer } from 'vaul';\n\nimport { DialogClose } from '../dialog';\n\nimport type { DrawerCloseProps } from './types';\n\nconst DrawerClose = (props: DrawerCloseProps) => {\n  return (\n    <DialogClose\n      component={Drawer.Close}\n      {...props}\n    />\n  );\n};\n\nexport default DrawerClose;\n",
+      "type": "registry:ui",
+      "target": "components/drawer/DrawerClose.tsx"
+    },
+    {
+      "path": "src/components/drawer/DrawerContent.tsx",
+      "content": "import type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\nimport { Content, Portal } from 'vaul';\n\nimport { cn } from '@/lib/utils';\n\nimport DrawerContentBody from './DrawerContentBody';\nimport DrawerKnob from './DrawerKnob';\nimport DrawerOverlay from './DrawerOverlay';\nimport { drawerVariants } from './drawer-variants';\nimport type { DrawerContentProps } from './types';\n\nconst DrawerContent = forwardRef<ComponentRef<typeof Content>, DrawerContentProps>((props, ref) => {\n  const { children, className, classNames, size, ...rest } = props;\n\n  const { content } = drawerVariants({ size });\n\n  const mergedCls = cn(content(), className, classNames?.content);\n\n  return (\n    <Portal>\n      <DrawerOverlay className={classNames?.overlay} />\n\n      <Content\n        className={mergedCls}\n        data-slot=\"drawer-content\"\n        ref={ref}\n        {...rest}\n      >\n        <DrawerContentBody className={classNames?.contentBody}>\n          <DrawerKnob className={classNames?.knob} />\n\n          {children}\n        </DrawerContentBody>\n      </Content>\n    </Portal>\n  );\n});\n\nDrawerContent.displayName = 'DrawerContent';\n\nexport default DrawerContent;\n",
+      "type": "registry:ui",
+      "target": "components/drawer/DrawerContent.tsx"
+    },
+    {
+      "path": "src/components/drawer/DrawerContentBody.tsx",
+      "content": "import { cn } from '@/lib/utils';\n\nimport { drawerVariants } from './drawer-variants';\nimport type { DrawerContentBodyProps } from './types';\n\nconst DrawerContentBody = (props: DrawerContentBodyProps) => {\n  const { className, size, ...rest } = props;\n\n  const { contentBody } = drawerVariants({ size });\n\n  const mergedCls = cn(contentBody(), className);\n  return (\n    <div\n      className={mergedCls}\n      {...rest}\n    />\n  );\n};\n\nexport default DrawerContentBody;\n",
+      "type": "registry:ui",
+      "target": "components/drawer/DrawerContentBody.tsx"
+    },
+    {
+      "path": "src/components/drawer/DrawerDescription.tsx",
+      "content": "import { Drawer } from 'vaul';\n\nimport { DialogDescription } from '../dialog';\n\nimport type { DrawerDescriptionProps } from './types';\n\nconst DrawerDescription = (props: DrawerDescriptionProps) => {\n  return (\n    <DialogDescription\n      component={Drawer.Description}\n      {...props}\n    />\n  );\n};\n\nexport default DrawerDescription;\n",
+      "type": "registry:ui",
+      "target": "components/drawer/DrawerDescription.tsx"
+    },
+    {
+      "path": "src/components/drawer/DrawerKnob.tsx",
+      "content": "import { cn } from '@/lib/utils';\n\nimport { drawerVariants } from './drawer-variants';\nimport type { DrawerKnobProps } from './types';\n\nconst DrawerKnob = (props: DrawerKnobProps) => {\n  const { className, size, ...rest } = props;\n\n  const { knob } = drawerVariants({ size });\n\n  const mergedCls = cn(knob(), className);\n\n  return (\n    <div\n      className={mergedCls}\n      {...rest}\n    />\n  );\n};\n\nexport default DrawerKnob;\n",
+      "type": "registry:ui",
+      "target": "components/drawer/DrawerKnob.tsx"
+    },
+    {
+      "path": "src/components/drawer/DrawerOverlay.tsx",
+      "content": "import { Overlay as _Overlay } from 'vaul';\n\nimport { DialogOverlay } from '../dialog';\n\nimport type { DrawerOverlayProps } from './types';\n\nconst DrawerOverlay = (props: DrawerOverlayProps) => {\n  return (\n    <DialogOverlay\n      component={_Overlay}\n      {...props}\n    />\n  );\n};\n\nexport default DrawerOverlay;\n",
+      "type": "registry:ui",
+      "target": "components/drawer/DrawerOverlay.tsx"
+    },
+    {
+      "path": "src/components/drawer/DrawerTitle.tsx",
+      "content": "import { Drawer } from 'vaul';\n\nimport { DialogTitle } from '../dialog';\n\nimport type { DrawerTitleProps } from './types';\n\nconst DrawerTitle = (props: DrawerTitleProps) => {\n  return (\n    <DialogTitle\n      component={Drawer.Title}\n      {...props}\n    />\n  );\n};\n\nexport default DrawerTitle;\n",
+      "type": "registry:ui",
+      "target": "components/drawer/DrawerTitle.tsx"
+    },
+    {
+      "path": "src/components/drawer/drawer-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nimport { dialogVariants } from '../dialog/dialog-variants';\n\nexport const drawerVariants = tv({\n  defaultVariants: {\n    size: 'md'\n  },\n  slots: {\n    ...dialogVariants.slots,\n    content: `fixed inset-x-0 bottom-0 z-50 border bg-background`,\n    contentBody: `flex h-auto flex-col`,\n    knob: `mx-auto shrink-0 cursor-grab active:cursor-grabbing rounded-full bg-muted`\n  },\n  variants: {\n    size: {\n      '2xl': {\n        content: `mt-30 rounded-t-[16px]`,\n        contentBody: `gap-y-6 max-w-3xl px-7 py-6 text-xl`,\n        knob: 'mt-7 h-3.5 w-40'\n      },\n      lg: {\n        content: `mt-26 rounded-t-[12px]`,\n        contentBody: `gap-y-4 max-w-xl px-5 py-4 text-base`,\n        knob: 'mt-5 h-2.5 w-30'\n      },\n      md: {\n        content: `mt-24 rounded-t-[10px]`,\n        contentBody: `gap-y-3 max-w-lg px-4 py-3 text-sm`,\n        knob: 'mt-4 h-2 w-25'\n      },\n      sm: {\n        content: `mt-22 rounded-t-[8px]`,\n        contentBody: `gap-y-2 max-w-md px-3 py-2 text-xs`,\n        knob: 'mt-3.5 h-1.75 w-22'\n      },\n      xl: {\n        content: `mt-28 rounded-t-[14px]`,\n        contentBody: `gap-y-5 max-w-2xl px-6 py-5 text-lg`,\n        knob: 'mt-6 h-3 w-35'\n      },\n      xs: {\n        content: `mt-20 rounded-t-[6px]`,\n        contentBody: `gap-y-1.5 max-w-md px-2 py-1.5 text-2xs`,\n        knob: 'mt-3 h-1.5 w-20'\n      }\n    }\n  }\n});\n\nexport type DrawerSlots = keyof typeof drawerVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/drawer/drawer-variants.ts"
+    },
+    {
+      "path": "src/components/drawer/index.ts",
+      "content": "export { Root as DrawerRoot } from 'vaul';\n\nexport { DialogFooter as DrawerFooter, DialogHeader as DrawerHeader, DialogTrigger as DrawerTrigger } from '../dialog';\n\nexport { default as Drawer } from './Drawer';\n\nexport { default as DrawerClose } from './DrawerClose';\nexport { default as DrawerContent } from './DrawerContent';\nexport { default as DrawerContentBody } from './DrawerContentBody';\nexport { default as DrawerDescription } from './DrawerDescription';\nexport { default as DrawerKnob } from './DrawerKnob';\nexport { default as DrawerOverlay } from './DrawerOverlay';\nexport { default as DrawerTitle } from './DrawerTitle';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/drawer/index.ts"
+    },
+    {
+      "path": "src/components/drawer/types.ts",
+      "content": "import type { ContentProps, DialogProps } from 'vaul';\n\nimport type { BaseComponentProps, BaseNodeProps, ClassValue, ThemeSize } from '@/types/other';\n\nimport type {\n  DialogCloseProps,\n  DialogDescriptionProps,\n  DialogHeaderProps,\n  DialogOverlayProps,\n  DialogTitleProps\n} from '../dialog';\nimport type { DialogSlots } from '../dialog/dialog-variants';\n\nimport type { DrawerSlots } from './drawer-variants';\n\nexport type DrawerClassNames = Partial<Record<DrawerSlots | DialogSlots, ClassValue>>;\n\nexport type DrawerContentProps = BaseNodeProps<ContentProps> & {\n  classNames?: Pick<DrawerClassNames, 'content' | 'contentBody' | 'knob' | 'overlay'>;\n};\n\nexport type DrawerContentBodyProps = BaseComponentProps<'div'>;\n\nexport type DrawerFooterProps = BaseComponentProps<'div'>;\n\nexport type DrawerKnobProps = BaseComponentProps<'div'>;\n\nexport type DrawerOverlayProps = Omit<DialogOverlayProps, 'component'>;\n\nexport type DrawerHeaderProps = DialogHeaderProps;\n\nexport type DrawerDescriptionProps = Omit<DialogDescriptionProps, 'component'>;\n\nexport type DrawerTitleProps = Omit<DialogTitleProps, 'component'>;\n\nexport type DrawerCloseProps = Omit<DialogCloseProps, 'component'>;\n\nexport type DrawerProps = DialogProps & {\n  classNames?: DrawerClassNames;\n  contentProps?: DrawerContentProps;\n  description?: React.ReactNode;\n  footer?: React.ReactNode;\n  showClose?: boolean;\n  size?: ThemeSize;\n  title?: React.ReactNode;\n  trigger?: React.ReactNode;\n};\n",
+      "type": "registry:ui",
+      "target": "components/drawer/types.ts"
+    }
+  ]
+}

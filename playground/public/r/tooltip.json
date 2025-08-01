@@ -1,0 +1,44 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tooltip",
+  "type": "registry:block",
+  "title": "Tooltip",
+  "files": [
+    {
+      "path": "src/components/tooltip/Tooltip.tsx",
+      "content": "import { Root, Trigger } from '@radix-ui/react-tooltip';\n\nimport TooltipArrow from './TooltipArrow';\nimport TooltipContent from './TooltipContent';\nimport type { TooltipProps } from './types';\n\nconst Tooltip = (props: TooltipProps) => {\n  const { children, className, classNames, content, contentProps, showArrow, size, ...rest } = props;\n\n  return (\n    <Root {...rest}>\n      <Trigger asChild>{children}</Trigger>\n\n      <TooltipContent\n        className={className || classNames?.content}\n        size={size}\n        {...contentProps}\n      >\n        {content}\n\n        {showArrow && (\n          <TooltipArrow\n            className={classNames?.arrow}\n            size={size}\n          />\n        )}\n      </TooltipContent>\n    </Root>\n  );\n};\n\nexport default Tooltip;\n",
+      "type": "registry:ui",
+      "target": "components/tooltip/Tooltip.tsx"
+    },
+    {
+      "path": "src/components/tooltip/TooltipArrow.tsx",
+      "content": "import { Arrow } from '@radix-ui/react-tooltip';\n\nimport { cn } from '@/lib/utils';\n\nimport { tooltipVariants } from './tooltip-variants';\nimport type { TooltipArrowProps } from './types';\n\nconst TooltipArrow = (props: TooltipArrowProps) => {\n  const { className, size, ...rest } = props;\n\n  const { arrow } = tooltipVariants({ size });\n\n  const mergedCls = cn(arrow(), className);\n\n  return (\n    <Arrow\n      className={mergedCls}\n      {...rest}\n    />\n  );\n};\n\nexport default TooltipArrow;\n",
+      "type": "registry:ui",
+      "target": "components/tooltip/TooltipArrow.tsx"
+    },
+    {
+      "path": "src/components/tooltip/TooltipContent.tsx",
+      "content": "import { Content, Portal } from '@radix-ui/react-tooltip';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { tooltipVariants } from './tooltip-variants';\nimport type { TooltipContentProps } from './types';\n\nconst TooltipContent = forwardRef<ComponentRef<typeof Content>, TooltipContentProps>((props, ref) => {\n  const { avoidCollisions = true, className, sideOffset = 8, size, ...rest } = props;\n\n  const { content } = tooltipVariants({ size });\n\n  const mergedCls = cn(content(), className);\n\n  return (\n    <Portal>\n      <Content\n        avoidCollisions={avoidCollisions}\n        className={mergedCls}\n        ref={ref}\n        sideOffset={sideOffset}\n        {...rest}\n      />\n    </Portal>\n  );\n});\n\nTooltipContent.displayName = 'TooltipContent';\n\nexport default TooltipContent;\n",
+      "type": "registry:ui",
+      "target": "components/tooltip/TooltipContent.tsx"
+    },
+    {
+      "path": "src/components/tooltip/index.ts",
+      "content": "export { Tooltip as TooltipRoot, TooltipProvider, TooltipTrigger } from '@radix-ui/react-tooltip';\n\nexport { default as Tooltip } from './Tooltip';\nexport { default as TooltipArrow } from './TooltipArrow';\nexport { default as TooltipContent } from './TooltipContent';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/tooltip/index.ts"
+    },
+    {
+      "path": "src/components/tooltip/tooltip-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const tooltipVariants = tv({\n  defaultVariants: {\n    size: 'md'\n  },\n  slots: {\n    arrow: 'w-1em h-0.5em fill-carbon stroke-border',\n    content: [\n      'w-auto rounded-md border bg-carbon  text-carbon-foreground shadow-md outline-none z-50 will-change-transform',\n      'animate-in fade-in-0 zoom-in-95',\n      'data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95',\n      'data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2'\n    ]\n  },\n  variants: {\n    size: {\n      '2xl': {\n        arrow: 'text-lg',\n        content: 'px-4.5 py-2.5 text-xl'\n      },\n      lg: {\n        arrow: 'text-sm',\n        content: 'px-3.5 py-1.75 text-base'\n      },\n      md: {\n        arrow: 'text-xs',\n        content: 'px-3 py-1.5 text-sm'\n      },\n      sm: {\n        arrow: 'text-2xs',\n        content: 'px-2.5 py-1.25 text-xs'\n      },\n      xl: {\n        arrow: 'text-base',\n        content: 'px-4 py-2 text-lg'\n      },\n      xs: {\n        arrow: 'text-3xs',\n        content: 'px-2 py-1 text-2xs'\n      }\n    }\n  }\n});\n\nexport type TooltipSlots = keyof typeof tooltipVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/tooltip/tooltip-variants.ts"
+    },
+    {
+      "path": "src/components/tooltip/types.ts",
+      "content": "import type {\n  TooltipArrowProps as _TooltipArrowProps,\n  TooltipContentProps as _TooltipContentProps,\n  TooltipProps as _TooltipProps\n} from '@radix-ui/react-tooltip';\n\nimport type { BaseNodeProps, ClassValue, ThemeAlign, ThemeSide } from '@/types/other';\n\nimport type { TooltipSlots } from './tooltip-variants';\n\nexport type TooltipClassNames = Partial<Record<TooltipSlots, ClassValue>>;\n\nexport interface TooltipContentProps extends BaseNodeProps<_TooltipContentProps> {}\n\nexport interface TooltipArrowProps extends BaseNodeProps<_TooltipArrowProps> {}\n\nexport interface TooltipProps extends BaseNodeProps<_TooltipProps> {\n  classNames?: TooltipClassNames;\n  content: React.ReactNode;\n  contentProps?: Omit<TooltipContentProps, 'children' | 'className'>;\n  showArrow?: boolean;\n}\n\nexport type TooltipSide = ThemeSide;\n\nexport type TooltipAlign = ThemeAlign;\n",
+      "type": "registry:ui",
+      "target": "components/tooltip/types.ts"
+    }
+  ]
+}

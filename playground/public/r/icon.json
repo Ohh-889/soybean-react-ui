@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icon",
+  "type": "registry:block",
+  "title": "Icon",
+  "files": [
+    {
+      "path": "src/components/icon/Icon.tsx",
+      "content": "'use client';\n\nimport { Icon as IconifyIcon } from '@iconify/react';\n\nimport { useComponentConfig } from '../config-provider/context';\n\nimport type { IconProps } from './types';\n\nconst Icon = (props: IconProps) => {\n  const contextConfig = useComponentConfig('icon');\n\n  const { height = contextConfig?.height ?? '1.25em', width = contextConfig?.width ?? '1.25em', ...rest } = props;\n\n  const mergedProps = {\n    ...contextConfig,\n    height,\n    width,\n    ...rest\n  };\n\n  return <IconifyIcon {...mergedProps} />;\n};\n\nIcon.displayName = 'Icon';\n\nexport default Icon;\n",
+      "type": "registry:ui",
+      "target": "components/icon/Icon.tsx"
+    },
+    {
+      "path": "src/components/icon/index.ts",
+      "content": "export { default as Icon } from './Icon';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/icon/index.ts"
+    },
+    {
+      "path": "src/components/icon/types.ts",
+      "content": "export type { IconProps } from '@iconify/react';\n",
+      "type": "registry:ui",
+      "target": "components/icon/types.ts"
+    }
+  ]
+}

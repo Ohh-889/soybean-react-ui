@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toggle",
+  "type": "registry:block",
+  "title": "Toggle",
+  "files": [
+    {
+      "path": "src/components/toggle/Toggle.tsx",
+      "content": "import { Root } from '@radix-ui/react-toggle';\n\nimport { cn } from '@/lib/utils';\n\nimport { toggleVariants } from './toggle-variants';\nimport type { ToggleProps } from './types';\n\nconst Toggle = (props: ToggleProps) => {\n  const { className, size, variant, ...rest } = props;\n  const { toggle } = toggleVariants({ size, variant });\n\n  const mergedCls = cn(toggle(), className);\n\n  return (\n    <Root\n      className={mergedCls}\n      data-slot=\"toggle\"\n      {...rest}\n    />\n  );\n};\n\nexport default Toggle;\n",
+      "type": "registry:ui",
+      "target": "components/toggle/Toggle.tsx"
+    },
+    {
+      "path": "src/components/toggle/index.ts",
+      "content": "export { default as Toggle } from './Toggle';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/toggle/index.ts"
+    },
+    {
+      "path": "src/components/toggle/toggle-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\nimport type { VariantProps } from 'tailwind-variants';\n\nexport const toggleVariants = tv({\n  defaultVariants: {\n    size: 'md',\n    variant: 'ghost'\n  },\n  slots: {\n    groupRoot: `flex justify-center items-center`,\n    toggle: [\n      `inline-flex items-center justify-center rounded-md font-medium transition-colors duration-200`,\n      `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-primary`,\n      `hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50`,\n      `data-[state=on]:bg-accent data-[state=on]:hover:bg-accent data-[state=on]:text-accent-foreground`\n    ]\n  },\n  variants: {\n    size: {\n      '2xl': {\n        groupRoot: `gap-3`,\n        toggle: `h-12 px-10 text-xl`\n      },\n      lg: {\n        groupRoot: `gap-2.5`,\n        toggle: `h-9 px-6 text-base`\n      },\n      md: {\n        groupRoot: `gap-2`,\n        toggle: `h-8 px-4 text-sm`\n      },\n      sm: {\n        groupRoot: `gap-1.75`,\n        toggle: `h-7 px-2 text-xs`\n      },\n      xl: {\n        groupRoot: `gap-3`,\n        toggle: `h-10 px-8 text-lg`\n      },\n      xs: {\n        groupRoot: `gap-1.5`,\n        toggle: `h-6 px-1.5 text-2xs`\n      }\n    },\n    variant: {\n      ghost: {\n        toggle: `bg-transparent`\n      },\n      outline: {\n        toggle: `border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground`\n      }\n    }\n  }\n});\n\ntype ToggleVariants = VariantProps<typeof toggleVariants>;\n\nexport type ToggleVariant = NonNullable<ToggleVariants['variant']>;\n\nexport type ToggleSlots = keyof typeof toggleVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/toggle/toggle-variants.ts"
+    },
+    {
+      "path": "src/components/toggle/types.ts",
+      "content": "import type { ToggleProps as _ToggleProps } from '@radix-ui/react-toggle';\n\nimport type { BaseNodeProps } from '@/types/other';\n\nimport type { ToggleVariant } from './toggle-variants';\n\nexport interface ToggleProps extends BaseNodeProps<_ToggleProps> {\n  variant?: ToggleVariant;\n}\n",
+      "type": "registry:ui",
+      "target": "components/toggle/types.ts"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "keyboard-key",
+  "type": "registry:block",
+  "title": "Keyboard Key",
+  "files": [
+    {
+      "path": "src/components/keyboard-key/KeyboardKey.tsx",
+      "content": "'use client';\n\nimport { cn } from '@/lib';\n\nimport { keyboardKeyVariants } from './keyboard-key-variants';\nimport type { KeyboardKeyProps } from './types';\nimport { useKeyboardKey } from './use-keyboard-key';\n\nexport const KeyboardKey = (props: KeyboardKeyProps) => {\n  const { children, className, size, value, variant, ...rest } = props;\n\n  const { item } = keyboardKeyVariants({ size, variant });\n\n  const mergedCls = cn(item(), className);\n\n  const { getKeyboardKey } = useKeyboardKey();\n\n  const getValues = () => {\n    if (!value) {\n      return [];\n    }\n\n    if (Array.isArray(value)) {\n      return value.map(v => getKeyboardKey(v)).filter(Boolean);\n    }\n\n    return [getKeyboardKey(value)!];\n  };\n\n  const values = getValues();\n\n  return (\n    <div\n      className={mergedCls}\n      data-size={size}\n      data-slot=\"keyboard-key\"\n      data-variant={variant}\n      {...rest}\n    >\n      {children ? children(values) : values.map(v => <span key={v}>{v}</span>)}\n    </div>\n  );\n};\n\nexport default KeyboardKey;\n",
+      "type": "registry:ui",
+      "target": "components/keyboard-key/KeyboardKey.tsx"
+    },
+    {
+      "path": "src/components/keyboard-key/KeyboardKeyGroup.tsx",
+      "content": "import { Fragment } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport KeyboardKey from './KeyboardKey';\nimport { keyboardKeyVariants } from './keyboard-key-variants';\nimport type { KeyboardKeyGroupProps } from './types';\n\nconst KeyboardKeyGroup = (props: KeyboardKeyGroupProps) => {\n  const { className, classNames, separator = '+', size, values, variant, ...rest } = props;\n\n  const { group, separator: separatorCls } = keyboardKeyVariants({ size, variant });\n\n  const mergedCls = cn(group(), className || classNames?.group);\n\n  const separatorMergedCls = cn(separatorCls(), classNames?.separator);\n\n  return (\n    <div\n      {...rest}\n      className={mergedCls}\n      data-size={size}\n      data-slot=\"keyboard-key-group\"\n      data-variant={variant}\n    >\n      {values?.map((value, index) => (\n        <Fragment key={String(index)}>\n          <KeyboardKey\n            className={classNames?.item}\n            size={size}\n            value={value}\n            variant={variant}\n          />\n\n          {separator && index !== values.length - 1 && <span className={separatorMergedCls}>{separator}</span>}\n        </Fragment>\n      ))}\n    </div>\n  );\n};\n\nexport default KeyboardKeyGroup;\n",
+      "type": "registry:ui",
+      "target": "components/keyboard-key/KeyboardKeyGroup.tsx"
+    },
+    {
+      "path": "src/components/keyboard-key/index.ts",
+      "content": "export { default as KeyboardKey } from './KeyboardKey';\nexport { default as KeyboardKeyGroup } from './KeyboardKeyGroup';\n\nexport * from './types';\n\nexport { useKeyboardKey } from './use-keyboard-key';\n",
+      "type": "registry:ui",
+      "target": "components/keyboard-key/index.ts"
+    },
+    {
+      "path": "src/components/keyboard-key/keyboard-key-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\nimport type { VariantProps } from 'tailwind-variants';\n\nexport const keyboardKeyVariants = tv({\n  defaultVariants: {\n    size: 'md',\n    variant: 'outline'\n  },\n  slots: {\n    group: 'flex items-center',\n    item: `inline-flex items-center justify-center w-fit font-medium rounded-sm`,\n    separator: 'font-medium text-muted-foreground'\n  },\n  variants: {\n    size: {\n      '2xl': {\n        group: 'gap-2',\n        item: 'gap-1.5 h-8 min-w-8 px-1.5 text-lg'\n      },\n      lg: {\n        group: 'gap-1.5',\n        item: 'gap-1 h-6 min-w-6 px-1 text-sm'\n      },\n      md: {\n        group: 'gap-1.25',\n        item: 'gap-0.75 h-5 min-w-5 px-0.75 text-xs'\n      },\n      sm: {\n        group: 'gap-1',\n        item: 'gap-0.625 h-4.5 min-w-4.5 px-0.625 text-2xs'\n      },\n      xl: {\n        group: 'gap-1.75',\n        item: 'gap-1.25 h-7 min-w-7 px-1.25 text-base'\n      },\n      xs: {\n        group: 'gap-0.75',\n        item: 'gap-0.5 h-4 min-w-4 px-0.5 text-3xs'\n      }\n    },\n    variant: {\n      ghost: {\n        item: 'border-border bg-muted text-muted-foreground border'\n      },\n      outline: {\n        item: 'border-border bg-background text-muted-foreground border'\n      },\n      solid: {\n        item: 'bg-muted-foreground text-muted'\n      }\n    }\n  }\n});\n\ntype KeyboardKeyVariants = VariantProps<typeof keyboardKeyVariants>;\n\nexport type KeyboardKeyVariant = NonNullable<KeyboardKeyVariants['variant']>;\n\nexport type KeyboardKeySlots = keyof typeof keyboardKeyVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/keyboard-key/keyboard-key-variants.ts"
+    },
+    {
+      "path": "src/components/keyboard-key/types.ts",
+      "content": "import type { ReactNode } from 'react';\n\nimport type { BaseComponentProps, ClassValue } from '@/types/other';\n\nimport type { KeyboardKeySlots, KeyboardKeyVariant } from './keyboard-key-variants';\n\nexport type BuiltinKeyboardKey =\n  | 'alt'\n  | 'arrowdown'\n  | 'arrowleft'\n  | 'arrowright'\n  | 'arrowup'\n  | 'backspace'\n  | 'capslock'\n  | 'command'\n  | 'ctrl'\n  | 'delete'\n  | 'end'\n  | 'enter'\n  | 'escape'\n  | 'home'\n  | 'meta'\n  | 'option'\n  | 'pagedown'\n  | 'pageup'\n  | 'shift'\n  | 'tab'\n  | 'win';\n\nexport type SpecificKeyboardKeyMap = {\n  alt: string;\n  ctrl: string;\n  meta: string;\n};\n\nexport type KeyboardKeyValue = BuiltinKeyboardKey | (string & {});\n\nexport interface KeyboardKeyProps<T extends KeyboardKeyValue | KeyboardKeyValue[] = KeyboardKeyValue>\n  extends Omit<BaseComponentProps<'div'>, 'children'> {\n  children?: (values: string[]) => React.ReactNode;\n  value?: T | string[];\n  variant?: KeyboardKeyVariant;\n}\n\nexport type KeyboardKeyClassNames = Partial<Record<KeyboardKeySlots, ClassValue>>;\n\nexport interface KeyboardKeyGroupProps<T extends KeyboardKeyValue | KeyboardKeyValue[] = KeyboardKeyValue>\n  extends Omit<KeyboardKeyProps, 'children' | 'value'> {\n  classNames?: KeyboardKeyClassNames;\n  render?: (value: T) => React.ReactNode;\n  separator?: ReactNode;\n  values: T[];\n}\n\nexport type { KeyboardKeyVariant };\n",
+      "type": "registry:ui",
+      "target": "components/keyboard-key/types.ts"
+    },
+    {
+      "path": "src/components/keyboard-key/use-keyboard-key.ts",
+      "content": "'use client';\n\nimport { useEffect, useState } from 'react';\n\nexport type BuiltinKeyboardKey =\n  | 'alt'\n  | 'arrowdown'\n  | 'arrowleft'\n  | 'arrowright'\n  | 'arrowup'\n  | 'backspace'\n  | 'capslock'\n  | 'command'\n  | 'ctrl'\n  | 'delete'\n  | 'end'\n  | 'enter'\n  | 'escape'\n  | 'home'\n  | 'meta'\n  | 'option'\n  | 'pagedown'\n  | 'pageup'\n  | 'shift'\n  | 'tab'\n  | 'win';\n\nexport interface KeyboardKeyProps {\n  value: string;\n}\n\ntype SpecificKeyboardKeyMap = {\n  alt: string;\n  ctrl: string;\n  meta: string;\n};\n\nexport const builtinKeyboardKeyMap: Record<BuiltinKeyboardKey, string> = {\n  alt: '',\n  arrowdown: '↓',\n  arrowleft: '←',\n  arrowright: '→',\n  arrowup: '↑',\n  backspace: '⌫',\n  capslock: '⇪',\n  command: '⌘',\n  ctrl: '',\n  delete: '⌦',\n  end: '↘',\n  enter: '↵',\n  escape: '⎋',\n  home: '↖',\n  meta: '',\n  option: '⌥',\n  pagedown: '⇟',\n  pageup: '⇞',\n  shift: '⇧',\n  tab: '⇥',\n  win: '⊞'\n};\n\n/* ------------------------------------------------------------------ */\n/*                               Hook                                 */\n/* ------------------------------------------------------------------ */\nexport function useKeyboardKey() {\n  const [isMacOS, setIsMacOS] = useState(false);\n\n  const specificMapRef: SpecificKeyboardKeyMap = {\n    alt: isMacOS ? builtinKeyboardKeyMap.option : 'alt',\n    ctrl: isMacOS ? '⌃' : 'ctrl',\n    meta: isMacOS ? builtinKeyboardKeyMap.command : builtinKeyboardKeyMap.win\n  };\n\n  const getKeyboardKey = (value?: KeyboardKeyProps['value']) => {\n    if (!value) return '';\n\n    if (value === 'meta' || value === 'alt' || value === 'ctrl') {\n      return specificMapRef[value as keyof SpecificKeyboardKeyMap];\n    }\n\n    return builtinKeyboardKeyMap[value as BuiltinKeyboardKey] || value.toUpperCase();\n  };\n\n  useEffect(() => {\n    setIsMacOS(/Macintosh;/.test(navigator.userAgent));\n  }, []);\n\n  return {\n    getKeyboardKey,\n    isMacOS\n  };\n}\n",
+      "type": "registry:ui",
+      "target": "components/keyboard-key/use-keyboard-key.ts"
+    }
+  ]
+}

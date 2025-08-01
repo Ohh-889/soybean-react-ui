@@ -3,9 +3,7 @@
   "name": "breadcrumb",
   "type": "registry:block",
   "title": "Breadcrumb",
-  "dependencies": [
-    "@radix-ui/react-slot"
-  ],
+  "dependencies": ["@radix-ui/react-slot"],
   "files": [
     {
       "path": "src/components/breadcrumb/Breadcrumb.tsx",

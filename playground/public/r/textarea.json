@@ -1,0 +1,50 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "textarea",
+  "type": "registry:block",
+  "title": "Textarea",
+  "files": [
+    {
+      "path": "src/components/textarea/Textarea.tsx",
+      "content": "'use client';\n\nimport { useControllableState } from '@radix-ui/react-use-controllable-state';\nimport { type ChangeEvent, forwardRef } from 'react';\n\nimport TextareaContent from './TextareaContent';\nimport TextareaCount from './TextareaCount';\nimport TextareaRoot from './TextareaRoot';\nimport type { TextareaProps } from './types';\n\nconst Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>((props, ref) => {\n  const {\n    classNames,\n    countGraphemes,\n    countRender,\n    defaultValue,\n    maxLength,\n    onChange,\n    onTextChange,\n    showCount,\n    size,\n    value,\n    ...rest\n  } = props;\n\n  const [_value, setValue] = useControllableState({\n    caller: 'textarea',\n    defaultProp: defaultValue,\n    onChange: onTextChange,\n    prop: value\n  });\n\n  function handleChange(e: ChangeEvent<HTMLTextAreaElement>) {\n    setValue(e.target.value);\n    onChange?.(e);\n  }\n\n  return (\n    <TextareaRoot\n      className={classNames?.root}\n      size={size}\n    >\n      <TextareaContent\n        className={classNames?.content}\n        maxLength={maxLength}\n        ref={ref}\n        size={size}\n        value={_value}\n        onChange={handleChange}\n        {...rest}\n      />\n\n      {showCount && (\n        <TextareaCount\n          className={classNames?.count}\n          countGraphemes={countGraphemes}\n          maxLength={maxLength}\n          size={size}\n          value={_value}\n        >\n          {countRender}\n        </TextareaCount>\n      )}\n    </TextareaRoot>\n  );\n});\n\nTextarea.displayName = 'Textarea';\n\nexport default Textarea;\n",
+      "type": "registry:ui",
+      "target": "components/textarea/Textarea.tsx"
+    },
+    {
+      "path": "src/components/textarea/TextareaContent.tsx",
+      "content": "import { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { textareaVariants } from './textarea-variants';\nimport type { TextareaContentProps } from './types';\n\nconst TextareaContent = forwardRef<HTMLTextAreaElement, TextareaContentProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { content } = textareaVariants({ size });\n\n  const mergedCls = cn(content(), className);\n\n  return (\n    <textarea\n      className={mergedCls}\n      data-size={size}\n      data-slot=\"textarea\"\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nTextareaContent.displayName = 'TextareaContent';\n\nexport default TextareaContent;\n",
+      "type": "registry:ui",
+      "target": "components/textarea/TextareaContent.tsx"
+    },
+    {
+      "path": "src/components/textarea/TextareaCount.tsx",
+      "content": "import { cn } from '@/lib/utils';\n\nimport { textareaVariants } from './textarea-variants';\nimport type { TextareaCountProps } from './types';\n\nconst TextareaCount = (props: TextareaCountProps) => {\n  const { children, className, countGraphemes, maxLength, size, value, ...rest } = props;\n\n  const { count } = textareaVariants({ size });\n\n  const mergedCls = cn(count(), className);\n\n  const getCount = () => {\n    if (!value) {\n      return 0;\n    }\n\n    return countGraphemes?.(value) || String(value).length;\n  };\n\n  const countWithMaxLength = () => {\n    const _count = getCount();\n    if (maxLength) {\n      return `${_count} / ${maxLength}`;\n    }\n\n    return String(_count);\n  };\n\n  const text = countWithMaxLength();\n\n  return (\n    <div\n      {...rest}\n      className={mergedCls}\n      data-size={size}\n      data-slot=\"textarea-count\"\n    >\n      {children?.(text) || text}\n    </div>\n  );\n};\n\nexport default TextareaCount;\n",
+      "type": "registry:ui",
+      "target": "components/textarea/TextareaCount.tsx"
+    },
+    {
+      "path": "src/components/textarea/TextareaRoot.tsx",
+      "content": "import { cn } from '@/lib/utils';\n\nimport { textareaVariants } from './textarea-variants';\nimport type { TextareaRootProps } from './types';\n\nconst TextareaRoot = (props: TextareaRootProps) => {\n  const { className, size, ...rest } = props;\n\n  const { root } = textareaVariants({ size });\n\n  const mergedCls = cn(root(), className);\n\n  return (\n    <div\n      {...rest}\n      className={mergedCls}\n      data-size={size}\n      data-slot=\"textarea-root\"\n    />\n  );\n};\n\nexport default TextareaRoot;\n",
+      "type": "registry:ui",
+      "target": "components/textarea/TextareaRoot.tsx"
+    },
+    {
+      "path": "src/components/textarea/index.ts",
+      "content": "export { default as Textarea } from './Textarea';\n\nexport { default as TextareaContent } from './TextareaContent';\nexport { default as TextareaCount } from './TextareaCount';\nexport { default as TextareaRoot } from './TextareaRoot';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/textarea/index.ts"
+    },
+    {
+      "path": "src/components/textarea/textarea-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const textareaVariants = tv({\n  defaultVariants: {\n    resize: 'vertical',\n    size: 'md'\n  },\n  slots: {\n    content: [\n      `flex w-full rounded-md border border-solid border-input bg-background`,\n      `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-primary`,\n      `disabled:cursor-not-allowed disabled:opacity-50`\n    ],\n    count: 'absolute z-2 leading-none text-muted-foreground',\n    root: 'relative'\n  },\n  variants: {\n    size: {\n      '2xl': {\n        content: 'min-h-12 px-4 py-2 text-xl',\n        count: 'text-xl right-4 bottom-3.5'\n      },\n      lg: {\n        content: 'min-h-9 px-2.5 py-1 text-base',\n        count: 'text-base right-3 bottom-2.5'\n      },\n      md: {\n        content: 'min-h-8 px-2 py-1 text-sm',\n        count: 'text-sm right-2.5 bottom-2'\n      },\n      sm: {\n        content: 'min-h-7 px-1.75 py-1 text-xs',\n        count: 'text-xs right-2 bottom-1.75'\n      },\n      xl: {\n        content: 'min-h-10 px-3 py-1 text-lg',\n        count: 'text-lg right-3.5 bottom-3'\n      },\n      xs: {\n        content: 'min-h-6 px-1.5 py-1 text-2xs',\n        count: 'text-2xs right-1.75 bottom-1.5'\n      }\n    }\n  }\n});\n\nexport type TextareaSlots = keyof typeof textareaVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/textarea/textarea-variants.ts"
+    },
+    {
+      "path": "src/components/textarea/types.ts",
+      "content": "import type { ReactNode } from 'react';\n\nimport type { BaseComponentProps, ClassValue } from '@/types/other';\n\nimport type { TextareaSlots } from './textarea-variants';\n\nexport interface TextareaContentProps extends BaseComponentProps<'textarea'> {}\n\nexport type TextareaClassNames = Partial<Record<TextareaSlots, ClassValue>>;\n\nexport interface TextareaCountProps\n  extends Omit<BaseComponentProps<'div'>, 'children'>,\n    Pick<TextareaContentProps, 'maxLength' | 'value'> {\n  children?: (count: string) => ReactNode;\n  countGraphemes?: (input: TextareaContentProps['value']) => number;\n}\n\nexport interface TextareaRootProps extends BaseComponentProps<'div'> {}\n\nexport interface TextareaProps extends TextareaContentProps, Pick<TextareaCountProps, 'countGraphemes'> {\n  classNames?: TextareaClassNames;\n  countRender?: (count: string) => ReactNode;\n  onTextChange?: (value: TextareaContentProps['value']) => void;\n  showCount?: boolean;\n}\n",
+      "type": "registry:ui",
+      "target": "components/textarea/types.ts"
+    }
+  ]
+}

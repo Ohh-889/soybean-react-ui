@@ -1,0 +1,44 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "switch",
+  "type": "registry:block",
+  "title": "Switch",
+  "files": [
+    {
+      "path": "src/components/switch/Switch.tsx",
+      "content": "import type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport SwitchRoot from './SwitchRoot';\nimport SwitchThumb from './SwitchThumb';\nimport type { SwitchProps } from './types';\n\nconst Switch = forwardRef<ComponentRef<typeof SwitchRoot>, SwitchProps>((props, ref) => {\n  const { children, className, classNames, size, ...rest } = props;\n\n  return (\n    <SwitchRoot\n      className={className || classNames?.root}\n      ref={ref}\n      size={size}\n      {...rest}\n    >\n      <SwitchThumb\n        className={classNames?.thumb}\n        size={size}\n      >\n        {children}\n      </SwitchThumb>\n    </SwitchRoot>\n  );\n});\n\nSwitch.displayName = 'Switch';\n\nexport default Switch;\n",
+      "type": "registry:ui",
+      "target": "components/switch/Switch.tsx"
+    },
+    {
+      "path": "src/components/switch/SwitchRoot.tsx",
+      "content": "import { Switch } from '@radix-ui/react-switch';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { switchVariants } from './switch-varianst';\nimport type { SwitchRootProps } from './types';\n\nconst SwitchRoot = forwardRef<ComponentRef<typeof Switch>, SwitchRootProps>((props, ref) => {\n  const { className, color, size, ...rest } = props;\n\n  const { root } = switchVariants({ color, size });\n\n  const mergedCls = cn(root(), className);\n\n  return (\n    <Switch\n      className={mergedCls}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nSwitchRoot.displayName = 'SwitchRoot';\n\nexport default SwitchRoot;\n",
+      "type": "registry:ui",
+      "target": "components/switch/SwitchRoot.tsx"
+    },
+    {
+      "path": "src/components/switch/SwitchThumb.tsx",
+      "content": "import { Thumb } from '@radix-ui/react-switch';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { switchVariants } from './switch-varianst';\nimport type { SwitchThumbProps } from './types';\n\nconst SwitchThumb = forwardRef<ComponentRef<typeof Thumb>, SwitchThumbProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { thumb } = switchVariants({ size });\n\n  const mergedCls = cn(thumb(), className);\n\n  return (\n    <Thumb\n      className={mergedCls}\n      id=\"switch-thumb\"\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nSwitchThumb.displayName = 'SwitchThumb';\n\nexport default SwitchThumb;\n",
+      "type": "registry:ui",
+      "target": "components/switch/SwitchThumb.tsx"
+    },
+    {
+      "path": "src/components/switch/index.ts",
+      "content": "export { default as Switch } from './Switch';\nexport { default as SwitchRoot } from './SwitchRoot';\nexport { default as SwitchThumb } from './SwitchThumb';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/switch/index.ts"
+    },
+    {
+      "path": "src/components/switch/switch-varianst.ts",
+      "content": "// @unocss-include\nimport { tv } from 'tailwind-variants';\nimport type { VariantProps } from 'tailwind-variants';\n\nexport const switchVariants = tv({\n  base: [],\n  defaultVariants: {\n    color: 'primary',\n    shape: 'rounded',\n    size: 'md'\n  },\n  slots: {\n    root: [\n      `peer shrink-0 inline-flex items-center rounded-full border-0 shadow-sm transition-colors duration-200`,\n      `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background`,\n      `disabled:cursor-not-allowed disabled:opacity-50`,\n      `data-[state=unchecked]:bg-input`\n    ],\n    thumb: `flex justify-center items-center rounded-full shadow-lg transition-transform duration-200 bg-background pointer-events-none data-[state=unchecked]:translate-x-0.5`\n  },\n  variants: {\n    color: {\n      accent: {\n        root: `data-[state=checked]:bg-accent-foreground/20 focus-visible:ring-accent-foreground/20`\n      },\n      carbon: {\n        root: `data-[state=checked]:bg-carbon focus-visible:ring-carbon`\n      },\n      destructive: {\n        root: `data-[state=checked]:bg-destructive focus-visible:ring-destructive`\n      },\n      info: {\n        root: `data-[state=checked]:bg-info focus-visible:ring-info`\n      },\n      primary: {\n        root: `data-[state=checked]:bg-primary focus-visible:ring-primary`\n      },\n      secondary: {\n        root: `data-[state=checked]:bg-secondary-foreground/20 focus-visible:ring-secondary-foreground/20`\n      },\n      success: {\n        root: `data-[state=checked]:bg-success focus-visible:ring-success`\n      },\n      warning: {\n        root: `data-[state=checked]:bg-warning focus-visible:ring-warning`\n      }\n    },\n    shape: {\n      rounded: {\n        root: 'rounded-full',\n        thumb: 'rounded-full'\n      },\n      square: {\n        root: 'rounded-md',\n        thumb: 'rounded-sm'\n      }\n    },\n    size: {\n      '2xl': {\n        root: 'h-7 w-13',\n        thumb: 'size-6 data-[state=checked]:translate-x-6.5'\n      },\n      lg: {\n        root: 'h-5.5 w-10',\n        thumb: 'size-4.5 data-[state=checked]:translate-x-5'\n      },\n      md: {\n        root: 'h-5 w-9',\n        thumb: 'size-4 data-[state=checked]:translate-x-4.5'\n      },\n      sm: {\n        root: 'h-4.5 w-8',\n        thumb: 'size-3.5 data-[state=checked]:translate-x-4'\n      },\n      xl: {\n        root: 'h-6 w-11',\n        thumb: 'size-5 data-[state=checked]:translate-x-5.5'\n      },\n      xs: {\n        root: 'h-4 w-7',\n        thumb: 'size-3 data-[state=checked]:translate-x-3.5'\n      }\n    }\n  }\n});\n\ntype SwitchVariants = VariantProps<typeof switchVariants>;\n\nexport type SwitchSlots = keyof typeof switchVariants.slots;\n\nexport type SwitchShape = NonNullable<SwitchVariants['shape']>;\n",
+      "type": "registry:ui",
+      "target": "components/switch/switch-varianst.ts"
+    },
+    {
+      "path": "src/components/switch/types.ts",
+      "content": "import type { SwitchProps as _SwitchRootProps, SwitchThumbProps as _SwitchThumbProps } from '@radix-ui/react-switch';\n\nimport type { BaseNodeProps, ClassValue, ThemeColor } from '@/types/other';\n\nimport type { SwitchSlots } from './switch-varianst';\n\nexport interface SwitchRootProps extends BaseNodeProps<_SwitchRootProps> {\n  color?: ThemeColor;\n}\n\nexport type SwitchThumbProps = BaseNodeProps<_SwitchThumbProps>;\n\nexport type ClassNames = Partial<Record<SwitchSlots, ClassValue>>;\n\nexport interface SwitchProps extends SwitchRootProps {\n  classNames?: ClassNames;\n}\n",
+      "type": "registry:ui",
+      "target": "components/switch/types.ts"
+    }
+  ]
+}

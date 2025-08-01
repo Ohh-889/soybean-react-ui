@@ -3,13 +3,8 @@
   "name": "alert-dialog",
   "type": "registry:block",
   "title": "Alert Dialog",
-  "dependencies": [
-    "@radix-ui/react-alert-dialog",
-    "@radix-ui/react-slot"
-  ],
-  "registryDependencies": [
-    "button"
-  ],
+  "dependencies": ["@radix-ui/react-alert-dialog", "@radix-ui/react-slot"],
+  "registryDependencies": ["button"],
   "files": [
     {
       "path": "src/components/alert-dialog/AlertDialog.tsx",

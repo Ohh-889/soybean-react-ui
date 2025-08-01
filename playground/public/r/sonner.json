@@ -3,10 +3,7 @@
   "name": "sonner",
   "type": "registry:block",
   "title": "Sonner",
-  "dependencies": [
-    "sonner",
-    "next-themes"
-  ],
+  "dependencies": ["sonner", "next-themes"],
   "files": [
     {
       "path": "src/components/sonner/index.ts",

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input",
+  "type": "registry:block",
+  "title": "Input",
+  "files": [
+    {
+      "path": "src/components/input/Input.tsx",
+      "content": "import { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { inputVariants } from './input-variants';\nimport type { InputProps } from './types';\n\nconst Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const mergedCls = cn(inputVariants({ size }), className);\n\n  return (\n    <input\n      className={mergedCls}\n      data-slot=\"input\"\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nInput.displayName = 'Input';\n\nexport default Input;\n",
+      "type": "registry:ui",
+      "target": "components/input/Input.tsx"
+    },
+    {
+      "path": "src/components/input/index.ts",
+      "content": "export { default as Input } from './Input';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/input/index.ts"
+    },
+    {
+      "path": "src/components/input/input-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const inputVariants = tv({\n  base: [\n    `flex w-full rounded-md border border-solid border-input bg-background`,\n    `file:border-0 file:bg-transparent file:font-medium`,\n    `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-primary`,\n    `disabled:cursor-not-allowed disabled:opacity-50`\n  ],\n  defaultVariants: {\n    size: 'md'\n  },\n  variants: {\n    size: {\n      '2xl': 'h-12 px-4 text-xl file:py-2',\n      lg: 'h-9 px-3 text-base file:py-1.25',\n      md: 'h-8 px-2.5 text-sm file:py-1.25',\n      sm: 'h-7 px-2 text-xs file:py-1.25',\n      xl: 'h-10 px-3.5 text-lg file:py-1.25',\n      xs: 'h-6 px-1.5 text-2xs file:py-1.25'\n    }\n  }\n});\n",
+      "type": "registry:ui",
+      "target": "components/input/input-variants.ts"
+    },
+    {
+      "path": "src/components/input/types.ts",
+      "content": "import type { ComponentPropsWithRef } from 'react';\n\nimport type { BaseNodeProps } from '@/types/other';\n\nexport type InputProps = BaseNodeProps<Omit<ComponentPropsWithRef<'input'>, 'size'>>;\n",
+      "type": "registry:ui",
+      "target": "components/input/types.ts"
+    }
+  ]
+}

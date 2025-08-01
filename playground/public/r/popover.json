@@ -1,0 +1,50 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "popover",
+  "type": "registry:block",
+  "title": "Popover",
+  "files": [
+    {
+      "path": "src/components/popover/PopoverAnchor.tsx",
+      "content": "import { Anchor } from '@radix-ui/react-popover';\n\nimport { cn } from '@/lib/utils';\n\nimport { popoverVariants } from './popover-varianst';\nimport type { PopoverAnchorProps } from './types';\n\nconst PopoverAnchor = (props: PopoverAnchorProps) => {\n  const { className, ...rest } = props;\n\n  const { anchor } = popoverVariants();\n\n  const mergedCls = cn(anchor(), className);\n\n  return (\n    <Anchor\n      className={mergedCls}\n      data-slot=\"combobox-anchor\"\n      {...rest}\n    />\n  );\n};\n\nexport default PopoverAnchor;\n",
+      "type": "registry:ui",
+      "target": "components/popover/PopoverAnchor.tsx"
+    },
+    {
+      "path": "src/components/popover/PopoverArrow.tsx",
+      "content": "import { Arrow } from '@radix-ui/react-popover';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { popoverVariants } from './popover-varianst';\nimport type { PopoverArrowProps } from './types';\n\nconst PopoverArrow = forwardRef<ComponentRef<typeof Arrow>, PopoverArrowProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { arrow } = popoverVariants({ size });\n\n  const mergedCls = cn(arrow(), className);\n\n  return (\n    <Arrow\n      className={mergedCls}\n      {...rest}\n      ref={ref}\n    />\n  );\n});\n\nPopoverArrow.displayName = 'PopoverArrow';\n\nexport default PopoverArrow;\n",
+      "type": "registry:ui",
+      "target": "components/popover/PopoverArrow.tsx"
+    },
+    {
+      "path": "src/components/popover/PopoverContent.tsx",
+      "content": "import { Content } from '@radix-ui/react-popover';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { popoverVariants } from './popover-varianst';\nimport type { PopoverContentProps } from './types';\n\nconst PopoverContent = forwardRef<ComponentRef<typeof Content>, PopoverContentProps>((props, ref) => {\n  const { avoidCollisions = true, className, sideOffset = 5, size, ...rest } = props;\n\n  const { content } = popoverVariants({ size });\n\n  const mergedCls = cn(content(), className);\n\n  return (\n    <Content\n      avoidCollisions={avoidCollisions}\n      className={mergedCls}\n      sideOffset={sideOffset}\n      {...rest}\n      ref={ref}\n    />\n  );\n});\n\nPopoverContent.displayName = 'PopoverContent';\n\nexport default PopoverContent;\n",
+      "type": "registry:ui",
+      "target": "components/popover/PopoverContent.tsx"
+    },
+    {
+      "path": "src/components/popover/PopoverUI.tsx",
+      "content": "import type { Content } from '@radix-ui/react-popover';\nimport { Close, Portal, Root, Trigger } from '@radix-ui/react-popover';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport PopoverAnchor from './PopoverAnchor';\nimport PopoverArrow from './PopoverArrow';\nimport PopoverContent from './PopoverContent';\nimport type { PopoverProps } from './types';\n\nconst PopoverUI = forwardRef<ComponentRef<typeof Content>, PopoverProps>((props, ref) => {\n  const {\n    arrowHeight,\n    arrowWidth,\n    children,\n    className,\n    classNames,\n    closeIcon,\n    container,\n    defaultOpen,\n    forceMountPortal,\n    modal,\n    onOpenChange,\n    open,\n    showArrow,\n    size,\n    trigger,\n    ...rest\n  } = props;\n\n  return (\n    <Root\n      defaultOpen={defaultOpen}\n      modal={modal}\n      open={open}\n      onOpenChange={onOpenChange}\n    >\n      <PopoverAnchor>\n        <Trigger asChild>{trigger}</Trigger>\n      </PopoverAnchor>\n\n      <Portal\n        container={container}\n        forceMount={forceMountPortal}\n      >\n        <PopoverContent\n          {...rest}\n          className={className || classNames?.content}\n          ref={ref}\n          size={size}\n        >\n          {children}\n\n          {closeIcon && <Close asChild>{closeIcon}</Close>}\n\n          {showArrow && (\n            <PopoverArrow\n              className={classNames?.arrow}\n              height={arrowHeight}\n              size={size}\n              width={arrowWidth}\n            />\n          )}\n        </PopoverContent>\n      </Portal>\n    </Root>\n  );\n});\n\nPopoverUI.displayName = 'PopoverUI';\n\nexport default PopoverUI;\n",
+      "type": "registry:ui",
+      "target": "components/popover/PopoverUI.tsx"
+    },
+    {
+      "path": "src/components/popover/index.ts",
+      "content": "export { Popover as PopoverRoot, PopoverPortal, PopoverTrigger } from '@radix-ui/react-popover';\n\nexport { default as PopoverAnchor } from './PopoverAnchor';\n\nexport { default as PopoverArrow } from './PopoverArrow';\n\nexport { default as PopoverContent } from './PopoverContent';\n\nexport { default as Popover } from './PopoverUI';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/popover/index.ts"
+    },
+    {
+      "path": "src/components/popover/popover-varianst.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const popoverVariants = tv({\n  defaultVariants: {\n    size: 'md'\n  },\n  slots: {\n    anchor: 'w-full',\n    arrow: 'w-1em h-0.5em fill-popover stroke-border',\n    content: [\n      `w-auto rounded-md border bg-popover  text-popover-foreground shadow-md outline-none z-50 will-change-transform`,\n      `data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95`,\n      `data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95`,\n      `data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2`\n    ]\n  },\n  variants: {\n    size: {\n      '2xl': {\n        arrow: 'text-lg',\n        content: 'p-5.5 text-xl'\n      },\n      lg: {\n        arrow: 'text-sm',\n        content: 'p-4.5 text-base'\n      },\n      md: {\n        arrow: 'text-xs',\n        content: 'p-4 text-sm'\n      },\n      sm: {\n        arrow: 'text-2xs',\n        content: 'p-3.5 text-xs'\n      },\n      xl: {\n        arrow: 'text-base',\n        content: 'p-5 text-lg'\n      },\n      xs: {\n        arrow: 'text-3xs',\n        content: 'p-3 text-2xs'\n      }\n    }\n  }\n});\n\nexport type PopoverSlots = keyof typeof popoverVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/popover/popover-varianst.ts"
+    },
+    {
+      "path": "src/components/popover/types.ts",
+      "content": "import type {\n  // eslint-disable-next-line sort/import-members\n  PopoverPortalProps,\n  PopoverAnchorProps as _PopoverAnchorProps,\n  PopoverArrowProps as _PopoverArrowProps,\n  PopoverContentProps as _PopoverContentProps,\n  PopoverProps as _PopoverProps\n} from '@radix-ui/react-popover';\n\nimport type { BaseNodeProps, ClassValue } from '@/types/other';\n\nimport type { PopoverSlots } from './popover-varianst';\n\nexport type PopoverClassNames = Partial<Record<PopoverSlots, ClassValue>>;\n\nexport type PopoverArrowProps = BaseNodeProps<_PopoverArrowProps>;\n\nexport type PopoverContentProps = BaseNodeProps<_PopoverContentProps>;\n\nexport type PopoverProps = _PopoverProps &\n  Pick<PopoverPortalProps, 'container' | 'forceMount'> &\n  Omit<PopoverContentProps, 'forceMount'> & {\n    arrowHeight?: number;\n    arrowWidth?: number;\n    classNames?: PopoverClassNames;\n    closeIcon?: React.ReactNode;\n    disabledPortal?: boolean;\n    forceMountPortal?: true;\n    showArrow?: boolean;\n    trigger?: React.ReactNode;\n  };\n\nexport type PopoverAnchorProps = BaseNodeProps<_PopoverAnchorProps>;\n",
+      "type": "registry:ui",
+      "target": "components/popover/types.ts"
+    }
+  ]
+}

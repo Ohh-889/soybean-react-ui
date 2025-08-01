@@ -3,13 +3,11 @@
   "name": "alert",
   "type": "registry:block",
   "title": "Alert",
-  "dependencies": [
-    "@radix-ui/react-slot"
-  ],
+  "dependencies": ["@radix-ui/react-slot"],
   "files": [
     {
       "path": "src/components/alert/Alert.tsx",
-      "content": "import { Slot } from '@radix-ui/react-slot';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport AlertDescription from './AlertDescription';\nimport AlertRoot from './AlertRoot';\nimport AlertTitle from './AlertTitle';\nimport AlertWrapper from './AlertWrapper';\nimport { alertVariants } from './alert-variants';\nimport type { AlertProps } from './types';\n\nconst Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {\n  const {\n    children,\n    className,\n    classNames,\n    color,\n    description,\n    icon,\n    leading,\n    size,\n    title,\n    trailing,\n    variant,\n    ...rest\n  } = props;\n\n  const { icon: iconCls } = alertVariants({ color, size, variant });\n\n  const mergedCls = cn(iconCls(), classNames?.icon);\n  return (\n    <AlertRoot\n      className={className || classNames?.root}\n      color={color}\n      size={size}\n      variant={variant}\n      {...rest}\n      ref={ref}\n    >\n      {leading}\n      <Slot className={mergedCls}>{icon}</Slot>\n\n      <AlertWrapper\n        className={classNames?.wrapper}\n        size={size}\n      >\n        {title && (\n          <AlertTitle\n            className={classNames?.title}\n            size={size}\n          >\n            {title}\n          </AlertTitle>\n        )}\n\n        {description && (\n          <AlertDescription\n            className={classNames?.description}\n            size={size}\n          >\n            {description}\n          </AlertDescription>\n        )}\n\n        {children}\n      </AlertWrapper>\n\n      {trailing}\n    </AlertRoot>\n  );\n});\n\nAlert.displayName = 'Alert';\n\nexport default Alert;\n",
+      "content": "'use client';\n\nimport { forwardRef } from 'react';\n\nimport { useComponentConfig } from '../config-provider/context';\n\nimport AlertUI from './AlertUI';\nimport type { AlertProps } from './types';\n\nconst Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {\n  const config = useComponentConfig('alert');\n\n  const mergedProps = {\n    ...config,\n    ...props\n  };\n\n  return (\n    <AlertUI\n      {...mergedProps}\n      ref={ref}\n    />\n  );\n});\n\nAlert.displayName = 'Alert';\n\nexport default Alert;\n",
       "type": "registry:ui",
       "target": "components/alert/Alert.tsx"
     },
@@ -32,6 +30,12 @@
       "target": "components/alert/AlertTitle.tsx"
     },
     {
+      "path": "src/components/alert/AlertUI.tsx",
+      "content": "import { Slot } from '@radix-ui/react-slot';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport AlertDescription from './AlertDescription';\nimport AlertRoot from './AlertRoot';\nimport AlertTitle from './AlertTitle';\nimport AlertWrapper from './AlertWrapper';\nimport { alertVariants } from './alert-variants';\nimport type { AlertProps } from './types';\n\nconst Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => {\n  const {\n    children,\n    className,\n    classNames,\n    color,\n    description,\n    icon,\n    leading,\n    size,\n    title,\n    trailing,\n    variant,\n    ...rest\n  } = props;\n\n  const { icon: iconCls } = alertVariants({ color, size, variant });\n\n  const mergedCls = cn(iconCls(), classNames?.icon);\n  return (\n    <AlertRoot\n      className={className || classNames?.root}\n      color={color}\n      size={size}\n      variant={variant}\n      {...rest}\n      ref={ref}\n    >\n      {leading}\n      <Slot className={mergedCls}>{icon}</Slot>\n\n      <AlertWrapper\n        className={classNames?.wrapper}\n        size={size}\n      >\n        {title && (\n          <AlertTitle\n            className={classNames?.title}\n            size={size}\n          >\n            {title}\n          </AlertTitle>\n        )}\n\n        {description && (\n          <AlertDescription\n            className={classNames?.description}\n            size={size}\n          >\n            {description}\n          </AlertDescription>\n        )}\n\n        {children}\n      </AlertWrapper>\n\n      {trailing}\n    </AlertRoot>\n  );\n});\n\nAlert.displayName = 'Alert';\n\nexport default Alert;\n",
+      "type": "registry:ui",
+      "target": "components/alert/AlertUI.tsx"
+    },
+    {
       "path": "src/components/alert/AlertWrapper.tsx",
       "content": "import { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { alertVariants } from './alert-variants';\nimport type { AlertWrapperProps } from './types';\n\nconst AlertWrapper = forwardRef<HTMLDivElement, AlertWrapperProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { wrapper } = alertVariants({ size });\n\n  const mergedCls = cn(wrapper(), className);\n\n  return (\n    <div\n      className={mergedCls}\n      {...rest}\n      ref={ref}\n    />\n  );\n});\n\nAlertWrapper.displayName = 'AlertWrapper';\n\nexport default AlertWrapper;\n",
       "type": "registry:ui",
@@ -51,7 +55,7 @@
     },
     {
       "path": "src/components/alert/types.ts",
-      "content": "import type { BaseNodeProps, ClassValue, PropsSlot, ThemeColor } from '@/types/other';\n\nimport type { AlertSlots, AlertVariant } from './alert-variants';\n\nexport type AlertDescriptionProps = BaseNodeProps<React.ComponentProps<'div'>>;\n\nexport interface AlertRootProps extends BaseNodeProps<React.ComponentProps<'div'>> {\n  color?: ThemeColor;\n  variant?: AlertVariant;\n}\n\nexport type AlertTitleProps = BaseNodeProps<React.ComponentProps<'div'>>;\n\nexport type AlertWrapperProps = BaseNodeProps<React.ComponentProps<'div'>>;\n\nexport type AlertIconProps = BaseNodeProps<React.ComponentProps<'div'>> & {\n  color?: ThemeColor;\n};\n\nexport type AlertCloseProps = BaseNodeProps<React.ComponentProps<'button'>>;\n\nexport type AlertUi = Partial<Record<AlertSlots, ClassValue>>;\n\nexport interface AlertProps extends Omit<AlertRootProps, 'title'>, PropsSlot {\n  classNames?: AlertUi;\n  closable?: boolean;\n  close?: boolean;\n  description?: React.ReactNode;\n  icon?: React.ReactNode;\n  title?: React.ReactNode;\n}\n\nexport type { AlertVariant };\n",
+      "content": "import type { BaseNodeProps, ClassValue, PropsSlot, ThemeColor } from '@/types/other';\n\nimport type { AlertSlots, AlertVariant } from './alert-variants';\n\nexport type AlertDescriptionProps = BaseNodeProps<React.ComponentProps<'div'>>;\n\nexport interface AlertRootProps extends BaseNodeProps<React.ComponentProps<'div'>> {\n  color?: ThemeColor;\n  variant?: AlertVariant;\n}\n\nexport type AlertTitleProps = BaseNodeProps<React.ComponentProps<'div'>>;\n\nexport type AlertWrapperProps = BaseNodeProps<React.ComponentProps<'div'>>;\n\nexport type AlertIconProps = BaseNodeProps<React.ComponentProps<'div'>> & {\n  color?: ThemeColor;\n};\n\nexport type AlertCloseProps = BaseNodeProps<React.ComponentProps<'button'>>;\n\nexport type AlertClassNames = Partial<Record<AlertSlots, ClassValue>>;\n\nexport interface AlertProps extends Omit<AlertRootProps, 'title'>, PropsSlot {\n  classNames?: AlertClassNames;\n  description?: React.ReactNode;\n  icon?: React.ReactNode;\n  title?: React.ReactNode;\n}\n\nexport type { AlertVariant };\n",
       "type": "registry:ui",
       "target": "components/alert/types.ts"
     }
