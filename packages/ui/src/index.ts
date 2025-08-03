@@ -50,6 +50,8 @@ export * from './components/label';
 
 export * from './components/label';
 
+export * from './components/navigation-menu';
+
 export * from './components/popover';
 
 export * from './components/radio';
@@ -57,6 +59,8 @@ export * from './components/radio';
 export * from './components/scroll-area';
 
 export * from './components/skeleton';
+
+export * from './components/slider';
 
 export * from './components/sonner';
 
