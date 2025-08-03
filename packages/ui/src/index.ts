@@ -60,6 +60,8 @@ export * from './components/radio';
 
 export * from './components/scroll-area';
 
+export * from './components/sheet';
+
 export * from './components/skeleton';
 
 export * from './components/slider';

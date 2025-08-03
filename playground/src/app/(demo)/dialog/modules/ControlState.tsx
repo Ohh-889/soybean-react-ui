@@ -41,6 +41,7 @@ const ControlState = () => {
             Open
           </Button>
         }
+        onOpenChange={setOpen}
       >
         <div>Dialog Content</div>
       </Dialog>

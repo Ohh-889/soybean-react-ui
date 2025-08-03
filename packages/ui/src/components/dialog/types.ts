@@ -40,13 +40,14 @@ export interface DialogTitleProps extends BaseNodeProps<_DialogTitleProps> {
   component?: ComponentType<_DialogTitleProps>;
 }
 
-export type DialogProps = BaseNodeProps<_DialogProps> & {
+export interface DialogProps<T extends DialogContentProps = DialogContentProps> extends BaseNodeProps<_DialogProps> {
   classNames?: DialogClassNames;
-  contentProps?: DialogContentProps;
+  contentComponent?: ComponentType<T>;
+  contentProps?: T;
   description?: React.ReactNode;
   footer?: React.ReactNode;
   title?: React.ReactNode;
   trigger?: React.ReactNode;
-};
+}
 
 export { DialogPortalProps };

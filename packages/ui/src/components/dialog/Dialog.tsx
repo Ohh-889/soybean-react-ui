@@ -1,3 +1,5 @@
+'use client';
+
 import type { Content } from '@radix-ui/react-dialog';
 import { Portal, Root, Trigger } from '@radix-ui/react-dialog';
 import type { ComponentRef } from 'react';
@@ -17,6 +19,7 @@ const Dialog = forwardRef<ComponentRef<typeof Content>, DialogProps>((props, ref
     children,
     className,
     classNames,
+    contentComponent: ContentComponent = DialogContent,
     contentProps,
     defaultOpen,
     description,
@@ -47,7 +50,7 @@ const Dialog = forwardRef<ComponentRef<typeof Content>, DialogProps>((props, ref
       <Portal data-slot="dialog-portal">
         <DialogOverlay className={classNames?.overlay} />
 
-        <DialogContent
+        <ContentComponent
           {...contentProps}
           className={className || classNames?.content}
           ref={ref}
@@ -77,6 +80,9 @@ const Dialog = forwardRef<ComponentRef<typeof Content>, DialogProps>((props, ref
           <DialogClose
             className={classNames?.close}
             size={size}
+            onClick={() => {
+              onOpenChange?.(false);
+            }}
           />
 
           {children}
@@ -89,7 +95,7 @@ const Dialog = forwardRef<ComponentRef<typeof Content>, DialogProps>((props, ref
               {footer}
             </DialogFooter>
           )}
-        </DialogContent>
+        </ContentComponent>
       </Portal>
     </Root>
   );
