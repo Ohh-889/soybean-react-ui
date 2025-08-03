@@ -1,0 +1,56 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "slider",
+  "type": "registry:block",
+  "title": "Slider",
+  "files": [
+    {
+      "path": "src/components/slider/Slider.tsx",
+      "content": "import type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport SliderRange from './SliderRange';\nimport SliderRoot from './SliderRoot';\nimport SliderThumb from './SliderThumb';\nimport SliderTrack from './SliderTrack';\nimport type { SliderProps } from './types';\n\nconst Slider = forwardRef<ComponentRef<typeof SliderRoot>, SliderProps>((props, ref) => {\n  const { className, classNames, color, defaultValue, size, value, ...rest } = props;\n\n  return (\n    <SliderRoot\n      className={className || classNames?.root}\n      ref={ref}\n      size={size}\n      {...rest}\n    >\n      <SliderTrack\n        className={classNames?.track}\n        color={color}\n        size={size}\n      >\n        <SliderRange\n          className={classNames?.range}\n          color={color}\n        />\n      </SliderTrack>\n\n      {(defaultValue || value)?.map((_, index) => (\n        <SliderThumb\n          className={classNames?.thumb}\n          color={color}\n          key={String(index)}\n          size={size}\n        />\n      ))}\n    </SliderRoot>\n  );\n});\n\nSlider.displayName = 'Slider';\n\nexport default Slider;\n",
+      "type": "registry:ui",
+      "target": "components/slider/Slider.tsx"
+    },
+    {
+      "path": "src/components/slider/SliderRange.tsx",
+      "content": "import { Range } from '@radix-ui/react-slider';\n\nimport { cn } from '@/lib/utils';\n\nimport { sliderVariants } from './slider-variants';\nimport type { SliderRangeProps } from './types';\n\nconst SliderRange = (props: SliderRangeProps) => {\n  const { className, color, ...rest } = props;\n\n  const { range } = sliderVariants({ color });\n\n  const mergedCls = cn(range(), className);\n\n  return (\n    <Range\n      className={mergedCls}\n      data-color={color}\n      data-slot=\"slider-range\"\n      {...rest}\n    />\n  );\n};\n\nexport default SliderRange;\n",
+      "type": "registry:ui",
+      "target": "components/slider/SliderRange.tsx"
+    },
+    {
+      "path": "src/components/slider/SliderRoot.tsx",
+      "content": "import { Root } from '@radix-ui/react-slider';\nimport type { ComponentRef } from 'react';\nimport { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { sliderVariants } from './slider-variants';\nimport type { SliderRootProps } from './types';\n\nconst SliderRoot = forwardRef<ComponentRef<typeof Root>, SliderRootProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const { root } = sliderVariants({ size });\n\n  const mergedCls = cn(root(), className);\n\n  return (\n    <Root\n      className={mergedCls}\n      data-slot=\"slider-root\"\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nSliderRoot.displayName = 'SliderRoot';\n\nexport default SliderRoot;\n",
+      "type": "registry:ui",
+      "target": "components/slider/SliderRoot.tsx"
+    },
+    {
+      "path": "src/components/slider/SliderThumb.tsx",
+      "content": "import { Thumb } from '@radix-ui/react-slider';\n\nimport { cn } from '@/lib/utils';\n\nimport { sliderVariants } from './slider-variants';\nimport type { SliderThumbProps } from './types';\n\nexport const SliderThumb = (props: SliderThumbProps) => {\n  const { className, color, size, ...rest } = props;\n\n  const { thumb } = sliderVariants({ color, size });\n\n  const mergedCls = cn(thumb(), className);\n\n  return (\n    <Thumb\n      className={mergedCls}\n      data-color={color}\n      data-slot=\"slider-thumb\"\n      {...rest}\n    />\n  );\n};\n\nexport default SliderThumb;\n",
+      "type": "registry:ui",
+      "target": "components/slider/SliderThumb.tsx"
+    },
+    {
+      "path": "src/components/slider/SliderTrack.tsx",
+      "content": "import { Track } from '@radix-ui/react-slider';\n\nimport { cn } from '@/lib/utils';\n\nimport { sliderVariants } from './slider-variants';\nimport type { SliderTrackProps } from './types';\n\nconst SliderTrack = (props: SliderTrackProps) => {\n  const { className, color, size, ...rest } = props;\n\n  const { track } = sliderVariants({ color, size });\n\n  const mergedCls = cn(track(), className);\n\n  return (\n    <Track\n      className={mergedCls}\n      data-color={color}\n      data-slot=\"slider-track\"\n      {...rest}\n    />\n  );\n};\n\nexport default SliderTrack;\n",
+      "type": "registry:ui",
+      "target": "components/slider/SliderTrack.tsx"
+    },
+    {
+      "path": "src/components/slider/index.ts",
+      "content": "export { default as Slider } from './Slider';\n\nexport { default as SliderRange } from './SliderRange';\nexport { default as SliderRoot } from './SliderRoot';\nexport { default as SliderThumb } from './SliderThumb';\nexport { default as SliderTrack } from './SliderTrack';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/slider/index.ts"
+    },
+    {
+      "path": "src/components/slider/slider-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const sliderVariants = tv({\n  defaultVariants: {\n    color: 'primary',\n    size: 'md'\n  },\n  slots: {\n    range: `absolute h-full data-[orientation=vertical]:w-full`,\n    root: [\n      `relative flex w-full touch-none select-none items-center`,\n      `data-[orientation=vertical]:flex-col data-[orientation=vertical]:h-full`\n    ],\n    thumb: [\n      `block rounded-full bg-background transition-colors duration-200`,\n      `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background`,\n      `disabled:pointer-events-none disabled:opacity-50`\n    ],\n    track: `relative w-full grow overflow-hidden rounded-full`\n  },\n  variants: {\n    color: {\n      accent: {\n        range: 'bg-accent-foreground',\n        thumb: 'border-accent-foreground focus-visible:ring-accent-foreground',\n        track: 'bg-accent-foreground/20'\n      },\n      carbon: {\n        range: 'bg-carbon',\n        thumb: 'border-carbon focus-visible:ring-carbon',\n        track: 'bg-carbon/20'\n      },\n      destructive: {\n        range: 'bg-destructive',\n        thumb: 'border-destructive focus-visible:ring-destructive',\n        track: 'bg-destructive/20'\n      },\n      info: {\n        range: 'bg-info',\n        thumb: 'border-info focus-visible:ring-info',\n        track: 'bg-info/20'\n      },\n      primary: {\n        range: 'bg-primary',\n        thumb: 'border-primary focus-visible:ring-primary',\n        track: 'bg-primary/20'\n      },\n      secondary: {\n        range: 'bg-secondary-foreground',\n        thumb: 'border-secondary-foreground focus-visible:ring-secondary-foreground',\n        track: 'bg-secondary-foreground/20'\n      },\n      success: {\n        range: 'bg-success',\n        thumb: 'border-success focus-visible:ring-success',\n        track: 'bg-success/20'\n      },\n      warning: {\n        range: 'bg-warning',\n        thumb: 'border-warning focus-visible:ring-warning',\n        track: 'bg-warning/20'\n      }\n    },\n    size: {\n      '2xl': {\n        root: 'data-[orientation=vertical]:w-3.5',\n        thumb: 'size-7 border-[3.5px]',\n        track: 'h-3.5 data-[orientation=vertical]:w-3.5'\n      },\n      lg: {\n        root: 'data-[orientation=vertical]:w-2.5',\n        thumb: 'size-5.5 border-[2.5px]',\n        track: 'h-2.5 data-[orientation=vertical]:w-2.5'\n      },\n      md: {\n        root: 'data-[orientation=vertical]:w-2',\n        thumb: 'size-5 border-2',\n        track: 'h-2 data-[orientation=vertical]:w-2'\n      },\n      sm: {\n        root: 'data-[orientation=vertical]:w-1.5',\n        thumb: 'size-4.5 border-[1.75px]',\n        track: 'h-1.5 data-[orientation=vertical]:w-1.5'\n      },\n      xl: {\n        root: 'data-[orientation=vertical]:w-3',\n        thumb: 'size-6 border-3',\n        track: 'h-3 data-[orientation=vertical]:w-3'\n      },\n      xs: {\n        root: 'data-[orientation=vertical]:w-1.25',\n        thumb: 'size-4 border-[1.5px]',\n        track: 'h-1.25 data-[orientation=vertical]:w-1.25'\n      }\n    }\n  }\n});\n\nexport type SliderSlots = keyof typeof sliderVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/slider/slider-variants.ts"
+    },
+    {
+      "path": "src/components/slider/types.ts",
+      "content": "import type {\n  SliderProps as _SliderProps,\n  SliderRangeProps as _SliderRangeProps,\n  SliderThumbProps as _SliderThumbProps,\n  SliderTrackProps as _SliderTrackProps\n} from '@radix-ui/react-slider';\n\nimport type { BaseNodeProps, ClassValue, ThemeColor } from '@/types/other';\n\nimport type { SliderSlots } from './slider-variants';\n\nexport interface SliderRangeProps extends BaseNodeProps<_SliderRangeProps> {\n  color?: ThemeColor;\n}\n\nexport interface SliderRootProps extends BaseNodeProps<_SliderProps> {}\n\nexport interface SliderThumbProps extends BaseNodeProps<_SliderThumbProps> {\n  color?: ThemeColor;\n}\n\nexport interface SliderTrackProps extends BaseNodeProps<_SliderTrackProps> {\n  color?: ThemeColor;\n}\n\nexport type SliderClassNames = Partial<Record<SliderSlots, ClassValue>>;\n\nexport interface SliderProps extends Omit<SliderRootProps, 'children'> {\n  classNames?: SliderClassNames;\n  color?: ThemeColor;\n}\n",
+      "type": "registry:ui",
+      "target": "components/slider/types.ts"
+    }
+  ]
+}

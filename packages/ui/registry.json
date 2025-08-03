@@ -1197,6 +1197,53 @@
     {
       "files": [
         {
+          "path": "src/components/input-otp/InputOTP.tsx",
+          "target": "components/input-otp/InputOTP.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/input-otp/InputOTPGroup.tsx",
+          "target": "components/input-otp/InputOTPGroup.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/input-otp/InputOTPSeparator.tsx",
+          "target": "components/input-otp/InputOTPSeparator.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/input-otp/InputOTPSlot.tsx",
+          "target": "components/input-otp/InputOTPSlot.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/input-otp/InputOtpRoot.tsx",
+          "target": "components/input-otp/InputOtpRoot.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/input-otp/index.ts",
+          "target": "components/input-otp/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/input-otp/input-otp-variants.ts",
+          "target": "components/input-otp/input-otp-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/input-otp/types.ts",
+          "target": "components/input-otp/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "input-otp",
+      "title": "Input Otp",
+      "type": "registry:block"
+    },
+    {
+      "files": [
+        {
           "path": "src/components/keyboard-key/KeyboardKey.tsx",
           "target": "components/keyboard-key/KeyboardKey.tsx",
           "type": "registry:ui"
@@ -1436,6 +1483,11 @@
     {
       "files": [
         {
+          "path": "src/components/navigation-menu/NavigationMenu.tsx",
+          "target": "components/navigation-menu/NavigationMenu.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "src/components/navigation-menu/NavigationMenuChildLink.tsx",
           "target": "components/navigation-menu/NavigationMenuChildLink.tsx",
           "type": "registry:ui"
@@ -1448,6 +1500,51 @@
         {
           "path": "src/components/navigation-menu/NavigationMenuChildListItem.tsx",
           "target": "components/navigation-menu/NavigationMenuChildListItem.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/navigation-menu/NavigationMenuContent.tsx",
+          "target": "components/navigation-menu/NavigationMenuContent.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/navigation-menu/NavigationMenuIndicator.tsx",
+          "target": "components/navigation-menu/NavigationMenuIndicator.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/navigation-menu/NavigationMenuItem.tsx",
+          "target": "components/navigation-menu/NavigationMenuItem.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/navigation-menu/NavigationMenuLink.tsx",
+          "target": "components/navigation-menu/NavigationMenuLink.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/navigation-menu/NavigationMenuList.tsx",
+          "target": "components/navigation-menu/NavigationMenuList.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/navigation-menu/NavigationMenuRoot.tsx",
+          "target": "components/navigation-menu/NavigationMenuRoot.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/navigation-menu/NavigationMenuTrigger.tsx",
+          "target": "components/navigation-menu/NavigationMenuTrigger.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/navigation-menu/NavigationMenuViewport.tsx",
+          "target": "components/navigation-menu/NavigationMenuViewport.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/navigation-menu/index.ts",
+          "target": "components/navigation-menu/index.ts",
           "type": "registry:ui"
         },
         {
@@ -1627,6 +1724,53 @@
       ],
       "name": "skeleton",
       "title": "Skeleton",
+      "type": "registry:block"
+    },
+    {
+      "files": [
+        {
+          "path": "src/components/slider/Slider.tsx",
+          "target": "components/slider/Slider.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/slider/SliderRange.tsx",
+          "target": "components/slider/SliderRange.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/slider/SliderRoot.tsx",
+          "target": "components/slider/SliderRoot.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/slider/SliderThumb.tsx",
+          "target": "components/slider/SliderThumb.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/slider/SliderTrack.tsx",
+          "target": "components/slider/SliderTrack.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/slider/index.ts",
+          "target": "components/slider/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/slider/slider-variants.ts",
+          "target": "components/slider/slider-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/slider/types.ts",
+          "target": "components/slider/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "slider",
+      "title": "Slider",
       "type": "registry:block"
     },
     {

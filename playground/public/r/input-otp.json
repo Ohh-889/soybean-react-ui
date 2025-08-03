@@ -1,0 +1,56 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input-otp",
+  "type": "registry:block",
+  "title": "Input Otp",
+  "files": [
+    {
+      "path": "src/components/input-otp/InputOTP.tsx",
+      "content": "import type { ComponentRef } from 'react';\nimport { Fragment, forwardRef } from 'react';\n\nimport InputOTPGroup from './InputOTPGroup';\nimport InputOTPSeparator from './InputOTPSeparator';\nimport InputOTPSlot from './InputOTPSlot';\nimport InputOtpRoot from './InputOtpRoot';\nimport type { InputOTPProps } from './types';\n\nconst InputOTP = forwardRef<ComponentRef<typeof InputOtpRoot>, InputOTPProps>((props, ref) => {\n  const { className, classNames, inputCount = 6, mask, separator, size, ...rest } = props;\n\n  const isSeparator = Boolean(separator);\n\n  return (\n    <InputOtpRoot\n      className={className || classNames?.root}\n      maxLength={inputCount}\n      ref={ref}\n      {...rest}\n    >\n      <InputOTPGroup\n        className={classNames?.group}\n        separate={isSeparator}\n        size={size}\n      >\n        {Array.from({ length: inputCount }).map((_, index) => (\n          <Fragment key={String(index)}>\n            <InputOTPSlot\n              className={classNames?.input}\n              index={index}\n              mask={mask}\n              separate={isSeparator}\n              size={size}\n            />\n\n            {isSeparator && index !== inputCount - 1 && (\n              <InputOTPSeparator\n                className={classNames?.separator}\n                size={size}\n              >\n                {separator}\n              </InputOTPSeparator>\n            )}\n          </Fragment>\n        ))}\n      </InputOTPGroup>\n    </InputOtpRoot>\n  );\n});\n\nInputOTP.displayName = 'InputOTP';\n\nexport default InputOTP;\n",
+      "type": "registry:ui",
+      "target": "components/input-otp/InputOTP.tsx"
+    },
+    {
+      "path": "src/components/input-otp/InputOTPGroup.tsx",
+      "content": "import { cn } from '@/lib/utils';\n\nimport { inputOTPVariants } from './input-otp-variants';\nimport type { InputOTPGroupProps } from './types';\n\nconst InputOTPGroup = (props: InputOTPGroupProps) => {\n  const { className, separate, size, ...rest } = props;\n\n  const { group } = inputOTPVariants({ separate, size });\n\n  const mergedCls = cn(group(), className);\n\n  return (\n    <div\n      className={mergedCls}\n      data-separate={separate}\n      data-size={size}\n      data-slot=\"input-otp-group\"\n      {...rest}\n    />\n  );\n};\n\nexport default InputOTPGroup;\n",
+      "type": "registry:ui",
+      "target": "components/input-otp/InputOTPGroup.tsx"
+    },
+    {
+      "path": "src/components/input-otp/InputOTPSeparator.tsx",
+      "content": "import { Minus } from 'lucide-react';\n\nimport { cn } from '@/lib/utils';\n\nimport { inputOTPVariants } from './input-otp-variants';\nimport type { InputOTPSeparatorProps } from './types';\n\nconst InputOTPSeparator = (props: InputOTPSeparatorProps) => {\n  const { children, className, size, ...rest } = props;\n\n  const { separator } = inputOTPVariants({ size });\n\n  const mergedCls = cn(separator(), className);\n\n  return (\n    <div\n      className={mergedCls}\n      data-size={size}\n      data-slot=\"input-otp-separator\"\n      {...rest}\n    >\n      {children || <Minus />}\n    </div>\n  );\n};\n\nexport default InputOTPSeparator;\n",
+      "type": "registry:ui",
+      "target": "components/input-otp/InputOTPSeparator.tsx"
+    },
+    {
+      "path": "src/components/input-otp/InputOTPSlot.tsx",
+      "content": "'use client';\n\nimport { OTPInputContext } from 'input-otp';\nimport { useContext } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { inputOTPVariants } from './input-otp-variants';\nimport type { InputOTPSlotProps } from './types';\n\nconst InputOTPSlot = (props: InputOTPSlotProps) => {\n  const { className, index, mask, separate, size, ...rest } = props;\n\n  const inputOTPContext = useContext(OTPInputContext);\n\n  const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index];\n\n  const { input } = inputOTPVariants({ isActive, separate, size });\n\n  const mergedCls = cn(input(), className);\n\n  return (\n    <div\n      className={mergedCls}\n      data-has-fake-caret={hasFakeCaret}\n      data-index={index}\n      data-is-active={isActive}\n      data-separate={separate}\n      data-size={size}\n      data-slot=\"input-otp-slot\"\n      {...rest}\n    >\n      {mask ? '●' : char}\n\n      {hasFakeCaret && (\n        <div className=\"pointer-events-none absolute inset-0 flex items-center justify-center\">\n          <div className=\"h-4 w-px animate-caret-blink bg-foreground duration-1000\" />\n        </div>\n      )}\n    </div>\n  );\n};\n\nexport default InputOTPSlot;\n",
+      "type": "registry:ui",
+      "target": "components/input-otp/InputOTPSlot.tsx"
+    },
+    {
+      "path": "src/components/input-otp/InputOtpRoot.tsx",
+      "content": "'use client';\n\nimport { OTPInput } from 'input-otp';\nimport { type ComponentRef, forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { inputOTPVariants } from './input-otp-variants';\nimport type { InputOTPRootProps } from './types';\n\nconst InputOtpRoot = forwardRef<ComponentRef<typeof OTPInput>, InputOTPRootProps>((props, ref) => {\n  const { className, size: _, ...rest } = props;\n\n  const { root } = inputOTPVariants();\n\n  const mergedCls = cn(root(), className);\n\n  return (\n    <OTPInput\n      className={mergedCls}\n      data-slot=\"input-otp-root\"\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nInputOtpRoot.displayName = 'InputOtpRoot';\n\nexport default InputOtpRoot;\n",
+      "type": "registry:ui",
+      "target": "components/input-otp/InputOtpRoot.tsx"
+    },
+    {
+      "path": "src/components/input-otp/index.ts",
+      "content": "export { default as InputOTP } from './InputOTP';\nexport { default as InputOTPGroup } from './InputOTPGroup';\nexport { default as InputOtpRoot } from './InputOtpRoot';\nexport { default as InputOTPSeparator } from './InputOTPSeparator';\nexport { default as InputOTPSlot } from './InputOTPSlot';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/input-otp/index.ts"
+    },
+    {
+      "path": "src/components/input-otp/input-otp-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const inputOTPVariants = tv({\n  compoundVariants: [\n    {\n      class: {\n        group: 'gap-0.75'\n      },\n      separate: true,\n      size: 'xs'\n    },\n    {\n      class: {\n        group: 'gap-1'\n      },\n      separate: true,\n      size: 'sm'\n    },\n    {\n      class: {\n        group: 'gap-1.25'\n      },\n      separate: true,\n      size: 'lg'\n    },\n    {\n      class: {\n        group: 'gap-1.5'\n      },\n      separate: true,\n      size: 'xl'\n    },\n    {\n      class: {\n        group: 'gap-1.75'\n      },\n      separate: true,\n      size: '2xl'\n    }\n  ],\n  defaultVariants: {\n    separate: false,\n    size: 'md'\n  },\n  slots: {\n    group: 'flex items-center disabled:opacity-50 has-[:disabled]:opacity-50',\n    input: [\n      `relative flex items-center justify-center text-center border-y border-r border-solid border-input bg-background transition-all duration-200`,\n      `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-primary focus-visible:z-2`,\n      `disabled:cursor-not-allowed disabled:opacity-50`\n    ],\n    root: `flex items-center disabled:cursor-not-allowed`,\n    separator: `text-muted-foreground`\n  },\n  variants: {\n    isActive: {\n      true: {\n        input: `z-10 ring-1 ring-ring`\n      }\n    },\n    separate: {\n      false: {\n        input: `first:rounded-l-md first:border-l last:rounded-r-md`\n      },\n      true: {\n        group: `gap-1`,\n        input: `rounded-md border`\n      }\n    },\n    size: {\n      '2xl': {\n        input: `h-12 w-12 text-xl`,\n        separator: `text-xl`\n      },\n      lg: {\n        input: `h-9 w-9 text-base`,\n        separator: `text-base`\n      },\n      md: {\n        input: `h-8 w-8 text-sm`,\n        separator: `text-sm`\n      },\n      sm: {\n        input: `h-7 w-7 text-xs`,\n        separator: `text-xs`\n      },\n      xl: {\n        input: `h-10 w-10 text-lg`,\n        separator: `text-lg`\n      },\n      xs: {\n        input: `h-6 w-6 text-2xs`,\n        separator: `text-2xs`\n      }\n    }\n  }\n});\n\nexport type InputOTPSlots = keyof typeof inputOTPVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/input-otp/input-otp-variants.ts"
+    },
+    {
+      "path": "src/components/input-otp/types.ts",
+      "content": "import type { RenderProps } from 'input-otp';\n\nimport type { BaseComponentProps, ClassValue, ThemeSize } from '@/types/other';\n\nimport type { InputOTPSlots } from './input-otp-variants';\n\ntype OverrideProps<T, R> = Omit<T, keyof R> & R;\n\ntype OTPInputRootBaseProps = OverrideProps<\n  React.InputHTMLAttributes<HTMLInputElement>,\n  {\n    className?: ClassValue;\n    containerClassName?: string;\n    maxLength: number;\n    noScriptCSSFallback?: string | null;\n    onChange?: (newValue: string) => unknown;\n    onComplete?: (...args: any[]) => unknown;\n    pasteTransformer?: (pasted: string) => string;\n    pushPasswordManagerStrategy?: 'increase-width' | 'none';\n    size?: ThemeSize;\n    textAlign?: 'center' | 'left' | 'right';\n    value?: string;\n  }\n>;\n\ntype InputOTPRenderFn = (props: RenderProps) => React.ReactNode;\n\nexport type InputOTPGroupProps = BaseComponentProps<'div'> & {\n  separate?: boolean;\n};\n\nexport type InputOTPRootProps = OTPInputRootBaseProps &\n  (\n    | {\n        children?: never;\n        render: InputOTPRenderFn;\n      }\n    | {\n        children: React.ReactNode;\n        render?: never;\n      }\n  );\n\nexport interface InputOTPSeparatorProps extends BaseComponentProps<'div'> {}\n\nexport interface InputOTPSlotProps extends BaseComponentProps<'div'> {\n  index: number;\n  mask?: boolean;\n  separate?: boolean;\n}\n\nexport type InputOTPClassNames = Partial<Record<InputOTPSlots, ClassValue>>;\n\nexport type InputOTPProps = Omit<OTPInputRootBaseProps, 'maxLength' | 'separate'> & {\n  classNames?: InputOTPClassNames;\n  inputCount?: number;\n  mask?: boolean;\n  separator?: React.ReactNode | true;\n  size?: ThemeSize;\n};\n",
+      "type": "registry:ui",
+      "target": "components/input-otp/types.ts"
+    }
+  ]
+}
