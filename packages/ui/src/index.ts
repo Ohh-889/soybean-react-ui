@@ -44,6 +44,8 @@ export * from './components/icon';
 
 export * from './components/input';
 
+export * from './components/input-otp';
+
 export * from './components/keyboard-key';
 
 export * from './components/label';

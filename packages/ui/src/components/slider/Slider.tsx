@@ -1,5 +1,5 @@
 import type { ComponentRef } from 'react';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 import SliderRange from './SliderRange';
 import SliderRoot from './SliderRoot';
