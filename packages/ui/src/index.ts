@@ -52,8 +52,6 @@ export * from './components/label';
 
 export * from './components/label';
 
-export * from './components/navigation-menu';
-
 export * from './components/popover';
 
 export * from './components/radio';
