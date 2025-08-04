@@ -13,8 +13,10 @@ const Slider = forwardRef<ComponentRef<typeof SliderRoot>, SliderProps>((props, 
   return (
     <SliderRoot
       className={className || classNames?.root}
+      defaultValue={defaultValue}
       ref={ref}
       size={size}
+      value={value}
       {...rest}
     >
       <SliderTrack
