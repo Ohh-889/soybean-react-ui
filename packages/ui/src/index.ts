@@ -50,13 +50,13 @@ export * from './components/keyboard-key';
 
 export * from './components/label';
 
-export * from './components/label';
-
 export * from './components/popover';
 
 export * from './components/radio';
 
 export * from './components/scroll-area';
+
+export * from './components/select';
 
 export * from './components/sheet';
 
