@@ -52,6 +52,8 @@ export * from './components/label';
 
 export * from './components/popover';
 
+export * from './components/progress';
+
 export * from './components/radio';
 
 export * from './components/scroll-area';
