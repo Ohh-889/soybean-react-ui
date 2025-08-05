@@ -9,8 +9,6 @@ const nextConfig: NextConfig = {
     domains: ['picsum.photos'],
     unoptimized: true
   },
-  swcMinify: true,
-
   typescript: {
     ignoreBuildErrors: true
   }
