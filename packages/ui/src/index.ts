@@ -56,6 +56,8 @@ export * from './components/progress';
 
 export * from './components/radio';
 
+export * from './components/resizable';
+
 export * from './components/scroll-area';
 
 export * from './components/select';
