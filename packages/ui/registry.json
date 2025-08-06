@@ -1607,6 +1607,33 @@
     {
       "files": [
         {
+          "path": "src/components/progress/Progress.tsx",
+          "target": "components/progress/Progress.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/progress/index.ts",
+          "target": "components/progress/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/progress/progress-variants.ts",
+          "target": "components/progress/progress-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/progress/types.ts",
+          "target": "components/progress/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "progress",
+      "title": "Progress",
+      "type": "registry:block"
+    },
+    {
+      "files": [
+        {
           "path": "src/components/radio/Radio.tsx",
           "target": "components/radio/Radio.tsx",
           "type": "registry:ui"
@@ -1649,6 +1676,38 @@
       ],
       "name": "radio",
       "title": "Radio",
+      "type": "registry:block"
+    },
+    {
+      "files": [
+        {
+          "path": "src/components/resizable/ResizableHandle.tsx",
+          "target": "components/resizable/ResizableHandle.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/resizable/ResizablePanelGroup.tsx",
+          "target": "components/resizable/ResizablePanelGroup.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/resizable/index.ts",
+          "target": "components/resizable/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/resizable/resizable-variants.ts",
+          "target": "components/resizable/resizable-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/resizable/types.ts",
+          "target": "components/resizable/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "resizable",
+      "title": "Resizable",
       "type": "registry:block"
     },
     {
@@ -1698,6 +1757,100 @@
       "title": "Scroll Area",
       "type": "registry:block",
       "dependencies": ["@radix-ui/react-scroll-area"]
+    },
+    {
+      "files": [
+        {
+          "path": "src/components/select/Select.tsx",
+          "target": "components/select/Select.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/select/SelectContent.tsx",
+          "target": "components/select/SelectContent.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/select/SelectItem.tsx",
+          "target": "components/select/SelectItem.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/select/SelectLabel.tsx",
+          "target": "components/select/SelectLabel.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/select/SelectOption.tsx",
+          "target": "components/select/SelectOption.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/select/SelectSeparator.tsx",
+          "target": "components/select/SelectSeparator.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/select/SelectTrigger.tsx",
+          "target": "components/select/SelectTrigger.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/select/index.ts",
+          "target": "components/select/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/select/select-variants.ts",
+          "target": "components/select/select-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/select/shared.ts",
+          "target": "components/select/shared.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/select/types.ts",
+          "target": "components/select/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "select",
+      "title": "Select",
+      "type": "registry:block"
+    },
+    {
+      "files": [
+        {
+          "path": "src/components/sheet/Sheet.tsx",
+          "target": "components/sheet/Sheet.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/sheet/SheetContent.tsx",
+          "target": "components/sheet/SheetContent.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/sheet/index.ts",
+          "target": "components/sheet/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/sheet/sheet-variants.ts",
+          "target": "components/sheet/sheet-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/sheet/types.ts",
+          "target": "components/sheet/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "sheet",
+      "title": "Sheet",
+      "type": "registry:block"
     },
     {
       "files": [

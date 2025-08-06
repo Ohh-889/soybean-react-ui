@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sheet",
+  "type": "registry:block",
+  "title": "Sheet",
+  "files": [
+    {
+      "path": "src/components/sheet/Sheet.tsx",
+      "content": "'use client';\n\nimport { Dialog } from '../dialog';\n\nimport SheetContent from './SheetContent';\nimport type { SheetProps } from './types';\n\nconst Sheet = (props: SheetProps) => {\n  const { children, ...rest } = props;\n\n  return (\n    <Dialog\n      contentComponent={SheetContent}\n      {...rest}\n    >\n      <div className=\"flex-grow overflow-auto\">{children}</div>\n    </Dialog>\n  );\n};\n\nexport default Sheet;\n",
+      "type": "registry:ui",
+      "target": "components/sheet/Sheet.tsx"
+    },
+    {
+      "path": "src/components/sheet/SheetContent.tsx",
+      "content": "import { Content } from '@radix-ui/react-dialog';\n\nimport { cn } from '@/lib/utils';\n\nimport { sheetVariants } from './sheet-variants';\nimport type { SheetContentProps } from './types';\n\nconst SheetContent = (props: SheetContentProps) => {\n  const { className, side, ...rest } = props;\n\n  const { content } = sheetVariants({ side });\n\n  const mergedCls = cn(content(), className);\n\n  return (\n    <Content\n      className={mergedCls}\n      data-side={side}\n      data-slot=\"sheet-content\"\n      {...rest}\n    />\n  );\n};\n\nexport default SheetContent;\n",
+      "type": "registry:ui",
+      "target": "components/sheet/SheetContent.tsx"
+    },
+    {
+      "path": "src/components/sheet/index.ts",
+      "content": "export { default as Sheet } from './Sheet';\nexport { default as SheetContent } from './SheetContent';\n\nexport * from './types';\n",
+      "type": "registry:ui",
+      "target": "components/sheet/index.ts"
+    },
+    {
+      "path": "src/components/sheet/sheet-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\nimport type { VariantProps } from 'tailwind-variants';\n\nexport const sheetVariants = tv({\n  defaultVariants: {\n    side: 'right',\n    size: 'md'\n  },\n  slots: {\n    content: [\n      `fixed z-50 flex flex-col justify-between items-stretch border bg-background rounded-md transition ease-in-out`,\n      `data-[state=open]:animate-in data-[state=open]:duration-500`,\n      `data-[state=closed]:animate-out data-[state=closed]:duration-300`\n    ]\n  },\n  variants: {\n    side: {\n      bottom: {\n        content: `inset-x-0 bottom-0 border-t rounded-b-0 data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom`\n      },\n      left: {\n        content: `inset-y-0 left-0 h-full w-3/4 border-r rounded-l-0 data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left sm:max-w-sm`\n      },\n      right: {\n        content: `inset-y-0 right-0 h-full w-3/4 border-l rounded-r-0 data-[state=open]:slide-in-from-right data-[state=closed]:slide-out-to-right sm:max-w-sm`\n      },\n      top: {\n        content: `inset-x-0 top-0 border-b rounded-t-0 data-[state=open]:slide-in-from-top data-[state=closed]:slide-out-to-top`\n      }\n    },\n    size: {\n      '2xl': {\n        content: `gap-y-6 px-7 py-6 text-xl`\n      },\n      lg: {\n        content: `gap-y-4 px-5 py-4 text-base`\n      },\n      md: {\n        content: `gap-y-3 px-4 py-3 text-sm`\n      },\n      sm: {\n        content: `gap-y-2 px-3 py-2 text-xs`\n      },\n      xl: {\n        content: `gap-y-5 px-6 py-5 text-lg`\n      },\n      xs: {\n        content: `gap-y-1.5 px-2 py-1.5 text-2xs`\n      }\n    }\n  }\n});\n\ntype SheetVariants = VariantProps<typeof sheetVariants>;\n\nexport type SheetSide = NonNullable<SheetVariants['side']>;\n",
+      "type": "registry:ui",
+      "target": "components/sheet/sheet-variants.ts"
+    },
+    {
+      "path": "src/components/sheet/types.ts",
+      "content": "import type { DialogContentProps } from '@radix-ui/react-dialog';\n\nimport type { BaseNodeProps, ClassValue } from '@/types/other';\n\nimport type { DialogSlots as SheetSlots } from '../dialog/dialog-variants';\nimport type { DialogProps } from '../dialog/types';\n\nimport type { SheetSide } from './sheet-variants';\n\nexport interface SheetContentProps extends BaseNodeProps<DialogContentProps> {\n  side?: SheetSide;\n}\n\nexport type SheetClassNames = Partial<Record<SheetSlots, ClassValue>>;\n\nexport interface SheetProps extends Omit<DialogProps<SheetContentProps>, 'contentComponent'> {}\n\nexport { SheetSide };\n",
+      "type": "registry:ui",
+      "target": "components/sheet/types.ts"
+    }
+  ]
+}
