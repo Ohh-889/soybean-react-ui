@@ -1,3 +1,5 @@
+'use client';
+
 import { CircleDashed } from 'lucide-react';
 import { Card, ResizableHandle, ResizablePanel, ResizablePanelGroup } from 'soybean-react-ui';
 

@@ -1,7 +1,7 @@
-import { Color } from './modules/Color';
-import { Size } from './modules/Size';
+import Color from './modules/Color';
+import Size from './modules/Size';
 
-export default function ProgressPage() {
+const ProgressPage = () => {
   return (
     <div className="flex-c gap-4">
       <Color />
@@ -9,4 +9,6 @@ export default function ProgressPage() {
       <Size />
     </div>
   );
-}
+};
+
+export default ProgressPage;

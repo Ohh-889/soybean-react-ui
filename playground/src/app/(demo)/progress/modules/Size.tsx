@@ -14,7 +14,7 @@ const colors: ProgressProps['color'][] = [
   'accent'
 ];
 
-export const Size = () => {
+const Size = () => {
   return (
     <Card
       split
@@ -34,3 +34,5 @@ export const Size = () => {
     </Card>
   );
 };
+
+export default Size;
