@@ -14,7 +14,7 @@ const ChipPage = () => {
         split
         title="Color"
       >
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           {colors.map(color => (
             <div key={color}>
               <Chip color={color}>
@@ -29,7 +29,7 @@ const ChipPage = () => {
         split
         title="Color With Text"
       >
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-4">
           {colors.map(color => (
             <div key={color}>
               <Chip
@@ -47,7 +47,7 @@ const ChipPage = () => {
         split
         title="Positions"
       >
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           {positions.map(position => (
             <div key={position}>
               <Chip position={position}>
@@ -67,7 +67,7 @@ const ChipPage = () => {
         split
         title="Size"
       >
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           {sizes.map(size => (
             <div key={size}>
               <Chip size={size}>
@@ -82,7 +82,7 @@ const ChipPage = () => {
           ))}
         </div>
 
-        <div className="flex gap-3 mt-6">
+        <div className="flex flex-wrap gap-3 mt-6">
           {sizes.map(size => (
             <div key={size}>
               <Chip

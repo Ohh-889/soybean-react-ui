@@ -18,7 +18,7 @@ const Radio = () => {
         value={value}
         onValueChange={setValue}
       >
-        <div className="h-50 w-80 flex items-center justify-center border rounded-md border-dashed text-sm">
+        <div className="h-50 max-sm:w-auto w-80 flex items-center justify-center border rounded-md border-dashed text-sm">
           Right click here
         </div>
       </ContextMenuRadio>

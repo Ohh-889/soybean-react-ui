@@ -8,7 +8,7 @@ const sizes: ThemeSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
 
 const AlertPage = () => {
   return (
-    <div className="flex-c gap-4 bg-primary">
+    <div className="flex-c gap-4">
       <Card
         split
         title="Color"

@@ -18,7 +18,7 @@ const Checkbox = () => {
         items={menus2}
         onChecksChange={setChecks}
       >
-        <div className="h-50 w-80 flex items-center justify-center border rounded-md border-dashed text-sm">
+        <div className="h-50 w-80 flex max-sm:w-auto items-center justify-center border rounded-md border-dashed text-sm">
           Right click here
         </div>
       </ContextMenuCheckbox>

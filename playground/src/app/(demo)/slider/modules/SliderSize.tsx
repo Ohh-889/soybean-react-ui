@@ -9,7 +9,7 @@ const SliderSize = () => {
       split
       title="Size"
     >
-      <div className="w-[480px] flex flex-c-stretch gap-6 lt-sm:w-auto">
+      <div className="w-[480px] flex flex-c-stretch gap-6 max-sm:w-auto">
         {sizes.map((size, index) => (
           <Slider
             color={colors[index]}

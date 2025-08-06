@@ -31,7 +31,7 @@ function TabsPage() {
         split
         title="Horizontal"
       >
-        <div className="w-[320px] lt-sm:w-full">
+        <div className="w-[320px] max-sm:w-auto">
           <Tabs
             classNames={{ content: 'p-4 border border-border rounded-1' }}
             defaultValue="1"
@@ -44,7 +44,5 @@ function TabsPage() {
     </div>
   );
 }
-
-TabsPage.displayName = 'TabsPage';
 
 export default TabsPage;

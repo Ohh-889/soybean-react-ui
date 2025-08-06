@@ -18,7 +18,7 @@ const Color = () => {
       split
       title="Color"
     >
-      <div className="flex w-[320px] flex-col gap-[12px] lt-sm:w-auto">
+      <div className="flex w-[320px] flex-col gap-[12px] max-sm:w-auto">
         {colors.map(color => (
           <Progress
             color={color}

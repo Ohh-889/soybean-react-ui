@@ -20,7 +20,7 @@ const Size = () => {
       split
       title="Size"
     >
-      <div className="flex w-[320px] flex-col gap-[12px] lt-sm:w-auto">
+      <div className="flex w-[320px] flex-col gap-[12px] max-sm:w-auto">
         {sizes.map((size, index) => (
           <Progress
             color={colors[index]}

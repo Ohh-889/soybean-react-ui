@@ -9,7 +9,7 @@ const ToggleDemo = () => {
       split
       title="Size"
     >
-      <div className="flex gap-12px">
+      <div className="flex flex-wrap gap-12px">
         {sizes.map(size => (
           <Toggle
             key={size}
