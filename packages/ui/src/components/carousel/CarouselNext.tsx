@@ -5,7 +5,7 @@ import { forwardRef } from 'react';
 
 import { cn } from '@/lib/utils';
 
-import { Button } from '../button';
+import { ButtonIcon } from '../button';
 
 import { carouselVariants } from './carousel-variants';
 import { useCarousel } from './context';
@@ -21,7 +21,7 @@ const CarouselNext = forwardRef<HTMLButtonElement, CarouselNextProps>((props, re
   const nextClassName = cn(next(), className);
 
   return (
-    <Button
+    <ButtonIcon
       className={nextClassName}
       disabled={!canScrollNext || disabled}
       ref={ref}
@@ -32,7 +32,7 @@ const CarouselNext = forwardRef<HTMLButtonElement, CarouselNextProps>((props, re
       {...rest}
     >
       {children || <ChevronRight />}
-    </Button>
+    </ButtonIcon>
   );
 });
 
