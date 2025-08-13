@@ -1,0 +1,36 @@
+{
+  "name": "template-ui-primitives",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "description": "UI Primitives Template",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.mjs"
+  },
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc",
+    "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc"
+  },
+  "devDependencies": {
+    "@types/react": "19.1.0",
+    "@types/react-dom": "19.1.1",
+    "react": "19.1.0",
+    "react-dom": "19.1.1",
+    "tsdown": "0.12.9",
+    "typescript": "5.8.2"
+  }
+}

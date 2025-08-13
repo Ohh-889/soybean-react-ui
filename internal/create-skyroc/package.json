@@ -1,0 +1,52 @@
+{
+  "name": "create-skyroc",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "Skyroc's command line to create different project templates",
+  "author": {
+    "name": "Ohh",
+    "email": "1509326266@qq.com",
+    "url": "https://github.com/Ohh-889"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/Ohh-889/soybean-react-ui",
+  "repository": {
+    "url": "https://github.com/Ohh-889/soybean-react-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Ohh-889/soybean-react-ui/issues"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "bin": {
+      "create-skyroc": "dist/index.js"
+    }
+  },
+  "bin": {
+    "create-skyroc": "./src/bin.js"
+  },
+  "files": [
+    "dist",
+    "template-*"
+  ],
+  "scripts": {
+    "build": "pnpm typecheck && pnpm build-only",
+    "build-only": "tsdown",
+    "publish-pkg": "pnpm publish --access public --no-git-checks",
+    "typecheck": "tsc --noEmit --skipLibCheck"
+  },
+  "dependencies": {
+    "@clack/prompts": "0.11.0",
+    "consola": "3.4.2",
+    "cross-spawn": "7.0.6",
+    "kolorist": "1.8.0",
+    "mri": "1.2.0",
+    "ora": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/cross-spawn": "6.0.6",
+    "tsdown": "0.12.9",
+    "tsx": "4.20.3",
+    "typescript": "5.8.3"
+  }
+}
