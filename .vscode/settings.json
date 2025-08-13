@@ -8,7 +8,7 @@
   },
   "eslint.useFlatConfig": true,
   "editor.formatOnSave": false,
-  "eslint.validate": ["html", "css", "scss", "json", "jsonc"],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "json", "jsonc"],
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
