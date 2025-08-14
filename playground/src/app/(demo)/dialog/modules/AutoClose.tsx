@@ -11,6 +11,10 @@ const AutoClose = () => {
       <Dialog
         title="Dialog Title"
         trigger={<Button variant="outline">Open</Button>}
+        contentProps={{
+          onEscapeKeyDown: e => e.preventDefault(),
+          onPointerDownOutside: e => e.preventDefault()
+        }}
         footer={
           <>
             <DialogClose>
@@ -19,8 +23,6 @@ const AutoClose = () => {
             <Button>Confirm</Button>
           </>
         }
-        onEscapeKeyDown={e => e.preventDefault()}
-        onPointerDownOutside={e => e.preventDefault()}
       >
         <div>Dialog Content</div>
       </Dialog>
