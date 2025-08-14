@@ -17,7 +17,12 @@
   "bugs": {
     "url": "https://github.com/Ohh-889/soybean-react-ui/issues"
   },
-  "keywords": ["UI", "tailwind-css", "shadcn-ui", "react"],
+  "keywords": [
+    "UI",
+    "tailwind-css",
+    "shadcn-ui",
+    "react"
+  ],
   "scripts": {
     "build": "next build",
     "build:ui": "pnpm --filter soybean-react-ui build",
@@ -40,6 +45,7 @@
     "next-themes": "0.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-hook-form": "^7.62.0",
     "react-hotkeys-hook": "5.1.0",
     "soybean-react-ui": "workspace:*"
   },
