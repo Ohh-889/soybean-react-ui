@@ -2,9 +2,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import type { ComponentPropsWithoutRef, ComponentRef, ElementType, HTMLProps, Ref } from 'react';
-import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 
-import type { FormInstance, InternalFormInstance, RegisterCallbackOptions } from './FieldContext';
+import type { FormInstance, InternalFormContext, InternalFormInstance, RegisterCallbackOptions } from './FieldContext';
 import { FieldContextProvider } from './FieldContext';
 import type { ValidateMessages } from './form-core/validate';
 import useForm from './useForm';
@@ -16,6 +16,7 @@ interface FormBaseProps<Values = any> extends RegisterCallbackOptions<Values> {
   initialValues?: Partial<Values>;
   preserve?: boolean;
   validateMessages?: ValidateMessages;
+  validateTrigger?: string | string[];
 }
 
 type PolymorphicProps<As extends ElementType, Own> = Own &
@@ -40,6 +41,7 @@ const Form = <Values=any, As extends ElementType = 'form'>(props: FormProps<Valu
     onValuesChange,
     preserve = true,
     validateMessages,
+    validateTrigger = 'onChange',
     ...rest
   } = props;
 
@@ -52,6 +54,14 @@ const Form = <Values=any, As extends ElementType = 'form'>(props: FormProps<Valu
   const { destroyForm, setCallbacks, setInitialValues, setPreserve, setValidateMessages } = (
     formInstance as InternalFormInstance<Values>
   ).getInternalHooks();
+
+  const formContextValue = useMemo<InternalFormContext<Values>>(
+    () => ({
+      ...formInstance,
+      validateTrigger
+    }),
+    [formInstance, validateTrigger]
+  );
 
   useImperativeHandle(ref as any, () => nativeElement.current);
 
@@ -78,14 +88,14 @@ const Form = <Values=any, As extends ElementType = 'form'>(props: FormProps<Valu
   }, []);
 
   if (Component === false) {
-    return <FieldContextProvider value={formInstance}>{children}</FieldContextProvider>;
+    return <FieldContextProvider value={formContextValue}>{children}</FieldContextProvider>;
   }
 
   if (Component === 'form') {
     const { onReset, onSubmit, ...formProps } = rest as HTMLProps<HTMLFormElement>;
 
     return (
-      <FieldContextProvider value={formInstance}>
+      <FieldContextProvider value={formContextValue}>
         <Component
           {...formProps}
           ref={nativeElement as Ref<HTMLFormElement>}
@@ -108,7 +118,7 @@ const Form = <Values=any, As extends ElementType = 'form'>(props: FormProps<Valu
   }
 
   return (
-    <FieldContextProvider value={formInstance}>
+    <FieldContextProvider value={formContextValue}>
       <Component
         {...(rest as any)}
         ref={nativeElement}

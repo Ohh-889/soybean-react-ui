@@ -24,7 +24,7 @@ const Field = <Values=any, T extends AllPaths<Values> = AllPaths<Values>>(props:
     rules,
     trigger = 'onChange',
     unControlledValueChange,
-    validateTrigger = 'onChange',
+    validateTrigger,
     valuePropName = 'value',
     ...rest
   } = props;
@@ -40,7 +40,12 @@ const Field = <Values=any, T extends AllPaths<Values> = AllPaths<Values>>(props:
 
   const cref = useRef<any>(null);
 
-  const { getFieldsValue, getFieldValue, getInternalHooks } = fieldContext as InternalFormInstance<Values>;
+  const {
+    getFieldsValue,
+    getFieldValue,
+    getInternalHooks,
+    validateTrigger: fieldValidateTrigger
+  } = fieldContext as unknown as InternalFormInstance<Values>;
 
   const { dispatch, getInitialValue, registerField } = getInternalHooks();
 

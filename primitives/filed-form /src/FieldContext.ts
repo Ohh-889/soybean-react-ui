@@ -80,16 +80,20 @@ export interface FormInstance<Values = any>
 
 export interface InternalFormHooks<Values = any> extends InternalCallbacks<Values>, InternalFieldHooks<Values> {}
 
-export interface InternalFormInstance<Values = any> extends FormInstance<Values> {
+export interface InternalFormContext<Values = any> extends FormInstance<Values> {
+  validateTrigger: string | string[];
+}
+
+export interface InternalFormInstance<Values = any> extends InternalFormContext<Values> {
   /** 内部 API，不建议外部使用 */
   getInternalHooks: () => InternalFormHooks<Values>;
 }
 
-export const FieldContext = createContext<FormInstance | null>(null);
+export const FieldContext = createContext<InternalFormContext | null>(null);
 
 export const FieldContextProvider = FieldContext.Provider;
 
-export const useFieldContext = <Values = any>(): FormInstance<Values> => {
+export const useFieldContext = <Values = any>(): InternalFormContext<Values> => {
   const context = useContext(FieldContext);
 
   if (!context) {
