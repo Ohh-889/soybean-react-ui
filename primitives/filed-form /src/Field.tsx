@@ -125,7 +125,7 @@ const Field = <Values=any, T extends AllPaths<Values> = AllPaths<Values>>(props:
       changeValue: (newValue, isShouldUpdate) => {
         if (!isShouldUpdate || !normalizedChangedRef.current) return;
 
-        normalizedChangedRef.current = false; // 消费掉标记
+        normalizedChangedRef.current = false;
 
         if (isControlled) {
           forceUpdate({});

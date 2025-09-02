@@ -95,8 +95,6 @@ export function unset<T>(obj: T, path: NamePath, options: SetOptions = { safeKey
       }
       return out;
     }
-
-    // 如果不是对象/数组，说明路径不存在
     return node;
   };
 

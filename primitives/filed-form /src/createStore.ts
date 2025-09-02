@@ -470,7 +470,7 @@ class FormStore {
   };
 
   private setFieldValue = (name: NamePath, value: StoreValue) => {
-    this.dispatch({ isShouldUpdate: true, name, type: 'updateValue', value });
+    this.dispatch({ name, type: 'updateValue', value });
   };
 
   private updateValue = (name: NamePath, value: StoreValue, { markTouched = true } = {}) => {
@@ -980,7 +980,6 @@ class FormStore {
       getInitialValue: this.getInitialValue,
       registerField: this.registerField,
       setCallbacks: this.setCallbacks,
-      setFieldRules: this.setFieldRules,
       setInitialValues: this.setInitialValues,
       setPreserve: this.setPreserve,
       setValidateMessages: this.setValidateMessages
