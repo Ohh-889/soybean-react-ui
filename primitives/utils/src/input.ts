@@ -10,7 +10,9 @@ export const isRadioInput = (element: FieldElement): element is HTMLInputElement
 
 export const isFileInput = (element: FieldElement): element is HTMLInputElement => element.type === 'file';
 
-export const getEventValue = (event: unknown, valuePropName: string = 'value') => {
+export const getEventValue = (valuePropName: string = 'value', ...args: any[]) => {
+  const event = args[0];
+
   if (!isEventObject(event)) return event;
 
   const { target } = event as Event;
