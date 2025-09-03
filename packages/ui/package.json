@@ -61,6 +61,7 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-resizable-panels": "^3.0.4",
+    "skyroc-form": "workspace:*",
     "sonner": "2.0.6",
     "tailwind-merge": "3.3.0",
     "tailwind-variants": "1.0.0",
