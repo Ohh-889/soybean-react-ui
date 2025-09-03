@@ -36,8 +36,9 @@ export default defineConfig(
         }
       ],
       'max-params': ['error', { max: 5 }],
-
       'n/prefer-global/process': 'off',
+
+      'no-continue': 'off',
       'no-underscore-dangle': 'off',
       'react/hook-use-state': [
         'error', // or "warn" to only warn instead of error
