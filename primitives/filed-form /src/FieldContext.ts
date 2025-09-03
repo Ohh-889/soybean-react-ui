@@ -68,7 +68,7 @@ export interface InternalCallbacks<Values = any> {
 
 export interface InternalFieldHooks<Values = any> {
   dispatch: (action: Action) => void;
-  getInitialValue: (name: AllPaths<Values>) => PathToDeepType<Values, AllPaths<Values>>;
+  getInitialValue: <T extends AllPaths<Values>>(name: T) => PathToDeepType<Values, T>;
   registerField: (entity: FieldEntity) => () => void;
   setFieldRules: (name: AllPaths<Values>, rules?: Rule[]) => void;
 }

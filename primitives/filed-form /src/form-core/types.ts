@@ -1,6 +1,6 @@
 // src/form-core/types.ts
-export type NameUnit = string | number;
-export type NamePath = string | ReadonlyArray<NameUnit>;
+
+import type { NamePath } from '../utils/util';
 
 export type Store = Record<string, any>;
 export type StoreValue = any;

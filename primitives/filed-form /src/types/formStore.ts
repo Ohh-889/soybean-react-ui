@@ -1,11 +1,11 @@
-import type { FieldData } from './field';
+import type { Meta } from './field';
 
 export type StoreValue = any;
 
 export type Store = Record<string, StoreValue>;
 
 export type Callbacks = {
-  onFieldsChange?: (changedFields: FieldData[], allFields: FieldData[]) => void;
+  onFieldsChange?: (changedFields: Meta[], allFields: Meta[]) => void;
 
   onFinish?: (values: Store) => void;
 

@@ -3,7 +3,6 @@
 
 import { Slot } from '@radix-ui/react-slot';
 import { useEffect, useId, useRef, useState } from 'react';
-import type { AllPaths } from 'skyroc-type-utils';
 import { capitalize, getEventValue, isEqual, omitUndefined, toArray } from 'skyroc-utils';
 
 import type { InternalFormInstance } from './FieldContext';
@@ -11,8 +10,7 @@ import { useFieldContext } from './FieldContext';
 import type { InternalFieldProps } from './types/field';
 import type { StoreValue } from './types/formStore';
 
-// eslint-disable-next-line prettier/prettier
-const Field = <Values=any, T extends AllPaths<Values> = AllPaths<Values>>(props: InternalFieldProps<Values, T>) => {
+function Field<Values = any>(props: InternalFieldProps<Values>) {
   const {
     children,
     controlMode = 'uncontrolled',
@@ -169,6 +167,6 @@ const Field = <Values=any, T extends AllPaths<Values> = AllPaths<Values>>(props:
       {children}
     </Slot>
   );
-};
+}
 
 export default Field;

@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import type { AllPaths, PathToDeepType } from 'skyroc-type-utils';
+import type { AllPaths } from 'skyroc-type-utils';
 import type { Rule } from 'src/form-core/validation';
 
 import type { NamePath } from '../utils/util';
@@ -93,22 +93,18 @@ export interface FieldEntity {
   preserve: boolean;
 }
 
-export type InternalFieldProps<Values = any, T extends AllPaths<Values> = AllPaths<Values>> = {
+export type InternalFieldProps<Values> = {
   children?: ReactElement;
   controlMode?: 'controlled' | 'uncontrolled';
-  getValueFromEvent?: (...args: EventArgs) => PathToDeepType<Values, T>;
-  getValueProps?: (value: PathToDeepType<Values, T>) => PathToDeepType<Values, T>;
-  initialValue?: PathToDeepType<Values, T>;
-  name: T;
-  normalize?: (
-    value: PathToDeepType<Values, T>,
-    prevValue: PathToDeepType<Values, T>,
-    allValues: Values
-  ) => PathToDeepType<Values, T>;
+  getValueFromEvent?: (...args: EventArgs) => StoreValue;
+  getValueProps?: (value: StoreValue) => StoreValue;
+  initialValue?: StoreValue;
+  name: AllPaths<Values>;
+  normalize?: (value: StoreValue, prevValue: StoreValue, allValues: Values) => StoreValue;
   preserve?: boolean;
   rules?: Rule[];
   trigger?: string;
-  unControlledValueChange?: (ref: any, newValue: PathToDeepType<Values, T>) => void;
+  unControlledValueChange?: (ref: any, newValue: StoreValue) => void;
   validateTrigger?: string | string[] | false;
   valuePropName?: string;
-};
+} & Record<string, any>;
