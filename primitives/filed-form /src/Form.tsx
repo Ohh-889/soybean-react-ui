@@ -38,6 +38,7 @@ const Form = <Values=any, As extends ElementType = 'form'>(props: FormProps<Valu
     initialValues,
     onFieldsChange,
     onFinish,
+    onFinishFailed,
     onValuesChange,
     preserve = true,
     validateMessages,
@@ -75,6 +76,7 @@ const Form = <Values=any, As extends ElementType = 'form'>(props: FormProps<Valu
     setCallbacks({
       onFieldsChange,
       onFinish,
+      onFinishFailed,
       onValuesChange
     });
 

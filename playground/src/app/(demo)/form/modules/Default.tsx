@@ -26,10 +26,13 @@ const Default = () => {
 
   return (
     <Form
-      className="w-[480px] space-y-4"
+      className="w-[480px] max-sm:w-full space-y-4"
       form={form}
       onFinish={values => {
         console.log(values);
+      }}
+      onFinishFailed={errors => {
+        console.log(errors);
       }}
     >
       <FormField<FormValues>

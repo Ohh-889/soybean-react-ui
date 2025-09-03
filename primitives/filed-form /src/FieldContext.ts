@@ -47,6 +47,17 @@ export interface OperationOptions<Values = any> {
   validateFields: (...names: AllPaths<Values>[]) => Promise<boolean>;
 }
 
+export interface ValidateErrorEntity<Values = any> {
+  // 便于 UI 直接滚动
+  errorCount: number; // 可选：按 _pruneForSubmit 过滤后的值（给埋点/回放）
+  errorFields: Meta<string, any>[]; // 逐字段列表（用于滚动到第一个错误、逐项显示）
+  errorMap: Record<string, string[]>; // 同上：警告
+  firstErrorName?: string; // 全量当前值（未裁剪）
+  submittedAt: number;
+  values: Values; // 快速索引（表头红点、侧边分组统计）
+  warningMap: Record<string, string[]>;
+}
+
 export interface RegisterCallbackOptions<Values = any> {
   onFieldsChange?: (
     changedFields: Meta<AllPaths<Values>, PathToDeepType<Values, AllPaths<Values>>>[],
@@ -54,6 +65,8 @@ export interface RegisterCallbackOptions<Values = any> {
   ) => void;
 
   onFinish?: (values: Values) => void;
+
+  onFinishFailed?: (errorInfo: ValidateErrorEntity<Values>) => void;
 
   onValuesChange?: (changedValues: Partial<Values>, values: Values) => void;
 }

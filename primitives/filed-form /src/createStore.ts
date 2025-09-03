@@ -640,15 +640,30 @@ class FormStore {
       // 并发淘汰：如果 token 改变，放弃落盘
       if (this._validateToken.get(key) !== token) return false;
 
-      // 写回（空即删）
-      errors.length ? this._errors.set(key, errors) : this._errors.delete(key);
+      // === 对比新旧，只有变化才落盘 & 通知 ===
+      const prevErrors = this._errors.get(key) || [];
+      const prevWarns = this._warnings.get(key) || [];
 
-      warns.length ? this._warnings.set(key, warns) : this._warnings.delete(key);
+      const errorsChanged = !isEqual(prevErrors, errors);
+      const warnsChanged = !isEqual(prevWarns, warns);
+
+      if (errorsChanged) {
+        errors.length ? this._errors.set(key, errors) : this._errors.delete(key);
+      }
+      if (warnsChanged) {
+        warns.length ? this._warnings.set(key, warns) : this._warnings.delete(key);
+      }
 
       this._validating.delete(key);
 
-      this.enqueueNotify([key], ChangeTag.Validated | ChangeTag.Errors | ChangeTag.Warnings);
+      // 只在对应位变化时，才把位并进掩码
+      let mask: ChangeMask = ChangeTag.Validated;
+      if (errorsChanged) mask |= ChangeTag.Errors;
+      if (warnsChanged) mask |= ChangeTag.Warnings;
 
+      this.enqueueNotify([key], mask);
+
+      // 是否需要始终回调由你的业务决定；如也想避免无变化触发，可加条件判断
       this.triggerOnFieldsChange([key]);
 
       return errors.length === 0;
@@ -786,6 +801,8 @@ class FormStore {
     }
   };
 
+  // ===== Submit =====
+
   usePreSubmit(fn: (values: Store) => Store) {
     this._preSubmit.push(fn);
   }
@@ -814,11 +831,38 @@ class FormStore {
     return walk(values, []) ?? {};
   }
 
-  // ===== Submit =====
+  private buildFailedPayload() {
+    const errorMap = Object.fromEntries(this._errors);
+    const warningMap = Object.fromEntries(this._warnings);
+
+    const errorFields = Array.from(this._errors.entries()).map(([name, errors]) => ({
+      errors,
+      name,
+      touched: this._touched.has(name),
+      validating: this._validating.has(name),
+      value: this.getFieldValue(name),
+      warnings: this._warnings.get(name) || []
+    }));
+
+    // 注意：Map 的迭代顺序是插入顺序；如果你想“第一个错误字段”根据 DOM 顺序，
+    // 可以在这里按你的字段注册顺序（_fieldEntities）排序一次。
+    const firstErrorName = errorFields[0]?.name;
+
+    return {
+      errorCount: errorFields.length,
+      errorFields,
+      errorMap,
+      firstErrorName,
+      submittedAt: Date.now(),
+      values: this._store,
+      warningMap
+    };
+  }
   private submit = () => {
     this.validateFields().then(ok => {
+      console.log('submit', ok);
       if (ok) this._callbacks.onFinish?.(this._store);
-      else this._callbacks.onFinishFailed?.(this._store);
+      else this._callbacks.onFinishFailed?.(this.buildFailedPayload());
     });
   };
 
