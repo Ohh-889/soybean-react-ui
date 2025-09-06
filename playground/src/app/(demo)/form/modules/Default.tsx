@@ -1,6 +1,8 @@
 'use client';
 
-import { Button, Checkbox, Form, FormField, Input, RadioGroup, Select, Switch, useForm } from 'soybean-react-ui';
+import { Button, Card, Checkbox, Form, FormField, Input, RadioGroup, Select, Switch, useForm } from 'soybean-react-ui';
+
+import { showToastCode } from './toast';
 
 const genderItems = [
   { label: 'Male', value: 'male' },
@@ -25,61 +27,68 @@ const Default = () => {
   const [form] = useForm<FormValues>();
 
   return (
-    <Form
-      className="w-[480px] max-sm:w-full space-y-4"
-      form={form}
-      onFinish={values => {
-        console.log(values);
-      }}
-      onFinishFailed={errors => {
-        console.log(errors);
-      }}
+    <Card
+      split
+      title="Form"
     >
-      <FormField<FormValues>
-        label="Username"
-        name="username"
-        normalize={value => value.trim()}
-        rules={[{ message: 'Username must be at least 3 characters', minLength: 3 }]}
+      <Form
+        className="w-[480px] max-sm:w-full space-y-4"
+        form={form}
+        onFinish={values => {
+          showToastCode('You submitted the following values', values);
+        }}
+        onFinishFailed={errors => {
+          showToastCode('You failed to submit the form', errors);
+        }}
+        onValuesChange={(changedValues, values) => {
+          console.log(changedValues, values);
+        }}
       >
-        <Input placeholder="Please input username" />
-      </FormField>
+        <FormField<FormValues>
+          label="Username"
+          name="username"
+          rules={[{ message: 'Username must be at least 3 characters', minLength: 3 }]}
+        >
+          <Input placeholder="Please input username" />
+        </FormField>
 
-      <FormField
-        label="Gender"
-        name="gender"
-        trigger="onValueChange"
-      >
-        <RadioGroup items={genderItems} />
-      </FormField>
+        <FormField
+          label="Gender"
+          name="gender"
+          trigger="onValueChange"
+        >
+          <RadioGroup items={genderItems} />
+        </FormField>
 
-      <FormField
-        label="Remember"
-        name="remember"
-        trigger="onCheckedChange"
-        valuePropName="checked"
-      >
-        <Switch className="block" />
-      </FormField>
+        <FormField
+          label="Remember"
+          name="remember"
+          trigger="onCheckedChange"
+          valuePropName="checked"
+        >
+          <Switch className="block" />
+        </FormField>
 
-      <FormField
-        label="Hobbies"
-        name="hobbies"
-        trigger="onCheckedChange"
-        valuePropName="checked"
-      >
-        <Checkbox value="reading">Reading</Checkbox>
-      </FormField>
+        <FormField
+          label="Hobbies"
+          name="hobbies"
+          trigger="onCheckedChange"
+          valuePropName="checked"
+        >
+          <Checkbox value="reading">Reading</Checkbox>
+        </FormField>
 
-      <FormField
-        label="City"
-        name="city"
-        trigger="onValueChange"
-      >
-        <Select items={cities} />
-      </FormField>
+        <FormField
+          label="City"
+          name="city"
+          trigger="onValueChange"
+        >
+          <Select items={cities} />
+        </FormField>
 
-      <Button type="submit">Submit</Button>
-    </Form>
+        <Button type="submit">Submit</Button>
+      </Form>
+    </Card>
   );
 };
 

@@ -112,3 +112,9 @@ export const unionPaths = (a: (string | number)[][], b: (string | number)[][]) =
 
 export const microtask =
   typeof queueMicrotask === 'function' ? queueMicrotask : (cb: () => void) => Promise.resolve().then(cb);
+
+export const isUnderPrefix = (key: string, prefix: string) => {
+  if (prefix === '') return true; // 根前缀，匹配全部
+  if (key === prefix) return true; // 自身节点
+  return key.startsWith(`${prefix}.`); // 子节点（点分隔）
+};

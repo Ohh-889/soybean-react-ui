@@ -1,15 +1,16 @@
-import { Card } from 'soybean-react-ui';
-
 import Default from './modules/Default';
+import FieldChange from './modules/FieldChange';
+import Validate from './modules/validate';
 
 const FormPage = () => {
   return (
-    <Card
-      split
-      title="Form"
-    >
+    <div className="flex-c gap-4">
       <Default />
-    </Card>
+
+      <FieldChange />
+
+      <Validate />
+    </div>
   );
 };
 

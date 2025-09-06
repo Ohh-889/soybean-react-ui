@@ -15,7 +15,7 @@ import NameMap from './utils/NameMap';
 import { get } from './utils/get';
 import { set } from './utils/set';
 import type { NamePath, PathTuple } from './utils/util';
-import { anyOn, isOn, keyOfName, microtask } from './utils/util';
+import { anyOn, isOn, isUnderPrefix, keyOfName, microtask } from './utils/util';
 
 type Listener = {
   cb: (value: StoreValue, key: string, all: Store, fired: ChangeMask) => void;
@@ -47,6 +47,7 @@ class FormStore {
   private _touched = new Set<string>();
   private _dirty = new Set<string>();
   private _validating = new Set<string>();
+  private _validated = new Set<string>();
 
   private _errors = new Map<string, string[]>();
   private _warnings = new Map<string, string[]>();
@@ -63,7 +64,7 @@ class FormStore {
   // Batch processing
   private _pending = new Map<string, ChangeMask>();
   private _flushScheduled = false;
-
+  private _flushing = false;
   // Dependency graph (for external use / future extension)
   private _deps = new DepGraph();
 
@@ -454,6 +455,7 @@ class FormStore {
 
       for (const k of changedKeys) {
         this._errors.delete(k);
+        this._validated.delete(k);
         this._warnings.delete(k);
       }
 
@@ -481,6 +483,8 @@ class FormStore {
     if (isEqual(before, value)) return; // value not changed, do not trigger
 
     this.updateStore(set(this._store, name, value));
+
+    this._validated.delete(key);
 
     // touched
     let mask = ChangeTag.Value;
@@ -523,7 +527,7 @@ class FormStore {
       errors: this.getFieldError(key) || [],
       name: keyOfName(name),
       touched: this.isFieldTouched(name),
-      validated: this._validating.has(key),
+      validated: this._validated.has(key),
       validating: this.isFieldValidating(key),
       value: this.getFieldValue(key),
       warnings: this.getFieldWarning(key) || []
@@ -610,14 +614,33 @@ class FormStore {
 
     const allRules = this._rules.get(key) || [];
     const rules = opts?.trigger ? allRules.filter(r => matchTrigger(r, opts?.trigger)) : allRules;
-    if (rules.length === 0) {
-      this._errors.delete(key);
-      this._warnings.delete(key);
-      this.enqueueNotify([key], ChangeTag.Errors | ChangeTag.Warnings);
-      this.triggerOnFieldsChange([key]);
+    // 1) 完全没有规则：清理旧的错误/警告，但只在确有变化时通知
+    if (allRules.length === 0) {
+      const prevErrors = this._errors.get(key) || [];
+      const prevWarns = this._warnings.get(key) || [];
+
+      let mask: ChangeMask = 0;
+      if (prevErrors.length) {
+        this._errors.delete(key);
+        mask |= ChangeTag.Errors;
+      }
+      if (prevWarns.length) {
+        this._warnings.delete(key);
+        mask |= ChangeTag.Warnings;
+      }
+
+      if (mask) {
+        this.enqueueNotify([key], mask);
+        this.triggerOnFieldsChange([key]);
+      }
       return true;
     }
 
+    // 2) 有规则，但该 trigger 下没有规则：跳过，不落盘、不通知；返回当前“是否无错”
+    if (opts?.trigger && rules.length === 0) {
+      const hasError = (this._errors.get(key) || []).length > 0;
+      return !hasError;
+    }
     // 取最小防抖
     const msList = rules.map(r => r?.debounceMs ?? Infinity);
     const debounceMs = Math.min(...msList) === Infinity ? 160 : Math.min(...msList);
@@ -629,13 +652,26 @@ class FormStore {
       const token = (this._validateToken.get(key) || 0) + 1;
       this._validateToken.set(key, token);
 
-      this._validating.add(key);
-
-      this.enqueueNotify([key], ChangeTag.Validating);
+      // —— 开始校验：只有在首次进入校验态时才通知/回调
+      const wasValidating = this._validating.has(key);
+      if (!wasValidating) {
+        this._validating.add(key);
+        this._validated.delete(key);
+        this.enqueueNotify([key], ChangeTag.Validating, true);
+        this.triggerOnFieldsChange([key]);
+      }
 
       const value = this.getFieldValue(key);
 
-      const { errors, warns } = await runRulesWithMode(value, rules, opts?.mode || 'parallelAll');
+      let errors: string[] = [];
+      let warns: string[] = [];
+
+      try {
+        ({ errors, warns } = await runRulesWithMode(value, rules, opts?.mode || 'parallelAll'));
+      } catch (e: any) {
+        // 4) 兜底：规则抛错也要转成错误信息（避免“莫名其妙通过/卡住”）
+        errors = [String(e?.message ?? e)];
+      }
 
       // 并发淘汰：如果 token 改变，放弃落盘
       if (this._validateToken.get(key) !== token) return false;
@@ -654,17 +690,26 @@ class FormStore {
         warns.length ? this._warnings.set(key, warns) : this._warnings.delete(key);
       }
 
-      this._validating.delete(key);
+      let mask: ChangeMask = 0;
+      let needFieldsChange = false;
 
-      // 只在对应位变化时，才把位并进掩码
-      let mask: ChangeMask = ChangeTag.Validated;
-      if (errorsChanged) mask |= ChangeTag.Errors;
-      if (warnsChanged) mask |= ChangeTag.Warnings;
+      if (this._validating.has(key)) {
+        this._validating.delete(key);
+        this._validated.add(key);
+        mask |= ChangeTag.Validated;
+        needFieldsChange = true; // meta 变了
+      }
+      if (errorsChanged) {
+        mask |= ChangeTag.Errors;
+        needFieldsChange = true;
+      }
+      if (warnsChanged) {
+        mask |= ChangeTag.Warnings;
+        needFieldsChange = true;
+      }
 
-      this.enqueueNotify([key], mask);
-
-      // 是否需要始终回调由你的业务决定；如也想避免无变化触发，可加条件判断
-      this.triggerOnFieldsChange([key]);
+      if (mask) this.enqueueNotify([key], mask, true);
+      if (needFieldsChange) this.triggerOnFieldsChange([key]);
 
       return errors.length === 0;
     };
@@ -749,6 +794,7 @@ class FormStore {
         const { index, item } = args;
         next.splice(index, 0, item);
         this._store = set(this._store, name, next);
+        this._validated.delete(ak);
         mark();
         break;
       }
@@ -756,6 +802,7 @@ class FormStore {
         const { index } = args;
         next.splice(index, 1);
         this._store = set(this._store, name, next);
+        this._validated.delete(ak);
         mark();
         break;
       }
@@ -764,6 +811,7 @@ class FormStore {
         const [x] = next.splice(from, 1);
         next.splice(to, 0, x);
         this._store = set(this._store, name, next);
+        this._validated.delete(ak);
         mark();
         break;
       }
@@ -773,6 +821,7 @@ class FormStore {
         next[i] = next[j];
         next[j] = tmp;
         this._store = set(this._store, name, next);
+        this._validated.delete(ak);
         mark();
         break;
       }
@@ -780,6 +829,7 @@ class FormStore {
         const { index, item } = args;
         next[index] = item;
         this._store = set(this._store, name, next);
+        this._validated.delete(ak);
         mark();
         break;
       }
@@ -860,7 +910,6 @@ class FormStore {
   }
   private submit = () => {
     this.validateFields().then(ok => {
-      console.log('submit', ok);
       if (ok) this._callbacks.onFinish?.(this._store);
       else this._callbacks.onFinishFailed?.(this.buildFailedPayload());
     });
@@ -937,19 +986,23 @@ class FormStore {
     }
   }
 
-  private enqueueNotify(names?: NamePath[] | string[], mask: ChangeMask = ChangeTag.All) {
+  private enqueueNotify(names?: NamePath[] | string[], mask: ChangeMask = ChangeTag.All, isImmediate = false) {
     if (!names) this.markPending('*', ChangeTag.All);
     else for (const n of names) this.markPending(keyOfName(n), mask);
 
-    this.scheduleFlush();
+    this.scheduleFlush(isImmediate);
   }
 
-  private scheduleFlush() {
+  private scheduleFlush(isImmediate = false) {
     if (this._txDepth > 0) return; // During the transaction, do not flush; wait for commit.
+
+    if (isImmediate) {
+      this.flushNotify();
+      return;
+    }
 
     if (!this._flushScheduled) {
       this._flushScheduled = true;
-
       microtask(() => this.flushNotify());
     }
   }
@@ -981,10 +1034,12 @@ class FormStore {
       let aggMask = 0;
 
       for (const [k, mk] of snapshot) {
-        if (k.startsWith(prefixKey)) aggMask |= mk; // ← 只聚合命中的 key 的掩码
+        if (isUnderPrefix(k, prefixKey)) aggMask |= mk; // ← 只聚合命中的 key 的掩码
       }
 
-      if (aggMask) fire(prefixKey, aggMask, listeners);
+      if (aggMask) {
+        fire(prefixKey, aggMask, listeners);
+      }
     }
   }
 

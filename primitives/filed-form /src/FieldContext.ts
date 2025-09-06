@@ -6,7 +6,7 @@ import { flushSync } from 'react-dom';
 import type { AllPaths, PathToDeepType, ShapeFromPaths } from 'skyroc-type-utils';
 
 import type { ChangeMask, SubscribeMaskOptions } from './form-core/event';
-import { toMask } from './form-core/event';
+import { ChangeTag, toMask } from './form-core/event';
 import type { Action, Middleware } from './form-core/middleware';
 import type { FieldEntity } from './form-core/types';
 import type { ValidateMessages } from './form-core/validate';
@@ -120,6 +120,7 @@ export const useFieldState = <Values = any>(
   name: AllPaths<Values>,
   mask: SubscribeMaskOptions = {
     errors: true,
+    touched: true,
     validated: true,
     validating: true,
     warnings: true
@@ -127,24 +128,21 @@ export const useFieldState = <Values = any>(
 ) => {
   const context = useFieldContext<Values>();
 
-  const state = useRef(context.getField(name));
-
   // eslint-disable-next-line react/hook-use-state
-  const [_, forceUpdate] = useState(0);
+  const [state, updateState] = useState(context.getField(name));
 
   if (!context) {
     throw new Error('Can not find FormContext. Please make sure you wrap Field under Form.');
   }
-
-  console.log('context', toMask(mask));
 
   useEffect(() => {
     const unregister = context.subscribeField(
       name,
       () => {
         flushSync(() => {
-          state.current = context.getField(name);
-          forceUpdate(prev => prev + 1);
+          updateState(context.getField(name));
+
+          console.log(context.getField(name), 'state.current', name);
         });
       },
       {
@@ -157,13 +155,30 @@ export const useFieldState = <Values = any>(
     };
   }, [context, name]);
 
-  return state.current;
+  return state;
 };
 
-export const useFieldErrors = <Values = any>(name: AllPaths<Values>) => {
+export const useFieldError = <Values = any>(name: AllPaths<Values>) => {
   const state = useFieldState<Values>(name, { errors: true });
 
-  console.log('state', state);
-
   return state.errors;
+};
+
+export const useFieldErrors = <Values = any>(form: FormInstance<Values>): Record<AllPaths<Values>, string[]> => {
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    return form.subscribeField(
+      '' as AllPaths<Values>,
+      () => {
+        setErrors(form.getFieldsError());
+      },
+      {
+        includeChildren: true,
+        mask: ChangeTag.Errors
+      }
+    );
+  }, [form]);
+
+  return errors as Record<AllPaths<Values>, string[]>;
 };

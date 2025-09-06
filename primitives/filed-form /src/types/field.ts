@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 import type { AllPaths } from 'skyroc-type-utils';
-import type { Rule } from 'src/form-core/validation';
 
+import type { Rule } from '../form-core/validation';
 import type { NamePath } from '../utils/util';
 
 import type { Store, StoreValue } from './formStore';
