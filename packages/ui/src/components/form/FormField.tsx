@@ -1,7 +1,7 @@
 'use client';
 
 import { useId } from 'react';
-import { Field, useFieldErrors } from 'skyroc-form';
+import { Field, useFieldError } from 'skyroc-form';
 
 import { cn } from '@/lib/utils';
 
@@ -15,7 +15,13 @@ const FormField = <Values = any,>(props: FormFieldProps<Values>) => {
 
   const id = useId();
 
-  const errors = useFieldErrors<Values>(name);
+  const errors = useFieldError<Values>(name);
+
+  const hasError = errors.length > 0;
+
+  const formItemId = `${id}-form-item`;
+  const formDescriptionId = `${id}-form-item-description`;
+  const formMessageId = `${id}-form-item-message`;
 
   const {
     description: descriptionCls,
@@ -35,6 +41,8 @@ const FormField = <Values = any,>(props: FormFieldProps<Values>) => {
     <div className={mergedCls.item}>
       <FormLabel
         className={mergedCls.label}
+        data-error={hasError}
+        data-slot="form-label"
         htmlFor={id}
         size={size}
       >
@@ -43,6 +51,8 @@ const FormField = <Values = any,>(props: FormFieldProps<Values>) => {
 
       <Field
         {...rest}
+        aria-describedby={!hasError ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}
+        aria-invalid={hasError}
         id={id}
         name={name}
       >
@@ -52,16 +62,16 @@ const FormField = <Values = any,>(props: FormFieldProps<Values>) => {
       {description && (
         <p
           className={mergedCls.description}
-          id={id}
+          id={formDescriptionId}
         >
           {description}
         </p>
       )}
 
-      {errors.length > 0 && (
+      {hasError && (
         <p
           className={mergedCls.message}
-          id={id}
+          id={formMessageId}
         >
           {errors[0]}
         </p>

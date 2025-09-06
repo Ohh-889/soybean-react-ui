@@ -8,7 +8,7 @@ export const formVariants = tv({
   slots: {
     description: `text-muted-foreground`,
     item: `form-item`,
-    label: 'flex items-center',
+    label: 'flex items-center data-[error=true]:text-destructive',
     message: `font-medium text-destructive`
   },
   variants: {

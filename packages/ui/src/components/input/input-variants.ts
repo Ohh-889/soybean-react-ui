@@ -4,8 +4,10 @@ export const inputVariants = tv({
   base: [
     `flex w-full rounded-md border border-solid border-input bg-background`,
     `file:border-0 file:bg-transparent file:font-medium`,
+    'placeholder:text-muted-foreground selection:bg-primary',
     `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:ring-primary`,
-    `disabled:cursor-not-allowed disabled:opacity-50`
+    `disabled:cursor-not-allowed disabled:opacity-50`,
+    `aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive`
   ],
   defaultVariants: {
     size: 'md'
