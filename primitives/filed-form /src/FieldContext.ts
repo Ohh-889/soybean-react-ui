@@ -128,8 +128,9 @@ export const useFieldState = <Values = any>(
 ) => {
   const context = useFieldContext<Values>();
 
+  const state = context.getField(name);
   // eslint-disable-next-line react/hook-use-state
-  const [state, updateState] = useState(context.getField(name));
+  const [_, forceUpdate] = useState({});
 
   if (!context) {
     throw new Error('Can not find FormContext. Please make sure you wrap Field under Form.');
@@ -140,9 +141,7 @@ export const useFieldState = <Values = any>(
       name,
       () => {
         flushSync(() => {
-          updateState(context.getField(name));
-
-          console.log(context.getField(name), 'state.current', name);
+          forceUpdate({});
         });
       },
       {

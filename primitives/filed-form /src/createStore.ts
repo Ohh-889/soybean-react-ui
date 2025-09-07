@@ -64,7 +64,7 @@ class FormStore {
   // Batch processing
   private _pending = new Map<string, ChangeMask>();
   private _flushScheduled = false;
-  private _flushing = false;
+
   // Dependency graph (for external use / future extension)
   private _deps = new DepGraph();
 
@@ -294,7 +294,13 @@ class FormStore {
       this._initial = set(this._initial, name, entity.initialValue);
     }
 
-    this._exactListeners.set(name, new Set([{ cb: entity.changeValue, mask: ChangeTag.Value }]));
+    const listeners = this._exactListeners.get(name);
+
+    if (listeners) {
+      listeners.add({ cb: entity.changeValue, mask: ChangeTag.Value });
+    } else {
+      this._exactListeners.set(name, new Set([{ cb: entity.changeValue, mask: ChangeTag.Value }]));
+    }
 
     return () => {
       this._fieldEntities = this._fieldEntities.filter(e => e.name !== name);
@@ -489,11 +495,10 @@ class FormStore {
     // touched
     let mask = ChangeTag.Value;
 
-    if (markTouched) {
+    if (markTouched && !this._touched.has(key)) {
       this._touched.add(key);
       mask |= ChangeTag.Touched;
     }
-
     // dirty: compare with initial
     const initV = this.getInitialValue(key);
 
@@ -995,11 +1000,6 @@ class FormStore {
 
   private scheduleFlush(isImmediate = false) {
     if (this._txDepth > 0) return; // During the transaction, do not flush; wait for commit.
-
-    if (isImmediate) {
-      this.flushNotify();
-      return;
-    }
 
     if (!this._flushScheduled) {
       this._flushScheduled = true;
