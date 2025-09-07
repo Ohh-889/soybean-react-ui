@@ -662,7 +662,7 @@ class FormStore {
       if (!wasValidating) {
         this._validating.add(key);
         this._validated.delete(key);
-        this.enqueueNotify([key], ChangeTag.Validating, true);
+        this.enqueueNotify([key], ChangeTag.Validating);
         this.triggerOnFieldsChange([key]);
       }
 
@@ -672,9 +672,10 @@ class FormStore {
       let warns: string[] = [];
 
       try {
-        ({ errors, warns } = await runRulesWithMode(value, rules, opts?.mode || 'parallelAll'));
+        ({ errors, warns } = await runRulesWithMode(value, rules, opts?.mode || 'parallelAll', this._store));
       } catch (e: any) {
         // 4) 兜底：规则抛错也要转成错误信息（避免“莫名其妙通过/卡住”）
+        console.error('e', e);
         errors = [String(e?.message ?? e)];
       }
 
@@ -713,7 +714,7 @@ class FormStore {
         needFieldsChange = true;
       }
 
-      if (mask) this.enqueueNotify([key], mask, true);
+      if (mask) this.enqueueNotify([key], mask);
       if (needFieldsChange) this.triggerOnFieldsChange([key]);
 
       return errors.length === 0;
@@ -729,13 +730,31 @@ class FormStore {
     });
   };
 
-  async validateFields(names?: NamePath[], opts?: ValidateOptions) {
-    const list = names?.length ? names : Array.from(this._dirty);
+  async validateFields(names?: NamePath[], opts?: ValidateOptions & { dirty?: boolean }) {
+    let list: string[];
+
+    if (names && names.length > 0) {
+      const normalized = names.map(n => keyOfName(n));
+      if (opts?.dirty) {
+        // 只取 names 中 dirty 的
+        list = normalized.filter(k => this._dirty.has(k));
+      } else {
+        // 全部 names
+        list = normalized;
+      }
+    } else if (opts?.dirty) {
+      // 没有传 names → 校验所有 dirty 的
+      list = Array.from(this._dirty);
+    } else {
+      // 没有传 names → 校验所有字段
+      list = this._fieldEntities.map(e => keyOfName(e.name));
+    }
+
     if (!list.length) return true;
 
+    // 标记 validating
     this.transaction(() => {
-      for (const n of list) {
-        const k = keyOfName(n);
+      for (const k of list) {
         if (!this._validating.has(k)) {
           this._validating.add(k);
           this.enqueueNotify([k], ChangeTag.Validating);
@@ -743,9 +762,9 @@ class FormStore {
       }
     });
 
-    const ok = await Promise.all(list.map(n => this.validateField(n, opts)));
+    const results = await Promise.all(list.map(n => this.validateField(n, opts)));
 
-    return ok.every(Boolean);
+    return results.every(Boolean);
   }
 
   // ------------------------------------------------
@@ -914,10 +933,16 @@ class FormStore {
     };
   }
   private submit = () => {
-    this.validateFields().then(ok => {
-      if (ok) this._callbacks.onFinish?.(this._store);
-      else this._callbacks.onFinishFailed?.(this.buildFailedPayload());
-    });
+    console.log('submit');
+    this.validateFields()
+      .then(ok => {
+        console.log('ok', ok);
+        if (ok) this._callbacks.onFinish?.(this._store);
+        else this._callbacks.onFinishFailed?.(this.buildFailedPayload());
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
   };
 
   private destroyForm = (clearOnDestroy?: boolean) => {
@@ -991,14 +1016,14 @@ class FormStore {
     }
   }
 
-  private enqueueNotify(names?: NamePath[] | string[], mask: ChangeMask = ChangeTag.All, isImmediate = false) {
+  private enqueueNotify(names?: NamePath[] | string[], mask: ChangeMask = ChangeTag.All) {
     if (!names) this.markPending('*', ChangeTag.All);
     else for (const n of names) this.markPending(keyOfName(n), mask);
 
-    this.scheduleFlush(isImmediate);
+    this.scheduleFlush();
   }
 
-  private scheduleFlush(isImmediate = false) {
+  private scheduleFlush() {
     if (this._txDepth > 0) return; // During the transaction, do not flush; wait for commit.
 
     if (!this._flushScheduled) {
