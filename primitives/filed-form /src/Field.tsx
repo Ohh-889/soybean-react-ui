@@ -120,8 +120,8 @@ function Field<Values = any>(props: InternalFieldProps<Values>) {
 
   useEffect(() => {
     const unregister = registerField({
-      changeValue: (newValue, isShouldUpdate) => {
-        if (!isShouldUpdate || !normalizedChangedRef.current) return;
+      changeValue: newValue => {
+        if (!normalizedChangedRef.current) return;
 
         normalizedChangedRef.current = false;
 
