@@ -152,7 +152,35 @@ type BuildShape<T, P extends string> = P extends `${infer K}.${infer R}`
 type UnionToIntersection<U> = (U extends any ? (x: U) => void : never) extends (x: infer I) => void ? I : never;
 type MergeUnion<U> = Prettify<{ [K in keyof UnionToIntersection<U>]: UnionToIntersection<U>[K] }>;
 
-// ========= 多路径合并：['age','info','info2.2.city'] => { age:number; info:{...?}; info2:{city?:string}[] }
+/**
+ * @example
+ * type FormValues = {
+ *   age: number;
+ *   code: string;
+ *   info: { age: number; city: string; name: string };
+ *   info2: { age: number; city: string; name: string }[];
+ *   phone: string;
+ * };
+ * type P1 = ShapeFromPaths<FormValues, ['age','info','info2.2.city']>; // { age:number; info:{...?}; info2:{city?:string}[] }
+ */
 export type ShapeFromPaths<T, Ps extends readonly string[]> = Ps extends []
   ? T
   : MergeUnion<Ps[number] extends infer P ? (P extends string ? BuildShape<T, P> : never) : never>;
+
+type PathsShape<T, Index extends number = number, P extends string = '', Depth extends number = 6> =
+  [Depth] extends [never] ? never :
+  T extends Primitive
+    ? (P extends '' ? {} : { [K in P]: true })
+    : T extends readonly (infer U)[]
+      ? (P extends '' ? {} : { [K in P]: true }) &
+        PathsShape<U, Index, Join<P, `${Index}`>, Prev[Depth]>
+      : T extends object
+        ? (P extends '' ? {} : { [K in P]: true }) &
+          MergeUnion<{ [K in Extract<keyof T, string>]: PathsShape<T[K], Index, Join<P, K>, Prev[Depth]> }[Extract<keyof T, string>]>
+        : {};
+
+
+export type AllPathsShape<T> = MergeUnion<PathsShape<T>>;
+export type AllPathsKeys<T> = keyof AllPathsShape<T> & string;
+
+

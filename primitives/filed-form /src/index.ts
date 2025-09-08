@@ -1,7 +1,7 @@
 export type { AllPaths, FieldElement } from 'skyroc-type-utils';
 
 export { default as Field } from './Field';
-export { useFieldError, useFieldErrors, useFieldState,useFieldsState } from './FieldContext';
+export { useFieldError, useFieldErrors, useFieldsState, useFieldState, useWatch } from './FieldContext';
 export { default as Form } from './Form';
 
 export type { InternalFieldProps } from './types/field';

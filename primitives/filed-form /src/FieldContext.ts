@@ -3,7 +3,8 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
-import type { AllPaths, PathToDeepType, ShapeFromPaths } from 'skyroc-type-utils';
+import type { AllPaths, AllPathsKeys, PathToDeepType, ShapeFromPaths } from 'skyroc-type-utils';
+import { isArray, toArray } from 'skyroc-utils';
 
 import type { ChangeMask, SubscribeMaskOptions } from './form-core/event';
 import { toMask } from './form-core/event';
@@ -181,7 +182,8 @@ export const useFieldsState = <Values = any>(
     validated: true,
     validating: true,
     warnings: true
-  }
+  },
+  inCludeChildren?: boolean
 ) => {
   const state = form.getFields(names);
 
@@ -189,34 +191,18 @@ export const useFieldsState = <Values = any>(
   const [_, forceUpdate] = useState({});
 
   useEffect(() => {
-    let unregister: () => void;
-    if (!names || names.length === 0) {
-      // 监听所有字段
-      unregister = form.subscribeField(
-        '' as AllPaths<Values>,
-        () => {
-          flushSync(() => {
-            forceUpdate({});
-          });
-        },
-        {
-          includeChildren: true,
-          mask: toMask(mask)
-        }
-      );
-    } else {
-      unregister = form.subscribeFields(
-        names,
-        () => {
-          flushSync(() => {
-            forceUpdate({});
-          });
-        },
-        {
-          mask: toMask(mask)
-        }
-      );
-    }
+    const unregister = form.subscribeFields(
+      names.length ? names : ([''] as AllPaths<Values>[]),
+      () => {
+        flushSync(() => {
+          forceUpdate({});
+        });
+      },
+      {
+        includeChildren: inCludeChildren,
+        mask: toMask(mask)
+      }
+    );
 
     // 只监听传入的字段
     return unregister;
@@ -247,3 +233,29 @@ export const useFieldErrors = <Values = any>(
 
   return errors as Record<AllPaths<Values>, string[]>;
 };
+
+function useWatch<Values, T extends AllPathsKeys<Values>>(
+  form: FormInstance<Values>,
+  name: T
+): PathToDeepType<Values, T>;
+
+function useWatch<Values, const T extends AllPaths<Values>[]>(
+  form: FormInstance<Values>,
+  names: T
+): ShapeFromPaths<Values, T>;
+
+function useWatch<Values = any, const T extends AllPaths<Values>[] = AllPaths<Values>[]>(
+  form: FormInstance<Values>
+): ShapeFromPaths<Values, T>;
+
+function useWatch<Values = any>(form: FormInstance<Values>, names?: AllPaths<Values>[] | AllPaths<Values>) {
+  const namesArray = names ? toArray(names) : [];
+
+  const nameIsArray = isArray(names) || !names;
+
+  useFieldsState<Values>(form, namesArray, { value: true }, !names);
+
+  return nameIsArray ? form.getFieldsValue(...namesArray) : form.getFieldValue(names);
+}
+
+export { useWatch };

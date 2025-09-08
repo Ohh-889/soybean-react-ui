@@ -1,5 +1,6 @@
 import Default from './modules/Default';
 import FieldChange from './modules/FieldChange';
+import UseWatch from './modules/UseWatch';
 import Validate from './modules/validate';
 import ValidateWarning from './modules/validateWaring';
 
@@ -13,6 +14,8 @@ const FormPage = () => {
       <Validate />
 
       <ValidateWarning />
+
+      <UseWatch />
     </div>
   );
 };
