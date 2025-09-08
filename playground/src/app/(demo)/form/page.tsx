@@ -1,6 +1,7 @@
 import Default from './modules/Default';
 import FieldChange from './modules/FieldChange';
 import Validate from './modules/validate';
+import ValidateWarning from './modules/validateWaring';
 
 const FormPage = () => {
   return (
@@ -10,6 +11,8 @@ const FormPage = () => {
       <FieldChange />
 
       <Validate />
+
+      <ValidateWarning />
     </div>
   );
 };

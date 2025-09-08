@@ -1,16 +1,16 @@
 'use client';
 /* eslint-disable no-bitwise */
 
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
 import type { AllPaths, PathToDeepType, ShapeFromPaths } from 'skyroc-type-utils';
 
 import type { ChangeMask, SubscribeMaskOptions } from './form-core/event';
-import { ChangeTag, toMask } from './form-core/event';
+import { toMask } from './form-core/event';
 import type { Action, Middleware } from './form-core/middleware';
 import type { FieldEntity } from './form-core/types';
 import type { ValidateMessages } from './form-core/validate';
-import type { Rule } from './form-core/validation';
+import type { Rule, ValidateOptions } from './form-core/validation';
 import type { FormState } from './types';
 import type { Meta } from './types/shared-types';
 
@@ -24,6 +24,7 @@ export interface ValuesOptions<Values = any> {
 export interface StateOptions<Values = any> {
   getField: <T extends AllPaths<Values>>(name: T) => Meta<T, PathToDeepType<Values, T>>;
   getFieldError: (name: AllPaths<Values>) => string[];
+  getFields: (names?: AllPaths<Values>[]) => Meta<AllPaths<Values>, PathToDeepType<Values, AllPaths<Values>>>[];
   getFieldsError: (...name: AllPaths<Values>[]) => Record<AllPaths<Values>, string[]>;
   getFieldsWarning: (...name: AllPaths<Values>[]) => Record<AllPaths<Values>, string[]>;
   getFieldWarning: (name: AllPaths<Values>) => string[];
@@ -37,6 +38,20 @@ export interface StateOptions<Values = any> {
     cb: (value: PathToDeepType<Values, T>, key: T, all: Values, fired: ChangeMask) => void,
     opt?: { includeChildren?: boolean; mask?: ChangeMask }
   ) => () => void;
+  subscribeFields: (
+    names: AllPaths<Values>[],
+    cb: (
+      value: PathToDeepType<Values, AllPaths<Values>>,
+      key: AllPaths<Values>,
+      all: Values,
+      fired: ChangeMask
+    ) => void,
+    opt?: { includeChildren?: boolean; mask?: ChangeMask }
+  ) => () => void;
+}
+
+export interface ValidateFieldsOptions extends ValidateOptions {
+  dirty?: boolean;
 }
 
 export interface OperationOptions<Values = any> {
@@ -44,7 +59,7 @@ export interface OperationOptions<Values = any> {
   submit: () => void;
   use: (mw: Middleware) => void;
   validateField: (name: AllPaths<Values>) => Promise<boolean>;
-  validateFields: (...names: AllPaths<Values>[]) => Promise<boolean>;
+  validateFields: (names?: AllPaths<Values>[], opts?: ValidateFieldsOptions) => Promise<boolean>;
 }
 
 export interface ValidateErrorEntity<Values = any> {
@@ -157,27 +172,78 @@ export const useFieldState = <Values = any>(
   return state;
 };
 
+export const useFieldsState = <Values = any>(
+  form: FormInstance<Values>,
+  names: AllPaths<Values>[],
+  mask: SubscribeMaskOptions = {
+    errors: true,
+    touched: true,
+    validated: true,
+    validating: true,
+    warnings: true
+  }
+) => {
+  const state = form.getFields(names);
+
+  // eslint-disable-next-line react/hook-use-state
+  const [_, forceUpdate] = useState({});
+
+  useEffect(() => {
+    let unregister: () => void;
+    if (!names || names.length === 0) {
+      // 监听所有字段
+      unregister = form.subscribeField(
+        '' as AllPaths<Values>,
+        () => {
+          flushSync(() => {
+            forceUpdate({});
+          });
+        },
+        {
+          includeChildren: true,
+          mask: toMask(mask)
+        }
+      );
+    } else {
+      unregister = form.subscribeFields(
+        names,
+        () => {
+          flushSync(() => {
+            forceUpdate({});
+          });
+        },
+        {
+          mask: toMask(mask)
+        }
+      );
+    }
+
+    // 只监听传入的字段
+    return unregister;
+  }, []);
+
+  return state;
+};
+
 export const useFieldError = <Values = any>(name: AllPaths<Values>) => {
   const state = useFieldState<Values>(name, { errors: true });
 
   return state.errors;
 };
 
-export const useFieldErrors = <Values = any>(form: FormInstance<Values>): Record<AllPaths<Values>, string[]> => {
-  const [errors, setErrors] = useState({});
+export const useFieldErrors = <Values = any>(
+  form: FormInstance<Values>,
+  names: AllPaths<Values>[] = []
+): Record<AllPaths<Values>, string[]> => {
+  const state = useFieldsState<Values>(form, names, { errors: true });
 
-  useEffect(() => {
-    return form.subscribeField(
-      '' as AllPaths<Values>,
-      () => {
-        setErrors(form.getFieldsError());
-      },
-      {
-        includeChildren: true,
-        mask: ChangeTag.Errors
-      }
-    );
-  }, [form]);
+  const errors = state.reduce(
+    (acc, field) => {
+      acc[field.name] = field.errors;
+      return acc;
+    },
+    {} as Record<AllPaths<Values>, string[]>
+  );
 
   return errors as Record<AllPaths<Values>, string[]>;
 };

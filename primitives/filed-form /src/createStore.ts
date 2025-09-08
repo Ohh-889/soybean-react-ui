@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable no-bitwise */
 
@@ -521,7 +522,11 @@ class FormStore {
   // ------------------------------------------------
   // Fields State (errors/touched/validating/warnings, selectors)
   // ------------------------------------------------
-  private getFields = () => {
+  private getFields = (names?: NamePath[]) => {
+    if (names && names.length !== 0) {
+      return names.map(name => this.getField(name));
+    }
+
     return this._fieldEntities.map(entity => this.getField(entity.name));
   };
 
@@ -672,7 +677,7 @@ class FormStore {
       let warns: string[] = [];
 
       try {
-        ({ errors, warns } = await runRulesWithMode(value, rules, opts?.mode || 'parallelAll', this._store));
+        ({ errors, warns } = await runRulesWithMode(value, rules, 'parallelAll', this._store));
       } catch (e: any) {
         // 4) 兜底：规则抛错也要转成错误信息（避免“莫名其妙通过/卡住”）
         errors = [String(e?.message ?? e)];
@@ -714,6 +719,7 @@ class FormStore {
       }
 
       if (mask) this.enqueueNotify([key], mask);
+
       if (needFieldsChange) this.triggerOnFieldsChange([key]);
 
       return errors.length === 0;
@@ -729,7 +735,7 @@ class FormStore {
     });
   };
 
-  async validateFields(names?: NamePath[], opts?: ValidateOptions & { dirty?: boolean }) {
+  validateFields = async (names?: NamePath[], opts?: ValidateOptions & { dirty?: boolean }) => {
     let list: string[];
 
     if (names && names.length > 0) {
@@ -746,7 +752,8 @@ class FormStore {
       list = Array.from(this._dirty);
     } else {
       // 没有传 names → 校验所有字段
-      list = this._fieldEntities.map(e => keyOfName(e.name));
+
+      list = this._fieldEntities.map(e => e.name as string);
     }
 
     if (!list.length) return true;
@@ -764,7 +771,7 @@ class FormStore {
     const results = await Promise.all(list.map(n => this.validateField(n, opts)));
 
     return results.every(Boolean);
-  }
+  };
 
   // ------------------------------------------------
   // Transactions (begin/commit/rollback)
@@ -794,17 +801,17 @@ class FormStore {
     this._txDepth = 0;
   }
 
-  private transaction<T>(fn: () => T): T {
+  private transaction = <T>(fn: () => T): T => {
     this.begin();
     try {
       return fn();
     } finally {
       this.commit();
     }
-  }
+  };
 
   // ===== Array Operation =====
-  private arrayOp(name: NamePath, op: 'insert' | 'move' | 'remove' | 'replace' | 'swap', args: any) {
+  private arrayOp = (name: NamePath, op: 'insert' | 'move' | 'remove' | 'replace' | 'swap', args: any) => {
     const arr = this.getFieldValue(name);
     if (!Array.isArray(arr)) return;
     const next = arr.slice();
@@ -859,7 +866,7 @@ class FormStore {
       default:
         break;
     }
-  }
+  };
 
   // ===== FieldChange =====
   triggerOnFieldsChange = (nameList: NamePath[]) => {
@@ -904,7 +911,7 @@ class FormStore {
     return walk(values, []) ?? {};
   }
 
-  private buildFailedPayload() {
+  private buildFailedPayload = () => {
     const errorMap = Object.fromEntries(this._errors);
     const warningMap = Object.fromEntries(this._warnings);
 
@@ -930,7 +937,8 @@ class FormStore {
       values: this._store,
       warningMap
     };
-  }
+  };
+
   private submit = () => {
     this.validateFields().then(ok => {
       if (ok) this._callbacks.onFinish?.(this._store);
@@ -999,33 +1007,45 @@ class FormStore {
     };
   };
 
+  private subscribeFields = (
+    names: NamePath[],
+    cb: Listener['cb'],
+    opt?: { includeChildren?: boolean; mask?: ChangeMask }
+  ) => {
+    const unsubs = names.map(n => this.subscribeField(n, cb, opt));
+
+    return () => {
+      unsubs.forEach(fn => fn());
+    };
+  };
+
   // --- Private: Actually notify (merge triggers in a single microtask)
 
-  private markPending(key: string, mask: ChangeMask) {
+  private markPending = (key: string, mask: ChangeMask) => {
     if (this._txDepth > 0) {
       this._txPending.set(key, (this._txPending.get(key) ?? 0) | mask);
     } else {
       this._pending.set(key, (this._pending.get(key) ?? 0) | mask);
     }
-  }
+  };
 
-  private enqueueNotify(names?: NamePath[] | string[], mask: ChangeMask = ChangeTag.All) {
+  private enqueueNotify = (names?: NamePath[] | string[], mask: ChangeMask = ChangeTag.All) => {
     if (!names) this.markPending('*', ChangeTag.All);
     else for (const n of names) this.markPending(keyOfName(n), mask);
 
     this.scheduleFlush();
-  }
+  };
 
-  private scheduleFlush() {
+  private scheduleFlush = () => {
     if (this._txDepth > 0) return; // During the transaction, do not flush; wait for commit.
 
     if (!this._flushScheduled) {
       this._flushScheduled = true;
       microtask(() => this.flushNotify());
     }
-  }
+  };
 
-  private flushNotify() {
+  private flushNotify = () => {
     this._flushScheduled = false;
 
     if (this._pending.size === 0) return;
@@ -1059,7 +1079,7 @@ class FormStore {
         fire(prefixKey, aggMask, listeners);
       }
     }
-  }
+  };
 
   getForm = () => {
     return {
@@ -1083,6 +1103,7 @@ class FormStore {
       setInitialValues: this.setInitialValues,
       submit: this.submit,
       subscribeField: this.subscribeField,
+      subscribeFields: this.subscribeFields,
       use: this.use,
       validateField: this.validateField,
       validateFields: this.validateFields
