@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-new */
 /* eslint-disable no-await-in-loop */
 import { isEqual, isNil } from 'skyroc-utils';
 
@@ -46,6 +48,11 @@ export interface Rule {
 }
 
 export type RunMode = 'parallelAll' | 'parallelFirst' | 'serial';
+
+export type ValidateOptions = {
+  mode?: RunMode;
+  trigger?: string | string[];
+};
 
 type Res = { err?: string; warn?: string };
 type Ctx = { rule: Rule; value: any; values: StoreValue };

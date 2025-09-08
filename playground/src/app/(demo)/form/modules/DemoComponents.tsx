@@ -6,6 +6,7 @@ export const DemoInput = memo(
     const { name, ...rest } = props;
 
     const state = useFieldState(name);
+
     const { touched, validated, validating } = state;
 
     return (

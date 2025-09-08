@@ -675,7 +675,6 @@ class FormStore {
         ({ errors, warns } = await runRulesWithMode(value, rules, opts?.mode || 'parallelAll', this._store));
       } catch (e: any) {
         // 4) 兜底：规则抛错也要转成错误信息（避免“莫名其妙通过/卡住”）
-        console.error('e', e);
         errors = [String(e?.message ?? e)];
       }
 
@@ -933,16 +932,10 @@ class FormStore {
     };
   }
   private submit = () => {
-    console.log('submit');
-    this.validateFields()
-      .then(ok => {
-        console.log('ok', ok);
-        if (ok) this._callbacks.onFinish?.(this._store);
-        else this._callbacks.onFinishFailed?.(this.buildFailedPayload());
-      })
-      .catch(err => {
-        console.log('err', err);
-      });
+    this.validateFields().then(ok => {
+      if (ok) this._callbacks.onFinish?.(this._store);
+      else this._callbacks.onFinishFailed?.(this.buildFailedPayload());
+    });
   };
 
   private destroyForm = (clearOnDestroy?: boolean) => {

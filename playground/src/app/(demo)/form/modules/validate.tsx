@@ -1,5 +1,7 @@
 'use client';
 
+/* eslint-disable no-promise-executor-return */
+
 import { useEffect } from 'react';
 import { Button, Card, Form, FormField, useFieldErrors, useForm } from 'soybean-react-ui';
 
@@ -14,11 +16,11 @@ type Inputs = {
 const Validate = () => {
   const [form] = useForm<Inputs>();
 
-  // const errors = useFieldErrors(form);
+  const errors = useFieldErrors(form);
 
-  // useEffect(() => {
-  //   // showToastCode('all Errors', errors);
-  // }, [errors]);
+  useEffect(() => {
+    showToastCode('all Errors', errors);
+  }, [errors]);
 
   return (
     <Card title="Validate Fields">
@@ -28,8 +30,8 @@ const Validate = () => {
         onFinish={values => {
           showToastCode('You submitted the following values success Validate', values);
         }}
-        onFinishFailed={errors => {
-          showToastCode('You failed to submit the form failed Validate', errors);
+        onFinishFailed={errInfo => {
+          showToastCode('You failed to submit the form failed Validate', errInfo);
         }}
       >
         <FormField
@@ -81,7 +83,6 @@ const Validate = () => {
           rules={[
             {
               validator: (_, value, values) => {
-                console.log('value', value);
                 if (value !== values.password) {
                   return 'Password must be the same';
                 }
@@ -104,8 +105,6 @@ const Validate = () => {
             {
               // 异步校验，延迟 1000ms
               validator: async (_, value) => {
-                console.log('start validate username:', value);
-
                 await new Promise(r => setTimeout(r, 1000));
 
                 if (!value) {
@@ -124,6 +123,31 @@ const Validate = () => {
           <DemoInput
             name="username2"
             placeholder="Username2"
+          />
+        </FormField>
+
+        <FormField
+          label="Nickname"
+          name="nickname"
+          rules={[
+            { message: 'Nickname must be at least 3 chars', minLength: 3 },
+            { maxLength: 8, message: 'Nickname must be less than 8 chars' }
+          ]}
+        >
+          <DemoInput
+            name="nickname"
+            placeholder="Nickname"
+          />
+        </FormField>
+
+        <FormField
+          label="Work Email"
+          name="workEmail"
+          rules={[{ message: 'Invalid email format', type: 'email' }]}
+        >
+          <DemoInput
+            name="workEmail"
+            placeholder="Work Email"
           />
         </FormField>
 
@@ -147,6 +171,98 @@ const Validate = () => {
           <DemoInput
             name="email"
             placeholder="Email"
+          />
+        </FormField>
+
+        <FormField
+          label="Role"
+          name="role"
+          rules={[{ enum: ['admin', 'user', 'guest'], message: 'Role must be admin, user, or guest', type: 'enum' }]}
+        >
+          <DemoInput
+            name="role"
+            placeholder="Role"
+          />
+        </FormField>
+
+        <FormField
+          label="Birthday"
+          name="birthday"
+          rules={[
+            { message: 'Date must be after 2000-01-01', min: '2000-01-01', type: 'date' },
+            { max: new Date(), message: 'Date cannot be in the future', type: 'date' }
+          ]}
+        >
+          <DemoInput
+            name="birthday"
+            placeholder="Birthday (YYYY-MM-DD)"
+          />
+        </FormField>
+
+        <FormField
+          label="Website"
+          name="website"
+          rules={[{ message: 'Please enter a valid URL', type: 'url' }]}
+        >
+          <DemoInput
+            name="website"
+            placeholder="https://example.com"
+          />
+        </FormField>
+
+        <FormField
+          label="Nickname2 (warningOnly)"
+          name="nickname2"
+          rules={[
+            {
+              message: 'Nickname2 is too short (but just a warning)',
+              minLength: 4,
+              warningOnly: true
+            }
+          ]}
+        >
+          <DemoInput
+            name="nickname2"
+            placeholder="Nickname2"
+          />
+        </FormField>
+
+        <FormField
+          label="Bio (whitespace)"
+          name="bio"
+          rules={[{ message: 'Bio cannot be empty or whitespace only', required: true, whitespace: true }]}
+        >
+          <DemoInput
+            name="bio"
+            placeholder="Bio"
+          />
+        </FormField>
+
+        <FormField
+          label="Pin Code (len)"
+          name="pin"
+          rules={[
+            {
+              len: 4,
+              message: 'PIN code must be exactly 4 digits',
+              type: 'number'
+            }
+          ]}
+        >
+          <DemoInput
+            name="pin"
+            placeholder="PIN Code"
+          />
+        </FormField>
+
+        <FormField
+          label="Favorite Color"
+          name="favoriteColor"
+          rules={[{ message: 'Please enter a valid hex color (e.g. #FF5733)', type: 'hex' }]}
+        >
+          <DemoInput
+            name="favoriteColor"
+            placeholder="#FF5733"
           />
         </FormField>
 
