@@ -12,7 +12,6 @@ import type { Rule, ValidateOptions } from './form-core/validation';
 import { runRulesWithMode } from './form-core/validation';
 import type { FieldEntity } from './types/field';
 import type { Callbacks, Store, StoreValue } from './types/formStore';
-import NameMap from './utils/NameMap';
 import { get } from './utils/get';
 import { set, unset } from './utils/set';
 import type { NamePath, PathTuple } from './utils/util';
@@ -97,11 +96,6 @@ class FormStore {
 
   // Preserve
   private _preserve = false;
-  /**
-   * Record prev Form unmount fieldEntities which config preserve false.
-   * This need to be refill with initialValues instead of store value.
-   */
-  private _prevWithoutPreserves: NameMap<boolean> | null = null;
 
   constructor() {
     this.rebindMiddlewares();
@@ -111,8 +105,7 @@ class FormStore {
   // Config & Callbacks
   // ------------------------------------------------
   private isMergedPreserve = (fieldPreserve?: boolean) => {
-    const mergedPreserve = fieldPreserve || this._preserve;
-    return mergedPreserve;
+    return fieldPreserve ?? this._preserve;
   };
 
   private setCallbacks = (c: Callbacks) => {
@@ -202,18 +195,7 @@ class FormStore {
   private setInitialValues = (values: Store) => {
     this._initial = values;
 
-    this.updateStore(values);
-
-    let nextStore = assign(this._initial, this._store);
-
-    // We will take consider prev form unmount fields.
-    // When the field is not `preserve`, we need fill this with initialValues instead of store.
-    // eslint-disable-next-line array-callback-return
-    this._prevWithoutPreserves?.map(({ key: namePath }) => {
-      nextStore = set(nextStore, namePath, get(this._initial, namePath));
-    });
-
-    this._prevWithoutPreserves = null;
+    const nextStore = assign(this._initial, this._store);
 
     this.updateStore(nextStore);
   };
@@ -970,17 +952,6 @@ class FormStore {
     if (clearOnDestroy) {
       // destroy form reset store
       this.updateStore({});
-    } else {
-      // Fill preserve fields
-      const prevWithoutPreserves = new NameMap<boolean>();
-
-      this._fieldEntities.forEach(entity => {
-        if (!this.isMergedPreserve(entity.preserve)) {
-          prevWithoutPreserves.set(entity.name as PathTuple, true);
-        }
-      });
-
-      this._prevWithoutPreserves = prevWithoutPreserves;
     }
 
     this._touched.clear();
