@@ -14,7 +14,7 @@ import type { FieldEntity } from './types/field';
 import type { Callbacks, Store, StoreValue } from './types/formStore';
 import NameMap from './utils/NameMap';
 import { get } from './utils/get';
-import { set } from './utils/set';
+import { set, unset } from './utils/set';
 import type { NamePath, PathTuple } from './utils/util';
 import { anyOn, isOn, isUnderPrefix, keyOfName, microtask } from './utils/util';
 
@@ -112,7 +112,7 @@ class FormStore {
   // ------------------------------------------------
   private isMergedPreserve = (fieldPreserve?: boolean) => {
     const mergedPreserve = fieldPreserve || this._preserve;
-    return mergedPreserve || true;
+    return mergedPreserve;
   };
 
   private setCallbacks = (c: Callbacks) => {
@@ -287,17 +287,22 @@ class FormStore {
   private registerField = (entity: FieldEntity) => {
     const name = keyOfName(entity.name);
 
-    this._fieldEntities.push({
-      ...entity,
-      name
-    });
+    const preserve = this.isMergedPreserve(entity.preserve);
 
-    const initialValue = this.getInitialValue(name);
+    const oldEntity = this._fieldEntities.find(e => e.name === name);
 
-    if (isNil(initialValue)) {
-      this.updateStore(set(this._store, name, entity.initialValue));
+    if (!oldEntity) {
+      this._fieldEntities.push({
+        ...entity,
+        name
+      });
 
-      this._initial = set(this._initial, name, entity.initialValue);
+      const initialValue = this.getInitialValue(name);
+
+      if (isNil(initialValue)) {
+        this.updateStore(set(this._store, name, entity.initialValue));
+        this._initial = set(this._initial, name, entity.initialValue);
+      }
     }
 
     const listeners = this._exactListeners.get(name);
@@ -309,9 +314,19 @@ class FormStore {
     }
 
     return () => {
-      this._fieldEntities = this._fieldEntities.filter(e => e.name !== name);
+      if (!preserve) {
+        this._fieldEntities = this._fieldEntities.filter(e => e.name !== name);
+        this._initial = unset(this._initial, name);
+        this._store = unset(this._store, name);
+      }
       this._exactListeners.delete(name);
       this._prefixListeners.delete(name);
+      this._errors.delete(name);
+      this._warnings.delete(name);
+      this._touched.delete(name);
+      this._dirty.delete(name);
+      this._validating.delete(name);
+      this._validated.delete(name);
     };
   };
 

@@ -46,13 +46,11 @@ function Field<Values = any>(props: InternalFieldProps<Values>) {
     validateTrigger: fieldValidateTrigger
   } = fieldContext as unknown as InternalFormInstance<Values>;
 
-  const { dispatch, getInitialValue, registerField } = getInternalHooks();
+  const { dispatch, registerField } = getInternalHooks();
 
   const isControlled = controlMode === 'controlled';
 
   const mergedValidateTrigger = validateTrigger || fieldValidateTrigger;
-
-  const initiValue = getInitialValue(name) || initialValue;
 
   const validateTriggerList: string[] = toArray(mergedValidateTrigger);
 
@@ -72,11 +70,9 @@ function Field<Values = any>(props: InternalFieldProps<Values>) {
       {} as Record<string, (...args: any[]) => void>
     );
 
-  const value = getFieldValue(name);
+  const value = getFieldValue(name) || initialValue;
 
-  const valueProps = isControlled
-    ? { [valuePropName]: value }
-    : { [`default${capitalize(valuePropName)}`]: initiValue };
+  const valueProps = isControlled ? { [valuePropName]: value } : { [`default${capitalize(valuePropName)}`]: value };
 
   const controlledProps = omitUndefined({
     [trigger]: name

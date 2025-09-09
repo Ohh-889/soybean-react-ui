@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Button, ButtonGroup, Card, Form, FormField, Input, useForm } from 'soybean-react-ui';
+import { Button, Card, Form, FormField, Input, useForm } from 'soybean-react-ui';
 
 type Inputs = {
   info: { city: string; company: string };

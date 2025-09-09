@@ -49,16 +49,23 @@ type Prev = [never, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ...0[]];
  * type P1 = AllPaths<FormValues>;
  * // => "age" | "code" | "phone"|"info" | "info.age" | "info.city" | "info.name" | "info.pl" | "info.pl.age" | `info2.${number}.age` | `info2.${number}.city` | `info2.${number}.name`
  */
-export type AllPaths<T, Index extends number = number, P extends string = '', Depth extends number = 6> =
-  [Depth] extends [never] ? never :
-  T extends Primitive ? (P extends '' ? never : P) :
-  T extends readonly (infer U)[]
-    ? (P extends '' ? never : P) | AllPaths<U, Index, Join<P, `${Index}`>, Prev[Depth]>
-    : T extends object
-      ? (P extends '' ? never : P) | {
-          [K in Extract<keyof T, string>]: AllPaths<T[K], Index, Join<P, K>, Prev[Depth]>
-        }[Extract<keyof T, string>]
-      : never;
+export type AllPaths<T, Index extends number = number, P extends string = '', Depth extends number = 6> = [
+  Depth
+] extends [never]
+  ? never
+  : T extends Primitive
+    ? P extends ''
+      ? never
+      : P
+    : T extends readonly (infer U)[]
+      ? (P extends '' ? never : P) | AllPaths<U, Index, Join<P, `${Index}`>, Prev[Depth]>
+      : T extends object
+        ?
+            | (P extends '' ? never : P)
+            | {
+                [K in Extract<keyof T, string>]: AllPaths<T[K], Index, Join<P, K>, Prev[Depth]>;
+              }[Extract<keyof T, string>]
+        : never;
 
 type OptionalIfObject<T> = T extends object ? (T extends readonly any[] ? T : { [K in keyof T]?: T[K] }) : T;
 
@@ -140,9 +147,8 @@ type BuildShape<T, P extends string> = P extends `${infer K}.${infer R}`
     : never
   : P extends `${infer K}`
     ? K extends keyof T
-      ? T[K] extends readonly (infer U)[] // ← 命中数组本身
-        ? // 元素若是对象 => 深可选对象数组；若是原始类型 => 原样元素数组
-          Wrap<Extract<K, string>, Array<U extends object ? DeepOptional<U> : U>>
+      ? T[K] extends readonly (infer U)[]
+        ? Wrap<Extract<K, string>, Array<U extends object ? DeepOptional<U> : U>>
         : T[K] extends object
           ? Wrap<Extract<K, string>, DeepOptional<T[K]>>
           : Wrap<Extract<K, string>, T[K]>
@@ -167,20 +173,25 @@ export type ShapeFromPaths<T, Ps extends readonly string[]> = Ps extends []
   ? T
   : MergeUnion<Ps[number] extends infer P ? (P extends string ? BuildShape<T, P> : never) : never>;
 
-type PathsShape<T, Index extends number = number, P extends string = '', Depth extends number = 6> =
-  [Depth] extends [never] ? never :
-  T extends Primitive
-    ? (P extends '' ? {} : { [K in P]: true })
+type PathsShape<T, Index extends number = number, P extends string = '', Depth extends number = 6> = [Depth] extends [
+  never
+]
+  ? never
+  : T extends Primitive
+    ? P extends ''
+      ? {}
+      : { [K in P]: true }
     : T extends readonly (infer U)[]
-      ? (P extends '' ? {} : { [K in P]: true }) &
-        PathsShape<U, Index, Join<P, `${Index}`>, Prev[Depth]>
+      ? (P extends '' ? {} : { [K in P]: true }) & PathsShape<U, Index, Join<P, `${Index}`>, Prev[Depth]>
       : T extends object
         ? (P extends '' ? {} : { [K in P]: true }) &
-          MergeUnion<{ [K in Extract<keyof T, string>]: PathsShape<T[K], Index, Join<P, K>, Prev[Depth]> }[Extract<keyof T, string>]>
+            MergeUnion<
+              { [K in Extract<keyof T, string>]: PathsShape<T[K], Index, Join<P, K>, Prev[Depth]> }[Extract<
+                keyof T,
+                string
+              >]
+            >
         : {};
-
 
 export type AllPathsShape<T> = MergeUnion<PathsShape<T>>;
 export type AllPathsKeys<T> = keyof AllPathsShape<T> & string;
-
-
