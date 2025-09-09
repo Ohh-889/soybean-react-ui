@@ -12,7 +12,11 @@ export type Noop = () => void;
  *   d: (x: number) => string;
  *   e?: () => void;     // optional also can be recognized
  * }
- * type FooFnTypes  = FunctionUnion<Foo>;  // (() => void) | ((x:number)=>string) | (()=>void)
+ * type FooFnTypes = {
+ *   c: () => void;
+ *   d: (x: number) => string;
+ *   e?: (() => void) | undefined;
+   }
  */
 export type OnlyFunctions<T> = {
   [K in keyof T as NonNullable<T[K]> extends Fn ? K : never]: T[K];
@@ -26,7 +30,7 @@ export type OnlyFunctions<T> = {
  *   b?: string;
  *   c(): void;
  *   d: (x: number) => string;
- *   e?: () => void;     // 可选也能识别
+ *   e?: () => void;
  * }
  * type FooFnKeys  = FunctionKeys<Foo>;  // 'c' | 'd' | 'e'
  */
@@ -42,7 +46,7 @@ export type FunctionKeys<T> = {
  *   b?: string;
  *   c(): void;
  *   d: (x: number) => string;
- *   e?: () => void;     // 可选也能识别
+ *   e?: () => void;
  * }
  * type FooFnTypes  = FunctionUnion<Foo>;  // (() => void) | ((x:number)=>string) | (()=>void)
  */
