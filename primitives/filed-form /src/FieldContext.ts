@@ -236,7 +236,8 @@ export const useFieldErrors = <Values = any>(
 
 function useWatch<Values, T extends AllPathsKeys<Values>>(
   form: FormInstance<Values>,
-  name: T
+  name: T,
+  includeChildren?: boolean
 ): PathToDeepType<Values, T>;
 
 function useWatch<Values, const T extends AllPaths<Values>[]>(
@@ -248,12 +249,16 @@ function useWatch<Values = any, const T extends AllPaths<Values>[] = AllPaths<Va
   form: FormInstance<Values>
 ): ShapeFromPaths<Values, T>;
 
-function useWatch<Values = any>(form: FormInstance<Values>, names?: AllPaths<Values>[] | AllPaths<Values>) {
+function useWatch<Values = any>(
+  form: FormInstance<Values>,
+  names?: AllPaths<Values>[] | AllPaths<Values>,
+  includeChildren?: boolean
+) {
   const namesArray = names ? toArray(names) : [];
 
   const nameIsArray = isArray(names) || !names;
 
-  useFieldsState<Values>(form, namesArray, { value: true }, !names);
+  useFieldsState<Values>(form, namesArray, { value: true }, includeChildren || !names);
 
   return nameIsArray ? form.getFieldsValue(...namesArray) : form.getFieldValue(names);
 }

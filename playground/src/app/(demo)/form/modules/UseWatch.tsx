@@ -22,7 +22,7 @@ export default function WatchDemo() {
   const { age, password } = useWatch(form, ['age', 'password']);
 
   // 3) Watch nested fields
-  const info = useWatch(form, 'info');
+  const info = useWatch(form, 'info', true);
 
   console.log('info', info);
 
