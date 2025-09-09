@@ -3,7 +3,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
-import type { AllPaths, AllPathsKeys, PathToDeepType, ShapeFromPaths } from 'skyroc-type-utils';
+import type { AllPaths, AllPathsKeys, DeepPartial, PathToDeepType, ShapeFromPaths } from 'skyroc-type-utils';
 import { isArray, toArray } from 'skyroc-utils';
 
 import type { ChangeMask, SubscribeMaskOptions } from './form-core/event';
@@ -90,7 +90,7 @@ export interface RegisterCallbackOptions<Values = any> {
 export interface InternalCallbacks<Values = any> {
   destroyForm: (clearOnDestroy?: boolean) => void;
   setCallbacks: (callbacks: RegisterCallbackOptions<Values>) => void;
-  setInitialValues: (values: Partial<Values>) => void;
+  setInitialValues: (values: DeepPartial<Values>) => void;
   setPreserve: (preserve: boolean) => void;
   setValidateMessages: (messages: ValidateMessages) => void;
 }

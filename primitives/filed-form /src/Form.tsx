@@ -8,12 +8,13 @@ import type { FormInstance, InternalFormContext, InternalFormInstance, RegisterC
 import { FieldContextProvider } from './FieldContext';
 import type { ValidateMessages } from './form-core/validate';
 import useForm from './useForm';
+import { DeepPartial } from 'skyroc-type-utils';
 
 interface FormBaseProps<Values = any> extends RegisterCallbackOptions<Values> {
   children?: React.ReactNode;
   clearOnDestroy?: boolean;
   form?: FormInstance<Values>;
-  initialValues?: Partial<Values>;
+  initialValues?: DeepPartial<Values>;
   preserve?: boolean;
   validateMessages?: ValidateMessages;
   validateTrigger?: string | string[];

@@ -3,10 +3,11 @@
 
 import { Slot } from '@radix-ui/react-slot';
 import { useEffect, useId, useRef, useState } from 'react';
-import { capitalize, getEventValue, isEqual, omitUndefined, toArray } from 'skyroc-utils';
+import { capitalize, getEventValue, isEqual, isNil, omitUndefined, toArray } from 'skyroc-utils';
 
 import type { InternalFormInstance } from './FieldContext';
 import { useFieldContext } from './FieldContext';
+import { ChangeTag } from './form-core/event';
 import type { InternalFieldProps } from './types/field';
 import type { StoreValue } from './types/formStore';
 
@@ -120,8 +121,8 @@ function Field<Values = any>(props: InternalFieldProps<Values>) {
 
   useEffect(() => {
     const unregister = registerField({
-      changeValue: newValue => {
-        if (!normalizedChangedRef.current) return;
+      changeValue: (newValue, __, ___, mask) => {
+        if (!normalizedChangedRef.current && mask === ChangeTag.Value) return;
 
         normalizedChangedRef.current = false;
 
@@ -138,7 +139,7 @@ function Field<Values = any>(props: InternalFieldProps<Values>) {
             if (unControlledValueChange) {
               unControlledValueChange(cref.current, newValue);
             } else {
-              cref.current.value = newValue as any;
+              cref.current.value = isNil(newValue) ? '' : (newValue as any);
             }
           }
         }

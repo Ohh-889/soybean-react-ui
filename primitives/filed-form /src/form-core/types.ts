@@ -1,6 +1,7 @@
 // src/form-core/types.ts
 
 import type { NamePath } from '../utils/util';
+import { ChangeMask } from './event';
 
 export type Store = Record<string, any>;
 export type StoreValue = any;
@@ -23,7 +24,7 @@ export interface Rule {
 }
 
 export interface FieldEntity {
-  changeValue: (value: any, isShouldUpdate: boolean) => void;
+  changeValue: (value: StoreValue, key: string, all: Store, fired: ChangeMask) => void;
   initialValue?: any;
   name: NamePath;
   preserve?: boolean;

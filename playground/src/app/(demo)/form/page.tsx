@@ -1,5 +1,6 @@
 import Default from './modules/Default';
 import FieldChange from './modules/FieldChange';
+import Reset from './modules/Reset';
 import UseWatch from './modules/UseWatch';
 import Validate from './modules/validate';
 import ValidateWarning from './modules/validateWaring';
@@ -16,6 +17,8 @@ const FormPage = () => {
       <ValidateWarning />
 
       <UseWatch />
+
+      <Reset />
     </div>
   );
 };

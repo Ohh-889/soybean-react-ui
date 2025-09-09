@@ -254,16 +254,18 @@ class FormStore {
       this._errors.clear();
       this._warnings.clear();
       this._validating.clear();
-      this.enqueueNotify();
+      this.enqueueNotify([], ChangeTag.Reset | ChangeTag.Value);
       return;
     }
 
     const keys: string[] = [];
+
+    let resetValue: Store = {};
+
     for (const n of names) {
       const key = keyOfName(n);
 
-      const initV = get(this._initial, key);
-      this.updateStore(set(this._store, key, initV));
+      resetValue = set(resetValue, key, get(this._initial, key));
 
       this._touched.delete(key);
       this._dirty.delete(key);
@@ -272,7 +274,10 @@ class FormStore {
       this._validating.delete(key);
       keys.push(key);
     }
-    this.enqueueNotify(keys);
+
+    this.updateStore(resetValue);
+
+    this.enqueueNotify(keys, ChangeTag.Reset | ChangeTag.Value);
   };
 
   // ------------------------------------------------
@@ -1030,7 +1035,7 @@ class FormStore {
   };
 
   private enqueueNotify = (names?: NamePath[] | string[], mask: ChangeMask = ChangeTag.All) => {
-    if (!names) this.markPending('*', ChangeTag.All);
+    if (!names || names.length === 0) this.markPending('*', mask);
     else for (const n of names) this.markPending(keyOfName(n), mask);
 
     this.scheduleFlush();
