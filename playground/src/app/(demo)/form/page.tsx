@@ -1,3 +1,4 @@
+import ClearDestroy from './modules/ClearDestroy';
 import Default from './modules/Default';
 import FieldChange from './modules/FieldChange';
 import Preserve from './modules/Preserve';
@@ -22,6 +23,8 @@ const FormPage = () => {
       <Reset />
 
       <Preserve />
+
+      <ClearDestroy />
     </div>
   );
 };
