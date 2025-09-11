@@ -1,6 +1,7 @@
 import ClearDestroy from './modules/ClearDestroy';
 import Default from './modules/Default';
 import FieldChange from './modules/FieldChange';
+import List from './modules/List';
 import Preserve from './modules/Preserve';
 import Reset from './modules/Reset';
 import UseWatch from './modules/UseWatch';
@@ -11,6 +12,8 @@ const FormPage = () => {
   return (
     <div className="flex-c gap-4">
       <Default />
+
+      <List />
 
       <FieldChange />
 
