@@ -72,7 +72,7 @@ type OptionalIfObject<T> = T extends object ? (T extends readonly any[] ? T : { 
 type DeepOptionalIfObject<T> = T extends object
   ? T extends readonly any[]
     ? T
-    : { [K in keyof T]?: DeepOptionalIfObject<T[K]> }
+    : { [K in keyof T]: DeepOptionalIfObject<T[K]> }
   : T;
 
 type PathValue<T, P extends string> = P extends `${infer K}.${infer R}`
