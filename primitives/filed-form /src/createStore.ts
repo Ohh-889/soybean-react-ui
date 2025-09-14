@@ -6,7 +6,8 @@ import { assign, isArray, isEqual, isNil, toArray } from 'skyroc-utils';
 
 import { DepGraph } from './form-core/dependencies';
 import { type ChangeMask, ChangeTag } from './form-core/event';
-import { type Action, type Middleware, compose } from './form-core/middleware';
+import type { Action, Middleware, ValidateFieldsOptions } from './form-core/middleware';
+import { compose } from './form-core/middleware';
 import type { ValidateMessages } from './form-core/types';
 import type { Rule, ValidateOptions } from './form-core/validation';
 import { runRulesWithMode } from './form-core/validation';
@@ -140,16 +141,19 @@ class FormStore {
   private baseDispatch = (a: Action) => {
     switch (a.type) {
       case 'updateValue':
-        this.updateValue(a.name, a.value);
+        this.updateValue(a.name, a.value, { validate: a.validate });
         break;
       case 'setFieldsValue':
-        this.setFieldsValue(a.values);
+        this.setFieldsValue(a.values, a.validate);
         break;
       case 'reset':
         this.resetFields(...(a.names || []));
         break;
       case 'validateField':
         this.validateField(a.name, a.opts);
+        break;
+      case 'validateFields':
+        this.validateFields(a.name, a.opts);
         break;
       case 'setRules':
         this.setFieldRules(a.name, a.rules);
@@ -429,12 +433,12 @@ class FormStore {
     if (names.length === 0) return this._store;
 
     return names.reduce((acc, n) => {
-      acc[keyOfName(n)] = get(this._store, n);
+      acc[keyOfName(n)] = get(this._store, keyOfName(n));
       return acc;
     }, {} as Store);
   };
 
-  private setFieldsValue = (values: Store) => {
+  private setFieldsValue = (values: Store, validate = false) => {
     if (!values) return;
     // Merge & record which keys have changed
     this.transaction(() => {
@@ -477,14 +481,22 @@ class FormStore {
       const affected2 = this.collectDependents(changedKeys); // changed 是 JSON key 列表
 
       this.recomputeTargets(affected2);
+
+      if (validate) {
+        this.dispatch({ name: changedKeys, type: 'validateFields' });
+      }
     });
   };
 
-  private setFieldValue = (name: NamePath, value: StoreValue) => {
-    this.dispatch({ name, type: 'updateValue', value });
+  private setFieldValue = (name: NamePath, value: StoreValue, validate = false) => {
+    this.dispatch({ name, type: 'updateValue', validate, value });
   };
 
-  private updateValue = (name: NamePath, value: StoreValue, { markTouched = true } = {}) => {
+  private updateValue = (
+    name: NamePath,
+    value: StoreValue,
+    { markTouched = true, validate = false }: { markTouched?: boolean; validate?: boolean } = {}
+  ) => {
     const key = keyOfName(name);
 
     const before = get(this._store, key);
@@ -519,6 +531,10 @@ class FormStore {
     const affected = this.collectDependents([key]);
 
     this.recomputeTargets(affected);
+
+    if (validate) {
+      this.dispatch({ name, type: 'validateField' });
+    }
   };
 
   // ------------------------------------------------
@@ -737,7 +753,7 @@ class FormStore {
     });
   };
 
-  validateFields = async (names?: NamePath[], opts?: ValidateOptions & { dirty?: boolean }) => {
+  validateFields = async (names?: NamePath[], opts?: ValidateFieldsOptions) => {
     let list: string[];
 
     if (names && names.length > 0) {
@@ -1089,15 +1105,15 @@ class FormStore {
       isFieldTouched: this.isFieldTouched,
       isFieldValidating: this.isFieldValidating,
       resetFields: this.resetFields,
-      setFieldsValue: this.setFieldsValue,
+      setFieldsValue: (values: Store, validate = false) => this.dispatch({ type: 'setFieldsValue', validate, values }),
       setFieldValue: this.setFieldValue,
-      setInitialValues: this.setInitialValues,
       submit: this.submit,
       subscribeField: this.subscribeField,
       subscribeFields: this.subscribeFields,
       use: this.use,
-      validateField: this.validateField,
-      validateFields: this.validateFields
+      validateField: (name: NamePath, opts?: ValidateOptions) => this.dispatch({ name, opts, type: 'validateField' }),
+      validateFields: (names?: NamePath[], opts?: ValidateFieldsOptions) =>
+        this.dispatch({ name: names, opts, type: 'validateFields' })
     };
   };
 

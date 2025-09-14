@@ -16,9 +16,9 @@ import type { FormState } from './types';
 import type { Meta } from './types/shared-types';
 
 export interface ValuesOptions<Values = any> {
-  getFieldsValue: <K extends AllPaths<Values, number>[]>(...name: K) => ShapeFromPaths<Values, K>;
+  getFieldsValue: <K extends AllPaths<Values, number>[]>(name?: K) => ShapeFromPaths<Values, K>;
   getFieldValue: <T extends AllPaths<Values>>(name: T) => PathToDeepType<Values, T>;
-  setFieldsValue: (values: Partial<Values>) => void;
+  setFieldsValue: (values: DeepPartial<Values>) => void;
   setFieldValue: <T extends AllPaths<Values>>(name: T, value: PathToDeepType<Values, T>) => void;
 }
 

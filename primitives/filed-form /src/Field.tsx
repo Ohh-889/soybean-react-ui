@@ -88,7 +88,7 @@ function Field<Values = any>(props: InternalFieldProps<Values>) {
           }
 
           if (normalize) {
-            const norm = normalize(newValue, oldValue, getFieldsValue());
+            const norm = normalize(newValue, oldValue, getFieldsValue() as Values);
 
             if (!isEqual(norm, newValue)) {
               newValue = norm;

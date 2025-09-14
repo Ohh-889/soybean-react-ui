@@ -3,15 +3,20 @@ import type { NamePath } from '../utils/util';
 
 import type { Rule, ValidateOptions } from './validation';
 
+export interface ValidateFieldsOptions extends ValidateOptions {
+  dirty?: boolean;
+}
+
 export type Action =
-  | { name: NamePath; type: 'updateValue'; value: StoreValue }
-  | { type: 'setFieldsValue'; values: Store }
+  | { name: NamePath; type: 'updateValue'; value: StoreValue,validate?: boolean }
+  | { type: 'setFieldsValue'; values: Store,validate?: boolean }
   | { names?: NonNullable<NamePath>[]; type: 'reset' }
   | {
       name: NamePath;
       opts?: ValidateOptions;
       type: 'validateField';
-    }
+  }
+  | { type: 'validateFields'; name?: NamePath[];opts?: ValidateFieldsOptions}
   | { name: NamePath; rules?: Rule[]; type: 'setRules' }
   | { args: any; name: NamePath; op: 'insert' | 'move' | 'remove' | 'replace' | 'swap'; type: 'arrayOp' }
   | { entries: Array<[string, string[]]>; type: 'setExternalErrors' };
