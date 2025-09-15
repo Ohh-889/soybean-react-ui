@@ -10,4 +10,6 @@ export { default as List } from './List';
 
 export type { InternalFieldProps } from './types/field';
 
+export type { FormInstance } from './FieldContext';
+
 export { default as useForm } from './useForm';

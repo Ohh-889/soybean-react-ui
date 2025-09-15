@@ -118,3 +118,31 @@ export const isUnderPrefix = (key: string, prefix: string) => {
   if (key === prefix) return true; // 自身节点
   return key.startsWith(`${prefix}.`); // 子节点（点分隔）
 };
+
+export function collectDeepKeys(obj: any, prefix: string = ''): string[] {
+  if (obj === null || obj === undefined) {
+    // 叶子节点（值是 null/undefined）
+    return [prefix];
+  }
+
+  if (typeof obj !== 'object' || obj instanceof Date) {
+    // 基础值（string/number/boolean/function/Date...）
+    return [prefix];
+  }
+
+  // 对象/数组：即使值是 undefined/null，也要保留路径
+  const keys: string[] = [];
+
+  // 如果是空对象/数组，也要把自己 push 出来
+  if (Object.keys(obj).length === 0) {
+    keys.push(prefix);
+    return keys;
+  }
+
+  for (const k of Object.keys(obj)) {
+    const path = prefix ? `${prefix}.${k}` : k;
+    keys.push(...collectDeepKeys(obj[k], path));
+  }
+
+  return keys;
+}
