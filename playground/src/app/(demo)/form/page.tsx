@@ -4,6 +4,7 @@ import FieldChange from './modules/FieldChange';
 import List from './modules/List';
 import Preserve from './modules/Preserve';
 import Reset from './modules/Reset';
+import UseForm from './modules/UseForm';
 import UseWatch from './modules/UseWatch';
 import Validate from './modules/validate';
 import ValidateWarning from './modules/validateWaring';
@@ -14,6 +15,8 @@ const FormPage = () => {
       <Default />
 
       <List />
+
+      <UseForm />
 
       <FieldChange />
 

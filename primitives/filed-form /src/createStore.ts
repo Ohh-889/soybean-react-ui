@@ -16,7 +16,7 @@ import type { Callbacks, Store, StoreValue } from './types/formStore';
 import { get } from './utils/get';
 import { set, unset } from './utils/set';
 import type { NamePath, PathTuple } from './utils/util';
-import { anyOn, isOn, isUnderPrefix, keyOfName, microtask } from './utils/util';
+import { anyOn, collectDeepKeys, isOn, isUnderPrefix, keyOfName, microtask } from './utils/util';
 
 type Listener = {
   cb: (value: StoreValue, key: string, all: Store, fired: ChangeMask) => void;
@@ -147,7 +147,7 @@ class FormStore {
         this.setFieldsValue(a.values, a.validate);
         break;
       case 'reset':
-        this.resetFields(...(a.names || []));
+        this.resetFields(a.names || []);
         break;
       case 'validateField':
         this.validateField(a.name, a.opts);
@@ -232,38 +232,53 @@ class FormStore {
     return get(this._initial, keyOfName(name));
   };
 
-  private resetFields = (...names: NonNullable<NamePath>[]) => {
+  private resetFields = (names: NonNullable<NamePath>[]) => {
+    const masks =
+      ChangeTag.Reset | ChangeTag.Value | ChangeTag.Touched | ChangeTag.Dirty | ChangeTag.Errors | ChangeTag.Warnings;
     if (names.length === 0) {
       this.updateStore(this._initial);
+
+      // 清空状态
       this._touched.clear();
       this._dirty.clear();
       this._errors.clear();
       this._warnings.clear();
       this._validating.clear();
-      this.enqueueNotify([], ChangeTag.Reset | ChangeTag.Value);
+
+      this.enqueueNotify([], masks);
       return;
     }
 
     const keys: string[] = [];
-
     let resetValue: Store = {};
 
     for (const n of names) {
       const key = keyOfName(n);
+      const initialValue = get(this._initial, key);
 
-      resetValue = set(resetValue, key, get(this._initial, key));
+      const childKeys = collectDeepKeys(initialValue, key);
 
-      this._touched.delete(key);
-      this._dirty.delete(key);
-      this._errors.delete(key);
-      this._warnings.delete(key);
-      this._validating.delete(key);
-      keys.push(key);
+      // 父字段 + 子字段一起收集
+      const allKeys = [key, ...childKeys];
+
+      for (const subKey of allKeys) {
+        // 重置状态
+        this._touched.delete(subKey);
+        this._dirty.delete(subKey);
+        this._errors.delete(subKey);
+        this._warnings.delete(subKey);
+        this._validating.delete(subKey);
+
+        keys.push(subKey);
+      }
+
+      // 更新父字段值（collectDeepKeys 已经会展开子字段）
+      resetValue = set(resetValue, key, initialValue);
     }
 
     this.updateStore(resetValue);
 
-    this.enqueueNotify(keys, ChangeTag.Reset | ChangeTag.Value);
+    this.enqueueNotify(keys, masks);
   };
 
   // ------------------------------------------------
@@ -429,8 +444,8 @@ class FormStore {
   // ------------------------------------------------
   private getFieldValue = (name: NamePath) => get(this._store, name);
 
-  private getFieldsValue = (...names: NamePath[]) => {
-    if (names.length === 0) return this._store;
+  private getFieldsValue = (names: NamePath[]) => {
+    if (!names || names.length === 0) return this._store;
 
     return names.reduce((acc, n) => {
       acc[keyOfName(n)] = get(this._store, keyOfName(n));
@@ -978,8 +993,8 @@ class FormStore {
     this._exactListeners.clear();
     this._prefixListeners.clear();
     this._pending.clear();
-    this._txPending.clear();
-    this._txDepth = 0;
+
+    this.rollback();
   };
 
   // ===== Batch processing notification =====
@@ -1104,12 +1119,10 @@ class FormStore {
       isFieldsValidating: this.isFieldsValidating,
       isFieldTouched: this.isFieldTouched,
       isFieldValidating: this.isFieldValidating,
-      resetFields: this.resetFields,
+      resetFields: (names: NonNullable<NamePath>[] = []) => this.dispatch({ names, type: 'reset' }),
       setFieldsValue: (values: Store, validate = false) => this.dispatch({ type: 'setFieldsValue', validate, values }),
       setFieldValue: this.setFieldValue,
       submit: this.submit,
-      subscribeField: this.subscribeField,
-      subscribeFields: this.subscribeFields,
       use: this.use,
       validateField: (name: NamePath, opts?: ValidateOptions) => this.dispatch({ name, opts, type: 'validateField' }),
       validateFields: (names?: NamePath[], opts?: ValidateFieldsOptions) =>
@@ -1121,13 +1134,14 @@ class FormStore {
     return {
       destroyForm: this.destroyForm,
       dispatch: this.dispatch,
-      getFields: this.getFields,
       getInitialValue: this.getInitialValue,
       registerField: this.registerField,
       setCallbacks: this.setCallbacks,
       setInitialValues: this.setInitialValues,
       setPreserve: this.setPreserve,
-      setValidateMessages: this.setValidateMessages
+      setValidateMessages: this.setValidateMessages,
+      subscribeField: this.subscribeField,
+      subscribeFields: this.subscribeFields
     };
   };
 }

@@ -8,15 +8,15 @@ export interface ValidateFieldsOptions extends ValidateOptions {
 }
 
 export type Action =
-  | { name: NamePath; type: 'updateValue'; value: StoreValue,validate?: boolean }
-  | { type: 'setFieldsValue'; values: Store,validate?: boolean }
+  | { name: NamePath; type: 'updateValue'; validate?: boolean; value: StoreValue }
+  | { type: 'setFieldsValue'; validate?: boolean; values: Store }
   | { names?: NonNullable<NamePath>[]; type: 'reset' }
   | {
       name: NamePath;
       opts?: ValidateOptions;
       type: 'validateField';
-  }
-  | { type: 'validateFields'; name?: NamePath[];opts?: ValidateFieldsOptions}
+    }
+  | { name?: NamePath[]; opts?: ValidateFieldsOptions; type: 'validateFields' }
   | { name: NamePath; rules?: Rule[]; type: 'setRules' }
   | { args: any; name: NamePath; op: 'insert' | 'move' | 'remove' | 'replace' | 'swap'; type: 'arrayOp' }
   | { entries: Array<[string, string[]]>; type: 'setExternalErrors' };
