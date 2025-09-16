@@ -33,6 +33,32 @@ const matchTrigger = (rule: Rule, trig?: string | string[]) => {
   return trigList.some(t => list.includes(t));
 };
 
+function getValueByNames<T>(source: Map<string, T>, names?: NamePath[]): T | Record<string, T> | undefined {
+  if (!names || names.length === 0) {
+    return Object.fromEntries(source) as Record<string, T>;
+  }
+
+  if (names.length === 1) {
+    return source.get(keyOfName(names[0]));
+  }
+
+  const out: Record<string, T> = {};
+  for (const n of names) {
+    const k = keyOfName(n);
+    const v = source.get(k);
+    if (v !== undefined) out[k] = v;
+  }
+  return out;
+}
+
+function getFlag(bucket: Set<string>, names?: NamePath[]) {
+  if (!names || names.length === 0) {
+    return bucket.size > 0;
+  }
+
+  return anyOn(bucket, names);
+}
+
 class FormStore {
   // ------------------------------------------------
   // Fields (State & registries)
@@ -215,18 +241,6 @@ class FormStore {
       warnings: Object.fromEntries(this._warnings)
     };
   }
-
-  private getInitialValues = (...namePath: NonNullable<NamePath>[]) => {
-    if (namePath.length === 0) {
-      return this._initial;
-    }
-
-    return namePath.reduce((acc, name) => {
-      acc[name as string] = get(this._initial, name);
-
-      return acc;
-    }, {} as Store);
-  };
 
   private getInitialValue = (name: NamePath) => {
     return get(this._initial, keyOfName(name));
@@ -504,6 +518,7 @@ class FormStore {
 
   private setFieldValue = (name: NamePath, value: StoreValue, validate = false) => {
     const key = keyOfName(name);
+
     const before = get(this._store, key);
 
     if (isEqual(before, value)) return; // no change
@@ -576,83 +591,40 @@ class FormStore {
     const key = keyOfName(name);
 
     return {
-      errors: this.getFieldError(key) || [],
+      errors: this.getFieldError(key),
       name: key,
-      touched: this.isFieldTouched(name),
-      validated: this._validated.has(key),
-      validating: this.isFieldValidating(key),
+      touched: this.getFieldTouched(key),
+      validated: this.getFieldValidated(key),
+      validating: this.getFieldValidating(key),
       value: this.getFieldValue(key),
-      warnings: this.getFieldWarning(key) || []
+      warnings: this.getFieldWarning(key)
     };
   };
 
   // ===== FieldError =====
-  private getFieldError = (name: NamePath) => {
-    return this._errors.get(keyOfName(name)) || [];
-  };
+  private getFieldError = (name: NamePath) => this._errors.get(keyOfName(name)) || [];
 
-  private getFieldsError = (...nameList: NamePath[]) => {
-    if (nameList.length === 0) {
-      return Object.fromEntries(this._errors);
-    }
-
-    const nameListArray = toArray(nameList);
-
-    return nameListArray.reduce(
-      (acc, name) => {
-        const key = keyOfName(name);
-        acc[key] = this._errors.get(key) || [];
-
-        return acc;
-      },
-      {} as Record<string, string[]>
-    );
-  };
+  private getFieldsError = (names: NamePath[]) => getValueByNames(this._errors, names);
 
   // ===== FieldWarning =====
-  private getFieldWarning = (name: NamePath) => {
-    return this._warnings.get(keyOfName(name)) || [];
-  };
+  private getFieldWarning = (name: NamePath) => this._warnings.get(keyOfName(name)) || [];
 
-  private getFieldsWarning = (...nameList: NonNullable<NamePath>[]) => {
-    if (nameList.length === 0) {
-      return Object.fromEntries(this._warnings);
-    }
-
-    return nameList.reduce(
-      (acc, name) => {
-        acc[name as string] = this._warnings.get(keyOfName(name)) || [];
-
-        return acc;
-      },
-      {} as Record<string, string[]>
-    );
-  };
+  private getFieldsWarning = (names: NonNullable<NamePath>[]) => getValueByNames(this._warnings, names);
 
   // ===== FieldValidating =====
-  private isFieldsValidating = (...nameList: NonNullable<NamePath>[]) => {
-    if (nameList.length === 0) {
-      return this._validating.size > 0;
-    }
+  private getFieldsValidating = (names: NonNullable<NamePath>[]) => getFlag(this._validating, names);
 
-    return anyOn(this._validating, nameList);
-  };
+  private getFieldValidating = (name: NamePath) => isOn(this._validating, name);
 
-  private isFieldValidating = (name: NamePath) => {
-    return isOn(this._validating, name);
-  };
+  // ===== FieldValidated =====
+  private getFieldsValidated = (names: NonNullable<NamePath>[]) => getFlag(this._validated, names);
+
+  private getFieldValidated = (name: NamePath) => isOn(this._validated, name);
 
   // ===== FieldTouched =====
-  private isFieldsTouched = (...nameList: NonNullable<NamePath>[]) => {
-    if (nameList.length === 0) {
-      return this._touched.size > 0;
-    }
-    return anyOn(this._touched, nameList);
-  };
+  private getFieldsTouched = (names: NonNullable<NamePath>[]) => getFlag(this._touched, names);
 
-  private isFieldTouched = (name: NamePath) => {
-    return isOn(this._touched, name);
-  };
+  private getFieldTouched = (name: NamePath) => isOn(this._touched, name);
 
   // ===== Rules =====
   private setFieldRules = (name: NamePath, rules?: Rule[]) => {
@@ -1121,16 +1093,18 @@ class FormStore {
       getFieldError: this.getFieldError,
       getFields: this.getFields,
       getFieldsError: this.getFieldsError,
+      getFieldsTouched: this.getFieldsTouched,
+      getFieldsValidated: this.getFieldsValidated,
+      getFieldsValidating: this.getFieldsValidating,
       getFieldsValue: this.getFieldsValue,
       getFieldsWarning: this.getFieldsWarning,
+      getFieldTouched: this.getFieldTouched,
+      getFieldValidated: this.getFieldValidated,
+      getFieldValidating: this.getFieldValidating,
       getFieldValue: this.getFieldValue,
       getFieldWarning: this.getFieldWarning,
       getFormState: this.getFormState,
       getInternalHooks: this.getInternalHooks,
-      isFieldsTouched: this.isFieldsTouched,
-      isFieldsValidating: this.isFieldsValidating,
-      isFieldTouched: this.isFieldTouched,
-      isFieldValidating: this.isFieldValidating,
       resetFields: (names: NonNullable<NamePath>[] = []) => this.dispatch({ names, type: 'reset' }),
       setFieldsValue: (values: Store, validate = false) => this.dispatch({ type: 'setFieldsValue', validate, values }),
       setFieldValue: (name: NamePath, value: StoreValue, validate = false) =>

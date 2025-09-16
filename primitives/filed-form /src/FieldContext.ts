@@ -27,13 +27,15 @@ export interface StateOptions<Values = any> {
   getFieldError: (name: AllPaths<Values>) => string[];
   getFields: (names?: AllPaths<Values>[]) => Meta<AllPaths<Values>, PathToDeepType<Values, AllPaths<Values>>>[];
   getFieldsError: (...name: AllPaths<Values>[]) => Record<AllPaths<Values>, string[]>;
+  getFieldsTouched: (...name: AllPaths<Values>[]) => boolean;
+  getFieldsValidated: (...name: AllPaths<Values>[]) => boolean;
+  getFieldsValidating: (...name: AllPaths<Values>[]) => boolean;
   getFieldsWarning: (...name: AllPaths<Values>[]) => Record<AllPaths<Values>, string[]>;
+  getFieldTouched: (name: AllPaths<Values>) => boolean;
+  getFieldValidated: (name: AllPaths<Values>) => boolean;
+  getFieldValidating: (name: AllPaths<Values>) => boolean;
   getFieldWarning: (name: AllPaths<Values>) => string[];
   getFormState: () => FormState;
-  isFieldsTouched: (...name: AllPaths<Values>[]) => boolean;
-  isFieldsValidating: (...name: AllPaths<Values>[]) => boolean;
-  isFieldTouched: (name: AllPaths<Values>) => boolean;
-  isFieldValidating: (name: AllPaths<Values>) => boolean;
 }
 
 export interface ValidateFieldsOptions extends ValidateOptions {
