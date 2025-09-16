@@ -181,9 +181,6 @@ class FormStore {
       case 'validateFields':
         this.validateFields(a.name, a.opts);
         break;
-      case 'setRules':
-        this.setFieldRules(a.name, a.rules);
-        break;
       case 'arrayOp':
         this.arrayOp(a.name, a.op, a.args);
         break;
@@ -1124,6 +1121,7 @@ class FormStore {
       getInitialValue: this.getInitialValue,
       registerField: this.registerField,
       setCallbacks: this.setCallbacks,
+      setFieldRules: this.setFieldRules,
       setInitialValues: this.setInitialValues,
       setPreserve: this.setPreserve,
       setValidateMessages: this.setValidateMessages,

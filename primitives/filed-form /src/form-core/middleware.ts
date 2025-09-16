@@ -1,7 +1,7 @@
 import type { Store, StoreValue } from '../types/formStore';
 import type { NamePath } from '../utils/util';
 
-import type { Rule, ValidateOptions } from './validation';
+import type { ValidateOptions } from './validation';
 
 export interface ValidateFieldsOptions extends ValidateOptions {
   dirty?: boolean;
@@ -17,7 +17,6 @@ export type Action =
       type: 'validateField';
     }
   | { name?: NamePath[]; opts?: ValidateFieldsOptions; type: 'validateFields' }
-  | { name: NamePath; rules?: Rule[]; type: 'setRules' }
   | { args: any; name: NamePath; op: 'insert' | 'move' | 'remove' | 'replace' | 'swap'; type: 'arrayOp' }
   | { entries: Array<[string, string[]]>; type: 'setExternalErrors' };
 

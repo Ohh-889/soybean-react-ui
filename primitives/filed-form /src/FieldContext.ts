@@ -87,6 +87,7 @@ export interface InternalFieldHooks<Values = any> {
   getInitialValue: <T extends AllPaths<Values>>(name: T) => PathToDeepType<Values, T>;
   registerField: (entity: FieldEntity) => () => void;
   setFieldRules: (name: AllPaths<Values>, rules?: Rule[]) => void;
+  setRules: (name: AllPaths<Values>, rules?: Rule[]) => void;
   subscribeField: (
     name: AllPaths<Values>,
     cb: () => void,

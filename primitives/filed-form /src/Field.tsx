@@ -46,7 +46,7 @@ function Field<Values = any>(props: InternalFieldProps<Values>) {
     validateTrigger: fieldValidateTrigger
   } = fieldContext as unknown as InternalFormInstance<Values>;
 
-  const { dispatch, registerField } = getInternalHooks();
+  const { dispatch, registerField, setFieldRules } = getInternalHooks();
 
   const isControlled = controlMode === 'controlled';
 
@@ -145,7 +145,7 @@ function Field<Values = any>(props: InternalFieldProps<Values>) {
       preserve
     });
 
-    dispatch({ name, rules, type: 'setRules' });
+    setFieldRules(name, rules);
 
     return () => {
       unregister();
