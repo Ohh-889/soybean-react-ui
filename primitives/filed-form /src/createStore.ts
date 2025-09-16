@@ -140,8 +140,8 @@ class FormStore {
   //  ===== dispatch =====
   private baseDispatch = (a: Action) => {
     switch (a.type) {
-      case 'updateValue':
-        this.updateValue(a.name, a.value, { validate: a.validate });
+      case 'setFieldValue':
+        this.setFieldValue(a.name, a.value, a.validate);
         break;
       case 'setFieldsValue':
         this.setFieldsValue(a.values, a.validate);
@@ -433,7 +433,7 @@ class FormStore {
         const nextVal = def.compute(getKey, this._store);
         const prevVal = getKey(k);
         if (!isEqual(prevVal, nextVal)) {
-          this.updateValue(keyOfName(k), nextVal, { markTouched: false }); // 不标记 touched
+          this.setFieldValue(keyOfName(k), nextVal);
         }
       }
     });
@@ -504,52 +504,62 @@ class FormStore {
   };
 
   private setFieldValue = (name: NamePath, value: StoreValue, validate = false) => {
-    this.dispatch({ name, type: 'updateValue', validate, value });
-  };
-
-  private updateValue = (
-    name: NamePath,
-    value: StoreValue,
-    { markTouched = true, validate = false }: { markTouched?: boolean; validate?: boolean } = {}
-  ) => {
     const key = keyOfName(name);
-
     const before = get(this._store, key);
 
-    if (isEqual(before, value)) return; // value not changed, do not trigger
+    if (isEqual(before, value)) return; // no change
 
-    this.updateStore(set(this._store, name, value));
-
-    this._validated.delete(key);
-
-    // touched
-    let mask = ChangeTag.Value;
-
-    if (markTouched && !this._touched.has(key)) {
-      this._touched.add(key);
-      mask |= ChangeTag.Touched;
-    }
-    // dirty: compare with initial
     const initV = this.getInitialValue(key);
 
-    isEqual(value, initV) ? this._dirty.delete(key) : this._dirty.add(key);
+    // 1. 更新 store
+    this.updateStore(set(this._store, name, value));
 
-    mask |= ChangeTag.Dirty;
+    // 2. 更新元状态（dirty/touched/validated）
+    const mask = this.updateMetaState(key, value, initV);
 
+    // 3. 通知订阅者
     this.enqueueNotify([name], mask);
 
-    // callback
+    // 4. 执行回调
     this._callbacks.onValuesChange?.(set({}, key, value), this._store);
-
     this.triggerOnFieldsChange([key]);
 
+    // 5. 触发依赖计算
     const affected = this.collectDependents([key]);
-
     this.recomputeTargets(affected);
 
+    // 6. 是否立即校验
     if (validate) {
       this.dispatch({ name, type: 'validateField' });
     }
+  };
+
+  private updateMetaState = (key: string, value: StoreValue, initV: StoreValue): ChangeMask => {
+    let mask = ChangeTag.Value;
+
+    // touched
+    if (!this._touched.has(key)) {
+      this._touched.add(key);
+      mask |= ChangeTag.Touched;
+    }
+
+    // dirty
+    const wasDirty = this._dirty.has(key);
+    const isDirty = !isEqual(value, initV);
+    if (isDirty && !wasDirty) {
+      this._dirty.add(key);
+      mask |= ChangeTag.Dirty;
+    } else if (!isDirty && wasDirty) {
+      this._dirty.delete(key);
+      mask |= ChangeTag.Dirty;
+    }
+
+    // validated 一旦值变了 → 作废
+    if (this._validated.has(key)) {
+      this._validated.delete(key);
+    }
+
+    return mask;
   };
 
   // ------------------------------------------------
@@ -1121,7 +1131,8 @@ class FormStore {
       isFieldValidating: this.isFieldValidating,
       resetFields: (names: NonNullable<NamePath>[] = []) => this.dispatch({ names, type: 'reset' }),
       setFieldsValue: (values: Store, validate = false) => this.dispatch({ type: 'setFieldsValue', validate, values }),
-      setFieldValue: this.setFieldValue,
+      setFieldValue: (name: NamePath, value: StoreValue, validate = false) =>
+        this.dispatch({ name, type: 'setFieldValue', validate, value }),
       submit: this.submit,
       use: this.use,
       validateField: (name: NamePath, opts?: ValidateOptions) => this.dispatch({ name, opts, type: 'validateField' }),

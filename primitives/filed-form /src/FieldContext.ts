@@ -82,11 +82,19 @@ export interface InternalCallbacks<Values = any> {
 
 export interface InternalFieldHooks<Values = any> {
   dispatch: (action: Action) => void;
-  subscribeField: (name: AllPaths<Values>, cb: () => void, opt?: { includeChildren?: boolean; mask?: ChangeMask }) => () => void;
-  subscribeFields: (names: AllPaths<Values>[], cb: () => void, opt?: { includeChildren?: boolean; mask?: ChangeMask }) => () => void;
   getInitialValue: <T extends AllPaths<Values>>(name: T) => PathToDeepType<Values, T>;
   registerField: (entity: FieldEntity) => () => void;
   setFieldRules: (name: AllPaths<Values>, rules?: Rule[]) => void;
+  subscribeField: (
+    name: AllPaths<Values>,
+    cb: () => void,
+    opt?: { includeChildren?: boolean; mask?: ChangeMask }
+  ) => () => void;
+  subscribeFields: (
+    names: AllPaths<Values>[],
+    cb: () => void,
+    opt?: { includeChildren?: boolean; mask?: ChangeMask }
+  ) => () => void;
 }
 
 export interface FormInstance<Values = any>
@@ -168,8 +176,8 @@ export const useFieldsState = <Values = any>(
   form: FormInstance<Values>,
   names: AllPaths<Values>[],
   opts?: {
-    mask?: SubscribeMaskOptions;
     includeChildren?: boolean;
+    mask?: SubscribeMaskOptions;
   }
 ) => {
   const state = form.getFields(names);
@@ -178,13 +186,16 @@ export const useFieldsState = <Values = any>(
 
   const { subscribeFields } = getInternalHooks();
 
-  const { mask = {
-    errors: true,
-    touched: true,
-    validated: true,
-    validating: true,
-    warnings: true
-  }, includeChildren } = opts || {};
+  const {
+    includeChildren,
+    mask = {
+      errors: true,
+      touched: true,
+      validated: true,
+      validating: true,
+      warnings: true
+    }
+  } = opts || {};
 
   // eslint-disable-next-line react/hook-use-state
   const [_, forceUpdate] = useState({});
@@ -198,7 +209,7 @@ export const useFieldsState = <Values = any>(
         });
       },
       {
-        includeChildren: includeChildren,
+        includeChildren,
         mask: toMask(mask)
       }
     );
@@ -257,7 +268,7 @@ function useWatch<Values = any>(
 
   const nameIsArray = isArray(names) || !names;
 
-  useFieldsState<Values>(form, namesArray, {mask: {value: true}, includeChildren: includeChildren || !names });
+  useFieldsState<Values>(form, namesArray, { includeChildren: includeChildren || !names, mask: { value: true } });
 
   return nameIsArray ? form.getFieldsValue(namesArray) : form.getFieldValue(names);
 }

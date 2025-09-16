@@ -99,7 +99,7 @@ function Field<Values = any>(props: InternalFieldProps<Values>) {
           if (newValue !== oldValue) {
             dispatch({
               name,
-              type: 'updateValue',
+              type: 'setFieldValue',
               value: newValue
             });
           }
