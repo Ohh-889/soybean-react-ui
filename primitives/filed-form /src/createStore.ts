@@ -455,17 +455,22 @@ class FormStore {
 
   private setFieldsValue = (values: Store, validate = false) => {
     if (!values) return;
-    // Merge & record which keys have changed
+
     this.transaction(() => {
       const changedKeys: string[] = [];
 
       const walk = (obj: any, prefix: string[] = []) => {
         Object.keys(obj || {}).forEach(k => {
           const path = [...prefix, k];
-
-          changedKeys.push(keyOfName(path));
-
+          const key = keyOfName(path);
           const v = obj[k];
+
+          changedKeys.push(key);
+
+          // ===== 每个 key 独立维护状态并通知 =====
+          const initV = this.getInitialValue(key);
+          const mask = this.updateMetaState(key, v, initV);
+          this.enqueueNotify([key], mask);
 
           if (v && isArray(v)) {
             v.forEach((item, i) => {
@@ -479,24 +484,18 @@ class FormStore {
 
       walk(values);
 
+      // 1. 更新 store
       this.updateStore(assign(this._store, values));
 
-      for (const k of changedKeys) {
-        this._errors.delete(k);
-        this._validated.delete(k);
-        this._warnings.delete(k);
-      }
-
-      this.enqueueNotify(changedKeys, ChangeTag.Value | ChangeTag.Errors | ChangeTag.Warnings);
-
+      // 2. 回调
       this._callbacks.onValuesChange?.(values, this._store);
-
       this.triggerOnFieldsChange(changedKeys);
 
-      const affected2 = this.collectDependents(changedKeys); // changed 是 JSON key 列表
+      // 3. 依赖重算
+      const affected = this.collectDependents(changedKeys);
+      this.recomputeTargets(affected);
 
-      this.recomputeTargets(affected2);
-
+      // 4. 批量校验
       if (validate) {
         this.dispatch({ name: changedKeys, type: 'validateFields' });
       }
@@ -578,7 +577,7 @@ class FormStore {
 
     return {
       errors: this.getFieldError(key) || [],
-      name: keyOfName(name),
+      name: key,
       touched: this.isFieldTouched(name),
       validated: this._validated.has(key),
       validating: this.isFieldValidating(key),
@@ -848,6 +847,9 @@ class FormStore {
     this.begin();
     try {
       return fn();
+    } catch (e) {
+      this.rollback();
+      throw e;
     } finally {
       this.commit();
     }
