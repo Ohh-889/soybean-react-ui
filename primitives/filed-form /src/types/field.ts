@@ -1,11 +1,6 @@
-import type { ReactElement } from 'react';
-import type { AllPaths } from 'skyroc-type-utils';
-
-import type { Rule } from '../form-core/validation';
 import type { NamePath } from '../utils/util';
 
 import type { Store, StoreValue } from './formStore';
-import type { EventArgs } from './shared-types';
 
 export interface Meta {
   errors: string[];
@@ -92,19 +87,3 @@ export interface FieldEntity {
   name?: NamePath;
   preserve: boolean;
 }
-
-export type InternalFieldProps<Values> = {
-  children?: ReactElement;
-  controlMode?: 'controlled' | 'uncontrolled';
-  getValueFromEvent?: (...args: EventArgs) => StoreValue;
-  getValueProps?: (value: StoreValue) => StoreValue;
-  initialValue?: StoreValue;
-  name: AllPaths<Values>;
-  normalize?: (value: StoreValue, prevValue: StoreValue, allValues: Values) => StoreValue;
-  preserve?: boolean;
-  rules?: Rule[];
-  trigger?: string;
-  unControlledValueChange?: (ref: any, newValue: StoreValue) => void;
-  validateTrigger?: string | string[] | false;
-  valuePropName?: string;
-} & Record<string, any>;

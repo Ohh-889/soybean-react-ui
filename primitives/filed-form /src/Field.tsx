@@ -2,14 +2,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { Slot } from '@radix-ui/react-slot';
+import type { ReactElement } from 'react';
 import { useEffect, useId, useRef, useState } from 'react';
+import type { AllPathsKeys } from 'skyroc-type-utils';
 import { capitalize, getEventValue, isEqual, isNil, omitUndefined, toArray } from 'skyroc-utils';
 
 import type { InternalFormInstance } from './FieldContext';
 import { useFieldContext } from './FieldContext';
 import { ChangeTag } from './form-core/event';
-import type { InternalFieldProps } from './types/field';
+import type { Rule } from './form-core/validation';
 import type { StoreValue } from './types/formStore';
+import type { EventArgs } from './types/shared-types';
+
+export type InternalFieldProps<Values> = {
+  children?: ReactElement;
+  controlMode?: 'controlled' | 'uncontrolled';
+  getValueFromEvent?: (...args: EventArgs) => StoreValue;
+  getValueProps?: (value: StoreValue) => StoreValue;
+  initialValue?: StoreValue;
+  name: AllPathsKeys<Values>;
+  normalize?: (value: StoreValue, prevValue: StoreValue, allValues: Values) => StoreValue;
+  preserve?: boolean;
+  rules?: Rule[];
+  trigger?: string;
+  unControlledValueChange?: (ref: any, newValue: StoreValue) => void;
+  validateTrigger?: string | string[] | false;
+  valuePropName?: string;
+} & Record<string, any>;
 
 function Field<Values = any>(props: InternalFieldProps<Values>) {
   const {
