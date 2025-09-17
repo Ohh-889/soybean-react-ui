@@ -79,19 +79,19 @@ type PathValue<T, P extends string> = P extends `${infer K}.${infer R}`
   ? K extends `${number}` | 'number'
     ? T extends readonly (infer U)[]
       ? PathValue<U, R>
-      : never
+      : any
     : K extends keyof T
       ? PathValue<T[K], R>
-      : never
+      : any
   : P extends `${infer K}`
     ? K extends `${number}` | 'number'
       ? T extends readonly (infer U)[]
         ? U
-        : never
+        : any
       : K extends keyof T
         ? T[K]
-        : never
-    : never;
+        : any
+    : any;
 
 /**
  * @example
@@ -132,7 +132,6 @@ type DeepOptional<T> = T extends Primitive
 
 type Wrap<K extends string, V> = { [P in K]: V };
 
-// 数字段判定（'number' 或模板数字）
 type IsNumSeg<S extends string> = S extends `${number}` | 'number' ? true : false;
 
 type BuildShape<T, P extends string> = P extends `${infer K}.${infer R}`
