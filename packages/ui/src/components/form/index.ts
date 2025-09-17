@@ -1,6 +1,7 @@
 'use client';
 
 export {
+  ComputedField as FormComputedField,
   Form,
   List as FormList,
   useFieldError,

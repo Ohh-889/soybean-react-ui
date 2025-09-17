@@ -3,7 +3,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
-import type { AllPaths, AllPathsKeys, DeepPartial, PathToDeepType, ShapeFromPaths } from 'skyroc-type-utils';
+import type { AllPathsKeys, DeepPartial, PathToDeepType, ShapeFromPaths } from 'skyroc-type-utils';
 import { isArray, toArray } from 'skyroc-utils';
 
 import type { ChangeMask, SubscribeMaskOptions } from './form-core/event';
@@ -16,25 +16,27 @@ import type { FormState } from './types';
 import type { Meta } from './types/shared-types';
 
 export interface ValuesOptions<Values = any> {
-  getFieldsValue: <K extends AllPaths<Values, number>[]>(name?: K) => ShapeFromPaths<Values, K>;
-  getFieldValue: <T extends AllPaths<Values>>(name: T) => PathToDeepType<Values, T>;
+  getFieldsValue: <K extends AllPathsKeys<Values>[]>(name?: K) => ShapeFromPaths<Values, K>;
+  getFieldValue: <T extends AllPathsKeys<Values>>(name: T) => PathToDeepType<Values, T>;
   setFieldsValue: (values: DeepPartial<Values>) => void;
-  setFieldValue: <T extends AllPaths<Values>>(name: T, value: PathToDeepType<Values, T>) => void;
+  setFieldValue: <T extends AllPathsKeys<Values>>(name: T, value: PathToDeepType<Values, T>) => void;
 }
 
 export interface StateOptions<Values = any> {
-  getField: <T extends AllPaths<Values>>(name: T) => Meta<T, PathToDeepType<Values, T>>;
-  getFieldError: (name: AllPaths<Values>) => string[];
-  getFields: (names?: AllPaths<Values>[]) => Meta<AllPaths<Values>, PathToDeepType<Values, AllPaths<Values>>>[];
-  getFieldsError: (...name: AllPaths<Values>[]) => Record<AllPaths<Values>, string[]>;
-  getFieldsTouched: (...name: AllPaths<Values>[]) => boolean;
-  getFieldsValidated: (...name: AllPaths<Values>[]) => boolean;
-  getFieldsValidating: (...name: AllPaths<Values>[]) => boolean;
-  getFieldsWarning: (...name: AllPaths<Values>[]) => Record<AllPaths<Values>, string[]>;
-  getFieldTouched: (name: AllPaths<Values>) => boolean;
-  getFieldValidated: (name: AllPaths<Values>) => boolean;
-  getFieldValidating: (name: AllPaths<Values>) => boolean;
-  getFieldWarning: (name: AllPaths<Values>) => string[];
+  getField: <T extends AllPathsKeys<Values>>(name: T) => Meta<T, PathToDeepType<Values, T>>;
+  getFieldError: (name: AllPathsKeys<Values>) => string[];
+  getFields: (
+    names?: AllPathsKeys<Values>[]
+  ) => Meta<AllPathsKeys<Values>, PathToDeepType<Values, AllPathsKeys<Values>>>[];
+  getFieldsError: (...name: AllPathsKeys<Values>[]) => Record<AllPathsKeys<Values>, string[]>;
+  getFieldsTouched: (...name: AllPathsKeys<Values>[]) => boolean;
+  getFieldsValidated: (...name: AllPathsKeys<Values>[]) => boolean;
+  getFieldsValidating: (...name: AllPathsKeys<Values>[]) => boolean;
+  getFieldsWarning: (...name: AllPathsKeys<Values>[]) => Record<AllPathsKeys<Values>, string[]>;
+  getFieldTouched: (name: AllPathsKeys<Values>) => boolean;
+  getFieldValidated: (name: AllPathsKeys<Values>) => boolean;
+  getFieldValidating: (name: AllPathsKeys<Values>) => boolean;
+  getFieldWarning: (name: AllPathsKeys<Values>) => string[];
   getFormState: () => FormState;
 }
 
@@ -43,11 +45,11 @@ export interface ValidateFieldsOptions extends ValidateOptions {
 }
 
 export interface OperationOptions<Values = any> {
-  resetFields: (names?: AllPaths<Values>[]) => void;
+  resetFields: (names?: AllPathsKeys<Values>[]) => void;
   submit: () => void;
   use: (mw: Middleware) => void;
-  validateField: (name: AllPaths<Values>) => Promise<boolean>;
-  validateFields: (names?: AllPaths<Values>[], opts?: ValidateFieldsOptions) => Promise<boolean>;
+  validateField: (name: AllPathsKeys<Values>) => Promise<boolean>;
+  validateFields: (names?: AllPathsKeys<Values>[], opts?: ValidateFieldsOptions) => Promise<boolean>;
 }
 
 export interface ValidateErrorEntity<Values = any> {
@@ -63,8 +65,8 @@ export interface ValidateErrorEntity<Values = any> {
 
 export interface RegisterCallbackOptions<Values = any> {
   onFieldsChange?: (
-    changedFields: Meta<AllPaths<Values>, PathToDeepType<Values, AllPaths<Values>>>[],
-    allFields: Meta<AllPaths<Values>, PathToDeepType<Values, AllPaths<Values>>>[]
+    changedFields: Meta<AllPathsKeys<Values>, PathToDeepType<Values, AllPathsKeys<Values>>>[],
+    allFields: Meta<AllPathsKeys<Values>, PathToDeepType<Values, AllPathsKeys<Values>>>[]
   ) => void;
 
   onFinish?: (values: Values) => void;
@@ -84,17 +86,22 @@ export interface InternalCallbacks<Values = any> {
 
 export interface InternalFieldHooks<Values = any> {
   dispatch: (action: Action) => void;
-  getInitialValue: <T extends AllPaths<Values>>(name: T) => PathToDeepType<Values, T>;
+  getInitialValue: <T extends AllPathsKeys<Values>>(name: T) => PathToDeepType<Values, T>;
+  registerComputed: <T extends AllPathsKeys<Values>>(
+    name: T,
+    deps: AllPathsKeys<Values>[],
+    compute: (get: (n: AllPathsKeys<Values>) => any, all: Values) => PathToDeepType<Values, T>
+  ) => () => void;
   registerField: (entity: FieldEntity) => () => void;
-  setFieldRules: (name: AllPaths<Values>, rules?: Rule[]) => void;
-  setRules: (name: AllPaths<Values>, rules?: Rule[]) => void;
-  subscribeField: (
-    name: AllPaths<Values>,
-    cb: () => void,
+  setFieldRules: (name: AllPathsKeys<Values>, rules?: Rule[]) => void;
+  setRules: (name: AllPathsKeys<Values>, rules?: Rule[]) => void;
+  subscribeField: <T extends AllPathsKeys<Values>>(
+    name: T,
+    cb: (value: PathToDeepType<Values, T>, name: T, values: Values, mask: ChangeMask) => void,
     opt?: { includeChildren?: boolean; mask?: ChangeMask }
   ) => () => void;
   subscribeFields: (
-    names: AllPaths<Values>[],
+    names: AllPathsKeys<Values>[],
     cb: () => void,
     opt?: { includeChildren?: boolean; mask?: ChangeMask }
   ) => () => void;
@@ -131,7 +138,7 @@ export const useFieldContext = <Values = any>(): InternalFormContext<Values> => 
 };
 
 export const useFieldState = <Values = any>(
-  name: AllPaths<Values>,
+  name: AllPathsKeys<Values>,
   mask: SubscribeMaskOptions = {
     errors: true,
     touched: true,
@@ -177,7 +184,7 @@ export const useFieldState = <Values = any>(
 
 export const useFieldsState = <Values = any>(
   form: FormInstance<Values>,
-  names: AllPaths<Values>[],
+  names: AllPathsKeys<Values>[],
   opts?: {
     includeChildren?: boolean;
     mask?: SubscribeMaskOptions;
@@ -205,7 +212,7 @@ export const useFieldsState = <Values = any>(
 
   useEffect(() => {
     const unregister = subscribeFields(
-      names.length ? names : ([''] as AllPaths<Values>[]),
+      names.length ? names : ([''] as AllPathsKeys<Values>[]),
       () => {
         flushSync(() => {
           forceUpdate({});
@@ -224,7 +231,7 @@ export const useFieldsState = <Values = any>(
   return state;
 };
 
-export const useFieldError = <Values = any>(name: AllPaths<Values>) => {
+export const useFieldError = <Values = any>(name: AllPathsKeys<Values>) => {
   const state = useFieldState<Values>(name, { errors: true });
 
   return state.errors;
@@ -232,8 +239,8 @@ export const useFieldError = <Values = any>(name: AllPaths<Values>) => {
 
 export const useFieldErrors = <Values = any>(
   form: FormInstance<Values>,
-  names: AllPaths<Values>[] = []
-): Record<AllPaths<Values>, string[]> => {
+  names: AllPathsKeys<Values>[] = []
+): Record<AllPathsKeys<Values>, string[]> => {
   const state = useFieldsState<Values>(form, names, { mask: { errors: true } });
 
   const errors = state.reduce(
@@ -241,10 +248,10 @@ export const useFieldErrors = <Values = any>(
       acc[field.name] = field.errors;
       return acc;
     },
-    {} as Record<AllPaths<Values>, string[]>
+    {} as Record<AllPathsKeys<Values>, string[]>
   );
 
-  return errors as Record<AllPaths<Values>, string[]>;
+  return errors as Record<AllPathsKeys<Values>, string[]>;
 };
 
 function useWatch<Values, T extends AllPathsKeys<Values>>(
@@ -253,18 +260,18 @@ function useWatch<Values, T extends AllPathsKeys<Values>>(
   includeChildren?: boolean
 ): PathToDeepType<Values, T>;
 
-function useWatch<Values, const T extends AllPaths<Values>[]>(
+function useWatch<Values, const T extends AllPathsKeys<Values>[]>(
   form: FormInstance<Values>,
   names: T
 ): ShapeFromPaths<Values, T>;
 
-function useWatch<Values = any, const T extends AllPaths<Values>[] = AllPaths<Values>[]>(
+function useWatch<Values = any, const T extends AllPathsKeys<Values>[] = AllPathsKeys<Values>[]>(
   form: FormInstance<Values>
 ): ShapeFromPaths<Values, T>;
 
 function useWatch<Values = any>(
   form: FormInstance<Values>,
-  names?: AllPaths<Values>[] | AllPaths<Values>,
+  names?: AllPathsKeys<Values>[] | AllPathsKeys<Values>,
   includeChildren?: boolean
 ) {
   const namesArray = names ? toArray(names) : [];

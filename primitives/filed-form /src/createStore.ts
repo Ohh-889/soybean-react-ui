@@ -362,7 +362,11 @@ class FormStore {
 
   // ========== 新增：Computed API ==========
   /** 注册 computed 字段 */
-  private registerComputed(name: NamePath, deps: NamePath[], compute: (get: (n: NamePath) => any, all: Store) => any) {
+  private registerComputed = (
+    name: NamePath,
+    deps: NamePath[],
+    compute: (get: (n: NamePath) => any, all: Store) => any
+  ) => {
     const tgt = keyOfName(name);
     const depKeys = deps.map(keyOfName);
     this._computed.set(tgt, {
@@ -382,6 +386,38 @@ class FormStore {
     return () => {
       this._computed.delete(tgt);
       depKeys.forEach(d => this._depIndex.get(d)?.delete(tgt));
+    };
+  };
+
+  /** 注册副作用（watch effect） */
+  private registerEffect(deps: NamePath[], effect: (get: (n: NamePath) => any, all: Store) => void) {
+    const depKeys = deps.map(keyOfName);
+
+    const run = () => {
+      effect(n => get(this._store, keyOfName(n)), this._store);
+    };
+
+    // === 初始执行一次 ===
+    this.transaction(run);
+
+    // === 建立依赖索引 ===
+    const id = `__effect_${Math.random().toString(36).slice(2)}`;
+
+    depKeys.forEach(d => {
+      if (!this._depIndex.has(d)) this._depIndex.set(d, new Set());
+      this._depIndex.get(d)!.add(id);
+    });
+
+    // === 存储一个特殊 effect 定义（不写 store，只执行副作用） ===
+    this._computed.set(id, {
+      compute: (getKey, all) => effect(n => getKey(keyOfName(n)), all),
+      deps: depKeys
+    });
+
+    // === 返回卸载函数 ===
+    return () => {
+      this._computed.delete(id);
+      depKeys.forEach(d => this._depIndex.get(d)?.delete(id));
     };
   }
 
@@ -1119,6 +1155,7 @@ class FormStore {
       destroyForm: this.destroyForm,
       dispatch: this.dispatch,
       getInitialValue: this.getInitialValue,
+      registerComputed: this.registerComputed,
       registerField: this.registerField,
       setCallbacks: this.setCallbacks,
       setFieldRules: this.setFieldRules,

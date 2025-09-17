@@ -14,7 +14,7 @@ type Inputs = {
 const ValidateOnlyDemo = () => {
   const [form] = useForm<Inputs>();
 
-  const fieldsState = useFieldsState(form, ['email', 'username'], { warnings: true });
+  const fieldsState = useFieldsState(form, ['email', 'username'], { mask: { warnings: true } });
 
   async function validateOnly() {
     await form.validateFields();
