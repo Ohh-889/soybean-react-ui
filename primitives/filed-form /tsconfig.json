@@ -1,7 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "preserveConstEnums": true
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"],
