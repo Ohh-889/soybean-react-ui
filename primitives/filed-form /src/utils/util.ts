@@ -113,10 +113,12 @@ export const unionPaths = (a: (string | number)[][], b: (string | number)[][]) =
 export const microtask =
   typeof queueMicrotask === 'function' ? queueMicrotask : (cb: () => void) => Promise.resolve().then(cb);
 
-export const isUnderPrefix = (key: string, prefix: string) => {
-  if (prefix === '') return true; // 根前缀，匹配全部
-  if (key === prefix) return true; // 自身节点
-  return key.startsWith(`${prefix}.`); // 子节点（点分隔）
+export const isUnderPrefix = (key: string, prefix: string): boolean => {
+  if (prefix === '' || prefix === '*') return true;
+
+  if (key === prefix) return true;
+
+  return key.length > prefix.length && key.startsWith(prefix) && key[prefix.length] === '.';
 };
 
 export function collectDeepKeys(obj: any, prefix: string = ''): string[] {

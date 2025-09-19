@@ -5,6 +5,7 @@ import type { NamePath } from '../utils/util';
 import type { ChangeMask } from './event';
 
 export type Store = Record<string, any>;
+
 export type StoreValue = any;
 
 export type ValidateTrigger = 'onChange' | 'onBlur' | 'onSubmit' | string;

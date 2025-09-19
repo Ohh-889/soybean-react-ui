@@ -1,22 +1,23 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable complexity */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable no-bitwise */
 
 import { assign, isArray, isEqual, isNil, toArray } from 'skyroc-utils';
 
-import { DepGraph } from './form-core/dependencies';
-import { type ChangeMask, ChangeTag } from './form-core/event';
-import type { Action, Middleware, ValidateFieldsOptions } from './form-core/middleware';
-import { compose } from './form-core/middleware';
-import type { ValidateMessages } from './form-core/types';
-import type { Rule, ValidateOptions } from './form-core/validation';
-import { runRulesWithMode } from './form-core/validation';
-import type { FieldEntity } from './types/field';
-import type { Callbacks, Store, StoreValue } from './types/formStore';
-import { get } from './utils/get';
-import { set, unset } from './utils/set';
-import type { NamePath, PathTuple } from './utils/util';
-import { anyOn, collectDeepKeys, isOn, isUnderPrefix, keyOfName, microtask } from './utils/util';
+import type { FieldEntity } from '../types/field';
+import type { Callbacks, Store, StoreValue } from '../types/formStore';
+import { get } from '../utils/get';
+import { set, unset } from '../utils/set';
+import type { NamePath, PathTuple } from '../utils/util';
+import { anyOn, collectDeepKeys, isOn, isUnderPrefix, keyOfName, microtask } from '../utils/util';
+
+import { type ChangeMask, ChangeTag } from './event';
+import type { Action, Middleware, ValidateFieldsOptions } from './middleware';
+import { compose } from './middleware';
+import type { ValidateMessages } from './types';
+import { runRulesWithMode } from './validation';
+import type { Rule, ValidateOptions } from './validation';
 
 type Listener = {
   cb: (value: StoreValue, key: string, all: Store, fired: ChangeMask) => void;
@@ -33,22 +34,10 @@ const matchTrigger = (rule: Rule, trig?: string | string[]) => {
   return trigList.some(t => list.includes(t));
 };
 
-function getValueByNames<T>(source: Map<string, T>, names?: NamePath[]): T | Record<string, T> | undefined {
-  if (!names || names.length === 0) {
-    return Object.fromEntries(source) as Record<string, T>;
-  }
+function getValueByNames<T>(source: Map<string, T>, names?: NamePath[]): Record<string, T> {
+  const keys = names?.length ? names.map(keyOfName) : Array.from(source.keys());
 
-  if (names.length === 1) {
-    return source.get(keyOfName(names[0]));
-  }
-
-  const out: Record<string, T> = {};
-  for (const n of names) {
-    const k = keyOfName(n);
-    const v = source.get(k);
-    if (v !== undefined) out[k] = v;
-  }
-  return out;
+  return Object.fromEntries(keys.map(k => [k, source.get(k)!]).filter(([, v]) => v !== undefined));
 }
 
 function getFlag(bucket: Set<string>, names?: NamePath[]) {
@@ -91,9 +80,6 @@ class FormStore {
   // Batch processing
   private _pending = new Map<string, ChangeMask>();
   private _flushScheduled = false;
-
-  // Dependency graph (for external use / future extension)
-  private _deps = new DepGraph();
 
   // Transactions
   private _txDepth = 0;
@@ -494,10 +480,7 @@ class FormStore {
   private getFieldsValue = (names: NamePath[]) => {
     if (!names || names.length === 0) return this._store;
 
-    return names.reduce((acc, n) => {
-      acc[keyOfName(n)] = get(this._store, keyOfName(n));
-      return acc;
-    }, {} as Store);
+    return Object.fromEntries(names.map(n => [keyOfName(n), get(this._store, keyOfName(n))]));
   };
 
   private setFieldsValue = (values: Store, validate = false) => {
@@ -1016,11 +999,7 @@ class FormStore {
 
   // ===== Batch processing notification =====
 
-  private subscribeField = (
-    name: NamePath,
-    cb: Listener['cb'],
-    opt?: { includeChildren?: boolean; mask?: ChangeMask }
-  ) => {
+  private subscribe = (name: NamePath, cb: Listener['cb'], opt?: { includeChildren?: boolean; mask?: ChangeMask }) => {
     const key = keyOfName(name);
 
     const bucket = opt?.includeChildren ? this._prefixListeners : this._exactListeners;
@@ -1046,12 +1025,22 @@ class FormStore {
     };
   };
 
-  private subscribeFields = (
-    names: NamePath[],
+  private subscribeField = (
+    names: NamePath | NamePath[] | undefined,
     cb: Listener['cb'],
     opt?: { includeChildren?: boolean; mask?: ChangeMask }
   ) => {
-    const unsubs = names.map(n => this.subscribeField(n, cb, opt));
+    let arr: NamePath[];
+
+    if (!names) {
+      arr = ['*']; // 默认订阅全部
+    } else if (Array.isArray(names)) {
+      arr = names;
+    } else {
+      arr = [names];
+    }
+
+    const unsubs = arr.map(n => this.subscribe(n, cb, opt));
 
     return () => {
       unsubs.forEach(fn => fn());
@@ -1162,8 +1151,7 @@ class FormStore {
       setInitialValues: this.setInitialValues,
       setPreserve: this.setPreserve,
       setValidateMessages: this.setValidateMessages,
-      subscribeField: this.subscribeField,
-      subscribeFields: this.subscribeFields
+      subscribeField: this.subscribeField
     };
   };
 }

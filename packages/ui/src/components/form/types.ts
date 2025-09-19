@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
-import type { InternalFieldProps } from 'skyroc-form';
+import type { FieldProps } from 'skyroc-form';
 
 import type { BaseProps } from '@/types/other';
 
-export type FormFieldProps<Values = any> = InternalFieldProps<Values> &
+export type FormFieldProps<Values = any> = FieldProps<Values> &
   BaseProps<{
     description?: string;
     error?: string;

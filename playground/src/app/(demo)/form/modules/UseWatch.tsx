@@ -16,17 +16,15 @@ export default function WatchDemo() {
   const [form] = useForm<Inputs>();
 
   // 1) Watch single field
-  const username = useWatch(form, 'username');
+  const username = useWatch('username', { form });
 
   // 2) Watch multiple fields
-  const { age, password } = useWatch(form, ['age', 'password']);
+  const { age, password } = useWatch(['age', 'password'], { form });
 
   // 3) Watch nested fields
-  const info = useWatch(form, 'info', true);
+  const info = useWatch('info', { form, includeChildren: true });
 
-  console.log('info', info);
-
-  const { age: NewAge, password: NewPassword, username: NewUsername } = useWatch(form);
+  const { age: NewAge, password: NewPassword, username: NewUsername } = useWatch([], { form });
 
   useEffect(() => {
     showToastCode('NewValues', { NewAge, NewPassword, NewUsername });
@@ -82,6 +80,7 @@ export default function WatchDemo() {
           <p>Username: {username}</p>
           <p>Age: {age}</p>
           <p>Password: {password}</p>
+          <p>Info: {JSON.stringify(info, (_, value) => (value === undefined ? null : value), 2)}</p>
         </div>
       </div>
     </Card>

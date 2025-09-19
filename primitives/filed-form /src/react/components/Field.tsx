@@ -1,20 +1,20 @@
 'use client';
 /* eslint-disable react-hooks/exhaustive-deps */
-
+/* eslint-disable react/hook-use-state */
 import { Slot } from '@radix-ui/react-slot';
 import type { ReactElement } from 'react';
 import { useEffect, useId, useRef, useState } from 'react';
 import type { AllPathsKeys } from 'skyroc-type-utils';
 import { capitalize, getEventValue, isEqual, isNil, omitUndefined, toArray } from 'skyroc-utils';
 
-import type { InternalFormInstance } from './FieldContext';
-import { useFieldContext } from './FieldContext';
-import { ChangeTag } from './form-core/event';
-import type { Rule } from './form-core/validation';
-import type { StoreValue } from './types/formStore';
-import type { EventArgs } from './types/shared-types';
+import { ChangeTag } from '../../form-core/event';
+import type { StoreValue } from '../../form-core/types';
+import type { Rule } from '../../form-core/validation';
+import type { EventArgs } from '../../types/shared-types';
+import type { InternalFormInstance } from '../hooks/FieldContext';
+import { useFieldContext } from '../hooks/FieldContext';
 
-export type InternalFieldProps<Values> = {
+export type FieldProps<Values> = {
   children?: ReactElement;
   controlMode?: 'controlled' | 'uncontrolled';
   getValueFromEvent?: (...args: EventArgs) => StoreValue;
@@ -30,7 +30,7 @@ export type InternalFieldProps<Values> = {
   valuePropName?: string;
 } & Record<string, any>;
 
-function Field<Values = any>(props: InternalFieldProps<Values>) {
+function Field<Values = any>(props: FieldProps<Values>) {
   const {
     children,
     controlMode = 'uncontrolled',
@@ -47,7 +47,6 @@ function Field<Values = any>(props: InternalFieldProps<Values>) {
     ...rest
   } = props;
 
-  // eslint-disable-next-line react/hook-use-state
   const [_, forceUpdate] = useState({});
 
   const fieldContext = useFieldContext<Values>();

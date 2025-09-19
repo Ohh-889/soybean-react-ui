@@ -1,34 +1,41 @@
-// useWatch.ts
 'use client';
-import * as React from 'react';
-import { useSyncExternalStore } from 'react';
 
-import { useFieldContext } from './FieldContext';
-import { ChangeTag } from './events';
-import type { NamePath } from './types';
+import type { AllPathsKeys, PathToDeepType, ShapeFromPaths } from 'skyroc-type-utils';
+import { isString } from 'skyroc-utils';
 
-export function useWatch(name: NamePath | NamePath[], opt?: { includeChildren?: boolean }) {
-  const form = useFieldContext();
-  const names = Array.isArray(name) ? name : [name];
+import type { FormInstance } from './FieldContext';
+import { useFieldState } from './useFieldState';
 
-  const subscribe = React.useCallback(
-    (on: () => void) => {
-      const offs = names.map(n =>
-        form.__store.subscribeField(n, () => on(), {
-          includeChildren: Boolean(opt?.includeChildren),
-          mask: ChangeTag.Value
-        })
-      );
-      return () => offs.forEach(f => f());
-    },
-    [form, names.map(String).join('|'), opt?.includeChildren]
-  );
+type UseWatchOpts<Values = any> = {
+  form: FormInstance<Values>;
+  includeChildren?: boolean;
+};
 
-  const getSnapshot = React.useCallback(
-    () => (Array.isArray(name) ? form.getFieldsValue(...name) : form.getFieldValue(name)),
-    [form, names.map(String).join('|')]
-  );
-  useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+function useWatch<Values, T extends AllPathsKeys<Values>>(
+  name: T,
+  opts: UseWatchOpts<Values>
+): PathToDeepType<Values, T>;
 
-  return Array.isArray(name) ? form.getFieldsValue(...name) : form.getFieldValue(name);
+function useWatch<Values, T extends AllPathsKeys<Values>>(
+  names: T[],
+  opts: UseWatchOpts<Values>
+): ShapeFromPaths<Values, T[]>;
+
+function useWatch<Values = any>(form: FormInstance<Values>): Values;
+
+function useWatch<Values = any>(): Values;
+
+function useWatch<Values = any, T extends AllPathsKeys<Values> = AllPathsKeys<Values>>(
+  names?: T[] | T | FormInstance<Values>,
+  opts?: UseWatchOpts<Values>
+) {
+  const isSingleField = isString(names);
+
+  const state = useFieldState<Values>(names as any, { ...opts, mask: { value: true } });
+
+  return isSingleField
+    ? state.value
+    : Object.fromEntries(Object.entries(state).map(([key, value]) => [key, value.value]));
 }
+
+export { useWatch };

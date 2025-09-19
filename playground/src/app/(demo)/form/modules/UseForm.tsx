@@ -1,7 +1,7 @@
 'use client';
 
 import type { FormInstance } from 'soybean-react-ui';
-import { Button, Card, Form, FormField, Input, useFieldsState, useForm } from 'soybean-react-ui';
+import { Button, Card, Form, FormField, Input, useFieldState, useForm } from 'soybean-react-ui';
 
 import { showToastCode } from './toast';
 
@@ -26,9 +26,11 @@ interface StateEffectProps {
 const StateEffect = (props: StateEffectProps) => {
   const { form } = props;
 
-  const states = useFieldsState(form, [], { includeChildren: true });
+  const { password } = useFieldState(['password'], { form });
 
-  console.log('states', states);
+  const a = useFieldState('password', { form });
+
+  const b = useFieldState(form);
 
   return null;
 };
@@ -90,7 +92,7 @@ const UseForm = () => {
 
     const infoFamilyInfoValues = form.getFieldsValue(['info.familyInfo.phone']);
 
-    console.log('infoFamilyInfoValues', infoFamilyInfoValues);
+    console.log('infoFamilyInfoValues', infoFamilyInfoValues.info.familyInfo.phone);
 
     showToastCode('getInfoFamilyInfo', value);
   }

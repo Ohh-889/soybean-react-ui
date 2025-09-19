@@ -1,6 +1,7 @@
 'use client';
 
 import { useId } from 'react';
+import type { AllPathsKeys } from 'skyroc-form';
 import { Field, useFieldError } from 'skyroc-form';
 
 import { cn } from '@/lib/utils';
@@ -15,7 +16,7 @@ const FormField = <Values = any,>(props: FormFieldProps<Values>) => {
 
   const id = useId();
 
-  const errors = useFieldError<Values>(name);
+  const errors = useFieldError<Values, AllPathsKeys<Values>>(name);
 
   const hasError = errors.length > 0;
 

@@ -1,8 +1,5 @@
-
-
-export function createFormStore(opts){
-
-  const formState= {
+export function createFormStore(opts) {
+  const formState = {
     dirtyFields: {},
     disabled: false,
     errors: {},
@@ -16,9 +13,4 @@ export function createFormStore(opts){
     touchedFields: {},
     validatingFields: {}
   };
-
 }
-
-
-
-

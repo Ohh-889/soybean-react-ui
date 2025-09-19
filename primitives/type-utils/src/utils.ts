@@ -168,7 +168,7 @@ type MergeUnion<U> = Prettify<{ [K in keyof UnionToIntersection<U>]: UnionToInte
  * };
  * type P1 = ShapeFromPaths<FormValues, ['age','info','info2.2.city']>; // { age:number; info:{...?}; info2:{city?:string}[] }
  */
-export type ShapeFromPaths<T, Ps extends readonly string[]> = Ps extends []
+export type ShapeFromPaths<T, Ps extends readonly string[]> = Ps extends never[] | []
   ? T
   : MergeUnion<Ps[number] extends infer P ? (P extends string ? BuildShape<T, P> : never) : never>;
 

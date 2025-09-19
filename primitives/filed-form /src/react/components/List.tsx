@@ -5,10 +5,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import type { AllPaths } from 'skyroc-type-utils';
 
-import type { InternalFormInstance } from './FieldContext';
-import { useFieldContext } from './FieldContext';
-import type { StoreValue } from './types/formStore';
-import { keyOfName } from './utils/util';
+import type { StoreValue } from '../../form-core/types';
+import { keyOfName } from '../../utils/util';
+import type { InternalFormInstance } from '../hooks/FieldContext';
+import { useFieldContext } from '../hooks/FieldContext';
 
 export type ListRenderItem = {
   key: string;
@@ -46,12 +46,7 @@ function List<Values = any>(props: ListProps<Values>) {
   const keyRef = useRef({ id: 0, keys: [] as number[] });
   const keyManager = keyRef.current;
 
-  const {
-    getFieldsValue,
-    getFieldValue,
-    getInternalHooks,
-    validateTrigger: fieldValidateTrigger
-  } = fieldContext as unknown as InternalFormInstance<Values>;
+  const { getFieldValue, getInternalHooks } = fieldContext as unknown as InternalFormInstance<Values>;
 
   const { dispatch, registerField } = getInternalHooks();
 

@@ -2,10 +2,11 @@
 
 import { useRef } from 'react';
 
-import type { FormInstance } from './FieldContext';
-import CreateFromStore from './createStore';
+import CreateFromStore from '../../form-core/createStore';
 
-const useForm = <Values = any>(form?: FormInstance<Values>): readonly [FormInstance<Values>] => {
+import type { FormInstance } from './FieldContext';
+
+export const useForm = <Values = any>(form?: FormInstance<Values>): readonly [FormInstance<Values>] => {
   const formRef = useRef<FormInstance<Values> | null>(null);
 
   if (!formRef.current) {
@@ -20,5 +21,3 @@ const useForm = <Values = any>(form?: FormInstance<Values>): readonly [FormInsta
 
   return [formRef.current] as unknown as readonly [FormInstance<Values>];
 };
-
-export default useForm;

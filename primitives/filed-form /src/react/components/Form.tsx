@@ -5,10 +5,15 @@ import type { ComponentPropsWithoutRef, ComponentRef, ElementType, HTMLProps, Re
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import type { DeepPartial } from 'skyroc-type-utils';
 
-import type { FormInstance, InternalFormContext, InternalFormInstance, RegisterCallbackOptions } from './FieldContext';
-import { FieldContextProvider } from './FieldContext';
-import type { ValidateMessages } from './form-core/validate';
-import useForm from './useForm';
+import type { ValidateMessages } from '../../form-core/validate';
+import type {
+  FormInstance,
+  InternalFormContext,
+  InternalFormInstance,
+  RegisterCallbackOptions
+} from '../hooks/FieldContext';
+import { FieldContextProvider } from '../hooks/FieldContext';
+import {useForm} from '../hooks/useForm';
 
 interface FormBaseProps<Values = any> extends RegisterCallbackOptions<Values> {
   children?: React.ReactNode;

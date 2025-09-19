@@ -5,8 +5,6 @@ export {
   Form,
   List as FormList,
   useFieldError,
-  useFieldErrors,
-  useFieldsState,
   useFieldState,
   useForm,
   useWatch

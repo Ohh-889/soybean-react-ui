@@ -1,12 +1,13 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Button, Card, Form, FormField, useFieldsState, useForm } from 'soybean-react-ui';
+import { Button, Card, Form, FormField, useFieldState, useForm } from 'soybean-react-ui';
 
 import { DemoInput } from './DemoComponents';
 import { showToastCode } from './toast';
 
 type Inputs = {
+  age: number;
   email: string;
   username: string;
 };
@@ -14,7 +15,7 @@ type Inputs = {
 const ValidateOnlyDemo = () => {
   const [form] = useForm<Inputs>();
 
-  const fieldsState = useFieldsState(form, ['email', 'username'], { mask: { warnings: true } });
+  const fieldsState = useFieldState(['email', 'username'], { form, mask: { warnings: true } });
 
   async function validateOnly() {
     await form.validateFields();
@@ -24,17 +25,7 @@ const ValidateOnlyDemo = () => {
   }
 
   useEffect(() => {
-    const warnings = fieldsState
-      .filter(field => field.warnings.length > 0)
-      .reduce(
-        (acc, field) => {
-          acc[field.name] = field.warnings;
-          return acc;
-        },
-        {} as Record<string, string[]>
-      );
-
-    showToastCode('warnings', warnings);
+    showToastCode('warnings', fieldsState);
   }, [fieldsState]);
 
   return (

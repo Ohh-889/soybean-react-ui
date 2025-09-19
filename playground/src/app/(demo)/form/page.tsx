@@ -1,4 +1,5 @@
 import ClearDestroy from './modules/ClearDestroy';
+import ComputedDemo from './modules/ComputedDemo';
 import Default from './modules/Default';
 import FieldChange from './modules/FieldChange';
 import List from './modules/List';
@@ -17,6 +18,8 @@ const FormPage = () => {
       <List />
 
       <UseForm />
+
+      <ComputedDemo />
 
       <FieldChange />
 
