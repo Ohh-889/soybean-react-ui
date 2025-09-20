@@ -26,11 +26,9 @@ interface StateEffectProps {
 const StateEffect = (props: StateEffectProps) => {
   const { form } = props;
 
-  const { password } = useFieldState(['password'], { form });
+  const states = useFieldState(form);
 
-  const a = useFieldState('password', { form });
-
-  const b = useFieldState(form);
+  console.log('states', states);
 
   return null;
 };
@@ -58,7 +56,7 @@ const UseForm = () => {
 
     const state = form.getFields();
 
-    console.log('state', state);
+    console.log('state', state.confirmPassword);
 
     showToastCode('getAllValues', values);
   }

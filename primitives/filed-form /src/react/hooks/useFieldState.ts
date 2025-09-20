@@ -3,7 +3,7 @@
 /* eslint-disable react/hook-use-state */
 import { useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
-import type { AllPathsKeys, KeysToNestedObject, PathToDeepType } from 'skyroc-type-utils';
+import type { AllPathsKeys, PathToDeepType } from 'skyroc-type-utils';
 import { isArray, isNil, isObject } from 'skyroc-utils';
 
 import type { SubscribeMaskOptions } from '../../form-core/event';
@@ -11,7 +11,7 @@ import { toMask } from '../../form-core/event';
 import type { Meta } from '../../types/shared-types';
 import { get } from '../../utils/get';
 
-import type { FormInstance, InternalFormInstance } from './FieldContext';
+import type { FormInstance, InternalFormInstance, MetaShapeFromPaths } from './FieldContext';
 import { useFieldContext } from './FieldContext';
 
 type UseFormFieldsStateOpts<Values> = {
@@ -19,13 +19,6 @@ type UseFormFieldsStateOpts<Values> = {
   includeChildren?: boolean;
   mask?: SubscribeMaskOptions;
 };
-
-export type MetaShapeNested<
-  Values,
-  Names extends readonly AllPathsKeys<Values>[] | undefined = undefined
-> = Names extends readonly AllPathsKeys<Values>[]
-  ? KeysToNestedObject<Names, Meta<any, any>> // 多字段/全字段 → 嵌套对象
-  : KeysToNestedObject<AllPathsKeys<Values>[], Meta<any, any>>; // 默认全量
 
 function useFieldState<Values = any, T extends AllPathsKeys<Values> = AllPathsKeys<Values>>(
   names: T,
@@ -35,13 +28,13 @@ function useFieldState<Values = any, T extends AllPathsKeys<Values> = AllPathsKe
 function useFieldState<Values = any, T extends AllPathsKeys<Values> = AllPathsKeys<Values>>(
   names: T[],
   opts?: UseFormFieldsStateOpts<Values>
-): MetaShapeNested<Values, T[]>;
+): MetaShapeFromPaths<Values, T[]>;
 
 // 无参数：全量嵌套对象
-function useFieldState<Values = any>(): MetaShapeNested<Values, AllPathsKeys<Values>[]>;
+function useFieldState<Values = any>(): MetaShapeFromPaths<Values, []>;
 
 // form 参数：全量嵌套对象
-function useFieldState<Values = any>(form: FormInstance<Values>): MetaShapeNested<Values, AllPathsKeys<Values>[]>;
+function useFieldState<Values = any>(form: FormInstance<Values>): MetaShapeFromPaths<Values, []>;
 
 function useFieldState<Values = any>(
   names?: AllPathsKeys<Values> | AllPathsKeys<Values>[] | FormInstance<Values>,

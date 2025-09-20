@@ -130,7 +130,7 @@ type DeepOptional<T> = T extends Primitive
     ? readonly DeepOptional<U>[]
     : { [K in keyof T]?: DeepOptional<T[K]> };
 
-type Wrap<K extends string, V> = { [P in K]: V };
+export type Wrap<K extends string, V> = { [P in K]: V };
 
 type IsNumSeg<S extends string> = S extends `${number}` | 'number' ? true : false;
 
@@ -155,7 +155,7 @@ type BuildShape<T, P extends string> = P extends `${infer K}.${infer R}`
     : never;
 
 type UnionToIntersection<U> = (U extends any ? (x: U) => void : never) extends (x: infer I) => void ? I : never;
-type MergeUnion<U> = Prettify<{ [K in keyof UnionToIntersection<U>]: UnionToIntersection<U>[K] }>;
+export type MergeUnion<U> = Prettify<{ [K in keyof UnionToIntersection<U>]: UnionToIntersection<U>[K] }>;
 
 /**
  * @example
@@ -196,16 +196,12 @@ export type AllPathsShape<T> = MergeUnion<PathsShape<T>>;
 export type AllPathsKeys<T> = keyof AllPathsShape<T> & string;
 
 // 工具：把 "a.b.c" 转成 { a: { b: { c: V } } }
-type KeyToNestedObject<K extends string, V> = K extends `${infer Head}.${infer Rest}`
+// "a.b.c" => { a: { b: { c: V } } }
+export type KeyToNestedObject<K extends string, V> = K extends `${infer Head}.${infer Rest}`
   ? { [P in Head]: KeyToNestedObject<Rest, V> }
   : { [P in K]: V };
 
-// 合并交叉类型 {a:{b:V}} & {a:{c:V}} → {a:{b:V;c:V}}
-type Merge<T> = {
-  [K in keyof T]: T[K];
-};
+// 合并 {a:{b:X}} & {a:{c:Y}} => {a:{b:X;c:Y}}
+export type Merge<T> = { [K in keyof T]: T[K] };
 
-// 核心：把一组路径 keys 转换成层级对象
-export type KeysToNestedObject<Keys extends readonly string[], V> = Merge<
-  Keys[number] extends infer K ? (K extends string ? KeyToNestedObject<K, V> : never) : never
->;
+// 把 Keys 分配展开，而不是取联合

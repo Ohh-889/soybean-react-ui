@@ -2,7 +2,7 @@
 /* eslint-disable no-bitwise */
 
 import { createContext, useContext } from 'react';
-import type { AllPathsKeys, DeepPartial, KeysToNestedObject, PathToDeepType, ShapeFromPaths } from 'skyroc-type-utils';
+import type { AllPathsKeys, DeepPartial, MergeUnion, PathToDeepType, ShapeFromPaths, Wrap } from 'skyroc-type-utils';
 
 import type { ChangeMask } from '../../form-core/event';
 import type { Action, Middleware } from '../../form-core/middleware';
@@ -12,6 +12,24 @@ import type { Rule, ValidateOptions } from '../../form-core/validation';
 import type { Meta } from '../../types/shared-types';
 
 import type { FormState } from './types';
+
+// 核心改造：给每条路径套上 Meta
+type BuildMetaShape<T, P extends string> = P extends `${infer K}.${infer R}`
+  ? K extends keyof T
+    ? T[K] extends readonly (infer U)[]
+      ? Wrap<Extract<K, string>, Array<BuildMetaShape<U, R>>>
+      : Wrap<Extract<K, string>, BuildMetaShape<T[K], R>>
+    : never
+  : P extends `${infer K}`
+    ? K extends keyof T
+      ? Wrap<Extract<K, string>, Meta<P, PathToDeepType<T, P>>>
+      : never
+    : never;
+
+// 把路径数组转成 Meta 层级结构
+export type MetaShapeFromPaths<T, Ps extends readonly string[]> = Ps extends never[] | []
+  ? { [K in keyof T]: Meta<K & string, PathToDeepType<T, K & string>> }
+  : MergeUnion<Ps[number] extends infer P ? (P extends string ? BuildMetaShape<T, P> : never) : never>;
 
 export interface ValuesOptions<Values = any> {
   getFieldsValue: <K extends AllPathsKeys<Values>[]>(name?: K) => ShapeFromPaths<Values, K>;
@@ -23,12 +41,7 @@ export interface ValuesOptions<Values = any> {
 export interface StateOptions<Values = any> {
   getField: <T extends AllPathsKeys<Values>>(name: T) => Meta<T, PathToDeepType<Values, T>>;
   getFieldError: (name: AllPathsKeys<Values>) => string[];
-  getFields: (
-    names?: AllPathsKeys<Values>[]
-  ) => KeysToNestedObject<
-    AllPathsKeys<Values>[],
-    Meta<AllPathsKeys<Values>, PathToDeepType<Values, AllPathsKeys<Values>>>
-  >;
+  getFields: <T extends AllPathsKeys<Values>[]>(names?: T) => MetaShapeFromPaths<Values, T>;
   getFieldsError: (names?: AllPathsKeys<Values>[]) => Record<AllPathsKeys<Values>, string[]>;
   getFieldsTouched: (names?: AllPathsKeys<Values>[]) => boolean;
   getFieldsValidated: (names?: AllPathsKeys<Values>[]) => boolean;
