@@ -2,7 +2,7 @@
 /* eslint-disable no-bitwise */
 
 import { createContext, useContext } from 'react';
-import type { AllPathsKeys, DeepPartial, PathToDeepType, ShapeFromPaths } from 'skyroc-type-utils';
+import type { AllPathsKeys, DeepPartial, KeysToNestedObject, PathToDeepType, ShapeFromPaths } from 'skyroc-type-utils';
 
 import type { ChangeMask } from '../../form-core/event';
 import type { Action, Middleware } from '../../form-core/middleware';
@@ -25,7 +25,10 @@ export interface StateOptions<Values = any> {
   getFieldError: (name: AllPathsKeys<Values>) => string[];
   getFields: (
     names?: AllPathsKeys<Values>[]
-  ) => Meta<AllPathsKeys<Values>, PathToDeepType<Values, AllPathsKeys<Values>>>[];
+  ) => KeysToNestedObject<
+    AllPathsKeys<Values>[],
+    Meta<AllPathsKeys<Values>, PathToDeepType<Values, AllPathsKeys<Values>>>
+  >;
   getFieldsError: (names?: AllPathsKeys<Values>[]) => Record<AllPathsKeys<Values>, string[]>;
   getFieldsTouched: (names?: AllPathsKeys<Values>[]) => boolean;
   getFieldsValidated: (names?: AllPathsKeys<Values>[]) => boolean;

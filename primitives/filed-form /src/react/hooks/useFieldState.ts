@@ -3,12 +3,13 @@
 /* eslint-disable react/hook-use-state */
 import { useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
-import type { AllPathsKeys, PathToDeepType } from 'skyroc-type-utils';
+import type { AllPathsKeys, KeysToNestedObject, PathToDeepType } from 'skyroc-type-utils';
 import { isArray, isNil, isObject } from 'skyroc-utils';
 
 import type { SubscribeMaskOptions } from '../../form-core/event';
 import { toMask } from '../../form-core/event';
 import type { Meta } from '../../types/shared-types';
+import { get } from '../../utils/get';
 
 import type { FormInstance, InternalFormInstance } from './FieldContext';
 import { useFieldContext } from './FieldContext';
@@ -19,16 +20,12 @@ type UseFormFieldsStateOpts<Values> = {
   mask?: SubscribeMaskOptions;
 };
 
-export type MetaShape<
+export type MetaShapeNested<
   Values,
   Names extends readonly AllPathsKeys<Values>[] | undefined = undefined
 > = Names extends readonly AllPathsKeys<Values>[]
-  ? {
-      [K in Names[number]]: Meta<K, PathToDeepType<Values, K>>;
-    }
-  : {
-      [K in AllPathsKeys<Values>]: Meta<K, PathToDeepType<Values, K>>;
-    };
+  ? KeysToNestedObject<Names, Meta<any, any>> // 多字段/全字段 → 嵌套对象
+  : KeysToNestedObject<AllPathsKeys<Values>[], Meta<any, any>>; // 默认全量
 
 function useFieldState<Values = any, T extends AllPathsKeys<Values> = AllPathsKeys<Values>>(
   names: T,
@@ -38,11 +35,13 @@ function useFieldState<Values = any, T extends AllPathsKeys<Values> = AllPathsKe
 function useFieldState<Values = any, T extends AllPathsKeys<Values> = AllPathsKeys<Values>>(
   names: T[],
   opts?: UseFormFieldsStateOpts<Values>
-): MetaShape<Values, T[]>;
+): MetaShapeNested<Values, T[]>;
 
-function useFieldState<Values = any>(): MetaShape<Values, AllPathsKeys<Values>[]>;
+// 无参数：全量嵌套对象
+function useFieldState<Values = any>(): MetaShapeNested<Values, AllPathsKeys<Values>[]>;
 
-function useFieldState<Values = any>(form: FormInstance<Values>): MetaShape<Values, AllPathsKeys<Values>[]>;
+// form 参数：全量嵌套对象
+function useFieldState<Values = any>(form: FormInstance<Values>): MetaShapeNested<Values, AllPathsKeys<Values>[]>;
 
 function useFieldState<Values = any>(
   names?: AllPathsKeys<Values> | AllPathsKeys<Values>[] | FormInstance<Values>,
@@ -88,6 +87,8 @@ function useFieldState<Values = any>(
     warnings: true
   };
 
+  const includeChildren = opts?.includeChildren ?? isFormInstance;
+
   const [_, forceUpdate] = useState({});
 
   useEffect(() => {
@@ -97,7 +98,7 @@ function useFieldState<Values = any>(
         flushSync(() => forceUpdate({}));
       },
       {
-        includeChildren: opts?.includeChildren,
+        includeChildren,
         mask: toMask(mask)
       }
     );
@@ -106,14 +107,14 @@ function useFieldState<Values = any>(
 
   if (!subscribeNames) {
     // names 为空 → 返回 Map 形式
-    return Object.fromEntries(state.map(item => [item.name, item]));
+    return state;
   }
   if (subscribeNames.length === 1) {
     // 单字段 → 直接返回该字段的 meta
-    return state[0];
+    return get(state, subscribeNames[0]);
   }
   // 多字段 → 返回对象
-  return Object.fromEntries(state.map(item => [item.name, item]));
+  return state;
 }
 
 export { useFieldState };

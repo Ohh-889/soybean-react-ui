@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { Button, Card, Form, FormField, Input, useForm } from 'soybean-react-ui';
 
+import { showToastCode } from './toast';
+
 const Preserve = () => {
   const [form] = useForm();
 
@@ -24,6 +26,12 @@ const Preserve = () => {
         <Form
           className="w-[480px] max-sm:w-full space-y-4"
           form={form}
+          onFinish={values => {
+            showToastCode('You submitted the following values', values);
+          }}
+          onFinishFailed={errors => {
+            showToastCode('You failed to submit the form', errors);
+          }}
         >
           {show && (
             <FormField
@@ -44,16 +52,11 @@ const Preserve = () => {
 
           <div className="flex gap-x-2">
             <Button onClick={toggle}>Toggle</Button>
-            <Button type="submit">Reset</Button>
+            <Button type="submit">Submit</Button>
+            <Button onClick={toggleLoad}>Toggle Load</Button>
           </div>
         </Form>
       )}
-      <Button
-        className="mt-4"
-        onClick={toggleLoad}
-      >
-        Toggle Load
-      </Button>
     </Card>
   );
 };

@@ -12,6 +12,14 @@ type Inputs = {
   username: string;
 };
 
+const EffectWatch = () => {
+  const values = useWatch<Inputs>();
+
+  console.log('values', values);
+
+  return null;
+};
+
 export default function WatchDemo() {
   const [form] = useForm<Inputs>();
 
@@ -24,7 +32,7 @@ export default function WatchDemo() {
   // 3) Watch nested fields
   const info = useWatch('info', { form, includeChildren: true });
 
-  const { age: NewAge, password: NewPassword, username: NewUsername } = useWatch([], { form });
+  const { age: NewAge, password: NewPassword, username: NewUsername } = useWatch(form);
 
   useEffect(() => {
     showToastCode('NewValues', { NewAge, NewPassword, NewUsername });
@@ -72,6 +80,8 @@ export default function WatchDemo() {
           >
             <Input placeholder="Enter info.company" />
           </FormField>
+
+          <EffectWatch />
         </Form>
 
         {/* 4) Dynamic rendering */}

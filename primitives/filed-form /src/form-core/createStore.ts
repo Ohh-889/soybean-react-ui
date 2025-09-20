@@ -7,6 +7,7 @@ import { assign, isArray, isEqual, isNil, toArray } from 'skyroc-utils';
 
 import type { FieldEntity } from '../types/field';
 import type { Callbacks, Store, StoreValue } from '../types/formStore';
+import type { Meta } from '../types/shared-types';
 import { get } from '../utils/get';
 import { set, unset } from '../utils/set';
 import type { NamePath, PathTuple } from '../utils/util';
@@ -37,7 +38,7 @@ const matchTrigger = (rule: Rule, trig?: string | string[]) => {
 function getValueByNames<T>(source: Map<string, T>, names?: NamePath[]): Record<string, T> {
   const keys = names?.length ? names.map(keyOfName) : Array.from(source.keys());
 
-  return Object.fromEntries(keys.map(k => [k, source.get(k)!]).filter(([, v]) => v !== undefined));
+  return Object.fromEntries(keys.map(k => [k, source.get(k)!]));
 }
 
 function getFlag(bucket: Set<string>, names?: NamePath[]) {
@@ -596,11 +597,19 @@ class FormStore {
   // Fields State (errors/touched/validating/warnings, selectors)
   // ------------------------------------------------
   private getFields = (names?: NamePath[]) => {
+    let acc: Record<string, Meta<string, any>> = {};
+
     if (names && names.length !== 0) {
-      return names.map(name => this.getField(name));
+      for (const name of names) {
+        acc = set(acc, keyOfName(name), this.getField(name));
+      }
+    } else {
+      for (const entity of this._fieldEntities) {
+        acc = set(acc, keyOfName(entity.name), this.getField(entity.name));
+      }
     }
 
-    return this._fieldEntities.map(entity => this.getField(entity.name));
+    return acc;
   };
 
   private getField = (name: NamePath) => {
@@ -906,11 +915,11 @@ class FormStore {
     if (this._callbacks?.onFieldsChange) {
       const fields = this.getFields();
 
-      const changedFields = fields.filter(field => {
+      const changedFields = Object.values(fields).filter(field => {
         return nameList.includes(field.name);
       });
 
-      this._callbacks?.onFieldsChange?.(changedFields, fields);
+      this._callbacks?.onFieldsChange?.(changedFields, Object.values(fields));
     }
   };
 

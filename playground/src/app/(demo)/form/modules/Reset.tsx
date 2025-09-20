@@ -24,7 +24,7 @@ const Reset = () => {
   };
 
   const handleResetUsername = () => {
-    form.resetFields(['password']);
+    form.resetFields(['username']);
   };
 
   return (
