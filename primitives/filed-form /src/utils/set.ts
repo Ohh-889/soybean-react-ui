@@ -100,3 +100,15 @@ export function unset<T>(obj: T, path: NamePath, options: SetOptions = { safeKey
 
   return unsetImpl(obj, 0) as T;
 }
+
+export const construct = <T extends Record<string, any>>(obj: T): T => {
+  if (!obj) return {} as T;
+
+  let acc: Record<string, any> = {};
+
+  for (const [path, value] of Object.entries(obj)) {
+    acc = set(acc, path, value);
+  }
+
+  return acc as T;
+};
