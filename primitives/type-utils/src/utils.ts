@@ -194,3 +194,18 @@ type PathsShape<T, Index extends number = number, P extends string = '', Depth e
 
 export type AllPathsShape<T> = MergeUnion<PathsShape<T>>;
 export type AllPathsKeys<T> = keyof AllPathsShape<T> & string;
+
+// 工具：把 "a.b.c" 转成 { a: { b: { c: V } } }
+type KeyToNestedObject<K extends string, V> = K extends `${infer Head}.${infer Rest}`
+  ? { [P in Head]: KeyToNestedObject<Rest, V> }
+  : { [P in K]: V };
+
+// 合并交叉类型 {a:{b:V}} & {a:{c:V}} → {a:{b:V;c:V}}
+type Merge<T> = {
+  [K in keyof T]: T[K];
+};
+
+// 核心：把一组路径 keys 转换成层级对象
+export type KeysToNestedObject<Keys extends readonly string[], V> = Merge<
+  Keys[number] extends infer K ? (K extends string ? KeyToNestedObject<K, V> : never) : never
+>;
