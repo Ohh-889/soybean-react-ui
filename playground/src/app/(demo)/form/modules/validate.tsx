@@ -10,13 +10,32 @@ import { showToastCode } from './toast';
 
 type Inputs = {
   age: number;
+  bio: string;
+  birthday: string;
+  favoriteColor: string;
+  nickname: string;
+  password: string;
+  password2: string;
+  pin: string;
+  role: string;
   username: string;
+  username2: string;
+  website: string;
+  workEmail: string;
 };
 
 const Validate = () => {
   const [form] = useForm<Inputs>();
 
   const errors = useFieldError(form);
+
+  function validateNickname() {
+    form.validateField('nickname');
+  }
+
+  function validateUsername2() {
+    form.validateField('username2');
+  }
 
   useEffect(() => {
     showToastCode('all Errors', errors);
@@ -266,7 +285,21 @@ const Validate = () => {
           />
         </FormField>
 
-        <Button type="submit">Submit</Button>
+        <div className="flex gap-x-4">
+          <Button
+            type="button"
+            onClick={validateNickname}
+          >
+            Validate Nickname
+          </Button>
+          <Button
+            type="button"
+            onClick={validateUsername2}
+          >
+            Validate Username2
+          </Button>
+          <Button type="submit">Submit</Button>
+        </div>
       </Form>
     </Card>
   );
