@@ -14,9 +14,7 @@ export type RuleType =
   | 'float'
   | 'hex'
   | 'integer'
-  | 'method'
   | 'number'
-  | 'object'
   | 'regexp'
   | 'string'
   | 'url';
@@ -150,9 +148,11 @@ checker.registerBase(({ rule: r, value: v }) => {
 
 // string
 checker.registerType('string', ({ rule: r, value: v }) => {
-  if (!isNil(r.minLength) && (v as string)?.length < r.minLength) return fail(r, `Min length is ${r.minLength}`);
+  if ((!isNil(r.minLength) && (v as string)?.length < r.minLength) || (isNil(v) && r.minLength))
+    return fail(r, `Min length is ${r.minLength}`);
   if (!isNil(r.maxLength) && (v as string)?.length > r.maxLength) return fail(r, `Max length is ${r.maxLength}`);
-  if (!isNil(r.len) && (v as string)?.length !== r.len) return fail(r, `Length must be ${r.len}`);
+  if ((!isNil(r.len) && (v as string)?.length !== r.len) || (isNil(v) && r.len))
+    return fail(r, `Length must be ${r.len}`);
   if (r.pattern && !r.pattern.test(v as string)) return fail(r, 'Pattern not match');
   return ok();
 });
@@ -200,16 +200,35 @@ checker.registerType('enum', ({ rule: r, value: v }) => {
 });
 
 // others
-checker.registerType('boolean', () => ok()); // 值始终是 string，可在业务层转换
+checker.registerType('boolean', ({ rule: r, value: v }) => {
+  if (typeof v !== 'boolean') {
+    return fail(r, 'Must be a boolean');
+  }
+  return ok();
+});
+
 checker.registerType('email', ({ rule: r, value: v }) =>
   isEmail(v as string) ? ok() : fail(r, 'Must be a valid email')
 );
 checker.registerType('hex', ({ rule: r, value: v }) =>
   isHexColor(v as string) ? ok() : fail(r, 'Must be a valid hex color')
 );
-checker.registerType('method', () => ok()); // 如果 v 本来就是 string，这里通常不触发
-checker.registerType('object', () => ok()); // 前端表单传过来不会是 object，跳过
-checker.registerType('regexp', () => ok()); // 同上
+
+checker.registerType('regexp', ({ rule: r, value: v }) => {
+  if (isEmpty(v) && r.skipIfEmpty !== false) return ok();
+
+  if (v instanceof RegExp) return ok();
+  if (typeof v === 'string') {
+    try {
+      new RegExp(v);
+      return ok();
+    } catch {
+      return fail(r, 'Must be a valid regular expression');
+    }
+  }
+  return fail(r, 'Must be a valid regular expression');
+});
+
 checker.registerType('url', ({ rule: r, value: v }) => (isURL(v as string) ? ok() : fail(r, 'Must be a valid URL')));
 
 // custom validator
