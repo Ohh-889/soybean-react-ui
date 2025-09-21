@@ -774,7 +774,7 @@ class FormStore {
     });
   };
 
-  validateFields = async (names?: NamePath[], opts?: ValidateFieldsOptions) => {
+  private validateFields = async (names?: NamePath[], opts?: ValidateFieldsOptions) => {
     let list: string[];
 
     if (names && names.length > 0) {
@@ -807,7 +807,7 @@ class FormStore {
       }
     });
 
-    const results = await Promise.all(list.map(n => this.validateField(n, opts)));
+    const results = await this.transactionAsync(() => Promise.all(list.map(n => this.validateField(n, opts))));
 
     return results.every(Boolean);
   };
@@ -851,6 +851,18 @@ class FormStore {
       this.commit();
     }
   };
+
+  private async transactionAsync<T>(fn: () => Promise<T>): Promise<T> {
+    this.begin();
+    try {
+      return await fn();
+    } catch (e) {
+      this.rollback();
+      throw e;
+    } finally {
+      this.commit();
+    }
+  }
 
   // ===== Array Operation =====
   private arrayOp = (name: NamePath, op: 'insert' | 'move' | 'remove' | 'replace' | 'swap', args: any) => {
