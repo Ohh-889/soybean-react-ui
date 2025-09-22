@@ -5,7 +5,22 @@ import { isEqual, isNil } from 'skyroc-utils';
 
 import type { StoreValue } from '../types/formStore';
 
-/* ---------- Types ---------- */
+/**
+ * Discriminated union describing the expected value type for validation.
+ * Determines which built-in type checks will run for a rule.
+ *
+ * - 'string': validates string length and pattern
+ * - 'number': validates numeric range and equality
+ * - 'integer': validates integers only with optional min/max
+ * - 'float': validates finite non-integer numbers
+ * - 'boolean': validates a boolean primitive
+ * - 'date': validates a Date or date-like value with optional min/max
+ * - 'enum': validates membership in a provided enum array (deep-equals)
+ * - 'email': validates a simple email pattern
+ * - 'hex': validates hex color strings (#RGB[A], #RRGGBB[AA])
+ * - 'regexp': validates a RegExp instance or a compilable pattern string
+ * - 'url': validates a URL parsable by the URL constructor
+ */
 export type RuleType =
   | 'boolean'
   | 'date'
@@ -19,53 +34,91 @@ export type RuleType =
   | 'string'
   | 'url';
 
+/** Custom validator signature. Return a message string to fail, or a falsy value to pass. May be async. */
 type Validator = (
   rule: Rule,
   value: StoreValue,
   values: StoreValue
 ) => Promise<string | any> | string | undefined | null;
 
+/** Validation rule configuration combining base, type-specific, and custom validations. */
 export interface Rule {
+  /** Optional debounce time in milliseconds for async validators. */
   debounceMs?: number;
+  /** Allowed values for type 'enum'. Compared by deep equality. */
   enum?: StoreValue[];
+  /** Exact numeric value or exact string length, depending on type. */
   len?: number;
+  /** Maximum numeric value or latest date/time allowed. */
   max?: number | Date | string;
+  /** Maximum string length allowed (type 'string'). */
   maxLength?: number;
+  /** Override default error/warning message. */
   message?: string;
+  /** Minimum numeric value or earliest date/time allowed. */
   min?: number | Date | string;
+  /** Minimum string length allowed (type 'string'). */
   minLength?: number;
+  /** Regular expression to test a string value against. */
   pattern?: RegExp;
+  /** Whether the field is required (non-empty). */
   required?: boolean;
+  /** If true (default), skip checks when empty and not required. */
   skipIfEmpty?: boolean;
+  /** Transform the raw value before validation. */
   transform?: (value: StoreValue) => StoreValue;
+  /** Declares which built-in type validators should run. Defaults to 'string'. */
   type?: RuleType;
+  /** Which trigger(s) cause this rule to run (e.g., 'change', 'blur'). */
   validateTrigger?: string | string[];
+  /** Custom validator executed after base and type-specific checks. */
   validator?: Validator;
+  /** Treat failures as warnings instead of errors when true. */
   warningOnly?: boolean;
+  /** Disallow strings that contain only whitespace when true. */
   whitespace?: boolean;
 }
 
+/** Execution strategy for running multiple rules. */
 export type RunMode = 'parallelAll' | 'parallelFirst' | 'serial';
 
+/** Options controlling validation execution, including mode and triggers. */
 export type ValidateOptions = {
+  /** Rule execution mode; see RunMode. */
   mode?: RunMode;
+  /** Which trigger(s) initiated validation; used to filter rules. */
   trigger?: string | string[];
 };
 
+/** Result of a single rule execution: error or warning message. */
 type Res = { err?: string; warn?: string };
+/** Context passed to a check function, including the rule and all form values. */
 type Ctx = { rule: Rule; value: any; values: StoreValue };
+/** Function type for an individual check strategy. */
 type Check = (ctx: Ctx) => Promise<Res> | Res;
 
-/* ---------- Utils ---------- */
+/**
+ * Utility functions for validation
+ * Contains helper functions for checking empty values, whitespace, dates, and other common validations
+ */
+/** Successful validation result (no error and no warning). */
 const ok = (): Res => ({});
+/** Build a failure result, honoring rule.warningOnly and rule.message overrides. */
 const fail = (r: Rule, dft: string): Res => (r.warningOnly ? { warn: r.message || dft } : { err: r.message || dft });
 
+/** True when value is null/undefined, empty string, or empty array. */
 const isEmpty = (v: any) =>
   isNil(v) || (typeof v === 'string' && v?.length === 0) || (Array.isArray(v) && v?.length === 0);
 
+/** True when a string contains only whitespace characters. */
 const onlyWhitespace = (s: string) => s?.length > 0 && s?.trim().length === 0;
+/** True for finite numbers (not NaN/Infinity). */
 const isFiniteNumber = (v: any) => Number.isFinite(v);
 
+/**
+ * Normalize a date-like value to a millisecond timestamp.
+ * Returns null when the value cannot be interpreted as a valid date/time.
+ */
 const toDateMs = (d: number | string | Date): number | null => {
   if (d instanceof Date) return Number.isNaN(d.getTime()) ? null : d.getTime();
   if (typeof d === 'number') return Number.isFinite(d) ? d : null;
@@ -76,8 +129,11 @@ const toDateMs = (d: number | string | Date): number | null => {
   return null;
 };
 
+/** Simple email validation based on a non-whitespace/local@domain.tld pattern. */
 const isEmail = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+/** Hex color validator supporting 3/4/6/8 digit forms with optional leading '#'. */
 const isHexColor = (s: string) => /^#?(?:[A-Fa-f0-9]{3,4}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$/.test(s);
+/** Validates that a string can be parsed by the URL constructor. */
 const isURL = (s: string) => {
   try {
     new URL(s);
@@ -87,22 +143,33 @@ const isURL = (s: string) => {
   }
 };
 
-/* ---------- Strategy Manager ---------- */
+/**
+ * Strategy Manager for Rule Validation
+ * Implements a flexible validation system using the Strategy pattern
+ * Manages different types of validation rules and their execution
+ */
 class RuleChecker {
   private baseChecks: Check[] = [];
   private typeChecks: Record<RuleType, Check[]> = {} as any;
   private customCheck: Check | null = null;
 
+  /** Register a base check that always runs before type-specific and custom checks. */
   registerBase(check: Check) {
     this.baseChecks.push(check);
   }
+  /** Register one or more checks for a specific RuleType. */
   registerType(type: RuleType, ...checks: Check[]) {
     this.typeChecks[type] = checks;
   }
+  /** Register a single custom check that will run after base and type checks. */
   registerCustom(check: Check) {
     this.customCheck = check;
   }
 
+  /**
+   * Run all applicable checks for a single rule against a value.
+   * Applies transform first, then base checks, type checks, and finally the custom check.
+   */
   async check(value: any, rule: Rule, allValues: StoreValue): Promise<Res> {
     const r = rule || {};
     const v = typeof r.transform === 'function' ? r.transform(value) : value;
@@ -239,10 +306,19 @@ checker.registerCustom(async ({ rule: r, value: v, values }) => {
 });
 
 /* ---------- API ---------- */
+/**
+ * Validate a single rule against a value.
+ */
 export async function checkOneRule(value: any, rule: Rule, allValues: StoreValue): Promise<Res> {
   return checker.check(value, rule, allValues);
 }
 
+/**
+ * Validate multiple rules using the specified execution mode.
+ * - serial: run sequentially and stop on first non-warning error
+ * - parallelFirst: run in parallel and resolve on first non-warning error
+ * - parallelAll: run all in parallel, collecting all errors and warnings
+ */
 export async function runRulesWithMode(
   value: any,
   rules: Rule[],
