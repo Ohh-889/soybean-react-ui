@@ -1,55 +1,83 @@
-// useSelector.ts
 'use client';
-import * as React from 'react';
-import { useSyncExternalStore } from 'react';
+/* eslint-disable no-bitwise */
+import { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
+import type { AllPathsKeys } from 'skyroc-type-utils';
+
+import type { ChangeMask } from '../../form-core/event';
+import { ChangeTag } from '../../form-core/event';
 
 import { useFieldContext } from './FieldContext';
-import type { ChangeMask } from './events';
-import { ChangeTag } from './events';
-import type { NamePath } from './types';
+import type { FormInstance, InternalFormInstance } from './FieldContext';
 
 type Eq<T> = (a: T, b: T) => boolean;
 
-export function useSelector<T>(
-  selector: (get: (n: NamePath) => any, all: any) => T,
-  eq: Eq<T> = Object.is,
-  opt?: { mask?: ChangeMask; names?: NamePath[] }
-): T {
-  const form = useFieldContext();
-  const mask = opt?.mask ?? ChangeTag.Value | ChangeTag.Errors | ChangeTag.Validating;
-  const names = opt?.names || [];
+type UseSelectorOpts<Values, R> = {
+  /** 订阅字段，空则订阅全部 */
+  deps?: AllPathsKeys<Values>[];
+  /** 是否相等 */
+  eq?: Eq<R>;
+  /** 表单实例 */
+  form?: FormInstance<Values>;
+  /** 是否订阅子路径 */
+  includeChildren?: boolean;
+  /** 变更掩码 */
+  mask?: ChangeMask;
+};
 
-  const getSel = React.useCallback(
-    () => selector(form.getFieldValue.bind(form), form.getFieldsValue()),
-    [form, selector]
-  );
+/**
+ * 从表单中“选择”任意聚合值，只有依赖变化才刷新。
+ */
+export function useSelector<Values = any, R = unknown>(
+  selector: (get: (n: AllPathsKeys<Values>) => any, all: Values) => R,
+  opts?: UseSelectorOpts<Values, R>
+): R {
+  const ctxForm = useFieldContext<Values>();
+  const form = opts?.form ?? ctxForm;
 
-  const subscribe = React.useCallback(
-    (on: () => void) => {
-      if (!names.length) {
-        // 全局订阅：任意字段改变都试着比较
-        return form.__store.subscribeField([], () => on(), { includeChildren: true, mask });
+  const eq = opts?.eq ?? Object.is;
+
+  if (!form) {
+    throw new Error('Can not find FormContext. Please make sure you wrap Field under Form or provide a form instance.');
+  }
+
+  const { getInternalHooks } = form as unknown as InternalFormInstance<Values>;
+  const { subscribeField } = getInternalHooks();
+
+  const deps = opts?.deps;
+
+  const mask = opts?.mask ?? ChangeTag.Value;
+  const includeChildren = opts?.includeChildren;
+
+  // 计算当前选择值
+  const compute = () => {
+    const getField = form.getFieldValue;
+    const all = form.getFieldsValue() as Values;
+    return selector(getField, all);
+  };
+
+  // state + ref 用于去抖渲染
+  const [val, setVal] = useState<R>(compute);
+
+  const prevRef = useRef<R>(val);
+
+  useEffect(() => {
+    // 订阅器
+    const onChange = () => {
+      const next = compute();
+      if (!eq(prevRef.current, next)) {
+        prevRef.current = next;
+        // 与 useFieldState 一致：同步刷新，减少闪烁
+        flushSync(() => setVal(next));
       }
-      const offs = names.map(n => form.__store.subscribeField(n, () => on(), { includeChildren: true, mask }));
-      return () => offs.forEach(f => f());
-    },
-    [form, names.map(String).join('|'), mask]
-  );
+    };
 
-  const getSnap = React.useRef<T>(getSel());
-  const getSnapshot = () => getSnap.current;
-  const serverSnapshot = getSnapshot;
+    // 指定字段订阅
+    return subscribeField(deps, onChange, {
+      includeChildren,
+      mask
+    });
+  }, []);
 
-  useSyncExternalStore(
-    subscribe,
-    () => {
-      const next = getSel();
-      const prev = getSnap.current;
-      if (!eq(prev, next)) getSnap.current = next;
-      return getSnap.current;
-    },
-    serverSnapshot
-  );
-
-  return getSnap.current;
+  return val;
 }

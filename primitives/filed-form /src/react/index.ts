@@ -16,10 +16,14 @@ export * from './hooks/FieldContext';
 
 export { useArrayField } from './hooks/useFieldArray';
 
+export { useEffectField } from './hooks/useFieldEffect';
+
 export { useFieldError } from './hooks/useFieldError';
 
 export { useFieldState } from './hooks/useFieldState';
 
 export { useForm } from './hooks/useForm';
+
+export { useSelector } from './hooks/useSelector';
 
 export { useWatch } from './hooks/useWatch';

@@ -6,6 +6,7 @@ import List from './modules/List';
 import Preserve from './modules/Preserve';
 import Reset from './modules/Reset';
 import UseForm from './modules/UseForm';
+import UseSelector from './modules/UseSelector';
 import UseWatch from './modules/UseWatch';
 import Validate from './modules/validate';
 import ValidateWarning from './modules/validateWaring';
@@ -28,6 +29,8 @@ const FormPage = () => {
       <ValidateWarning />
 
       <UseWatch />
+
+      <UseSelector />
 
       <Reset />
 

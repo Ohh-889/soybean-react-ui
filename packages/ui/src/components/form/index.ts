@@ -4,9 +4,11 @@ export {
   ComputedField as FormComputedField,
   Form,
   List as FormList,
+  useEffectField,
   useFieldError,
   useFieldState,
   useForm,
+  useSelector,
   useWatch
 } from 'skyroc-form';
 
