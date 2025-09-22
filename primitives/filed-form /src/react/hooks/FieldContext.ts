@@ -4,6 +4,7 @@
 import { createContext, useContext } from 'react';
 import type {
   AllPathsKeys,
+  ArrayElementValue,
   ArrayKeys,
   DeepPartial,
   MergeUnion,
@@ -45,6 +46,15 @@ export type MetaShapeFromPaths<T, Ps extends readonly string[]> = Ps extends nev
   : MergeUnion<Ps[number] extends infer P ? (P extends string ? BuildMetaShape<T, P> : never) : never>;
 
 export interface ValuesOptions<Values = any> {
+  arrayOp: <K extends ArrayKeys<Values>>(
+    name: K
+  ) => {
+    insert: (index: number, item: ArrayElementValue<Values, K>) => void;
+    move: (from: number, to: number) => void;
+    remove: (index: number) => void;
+    replace: (index: number, val: ArrayElementValue<Values, K>) => void;
+    swap: (i: number, j: number) => void;
+  };
   getFieldsValue: <K extends AllPathsKeys<Values>[]>(name?: K) => ShapeFromPaths<Values, K>;
   getFieldValue: <T extends AllPathsKeys<Values>>(name: T) => PathToDeepType<Values, T>;
   setFieldsValue: (values: DeepPartial<Values>) => void;

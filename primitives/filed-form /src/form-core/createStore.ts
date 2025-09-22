@@ -1285,6 +1285,23 @@ class FormStore {
 
   getForm = () => {
     return {
+      arrayOp: (name: NamePath) => ({
+        insert: (index: number, item: any) => {
+          this.dispatch({ args: { index, item }, name, op: 'insert', type: 'arrayOp' });
+        },
+        move: (from: number, to: number) => {
+          this.dispatch({ args: { from, to }, name, op: 'move', type: 'arrayOp' });
+        },
+        remove: (index: number) => {
+          this.dispatch({ args: { index }, name, op: 'remove', type: 'arrayOp' });
+        },
+        replace: (index: number, val: any) => {
+          this.dispatch({ args: { index, item: val }, name, op: 'replace', type: 'arrayOp' });
+        },
+        swap: (i: number, j: number) => {
+          this.dispatch({ args: { i, j }, name, op: 'swap', type: 'arrayOp' });
+        }
+      }),
       getField: this.getField,
       getFieldError: this.getFieldError,
       getFields: this.getFields,

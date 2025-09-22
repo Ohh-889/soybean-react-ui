@@ -13,7 +13,7 @@ import type {
   RegisterCallbackOptions
 } from '../hooks/FieldContext';
 import { FieldContextProvider } from '../hooks/FieldContext';
-import {useForm} from '../hooks/useForm';
+import { useForm } from '../hooks/useForm';
 
 interface FormBaseProps<Values = any> extends RegisterCallbackOptions<Values> {
   children?: React.ReactNode;

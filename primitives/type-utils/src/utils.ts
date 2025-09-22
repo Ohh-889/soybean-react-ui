@@ -226,3 +226,6 @@ export type ArrayKeys<T> = {
   : {
       [K in keyof T]: T[K] extends readonly any[] ? K : never;
     }[keyof T];
+
+// 获取某个属性 K 的元素类型，如果不是数组就返回 never
+export type ArrayElementValue<T, K extends keyof T> = T[K] extends (infer U)[] ? U : any;

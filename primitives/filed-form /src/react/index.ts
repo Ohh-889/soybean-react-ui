@@ -14,6 +14,8 @@ export { default as List } from './components/List';
 
 export * from './hooks/FieldContext';
 
+export { useArrayField } from './hooks/useFieldArray';
+
 export { useFieldError } from './hooks/useFieldError';
 
 export { useFieldState } from './hooks/useFieldState';
