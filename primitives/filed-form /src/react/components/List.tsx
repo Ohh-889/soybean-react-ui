@@ -3,79 +3,66 @@
 /* eslint-disable react/hook-use-state */
 /* eslint-disable no-plusplus */
 import React, { useEffect, useRef, useState } from 'react';
-import type { AllPaths } from 'skyroc-type-utils';
+import type { ArrayKeys } from 'skyroc-type-utils';
 
 import type { StoreValue } from '../../form-core/types';
-import { keyOfName } from '../../utils/util';
-import type { InternalFormInstance } from '../hooks/FieldContext';
+import type { InternalFormInstance, ListRenderItem } from '../hooks/FieldContext';
 import { useFieldContext } from '../hooks/FieldContext';
 
-export type ListRenderItem = {
-  key: string;
-  name: string;
-};
-
+/* - ListProps: props for the List component */
 export type ListProps<Values = any> = {
-  // array path
+  /* - children: render function receiving 'fields' and array operation helpers */
   children: (
+    /* - fields: array of item descriptors to render */
     fields: ListRenderItem[],
+    /* - ops: mutation helpers for the array field */
     ops: {
+      /* - insert: insert item at index */
       insert: (index: number, item: any) => void;
+      /* - move: move item from one index to another */
       move: (from: number, to: number) => void;
+      /* - remove: remove item at index */
       remove: (index: number) => void;
+      /* - replace: replace item at index with a new value */
       replace: (index: number, val: any) => void;
+      /* - swap: swap two items by their indices */
       swap: (i: number, j: number) => void;
     }
   ) => React.ReactNode;
+
+  /* - initialValue: default array value for this field */
   initialValue?: StoreValue[];
-  name: AllPaths<Values>;
+
+  /* - name: form path pointing to an array field */
+  name: ArrayKeys<Values> & string;
+
+  /* - preserve: keep field state when unmounted (default: true) */
+  preserve?: boolean;
 };
 
-function move<T>(arr: T[], from: number, to: number): T[] {
-  const clone = arr.slice();
-  const item = clone.splice(from, 1)[0];
-  clone.splice(to, 0, item);
-  return clone;
-}
-
 function List<Values = any>(props: ListProps<Values>) {
-  const { children, initialValue, name } = props;
+  const { children, initialValue, name, preserve = true } = props;
 
   const fieldContext = useFieldContext<Values>();
 
-  const keyRef = useRef({ id: 0, keys: [] as number[] });
-  const keyManager = keyRef.current;
+  const { getInternalHooks } = fieldContext as unknown as InternalFormInstance<Values>;
 
-  const { getFieldValue, getInternalHooks } = fieldContext as unknown as InternalFormInstance<Values>;
-
-  const { dispatch, registerField } = getInternalHooks();
+  const { dispatch, getArrayFields, registerField } = getInternalHooks();
 
   const [_, forceUpdate] = useState({});
 
-  const arr = (getFieldValue(name) as any[]) || initialValue || [];
-
-  const fields = arr.map((___, i) => {
-    let key = keyManager.keys[i];
-    if (key === undefined) {
-      keyManager.keys[i] = keyManager.id++;
-      key = keyManager.keys[i];
-    }
-    return {
-      key: String(key), // Stable key
-      name: `${keyOfName(name)}.${i}`
-    };
-  });
+  const fields = getArrayFields(name, initialValue);
 
   const unregisterRef = useRef<() => void>(null);
 
   if (!unregisterRef.current) {
     unregisterRef.current = registerField({
-      changeValue: (newValue, __, ___, mask) => {
+      changeValue: () => {
         forceUpdate({});
       },
       initialValue,
       name,
-      preserve: true
+      preserve
     });
   }
 
@@ -88,22 +75,18 @@ function List<Values = any>(props: ListProps<Values>) {
   const ops = {
     insert: (index: number, item: any) => {
       dispatch({ args: { index, item }, name, op: 'insert', type: 'arrayOp' });
-      keyManager.keys.splice(index, 0, keyManager.id++);
     },
     move: (from: number, to: number) => {
       dispatch({ args: { from, to }, name, op: 'move', type: 'arrayOp' });
-      keyManager.keys = move(keyManager.keys, from, to);
     },
     remove: (index: number) => {
       dispatch({ args: { index }, name, op: 'remove', type: 'arrayOp' });
-      keyManager.keys.splice(index, 1);
     },
     replace: (index: number, val: any) => {
       dispatch({ args: { index, item: val }, name, op: 'replace', type: 'arrayOp' });
     },
     swap: (i: number, j: number) => {
       dispatch({ args: { i, j }, name, op: 'swap', type: 'arrayOp' });
-      [keyManager.keys[i], keyManager.keys[j]] = [keyManager.keys[j], keyManager.keys[i]];
     }
   };
 

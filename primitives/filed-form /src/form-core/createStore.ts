@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable complexity */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
@@ -22,13 +23,15 @@ import type { Rule, ValidateOptions } from './validation';
 
 /**
  * Listener type definition for form state changes
- * @type {Object}
- * @property {Function} cb - Callback function triggered on state changes
- * @property {ChangeMask} mask - Bit mask indicating which types of changes to listen for
  */
 type Listener = {
   cb: (value: StoreValue, key: string, all: Store, fired: ChangeMask) => void;
   mask: ChangeMask;
+};
+
+export type ArrayField = {
+  id: number;
+  keys: number[];
 };
 
 const matchTrigger = (rule: Rule, trig?: string | string[]) => {
@@ -55,6 +58,13 @@ function getFlag(bucket: Set<string>, names?: NamePath[]) {
   return anyOn(bucket, names);
 }
 
+function move<T>(arr: T[], from: number, to: number): T[] {
+  const clone = arr.slice();
+  const item = clone.splice(from, 1)[0];
+  clone.splice(to, 0, item);
+  return clone;
+}
+
 /**
  * FormStore class - Core form state management implementation
  * Handles form state, validation, field registration, and state subscriptions
@@ -69,6 +79,8 @@ class FormStore {
   private _initial: Store = {};
   /** Registry of field entities */
   private _fieldEntities: FieldEntity[] = [];
+
+  private arrayKeyMap = new Map<string, ArrayField>();
 
   /** Form lifecycle callbacks */
   private _callbacks: Callbacks = {};
@@ -156,8 +168,6 @@ class FormStore {
   // ------------------------------------------------
   /**
    * Determines if field values should be preserved based on field and global settings
-   * @param fieldPreserve - Optional field-level preserve setting
-   * @returns {boolean} Final preserve setting
    */
   private isMergedPreserve = (fieldPreserve?: boolean) => {
     return fieldPreserve ?? this._preserve;
@@ -165,7 +175,6 @@ class FormStore {
 
   /**
    * Sets form lifecycle callbacks
-   * @param c - Callback functions object
    */
   private setCallbacks = (c: Callbacks) => {
     this._callbacks = c || {};
@@ -173,7 +182,6 @@ class FormStore {
 
   /**
    * Sets validation message templates
-   * @param m - Validation message templates object
    */
   private setValidateMessages = (m: ValidateMessages) => {
     this._validateMessages = m || {};
@@ -181,7 +189,6 @@ class FormStore {
 
   /**
    * Sets global preserve flag for field values
-   * @param preserve - Whether to preserve field values after unmount
    */
   private setPreserve = (preserve: boolean) => {
     this._preserve = preserve;
@@ -192,7 +199,6 @@ class FormStore {
   // ------------------------------------------------
   /**
    * Adds a new middleware to the middleware stack
-   * @param mw - Middleware function to add
    */
   private use = (mw: Middleware) => {
     this._middlewares.push(mw);
@@ -214,7 +220,6 @@ class FormStore {
   // Action Dispatch System
   /**
    * Base dispatch function that handles all form actions
-   * @param a - Action object containing type and payload
    */
   private baseDispatch = (a: Action) => {
     switch (a.type) {
@@ -260,7 +265,6 @@ class FormStore {
 
   /**
    * Enhanced dispatch function that processes actions through middleware chain
-   * @param a - Action to be dispatched
    */
   private dispatch = (a: Action) => {
     const ctx = { dispatch: (x: Action) => this.dispatch(x), getState: () => this._store };
@@ -274,7 +278,6 @@ class FormStore {
   // ------------------------------------------------
   /**
    * Updates the main form state store
-   * @param nextStore - New store state to set
    */
   private updateStore = (nextStore: Store) => {
     this._store = nextStore;
@@ -282,7 +285,6 @@ class FormStore {
 
   /**
    * Sets initial form values and updates current store
-   * @param values - Initial values to set
    */
   private setInitialValues = (values: Store) => {
     this._initial = values;
@@ -294,7 +296,6 @@ class FormStore {
 
   /**
    * Gets current form state including validation status
-   * @returns {Object} Current form state object
    */
   private getFormState() {
     return {
@@ -310,8 +311,6 @@ class FormStore {
 
   /**
    * Gets initial value for a field
-   * @param name - Field name path
-   * @returns Initial value for the field
    */
   private getInitialValue = (name: NamePath) => {
     return get(this._initial, keyOfName(name));
@@ -410,6 +409,7 @@ class FormStore {
         this._fieldEntities = this._fieldEntities.filter(e => e.name !== name);
         this._initial = unset(this._initial, name);
         this._store = unset(this._store, name);
+        this.arrayKeyMap.delete(name);
       }
       this._exactListeners.delete(name);
       this._prefixListeners.delete(name);
@@ -980,18 +980,34 @@ class FormStore {
   }
 
   // ===== Array Operation =====
+
+  private getArrayKeyManager = (name: string) => {
+    let mgr = this.arrayKeyMap.get(name);
+    if (!mgr) {
+      mgr = { id: 0, keys: [] };
+      this.arrayKeyMap.set(name, mgr);
+    }
+    return mgr;
+  };
+
   private arrayOp = (name: NamePath, op: 'insert' | 'move' | 'remove' | 'replace' | 'swap', args: any) => {
     const arr = this.getFieldValue(name);
     if (!Array.isArray(arr)) return;
     const next = arr.slice();
     const ak = keyOfName(name);
+
+    const keyMgr = this.getArrayKeyManager(ak);
+
     const affected3 = this.collectDependents([ak]);
     this.recomputeTargets(affected3);
+
     const mark = (mask: ChangeMask = ChangeTag.Value) => this.enqueueNotify([name], mask);
+
     switch (op) {
       case 'insert': {
         const { index, item } = args;
         next.splice(index, 0, item);
+        keyMgr.keys.splice(index, 0, (keyMgr.id += 1));
         this._store = set(this._store, name, next);
         this._validated.delete(ak);
         mark();
@@ -1000,6 +1016,7 @@ class FormStore {
       case 'remove': {
         const { index } = args;
         next.splice(index, 1);
+        keyMgr.keys.splice(index, 1);
         this._store = set(this._store, name, next);
         this._validated.delete(ak);
         mark();
@@ -1009,6 +1026,7 @@ class FormStore {
         const { from, to } = args;
         const [x] = next.splice(from, 1);
         next.splice(to, 0, x);
+        keyMgr.keys = move(keyMgr.keys, from, to);
         this._store = set(this._store, name, next);
         this._validated.delete(ak);
         mark();
@@ -1019,6 +1037,7 @@ class FormStore {
         const tmp = next[i];
         next[i] = next[j];
         next[j] = tmp;
+        [keyMgr.keys[i], keyMgr.keys[j]] = [keyMgr.keys[j], keyMgr.keys[i]];
         this._store = set(this._store, name, next);
         this._validated.delete(ak);
         mark();
@@ -1035,6 +1054,24 @@ class FormStore {
       default:
         break;
     }
+  };
+
+  private getArrayFields = (name: NamePath, initialValue?: StoreValue[]) => {
+    const arr = (this.getFieldValue(name) as any[]) || initialValue || [];
+
+    const ak = keyOfName(name);
+
+    const keyMgr = this.getArrayKeyManager(ak);
+
+    return arr.map((___, i) => {
+      if (keyMgr.keys[i] === undefined) {
+        keyMgr.keys[i] = keyMgr.id++;
+      }
+      return {
+        key: String(keyMgr.keys[i]),
+        name: `${ak}.${i}`
+      };
+    });
   };
 
   // ===== FieldChange =====
@@ -1280,6 +1317,7 @@ class FormStore {
     return {
       destroyForm: this.destroyForm,
       dispatch: this.dispatch,
+      getArrayFields: this.getArrayFields,
       getInitialValue: this.getInitialValue,
       registerComputed: this.registerComputed,
       registerField: this.registerField,

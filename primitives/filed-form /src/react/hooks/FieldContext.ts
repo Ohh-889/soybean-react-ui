@@ -2,16 +2,29 @@
 /* eslint-disable no-bitwise */
 
 import { createContext, useContext } from 'react';
-import type { AllPathsKeys, DeepPartial, MergeUnion, PathToDeepType, ShapeFromPaths, Wrap } from 'skyroc-type-utils';
+import type {
+  AllPathsKeys,
+  ArrayKeys,
+  DeepPartial,
+  MergeUnion,
+  PathToDeepType,
+  ShapeFromPaths,
+  Wrap
+} from 'skyroc-type-utils';
 
 import type { ChangeMask } from '../../form-core/event';
 import type { Action, Middleware } from '../../form-core/middleware';
-import type { FieldEntity } from '../../form-core/types';
+import type { FieldEntity, StoreValue } from '../../form-core/types';
 import type { ValidateMessages } from '../../form-core/validate';
 import type { Rule, ValidateOptions } from '../../form-core/validation';
 import type { Meta } from '../../types/shared-types';
 
 import type { FormState } from './types';
+
+export type ListRenderItem = {
+  key: string;
+  name: string;
+};
 
 // Core change: wrap each path with Meta
 type BuildMetaShape<T, P extends string> = P extends `${infer K}.${infer R}`
@@ -100,6 +113,7 @@ export interface InternalCallbacks<Values = any> {
 
 export interface InternalFieldHooks<Values = any> {
   dispatch: (action: Action) => void;
+  getArrayFields: (name: ArrayKeys<Values>, initialValue?: StoreValue[]) => ListRenderItem[];
   getInitialValue: <T extends AllPathsKeys<Values>>(name: T) => PathToDeepType<Values, T>;
   registerComputed: <T extends AllPathsKeys<Values>>(
     name: T,

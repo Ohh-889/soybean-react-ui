@@ -205,3 +205,24 @@ export type KeyToNestedObject<K extends string, V> = K extends `${infer Head}.${
 export type Merge<T> = { [K in keyof T]: T[K] };
 
 // 把 Keys 分配展开，而不是取联合
+
+/**
+ * @example
+ * type Inputs = {
+ *   password: string;
+ *   username: string;
+ *   numbers: number[];
+ *   users: {
+ *     age: number;
+ *     name: string;
+ *   }[];
+ * };
+ * type P1 = ArrayKeys<Inputs>; // "numbers" | "users"
+ */
+export type ArrayKeys<T> = {
+  [K in keyof T]: T[K] extends readonly any[] ? K : never;
+}[keyof T] extends never
+  ? any
+  : {
+      [K in keyof T]: T[K] extends readonly any[] ? K : never;
+    }[keyof T];
