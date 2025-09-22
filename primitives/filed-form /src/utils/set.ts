@@ -75,7 +75,7 @@ export function unset<T>(obj: T, path: NamePath, options: SetOptions = { safeKey
     if (Array.isArray(node)) {
       const arr = node.slice();
       if (isLast) {
-        arr.splice(key as number, 1); // 删除该元素并前移
+        arr.splice(key as number, 1); // Remove the element and shift left
         return arr;
       }
       arr[key as number] = unsetImpl(arr[key as number], i + 1);
@@ -87,7 +87,7 @@ export function unset<T>(obj: T, path: NamePath, options: SetOptions = { safeKey
       for (const k in node as any) {
         if (Object.hasOwn(node, k)) {
           if (isLast && k === key) {
-            // 跳过该 key，不写入 out
+            // Skip this key; do not write to out
             continue;
           }
           out[k] = k === key ? unsetImpl((node as any)[k], i + 1) : (node as any)[k];

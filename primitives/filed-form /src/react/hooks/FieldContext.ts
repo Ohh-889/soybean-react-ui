@@ -13,7 +13,7 @@ import type { Meta } from '../../types/shared-types';
 
 import type { FormState } from './types';
 
-// 核心改造：给每条路径套上 Meta
+// Core change: wrap each path with Meta
 type BuildMetaShape<T, P extends string> = P extends `${infer K}.${infer R}`
   ? K extends keyof T
     ? T[K] extends readonly (infer U)[]
@@ -26,7 +26,7 @@ type BuildMetaShape<T, P extends string> = P extends `${infer K}.${infer R}`
       : never
     : never;
 
-// 把路径数组转成 Meta 层级结构
+// Convert an array of paths into a hierarchical Meta structure
 export type MetaShapeFromPaths<T, Ps extends readonly string[]> = Ps extends never[] | []
   ? { [K in keyof T]: Meta<K & string, PathToDeepType<T, K & string>> }
   : MergeUnion<Ps[number] extends infer P ? (P extends string ? BuildMetaShape<T, P> : never) : never>;
@@ -67,13 +67,13 @@ export interface OperationOptions<Values = any> {
 }
 
 export interface ValidateErrorEntity<Values = any> {
-  // 便于 UI 直接滚动
-  errorCount: number; // 可选：按 _pruneForSubmit 过滤后的值（给埋点/回放）
-  errorFields: Meta<string, any>[]; // 逐字段列表（用于滚动到第一个错误、逐项显示）
-  errorMap: Record<string, string[]>; // 同上：警告
-  firstErrorName?: string; // 全量当前值（未裁剪）
+  // For UI to scroll directly
+  errorCount: number; // Optional: values filtered by _pruneForSubmit (for analytics/replay)
+  errorFields: Meta<string, any>[]; // Per-field list (used to scroll to the first error and show items)
+  errorMap: Record<string, string[]>; // Same as above: warnings
+  firstErrorName?: string; // Full current values (not pruned)
   submittedAt: number;
-  values: Values; // 快速索引（表头红点、侧边分组统计）
+  values: Values; // Fast index (header red dot, side group statistics)
   warningMap: Record<string, string[]>;
 }
 
@@ -128,7 +128,7 @@ export interface InternalFormContext<Values = any> extends FormInstance<Values> 
 }
 
 export interface InternalFormInstance<Values = any> extends InternalFormContext<Values> {
-  /** 内部 API，不建议外部使用 */
+  /** Internal API, not recommended for external use */
   getInternalHooks: () => InternalFormHooks<Values>;
 }
 

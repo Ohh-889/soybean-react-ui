@@ -61,7 +61,7 @@ function List<Values = any>(props: ListProps<Values>) {
       key = keyManager.keys[i];
     }
     return {
-      key: String(key), // 稳定 key
+      key: String(key), // Stable key
       name: `${keyOfName(name)}.${i}`
     };
   });

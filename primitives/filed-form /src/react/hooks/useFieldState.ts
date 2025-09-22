@@ -30,10 +30,10 @@ function useFieldState<Values = any, T extends AllPathsKeys<Values> = AllPathsKe
   opts?: UseFormFieldsStateOpts<Values>
 ): MetaShapeFromPaths<Values, T[]>;
 
-// 无参数：全量嵌套对象
+// No arguments: return the full nested object
 function useFieldState<Values = any>(): MetaShapeFromPaths<Values, []>;
 
-// form 参数：全量嵌套对象
+// With a form instance: return the full nested object
 function useFieldState<Values = any>(form: FormInstance<Values>): MetaShapeFromPaths<Values, []>;
 
 function useFieldState<Values = any>(
@@ -44,7 +44,7 @@ function useFieldState<Values = any>(
 
   const isFormInstance = isObject(names) && 'getFields' in names;
 
-  const form = isFormInstance ? names : (opts?.form ?? context); // 优先外部传入，否则走 context
+  const form = isFormInstance ? names : (opts?.form ?? context); // Prefer external form, otherwise use context
 
   if (!form) {
     throw new Error('Can not find FormContext. Please make sure you wrap Field under Form or provide a form instance.');
@@ -53,16 +53,16 @@ function useFieldState<Values = any>(
   let subscribeNames: AllPathsKeys<Values>[] | undefined;
 
   if (isFormInstance) {
-    // 外部传 form → 订阅全部
+    // External form provided → subscribe to all
     subscribeNames = undefined;
   } else if (isNil(names)) {
-    // 未传 names → 订阅全部
+    // No names provided → subscribe to all
     subscribeNames = undefined;
   } else if (isArray(names)) {
-    // 多字段
+    // Multiple fields
     subscribeNames = names;
   } else {
-    // 单字段
+    // Single field
     subscribeNames = [names];
   }
 
@@ -99,14 +99,14 @@ function useFieldState<Values = any>(
   }, []);
 
   if (!subscribeNames) {
-    // names 为空 → 返回 Map 形式
+    // names empty → return Map shape
     return state;
   }
   if (subscribeNames.length === 1) {
-    // 单字段 → 直接返回该字段的 meta
+    // Single field → return that field's meta directly
     return get(state, subscribeNames[0]);
   }
-  // 多字段 → 返回对象
+  // Multiple fields → return object
   return state;
 }
 

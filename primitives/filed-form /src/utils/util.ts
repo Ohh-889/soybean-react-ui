@@ -73,14 +73,14 @@ export const anyOn = (set: Set<string>, names?: NamePath[]) =>
 export const allOn = (set: Set<string>, names?: NamePath[]) =>
   !names || names.length === 0 ? set.size > 0 : names.every(n => set.has(keyOfName(n)));
 
-// ✅ 递归收集变更路径（会把数组也往里走）
+// ✅ Recursively collect changed paths (descend into arrays as well)
 export const collectChangedLeafPaths = (
   input: any,
   prefix: (string | number)[] = [],
   out: (string | number)[][] = []
 ) => {
   if (Array.isArray(input)) {
-    // 数组节点本身也视为变更（用于 List 层级）
+    // Array nodes themselves are also treated as changes (used by List level)
     out.push([...prefix]);
     input.forEach((item, i) => collectChangedLeafPaths(item, [...prefix, keyOfName(i)], out));
   } else if (input && typeof input === 'object') {
@@ -88,13 +88,13 @@ export const collectChangedLeafPaths = (
       collectChangedLeafPaths(input[keyOfName(k)], [...prefix, keyOfName(k)], out);
     });
   } else {
-    // 原子值，叶子
+    // Atomic value, leaf
     out.push([...prefix]);
   }
   return out;
 };
 
-// ✅ 如果想覆盖“删除/缩短数组”的场景（通知旧叶子），可以把旧值的叶子也并上
+// ✅ To cover cases like array deletion/shortening (to notify old leaves), union with the old value's leaves as well
 export const unionPaths = (a: (string | number)[][], b: (string | number)[][]) => {
   const s = new Set<string>();
   const res: (string | number)[][] = [];
@@ -123,19 +123,19 @@ export const isUnderPrefix = (key: string, prefix: string): boolean => {
 
 export function collectDeepKeys(obj: any, prefix: string = ''): string[] {
   if (obj === null || obj === undefined) {
-    // 叶子节点（值是 null/undefined）
+    // Leaf node (value is null/undefined)
     return [prefix];
   }
 
   if (typeof obj !== 'object' || obj instanceof Date) {
-    // 基础值（string/number/boolean/function/Date...）
+    // Primitive value (string/number/boolean/function/Date...)
     return [prefix];
   }
 
-  // 对象/数组：即使值是 undefined/null，也要保留路径
+  // Object/Array: keep the path even if value is undefined/null
   const keys: string[] = [];
 
-  // 如果是空对象/数组，也要把自己 push 出来
+  // If empty object/array, also push itself
   if (Object.keys(obj).length === 0) {
     keys.push(prefix);
     return keys;

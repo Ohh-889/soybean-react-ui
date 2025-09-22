@@ -22,7 +22,7 @@ export interface Rule {
   validateTrigger?: ValidateTrigger | ValidateTrigger[];
   validator?: (value: any, allValues: Store) => string | Promise<string>;
   warningOnly?: boolean;
-  whitespace?: boolean; // true 时，空白字符串视为“无值”
+  whitespace?: boolean; // When true, whitespace-only strings are treated as "empty"
 }
 
 export interface FieldEntity {
@@ -62,8 +62,8 @@ export interface Callbacks<Values = any> {
 
 export type ChangeTag =
   | 'errors'
-  | 'meta' // touched/dirty 变化
-  | 'mount' // 校验进行中状态变化
-  | 'unmount' // 错误/警告变化
+  | 'meta' // touched/dirty changes
+  | 'mount' // validating state changes
+  | 'unmount' // error/warning changes
   | 'validating'
-  | 'value'; // 字段注册/注销
+  | 'value'; // field register/unregister

@@ -41,7 +41,7 @@ function ComputedField<Values = any>({
   useEffect(() => {
     const unregister = registerComputed(name, deps, compute);
 
-    // 订阅当前字段的变化 → 强制刷新
+    // Subscribe to current field changes → force refresh
     const unsub = registerField({
       changeValue: newValue => {
         updateValue(newValue);
