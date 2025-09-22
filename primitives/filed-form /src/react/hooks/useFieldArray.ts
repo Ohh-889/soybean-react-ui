@@ -11,15 +11,15 @@ export type ArrayFieldItem = {
 };
 
 export function useArrayField<Values = any>(name: ArrayKeys<Values>, form?: FormInstance<Values>) {
-  const context = useFieldContext();
+  const contextForm = useFieldContext();
 
-  const fieldContext = form ?? context;
+  const formInstance = form ?? contextForm;
 
-  if (!fieldContext) {
+  if (!formInstance) {
     throw new Error('Can not find FormContext. Please make sure you wrap Field under Form or provide a form instance.');
   }
 
-  const { arrayOp } = fieldContext as unknown as InternalFormInstance<Values>;
+  const { arrayOp } = formInstance as unknown as InternalFormInstance<Values>;
 
   return arrayOp(name);
 }

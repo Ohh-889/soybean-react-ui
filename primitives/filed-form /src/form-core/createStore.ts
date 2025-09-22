@@ -1337,6 +1337,7 @@ class FormStore {
       getArrayFields: this.getArrayFields,
       getInitialValue: this.getInitialValue,
       registerComputed: this.registerComputed,
+      registerEffect: this.registerEffect,
       registerField: this.registerField,
       setCallbacks: this.setCallbacks,
       setFieldRules: this.setFieldRules,

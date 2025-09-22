@@ -130,6 +130,10 @@ export interface InternalFieldHooks<Values = any> {
     deps: AllPathsKeys<Values>[],
     compute: (get: (n: AllPathsKeys<Values>) => any, all: Values) => PathToDeepType<Values, T>
   ) => () => void;
+  registerEffect: (
+    deps: AllPathsKeys<Values>[],
+    effect: (get: (n: AllPathsKeys<Values>) => any, all: Values) => void
+  ) => () => void;
   registerField: (entity: FieldEntity) => () => void;
   setFieldRules: (name: AllPathsKeys<Values>, rules?: Rule[]) => void;
   setRules: (name: AllPathsKeys<Values>, rules?: Rule[]) => void;
