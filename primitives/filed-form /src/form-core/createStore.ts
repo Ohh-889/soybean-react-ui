@@ -20,6 +20,12 @@ import type { ValidateMessages } from './types';
 import { runRulesWithMode } from './validation';
 import type { Rule, ValidateOptions } from './validation';
 
+/**
+ * Listener type definition for form state changes
+ * @type {Object}
+ * @property {Function} cb - Callback function triggered on state changes
+ * @property {ChangeMask} mask - Bit mask indicating which types of changes to listen for
+ */
 type Listener = {
   cb: (value: StoreValue, key: string, all: Store, fired: ChangeMask) => void;
   mask: ChangeMask;
@@ -49,66 +55,96 @@ function getFlag(bucket: Set<string>, names?: NamePath[]) {
   return anyOn(bucket, names);
 }
 
+/**
+ * FormStore class - Core form state management implementation
+ * Handles form state, validation, field registration, and state subscriptions
+ */
 class FormStore {
   // ------------------------------------------------
   // Fields (State & registries)
   // ------------------------------------------------
+  /** Main form state store */
   private _store: Store = {};
+  /** Initial form values store */
   private _initial: Store = {};
+  /** Registry of field entities */
   private _fieldEntities: FieldEntity[] = [];
 
+  /** Form lifecycle callbacks */
   private _callbacks: Callbacks = {};
+  /** Validation message templates */
   private _validateMessages: ValidateMessages = {};
 
-  // Status area (exists if true)
+  // Status tracking sets
+  /** Set of fields that have been touched by user interaction */
   private _touched = new Set<string>();
+  /** Set of fields whose values differ from initial values */
   private _dirty = new Set<string>();
+  /** Set of fields currently undergoing validation */
   private _validating = new Set<string>();
+  /** Set of fields that have completed validation */
   private _validated = new Set<string>();
 
+  /** Map of field validation errors */
   private _errors = new Map<string, string[]>();
+  /** Map of field validation warnings */
   private _warnings = new Map<string, string[]>();
+  /** Map of field validation rules */
   private _rules = new Map<string, Rule[]>();
 
-  // Concurrent verification / Debouncing
+  // Validation control
+  /** Token map for managing concurrent validations */
   private _validateToken = new Map<string, number>();
+  /** Timer map for validation debouncing */
   private _debounceTimer = new Map<string, any>();
 
-  // Subscription (exact + prefix)
+  // Subscription management
+  /** Exact match subscribers */
   private _exactListeners = new Map<string, Set<Listener>>();
+  /** Prefix match subscribers (for nested fields) */
   private _prefixListeners = new Map<string, Set<Listener>>();
 
-  // Batch processing
+  // Change batching
+  /** Pending changes for batch processing */
   private _pending = new Map<string, ChangeMask>();
+  /** Flag indicating if a flush is scheduled */
   private _flushScheduled = false;
 
-  // Transactions
+  // Transaction management
+  /** Current transaction depth */
   private _txDepth = 0;
+  /** Pending changes within current transaction */
   private _txPending = new Map<string, ChangeMask>();
 
-  // middleware
+  /** Middleware stack for form operations */
   private _middlewares: Middleware[] = [];
 
-  // Computed registry
+  // Computed field management
+  /** Registry of computed fields and their dependencies */
   private _computed = new Map<
     string,
     {
-      // JSON keys
+      /** Computation function that takes a getter and full store */
       compute: (get: (k: string) => any, all: Store) => any;
+      /** List of dependency keys */
       deps: string[];
     }
   >();
-  private _depIndex = new Map<string, Set<string>>(); // depKey -> set of computed target keys
-  private _recomputeQueue = new Set<string>(); // reserved (not used in this refactor)
+  /** Reverse index mapping dependency keys to computed fields */
+  private _depIndex = new Map<string, Set<string>>();
+  /** Queue for recomputation (reserved for future use) */
+  private _recomputeQueue = new Set<string>();
 
-  // Visibility control
+  // Field visibility management
+  /** Set of disabled field keys */
   private _disabledKeys = new Set<string>();
+  /** Set of hidden field keys */
   private _hiddenKeys = new Set<string>();
 
-  // Pre-submit transforms
-  private _preSubmit: Array<(values: Store) => Store> = []; // Before submission transform pipeline
+  /** Transform functions to run before form submission */
+  private _preSubmit: Array<(values: Store) => Store> = [];
 
-  // Preserve
+  /** Flag to preserve field values after unmount */
   private _preserve = false;
 
   constructor() {
@@ -116,32 +152,57 @@ class FormStore {
   }
 
   // ------------------------------------------------
-  // Config & Callbacks
+  // Configuration and Callback Management
   // ------------------------------------------------
+  /**
+   * Determines if field values should be preserved based on field and global settings
+   * @param fieldPreserve - Optional field-level preserve setting
+   * @returns {boolean} Final preserve setting
+   */
   private isMergedPreserve = (fieldPreserve?: boolean) => {
     return fieldPreserve ?? this._preserve;
   };
 
+  /**
+   * Sets form lifecycle callbacks
+   * @param c - Callback functions object
+   */
   private setCallbacks = (c: Callbacks) => {
     this._callbacks = c || {};
   };
 
+  /**
+   * Sets validation message templates
+   * @param m - Validation message templates object
+   */
   private setValidateMessages = (m: ValidateMessages) => {
     this._validateMessages = m || {};
   };
 
+  /**
+   * Sets global preserve flag for field values
+   * @param preserve - Whether to preserve field values after unmount
+   */
   private setPreserve = (preserve: boolean) => {
     this._preserve = preserve;
   };
 
   // ------------------------------------------------
-  // Middleware / Dispatch
+  // Middleware and Action Dispatch System
   // ------------------------------------------------
+  /**
+   * Adds a new middleware to the middleware stack
+   * @param mw - Middleware function to add
+   */
   private use = (mw: Middleware) => {
     this._middlewares.push(mw);
     this.rebindMiddlewares();
   };
 
+  /**
+   * Rebuilds the middleware chain and updates dispatch function
+   * Creates a new dispatch function composed of all middlewares
+   */
   private rebindMiddlewares = () => {
     const api = { dispatch: (a: Action) => this.dispatch(a), getState: () => this._store };
 
@@ -150,7 +211,11 @@ class FormStore {
     this.dispatch = compose(...chain)(this.baseDispatch);
   };
 
-  //  ===== dispatch =====
+  // Action Dispatch System
+  /**
+   * Base dispatch function that handles all form actions
+   * @param a - Action object containing type and payload
+   */
   private baseDispatch = (a: Action) => {
     switch (a.type) {
       case 'setFieldValue':
@@ -172,7 +237,8 @@ class FormStore {
         this.arrayOp(a.name, a.op, a.args);
         break;
       case 'setExternalErrors': {
-        // payload: { entries: Array<[jsonKey: string, errors: string[]]> }
+        // Handle external validation errors
+        // entries format: Array<[fieldKey: string, errors: string[]]>
         const { entries } = a as any;
         const changed: string[] = [];
         this.begin();
@@ -187,11 +253,15 @@ class FormStore {
         break;
       }
       default:
-        // Currently we don't have other action. Do nothing.
+        // No action matched, skip processing
         break;
     }
   };
 
+  /**
+   * Enhanced dispatch function that processes actions through middleware chain
+   * @param a - Action to be dispatched
+   */
   private dispatch = (a: Action) => {
     const ctx = { dispatch: (x: Action) => this.dispatch(x), getState: () => this._store };
     const chain = this._middlewares.map(mw => mw(ctx));
@@ -200,12 +270,20 @@ class FormStore {
   };
 
   // ------------------------------------------------
-  // Store & Initial Values
+  // Store and Initial Values Management
   // ------------------------------------------------
+  /**
+   * Updates the main form state store
+   * @param nextStore - New store state to set
+   */
   private updateStore = (nextStore: Store) => {
     this._store = nextStore;
   };
 
+  /**
+   * Sets initial form values and updates current store
+   * @param values - Initial values to set
+   */
   private setInitialValues = (values: Store) => {
     this._initial = values;
 
@@ -214,6 +292,10 @@ class FormStore {
     this.updateStore(nextStore);
   };
 
+  /**
+   * Gets current form state including validation status
+   * @returns {Object} Current form state object
+   */
   private getFormState() {
     return {
       errors: Object.fromEntries(this._errors),
@@ -226,17 +308,25 @@ class FormStore {
     };
   }
 
+  /**
+   * Gets initial value for a field
+   * @param name - Field name path
+   * @returns Initial value for the field
+   */
   private getInitialValue = (name: NamePath) => {
     return get(this._initial, keyOfName(name));
   };
 
+  /**
+   * Resets specified fields to their initial values and clears their states
+   */
   private resetFields = (names: NonNullable<NamePath>[]) => {
     const masks =
       ChangeTag.Reset | ChangeTag.Value | ChangeTag.Touched | ChangeTag.Dirty | ChangeTag.Errors | ChangeTag.Warnings;
     if (names.length === 0) {
       this.updateStore(this._initial);
 
-      // 清空状态
+      // Clear all meta state
       this._touched.clear();
       this._dirty.clear();
       this._errors.clear();
@@ -256,11 +346,11 @@ class FormStore {
 
       const childKeys = collectDeepKeys(initialValue, key);
 
-      // 父字段 + 子字段一起收集
+      // Collect parent field + its child fields together
       const allKeys = [key, ...childKeys];
 
       for (const subKey of allKeys) {
-        // 重置状态
+        // Reset meta state
         this._touched.delete(subKey);
         this._dirty.delete(subKey);
         this._errors.delete(subKey);
@@ -270,7 +360,7 @@ class FormStore {
         keys.push(subKey);
       }
 
-      // 更新父字段值（collectDeepKeys 已经会展开子字段）
+      // Update parent field value (collectDeepKeys already expands child fields)
       resetValue = set(resetValue, key, initialValue);
     }
 
@@ -280,9 +370,12 @@ class FormStore {
   };
 
   // ------------------------------------------------
-  // Field Registration & Visibility
+  // Field Registration and Visibility Control
   // ------------------------------------------------
 
+  /**
+   * Registers a new field entity and sets up its initial state and listeners
+   */
   private registerField = (entity: FieldEntity) => {
     const name = keyOfName(entity.name);
 
@@ -329,26 +422,42 @@ class FormStore {
     };
   };
 
+  /**
+   * Sets the disabled state of a field
+   */
   private setDisabled = (name: NamePath, disabled: boolean) => {
     const k = keyOfName(name);
     disabled ? this._disabledKeys.add(k) : this._disabledKeys.delete(k);
   };
 
+  /**
+   * Sets the visibility state of a field
+   */
   private setHidden = (name: NamePath, hidden: boolean) => {
     const k = keyOfName(name);
     hidden ? this._hiddenKeys.add(k) : this._hiddenKeys.delete(k);
   };
 
+  /**
+   * Checks if a field is disabled
+   */
   private isDisabled = (name: NamePath) => {
     return this._disabledKeys.has(keyOfName(name));
   };
 
+  /**
+   * Checks if a field is hidden
+   */
   private isHidden = (name: NamePath) => {
     return this._hiddenKeys.has(keyOfName(name));
   };
 
-  // ========== 新增：Computed API ==========
-  /** 注册 computed 字段 */
+  // ------------------------------------------------
+  // Computed Fields Management
+  // ------------------------------------------------
+  /**
+   * Registers a computed field with its dependencies and computation function
+   */
   private registerComputed = (
     name: NamePath,
     deps: NamePath[],
@@ -360,7 +469,7 @@ class FormStore {
       compute: (getKey, all) => compute(n => getKey(keyOfName(n)), all),
       deps: depKeys
     });
-    // 反向索引
+    // Reverse index
     depKeys.forEach(d => {
       if (!this._depIndex.has(d)) this._depIndex.set(d, new Set());
       this._depIndex.get(d)!.add(tgt);
@@ -376,7 +485,9 @@ class FormStore {
     };
   };
 
-  /** 注册副作用（watch effect） */
+  /**
+   * Registers a side effect that watches for changes in specified dependencies
+   */
   private registerEffect(deps: NamePath[], effect: (get: (n: NamePath) => any, all: Store) => void) {
     const depKeys = deps.map(keyOfName);
 
@@ -384,10 +495,10 @@ class FormStore {
       effect(n => get(this._store, keyOfName(n)), this._store);
     };
 
-    // === 初始执行一次 ===
+    // === Run once initially ===
     this.transaction(run);
 
-    // === 建立依赖索引 ===
+    // === Build dependency index ===
     const id = `__effect_${Math.random().toString(36).slice(2)}`;
 
     depKeys.forEach(d => {
@@ -395,20 +506,22 @@ class FormStore {
       this._depIndex.get(d)!.add(id);
     });
 
-    // === 存储一个特殊 effect 定义（不写 store，只执行副作用） ===
+    // === Store a special effect definition (no store writes, side-effect only) ===
     this._computed.set(id, {
       compute: (getKey, all) => effect(n => getKey(keyOfName(n)), all),
       deps: depKeys
     });
 
-    // === 返回卸载函数 ===
+    // === Return an unsubscribe function ===
     return () => {
       this._computed.delete(id);
       depKeys.forEach(d => this._depIndex.get(d)?.delete(id));
     };
   }
 
-  /** 由源变更触达：找出受影响的 computed 目标 */
+  /**
+   * Finds all computed fields affected by changes in source fields
+   */
   private collectDependents(changedKeys: string[]): string[] {
     const out = new Set<string>();
     const q = [...changedKeys];
@@ -419,7 +532,7 @@ class FormStore {
       for (const t of deps) {
         if (!out.has(t)) {
           out.add(t);
-          // computed 也可能是别人的依赖，继续向外扩散
+          // A computed target may also be a dependency of others; continue propagation
           q.push(t);
         }
       }
@@ -427,12 +540,14 @@ class FormStore {
     return Array.from(out);
   }
 
-  /** 拓扑/迭代式重算（自动事务合并一次通知） */
+  /**
+   * Recomputes computed fields in dependency order
+   */
   private recomputeTargets(targetKeys: string[]) {
     if (!targetKeys.length) return;
     const getKey = (k: string) => get(this._store, keyOfName(k));
     const topo: string[] = [];
-    // 简单 Kahn：按 deps 层级推进，避免环导致死循环（有环则最多跑 N 轮）
+    // Simple Kahn approach: advance by dependency levels to avoid cycles causing infinite loops (in cycles, run at most N rounds)
     const seen = new Set<string>();
     const maxRounds = Math.max(1, this._computed.size);
     let rounds = 0;
@@ -443,7 +558,7 @@ class FormStore {
         if (seen.has(k)) continue;
         const def = this._computed.get(k);
         if (!def) continue;
-        // 如果其依赖也在目标集合里，等下一轮
+        // If its dependency is also in the target set, defer to next round
         // eslint-disable-next-line no-loop-func
         const depsInFrontier = def.deps.some(d => frontier.has(d) && d !== k);
 
@@ -454,12 +569,12 @@ class FormStore {
         topo.push(k);
         seen.add(k);
       }
-      // 还没处理完的进入下一轮
+      // Unprocessed items go to the next round
       for (const k of frontier) if (!seen.has(k)) next.add(k);
       frontier = next;
       rounds += 1;
     }
-    // 执行：用事务合并为一次 flush
+    // Execute: use a transaction to merge into a single flush
     this.transaction(() => {
       for (const k of topo) {
         const def = this._computed.get(k);
@@ -474,7 +589,7 @@ class FormStore {
   }
 
   // ------------------------------------------------
-  // Values API (get/set)
+  // Form Values Management
   // ------------------------------------------------
   private getFieldValue = (name: NamePath) => get(this._store, name);
 
@@ -498,7 +613,7 @@ class FormStore {
 
           changedKeys.push(key);
 
-          // ===== 每个 key 独立维护状态并通知 =====
+          // ===== Maintain state and notify per key =====
           const initV = this.getInitialValue(key);
           const mask = this.updateMetaState(key, v, initV);
           this.enqueueNotify([key], mask);
@@ -515,18 +630,18 @@ class FormStore {
 
       walk(values);
 
-      // 1. 更新 store
+      // 1. Update store
       this.updateStore(assign(this._store, values));
 
-      // 2. 回调
+      // 2. Callback
       this._callbacks.onValuesChange?.(values, this._store);
       this.triggerOnFieldsChange(changedKeys);
 
-      // 3. 依赖重算
+      // 3. Recompute dependencies
       const affected = this.collectDependents(changedKeys);
       this.recomputeTargets(affected);
 
-      // 4. 批量校验
+      // 4. Batch validate
       if (validate) {
         this.dispatch({ name: changedKeys, type: 'validateFields' });
       }
@@ -542,24 +657,24 @@ class FormStore {
 
     const initV = this.getInitialValue(key);
 
-    // 1. 更新 store
+    // 1. Update store
     this.updateStore(set(this._store, name, value));
 
-    // 2. 更新元状态（dirty/touched/validated）
+    // 2. Update meta state (dirty/touched/validated)
     const mask = this.updateMetaState(key, value, initV);
 
-    // 3. 通知订阅者
+    // 3. Notify subscribers
     this.enqueueNotify([name], mask);
 
-    // 4. 执行回调
+    // 4. Execute callbacks
     this._callbacks.onValuesChange?.(set({}, key, value), this._store);
     this.triggerOnFieldsChange([key]);
 
-    // 5. 触发依赖计算
+    // 5. Trigger dependency computation
     const affected = this.collectDependents([key]);
     this.recomputeTargets(affected);
 
-    // 6. 是否立即校验
+    // 6. Validate immediately if requested
     if (validate) {
       this.dispatch({ name, type: 'validateField' });
     }
@@ -585,7 +700,7 @@ class FormStore {
       mask |= ChangeTag.Dirty;
     }
 
-    // validated 一旦值变了 → 作废
+    // Once value changes, validated becomes invalid
     if (this._validated.has(key)) {
       this._validated.delete(key);
     }
@@ -663,7 +778,7 @@ class FormStore {
 
     const allRules = this._rules.get(key) || [];
     const rules = opts?.trigger ? allRules.filter(r => matchTrigger(r, opts?.trigger)) : allRules;
-    // 1) 完全没有规则：清理旧的错误/警告，但只在确有变化时通知
+    // 1) No rules: clear old errors/warnings, but notify only if changed
     if (allRules.length === 0) {
       const prevErrors = this._errors.get(key) || [];
       const prevWarns = this._warnings.get(key) || [];
@@ -685,12 +800,12 @@ class FormStore {
       return true;
     }
 
-    // 2) 有规则，但该 trigger 下没有规则：跳过，不落盘、不通知；返回当前“是否无错”
+    // 2) Rules exist, but none for this trigger: skip (no write/notify); return current "is error-free"
     if (opts?.trigger && rules.length === 0) {
       const hasError = (this._errors.get(key) || []).length > 0;
       return !hasError;
     }
-    // 取最小防抖
+    // Pick the smallest debounce
     const msList = rules.map(r => r?.debounceMs ?? Infinity);
     const debounceMs = Math.min(...msList) === Infinity ? 160 : Math.min(...msList);
 
@@ -701,7 +816,7 @@ class FormStore {
       const token = (this._validateToken.get(key) || 0) + 1;
       this._validateToken.set(key, token);
 
-      // —— 开始校验：只有在首次进入校验态时才通知/回调
+      // —— Begin validation: only notify/callback on first entering validating state
       const wasValidating = this._validating.has(key);
       if (!wasValidating) {
         this._validating.add(key);
@@ -718,14 +833,14 @@ class FormStore {
       try {
         ({ errors, warns } = await runRulesWithMode(value, rules, 'parallelAll', this._store));
       } catch (e: any) {
-        // 4) 兜底：规则抛错也要转成错误信息（避免“莫名其妙通过/卡住”）
+        // 4) Fallback: convert thrown errors into messages (avoid silent pass/hang)
         errors = [String(e?.message ?? e)];
       }
 
-      // 并发淘汰：如果 token 改变，放弃落盘
+      // Concurrency elimination: if token changes, skip persisting results
       if (this._validateToken.get(key) !== token) return false;
 
-      // === 对比新旧，只有变化才落盘 & 通知 ===
+      // === Compare new vs old; only persist & notify on change ===
       const prevErrors = this._errors.get(key) || [];
       const prevWarns = this._warnings.get(key) || [];
 
@@ -746,7 +861,7 @@ class FormStore {
         this._validating.delete(key);
         this._validated.add(key);
         mask |= ChangeTag.Validated;
-        needFieldsChange = true; // meta 变了
+        needFieldsChange = true; // meta changed
       }
       if (errorsChanged) {
         mask |= ChangeTag.Errors;
@@ -780,24 +895,24 @@ class FormStore {
     if (names && names.length > 0) {
       const normalized = names.map(n => keyOfName(n));
       if (opts?.dirty) {
-        // 只取 names 中 dirty 的
+        // Only take dirty ones among names
         list = normalized.filter(k => this._dirty.has(k));
       } else {
-        // 全部 names
+        // All names
         list = normalized;
       }
     } else if (opts?.dirty) {
-      // 没有传 names → 校验所有 dirty 的
+      // No names provided → validate all dirty fields
       list = Array.from(this._dirty);
     } else {
-      // 没有传 names → 校验所有字段
+      // No names provided → validate all fields
 
       list = this._fieldEntities.map(e => e.name as string);
     }
 
     if (!list.length) return true;
 
-    // 标记 validating
+    // Mark validating
     this.transaction(() => {
       for (const k of list) {
         if (!this._validating.has(k)) {
@@ -978,8 +1093,9 @@ class FormStore {
       warnings: this._warnings.get(name) || []
     }));
 
-    // 注意：Map 的迭代顺序是插入顺序；如果你想“第一个错误字段”根据 DOM 顺序，
-    // 可以在这里按你的字段注册顺序（_fieldEntities）排序一次。
+    // Note: Map iteration order is insertion order; if you want the
+    // "first error field" to follow DOM order, you can sort here by
+    // your field registration order (_fieldEntities).
     const firstErrorName = errorFields[0]?.name;
 
     return {
@@ -1054,7 +1170,7 @@ class FormStore {
     let arr: NamePath[];
 
     if (!names) {
-      arr = ['*']; // 默认订阅全部
+      arr = ['*']; // Subscribe to all by default
     } else if (Array.isArray(names)) {
       arr = names;
     } else {
@@ -1121,7 +1237,7 @@ class FormStore {
       let aggMask = 0;
 
       for (const [k, mk] of snapshot) {
-        if (isUnderPrefix(k, prefixKey)) aggMask |= mk; // ← 只聚合命中的 key 的掩码
+        if (isUnderPrefix(k, prefixKey)) aggMask |= mk; // ← Only aggregate masks for matched keys
       }
 
       if (aggMask) {
