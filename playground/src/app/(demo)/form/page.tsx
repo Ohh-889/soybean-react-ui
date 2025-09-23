@@ -3,6 +3,7 @@ import ComputedDemo from './modules/ComputedDemo';
 import Default from './modules/Default';
 import FieldChange from './modules/FieldChange';
 import List from './modules/List';
+import Middleware from './modules/Middleware';
 import Preserve from './modules/Preserve';
 import Reset from './modules/Reset';
 import UseForm from './modules/UseForm';
@@ -35,6 +36,8 @@ const FormPage = () => {
       <Reset />
 
       <Preserve />
+
+      <Middleware />
 
       <ClearDestroy />
     </div>

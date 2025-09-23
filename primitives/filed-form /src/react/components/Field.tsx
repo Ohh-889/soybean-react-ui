@@ -61,10 +61,12 @@ function Field<Values = any>(props: FieldProps<Values>) {
     getFieldsValue,
     getFieldValue,
     getInternalHooks,
+    setFieldValue,
+    validateField,
     validateTrigger: fieldValidateTrigger
   } = fieldContext as unknown as InternalFormInstance<Values>;
 
-  const { dispatch, registerField, setFieldRules } = getInternalHooks();
+  const { registerField, setFieldRules } = getInternalHooks();
 
   const isControlled = controlMode === 'controlled';
 
@@ -75,7 +77,7 @@ function Field<Values = any>(props: FieldProps<Values>) {
   const make =
     (evt: string) =>
     (..._args: any[]) =>
-      dispatch({ name, opts: { trigger: evt }, type: 'validateField' });
+      validateField(name, { trigger: evt });
 
   const restValidateTriggerList = validateTriggerList
     .filter(item => item !== trigger)
@@ -115,19 +117,11 @@ function Field<Values = any>(props: FieldProps<Values>) {
           }
 
           if (newValue !== oldValue) {
-            dispatch({
-              name,
-              type: 'setFieldValue',
-              value: newValue
-            });
+            setFieldValue(name, newValue);
           }
 
-          if (validateTriggerList.includes(trigger)) {
-            dispatch({
-              name,
-              opts: { trigger },
-              type: 'validateField'
-            });
+          if (validateTriggerList.includes(trigger) && rules) {
+            validateField(name, { trigger });
           }
         }
       : undefined

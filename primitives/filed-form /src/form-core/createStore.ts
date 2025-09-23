@@ -144,8 +144,6 @@ class FormStore {
   >();
   /** Reverse index mapping dependency keys to computed fields */
   private _depIndex = new Map<string, Set<string>>();
-  /** Queue for recomputation (reserved for future use) */
-  private _recomputeQueue = new Set<string>();
 
   // Field visibility management
   /** Set of disabled field keys */
@@ -266,12 +264,7 @@ class FormStore {
   /**
    * Enhanced dispatch function that processes actions through middleware chain
    */
-  private dispatch = (a: Action) => {
-    const ctx = { dispatch: (x: Action) => this.dispatch(x), getState: () => this._store };
-    const chain = this._middlewares.map(mw => mw(ctx));
-    const reduced = chain.reduceRight((next, mw) => mw(next), this.baseDispatch);
-    reduced(a);
-  };
+  private dispatch = (a: Action) => this.baseDispatch(a);
 
   // ------------------------------------------------
   // Store and Initial Values Management

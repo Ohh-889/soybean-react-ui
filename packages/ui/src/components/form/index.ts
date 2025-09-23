@@ -12,7 +12,7 @@ export {
   useWatch
 } from 'skyroc-form';
 
-export type { FormInstance } from 'skyroc-form';
+export type { Action as FormAction, FormInstance } from 'skyroc-form';
 
 export { default as FormField } from './FormField';
 
