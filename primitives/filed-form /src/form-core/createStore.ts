@@ -456,67 +456,57 @@ class FormStore {
   // Computed Fields Management
   // ------------------------------------------------
   /**
-   * Registers a computed field with its dependencies and computation function
+   * Internal helper to register a reactive node (computed/effect) with
+   * dependencies and a compute function
    */
-  private registerComputed = (
-    name: NamePath,
-    deps: NamePath[],
-    compute: (get: (n: NamePath) => any, all: Store) => any
-  ) => {
-    const tgt = keyOfName(name);
+  private _registerReactive(id: string, deps: NamePath[], compute: (get: (n: NamePath) => any, all: Store) => any) {
     const depKeys = deps.map(keyOfName);
-    this._computed.set(tgt, {
+
+    this._computed.set(id, {
       compute: (getKey, all) => compute(n => getKey(keyOfName(n)), all),
       deps: depKeys
     });
-    // Reverse index
-    depKeys.forEach(d => {
-      if (!this._depIndex.has(d)) this._depIndex.set(d, new Set());
-      this._depIndex.get(d)!.add(tgt);
-    });
-
-    this.transaction(() => {
-      this.recomputeTargets([tgt]);
-    });
-
-    return () => {
-      this._computed.delete(tgt);
-      depKeys.forEach(d => this._depIndex.get(d)?.delete(tgt));
-    };
-  };
-
-  /**
-   * Registers a side effect that watches for changes in specified dependencies
-   */
-  private registerEffect(deps: NamePath[], effect: (get: (n: NamePath) => any, all: Store) => void) {
-    const depKeys = deps.map(keyOfName);
-
-    const run = () => {
-      effect(n => get(this._store, keyOfName(n)), this._store);
-    };
-
-    // === Run once initially ===
-    this.transaction(run);
-
-    // === Build dependency index ===
-    const id = `__effect_${Math.random().toString(36).slice(2)}`;
 
     depKeys.forEach(d => {
       if (!this._depIndex.has(d)) this._depIndex.set(d, new Set());
       this._depIndex.get(d)!.add(id);
     });
 
-    // === Store a special effect definition (no store writes, side-effect only) ===
-    this._computed.set(id, {
-      compute: (getKey, all) => effect(n => getKey(keyOfName(n)), all),
-      deps: depKeys
-    });
-
-    // === Return an unsubscribe function ===
     return () => {
       this._computed.delete(id);
       depKeys.forEach(d => this._depIndex.get(d)?.delete(id));
     };
+  }
+
+  /**
+   * Registers a computed field with its dependencies.
+   * - Computes the next value using the provided function.
+   * - Writes the result back into the store.
+   * - Returns an unregister function to remove this computed field and its dependency links.
+   */
+  private registerComputed = (
+    name: NamePath,
+    deps: NamePath[],
+    compute: (get: (n: NamePath) => any, all: Store) => any
+  ) => {
+    const id = keyOfName(name);
+    return this._registerReactive(id, deps, (getKey, all) => {
+      const next = compute(getKey, all);
+      this.setFieldValue(id, next); // computed writes back to the store
+      return next;
+    });
+  };
+
+  /**
+   * Registers a reactive side-effect that runs when dependencies change.
+   * - Does not write to the store.
+   * - Returns an unregister function to remove this effect and its dependency links.
+   */
+  private registerEffect(deps: NamePath[], effect: (get: (n: NamePath) => any, all: Store) => void) {
+    const id = `__effect_${Math.random().toString(36).slice(2)}`;
+    return this._registerReactive(id, deps, (getKey, all) => {
+      effect(getKey, all); // effect does not write to the store
+    });
   }
 
   /**
