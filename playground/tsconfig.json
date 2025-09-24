@@ -10,6 +10,7 @@
       "@/*": ["../packages/ui/src/*"]
     },
     "resolveJsonModule": true,
+    "types": ["./cloudflare-env.d.ts", "node"],
     "allowJs": true,
     "strict": true,
     "noEmit": true,

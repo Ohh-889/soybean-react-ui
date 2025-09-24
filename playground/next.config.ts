@@ -14,6 +14,6 @@ const nextConfig: NextConfig = {
   }
 };
 
-export default nextConfig;
-
 initOpenNextCloudflareForDev();
+
+export default nextConfig;

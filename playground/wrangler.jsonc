@@ -1,8 +1,9 @@
 {
   "name": "soybean-react-ui-playground",
   "main": ".open-next/worker.js",
-  "compatibility_date": "2025-07-13",
-  "compatibility_flags": ["nodejs_compat"],
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "compatibility_date": "2025-09-25",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
