@@ -6,6 +6,7 @@ import List from './modules/List';
 import Middleware from './modules/Middleware';
 import Preserve from './modules/Preserve';
 import Reset from './modules/Reset';
+import UndoRedo from './modules/UndoRedo';
 import UseForm from './modules/UseForm';
 import UseSelector from './modules/UseSelector';
 import UseWatch from './modules/UseWatch';
@@ -38,6 +39,8 @@ const FormPage = () => {
       <Preserve />
 
       <Middleware />
+
+      <UndoRedo />
 
       <ClearDestroy />
     </div>

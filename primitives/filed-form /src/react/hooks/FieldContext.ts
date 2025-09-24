@@ -14,7 +14,7 @@ import type {
 } from 'skyroc-type-utils';
 
 import type { ChangeMask } from '../../form-core/event';
-import type { Action, Middleware } from '../../form-core/middleware';
+import type { Action, ArrayOpArgs, Middleware } from '../../form-core/middleware';
 import type { FieldEntity, StoreValue } from '../../form-core/types';
 import type { ValidateMessages } from '../../form-core/validate';
 import type { Rule, ValidateOptions } from '../../form-core/validation';
@@ -122,6 +122,7 @@ export interface InternalCallbacks<Values = any> {
 }
 
 export interface InternalFieldHooks<Values = any> {
+  arrayOp: (name: AllPathsKeys<Values>, args: ArrayOpArgs) => void;
   dispatch: (action: Action) => void;
   getArrayFields: (name: ArrayKeys<Values>, initialValue?: StoreValue[]) => ListRenderItem[];
   getInitialValue: <T extends AllPathsKeys<Values>>(name: T) => PathToDeepType<Values, T>;
@@ -136,12 +137,16 @@ export interface InternalFieldHooks<Values = any> {
   ) => () => void;
   registerField: (entity: FieldEntity) => () => void;
   setFieldRules: (name: AllPathsKeys<Values>, rules?: Rule[]) => void;
+  setFieldsValue: (values: DeepPartial<Values>) => void;
+  setFieldValue: (name: AllPathsKeys<Values>, value: PathToDeepType<Values, AllPathsKeys<Values>>) => void;
   setRules: (name: AllPathsKeys<Values>, rules?: Rule[]) => void;
   subscribeField: <T extends AllPathsKeys<Values>>(
     name: T | T[] | undefined,
     cb: (value: PathToDeepType<Values, T>, name: T, values: Values, mask: ChangeMask) => void,
     opt?: { includeChildren?: boolean; mask?: ChangeMask }
   ) => () => void;
+  transaction: <T>(fn: () => T) => T;
+  transactionAsync: <T>(fn: () => Promise<T>) => Promise<T>;
 }
 
 export interface FormInstance<Values = any>

@@ -7,18 +7,27 @@ export interface ValidateFieldsOptions extends ValidateOptions {
   dirty?: boolean;
 }
 
+export type ArrayOp = 'insert' | 'move' | 'remove' | 'replace' | 'swap';
+
+export type ArrayOpArgs =
+  | { index: number; item: any; op: 'insert' }
+  | { index: number; op: 'remove' }
+  | { from: number; op: 'move'; to: number }
+  | { from: number; op: 'swap'; to: number }
+  | { index: number; item: any; op: 'replace' };
+
+export type ArgsOf<T extends ArrayOp> = Extract<ArrayOpArgs, { op: T }>;
+
+export type ArrayOpAction = { args: ArgsOf<ArrayOp>; name: NamePath; type: 'arrayOp' };
+
 export type Action =
   | { name: NamePath; type: 'setFieldValue'; validate?: boolean; value: StoreValue }
   | { type: 'setFieldsValue'; validate?: boolean; values: Store }
   | { names?: NonNullable<NamePath>[]; type: 'reset' }
-  | {
-      name: NamePath;
-      opts?: ValidateOptions;
-      type: 'validateField';
-    }
+  | { name: NamePath; opts?: ValidateOptions; type: 'validateField' }
   | { name?: NamePath[]; opts?: ValidateFieldsOptions; type: 'validateFields' }
-  | { args: any; name: NamePath; op: 'insert' | 'move' | 'remove' | 'replace' | 'swap'; type: 'arrayOp' }
-  | { entries: Array<[string, string[]]>; type: 'setExternalErrors' };
+  | { entries: Array<[string, string[]]>; type: 'setExternalErrors' }
+  | ArrayOpAction;
 
 export type MiddlewareCtx = {
   dispatch(a: Action): void;

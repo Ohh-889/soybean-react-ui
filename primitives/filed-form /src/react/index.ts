@@ -26,4 +26,6 @@ export { useForm } from './hooks/useForm';
 
 export { useSelector } from './hooks/useSelector';
 
+export { useUndoRedo } from './hooks/useUndoRedo';
+
 export { useWatch } from './hooks/useWatch';

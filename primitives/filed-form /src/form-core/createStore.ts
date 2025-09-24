@@ -15,7 +15,7 @@ import type { NamePath, PathTuple } from '../utils/util';
 import { anyOn, collectDeepKeys, isOn, isUnderPrefix, keyOfName, microtask } from '../utils/util';
 
 import { type ChangeMask, ChangeTag } from './event';
-import type { Action, Middleware, ValidateFieldsOptions } from './middleware';
+import type { Action, ArrayOpArgs, Middleware, ValidateFieldsOptions } from './middleware';
 import { compose } from './middleware';
 import type { ValidateMessages } from './types';
 import { runRulesWithMode } from './validation';
@@ -237,7 +237,7 @@ class FormStore {
         this.validateFields(a.name, a.opts);
         break;
       case 'arrayOp':
-        this.arrayOp(a.name, a.op, a.args);
+        this.arrayOp(a.name, a.args);
         break;
       case 'setExternalErrors': {
         // Handle external validation errors
@@ -973,7 +973,7 @@ class FormStore {
     return mgr;
   };
 
-  private arrayOp = (name: NamePath, op: 'insert' | 'move' | 'remove' | 'replace' | 'swap', args: any) => {
+  private arrayOp(name: NamePath, args: ArrayOpArgs): void {
     const arr = this.getFieldValue(name);
     if (!Array.isArray(arr)) return;
     const next = arr.slice();
@@ -986,7 +986,7 @@ class FormStore {
 
     const mark = (mask: ChangeMask = ChangeTag.Value) => this.enqueueNotify([name], mask);
 
-    switch (op) {
+    switch (args.op) {
       case 'insert': {
         const { index, item } = args;
         next.splice(index, 0, item);
@@ -1016,11 +1016,11 @@ class FormStore {
         break;
       }
       case 'swap': {
-        const { i, j } = args;
-        const tmp = next[i];
-        next[i] = next[j];
-        next[j] = tmp;
-        [keyMgr.keys[i], keyMgr.keys[j]] = [keyMgr.keys[j], keyMgr.keys[i]];
+        const { from, to } = args;
+        const tmp = next[from];
+        next[from] = next[to];
+        next[to] = tmp;
+        [keyMgr.keys[from], keyMgr.keys[to]] = [keyMgr.keys[to], keyMgr.keys[from]];
         this._store = set(this._store, name, next);
         this._validated.delete(ak);
         mark();
@@ -1037,7 +1037,7 @@ class FormStore {
       default:
         break;
     }
-  };
+  }
 
   private getArrayFields = (name: NamePath, initialValue?: StoreValue[]) => {
     const arr = (this.getFieldValue(name) as any[]) || initialValue || [];
@@ -1270,19 +1270,19 @@ class FormStore {
     return {
       arrayOp: (name: NamePath) => ({
         insert: (index: number, item: any) => {
-          this.dispatch({ args: { index, item }, name, op: 'insert', type: 'arrayOp' });
+          this.dispatch({ args: { index, item, op: 'insert' }, name, type: 'arrayOp' });
         },
         move: (from: number, to: number) => {
-          this.dispatch({ args: { from, to }, name, op: 'move', type: 'arrayOp' });
+          this.dispatch({ args: { from, op: 'move', to }, name, type: 'arrayOp' });
         },
         remove: (index: number) => {
-          this.dispatch({ args: { index }, name, op: 'remove', type: 'arrayOp' });
+          this.dispatch({ args: { index, op: 'remove' }, name, type: 'arrayOp' });
         },
         replace: (index: number, val: any) => {
-          this.dispatch({ args: { index, item: val }, name, op: 'replace', type: 'arrayOp' });
+          this.dispatch({ args: { index, item: val, op: 'replace' }, name, type: 'arrayOp' });
         },
-        swap: (i: number, j: number) => {
-          this.dispatch({ args: { i, j }, name, op: 'swap', type: 'arrayOp' });
+        swap: (index: number, j: number) => {
+          this.dispatch({ args: { from: index, op: 'swap', to: j }, name, type: 'arrayOp' });
         }
       }),
       getField: this.getField,
@@ -1315,6 +1315,7 @@ class FormStore {
 
   getInternalHooks = () => {
     return {
+      arrayOp: this.arrayOp,
       destroyForm: this.destroyForm,
       dispatch: this.dispatch,
       getArrayFields: this.getArrayFields,
@@ -1324,10 +1325,14 @@ class FormStore {
       registerField: this.registerField,
       setCallbacks: this.setCallbacks,
       setFieldRules: this.setFieldRules,
+      setFieldsValue: this.setFieldsValue,
+      setFieldValue: this.setFieldValue,
       setInitialValues: this.setInitialValues,
       setPreserve: this.setPreserve,
       setValidateMessages: this.setValidateMessages,
-      subscribeField: this.subscribeField
+      subscribeField: this.subscribeField,
+      transaction: this.transaction,
+      transactionAsync: this.transactionAsync
     };
   };
 }

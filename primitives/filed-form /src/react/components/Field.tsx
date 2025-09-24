@@ -129,11 +129,7 @@ function Field<Values = any>(props: FieldProps<Values>) {
 
   useEffect(() => {
     const unregister = registerField({
-      changeValue: (newValue, __, ___, mask) => {
-        if (!normalizedChangedRef.current && mask === ChangeTag.Value) return;
-
-        normalizedChangedRef.current = false;
-
+      changeValue: newValue => {
         if (isControlled) {
           forceUpdate({});
           return;
@@ -142,14 +138,10 @@ function Field<Values = any>(props: FieldProps<Values>) {
 
         if (!el) return;
 
-        if (!isControlled) {
-          if (cref.current && !isControlled) {
-            if (unControlledValueChange) {
-              unControlledValueChange(cref.current, newValue);
-            } else {
-              cref.current.value = isNil(newValue) ? '' : (newValue as any);
-            }
-          }
+        if (unControlledValueChange) {
+          unControlledValueChange(el, newValue);
+        } else {
+          el.value = isNil(newValue) ? '' : (newValue as any);
         }
       },
       initialValue,
