@@ -12,7 +12,7 @@
     },
     {
       "path": "src/components/resizable/ResizablePanelGroup.tsx",
-      "content": "import { PanelGroup } from 'react-resizable-panels';\n\nimport { cn } from '@/lib/utils';\n\nimport { resizableVariants } from './resizable-variants';\nimport type { ResizablePanelGroupProps } from './types';\n\nconst ResizablePanelGroup = (props: ResizablePanelGroupProps) => {\n  const { className, size, ...rest } = props;\n\n  const { panelGroup } = resizableVariants({ size });\n\n  const mergedCls = cn(panelGroup(), className);\n\n  return (\n    <PanelGroup\n      className={mergedCls}\n      {...rest}\n    />\n  );\n};\n\nexport default ResizablePanelGroup;\n",
+      "content": "'use client';\n\nimport { PanelGroup } from 'react-resizable-panels';\n\nimport { cn } from '@/lib/utils';\n\nimport { resizableVariants } from './resizable-variants';\nimport type { ResizablePanelGroupProps } from './types';\n\nconst ResizablePanelGroup = (props: ResizablePanelGroupProps) => {\n  const { className, size, ...rest } = props;\n\n  const { panelGroup } = resizableVariants({ size });\n\n  const mergedCls = cn(panelGroup(), className);\n\n  return (\n    <PanelGroup\n      className={mergedCls}\n      {...rest}\n    />\n  );\n};\n\nexport default ResizablePanelGroup;\n",
       "type": "registry:ui",
       "target": "components/resizable/ResizablePanelGroup.tsx"
     },

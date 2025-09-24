@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "form",
+  "type": "registry:block",
+  "title": "Form",
+  "files": [
+    {
+      "path": "src/components/form/FormField.tsx",
+      "content": "'use client';\n\nimport { useId } from 'react';\nimport type { AllPathsKeys } from 'skyroc-form';\nimport { Field, useFieldError } from 'skyroc-form';\n\nimport { cn } from '@/lib/utils';\n\nimport FormLabel from '../label/Label';\n\nimport { formVariants } from './form-variants';\nimport type { FormFieldProps } from './types';\n\nconst FormField = <Values = any,>(props: FormFieldProps<Values>) => {\n  const { children, className, description, label, name, size, ...rest } = props;\n\n  const id = useId();\n\n  const errors = useFieldError<Values, AllPathsKeys<Values>>(name);\n\n  const hasError = errors.length > 0;\n\n  const formItemId = `${id}-form-item`;\n  const formDescriptionId = `${id}-form-item-description`;\n  const formMessageId = `${id}-form-item-message`;\n\n  const {\n    description: descriptionCls,\n    item,\n    label: labelCls,\n    message\n  } = formVariants({ error: errors.length > 0, size });\n\n  const mergedCls = {\n    description: cn(descriptionCls(), className),\n    item: cn(item(), className),\n    label: cn(labelCls()),\n    message: cn(message(), className)\n  };\n\n  return (\n    <div className={mergedCls.item}>\n      <FormLabel\n        className={mergedCls.label}\n        data-error={hasError}\n        data-slot=\"form-label\"\n        htmlFor={id}\n        size={size}\n      >\n        {label}\n      </FormLabel>\n\n      <Field\n        {...rest}\n        aria-describedby={!hasError ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}\n        aria-invalid={hasError}\n        id={id}\n        name={name}\n      >\n        {children}\n      </Field>\n\n      {description && (\n        <p\n          className={mergedCls.description}\n          id={formDescriptionId}\n        >\n          {description}\n        </p>\n      )}\n\n      {hasError && (\n        <p\n          className={mergedCls.message}\n          id={formMessageId}\n        >\n          {errors[0]}\n        </p>\n      )}\n    </div>\n  );\n};\n\nexport default FormField;\n",
+      "type": "registry:ui",
+      "target": "components/form/FormField.tsx"
+    },
+    {
+      "path": "src/components/form/form-variants.ts",
+      "content": "import { tv } from 'tailwind-variants';\n\nexport const formVariants = tv({\n  defaultVariants: {\n    error: false,\n    size: 'md'\n  },\n  slots: {\n    description: `text-muted-foreground`,\n    item: `form-item`,\n    label: 'flex items-center data-[error=true]:text-destructive',\n    message: `font-medium text-destructive`\n  },\n  variants: {\n    error: {\n      true: {\n        message: `text-destructive`\n      }\n    },\n    size: {\n      '2xl': {\n        item: 'text-xl space-y-3.5',\n        label: 'gap-3.5'\n      },\n      lg: {\n        item: 'text-base space-y-2.5',\n        label: 'gap-2.5'\n      },\n      md: {\n        item: 'text-sm space-y-2',\n        label: 'gap-2'\n      },\n      sm: {\n        item: 'text-xs space-y-1.75',\n        label: 'gap-1.75'\n      },\n      xl: {\n        item: 'text-lg space-y-3',\n        label: 'gap-3'\n      },\n      xs: {\n        item: 'text-2xs space-y-1.5',\n        label: 'gap-1.5'\n      }\n    }\n  }\n});\n\nexport type FormSlots = keyof typeof formVariants.slots;\n",
+      "type": "registry:ui",
+      "target": "components/form/form-variants.ts"
+    },
+    {
+      "path": "src/components/form/index.ts",
+      "content": "'use client';\n\nexport {\n  ComputedField as FormComputedField,\n  Form,\n  List as FormList,\n  useEffectField,\n  useFieldError,\n  useFieldState,\n  useForm,\n  useSelector,\n  useUndoRedo,\n  useWatch\n} from 'skyroc-form';\n\nexport type { Action as FormAction, FormInstance } from 'skyroc-form';\n\nexport { default as FormField } from './FormField';\n\nexport type { FormFieldProps } from './types';\n",
+      "type": "registry:ui",
+      "target": "components/form/index.ts"
+    },
+    {
+      "path": "src/components/form/types.ts",
+      "content": "import type { ReactNode } from 'react';\nimport type { FieldProps } from 'skyroc-form';\n\nimport type { BaseProps } from '@/types/other';\n\nexport type FormFieldProps<Values = any> = FieldProps<Values> &\n  BaseProps<{\n    description?: string;\n    error?: string;\n    label?: ReactNode;\n    required?: boolean;\n  }>;\n",
+      "type": "registry:ui",
+      "target": "components/form/types.ts"
+    }
+  ]
+}

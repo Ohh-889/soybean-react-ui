@@ -1089,6 +1089,33 @@
     {
       "files": [
         {
+          "path": "src/components/form/FormField.tsx",
+          "target": "components/form/FormField.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/form/form-variants.ts",
+          "target": "components/form/form-variants.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/form/index.ts",
+          "target": "components/form/index.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/form/types.ts",
+          "target": "components/form/types.ts",
+          "type": "registry:ui"
+        }
+      ],
+      "name": "form",
+      "title": "Form",
+      "type": "registry:block"
+    },
+    {
+      "files": [
+        {
           "path": "src/components/hover-card/HoverCard.tsx",
           "target": "components/hover-card/HoverCard.tsx",
           "type": "registry:ui"
