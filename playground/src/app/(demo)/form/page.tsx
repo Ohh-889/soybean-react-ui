@@ -10,6 +10,7 @@ import UndoRedo from './modules/UndoRedo';
 import UseForm from './modules/UseForm';
 import UseSelector from './modules/UseSelector';
 import UseWatch from './modules/UseWatch';
+import ZodResolver from './modules/ZodResolver';
 import Validate from './modules/validate';
 import ValidateWarning from './modules/validateWaring';
 
@@ -29,6 +30,8 @@ const FormPage = () => {
       <Validate />
 
       <ValidateWarning />
+
+      <ZodResolver />
 
       <UseWatch />
 

@@ -84,7 +84,7 @@ export interface ValidateFieldsOptions extends ValidateOptions {
 export interface OperationOptions<Values = any> {
   resetFields: (names?: AllPathsKeys<Values>[]) => void;
   submit: () => void;
-  use: (mw: Middleware) => void;
+  use: (mw: Middleware<Values, AllPathsKeys<Values>>) => void;
   validateField: (name: AllPathsKeys<Values>, opts?: ValidateOptions) => Promise<boolean>;
   validateFields: (names?: AllPathsKeys<Values>[], opts?: ValidateFieldsOptions) => Promise<boolean>;
 }

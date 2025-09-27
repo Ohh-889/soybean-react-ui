@@ -1,80 +1,114 @@
-// resolvers.ts
-import type { Middleware } from './middleware';
-import { keyOfName } from './path';
+/* eslint-disable consistent-return */
 
-// 通用错误映射：把 schema error 转为 Map<jsonKey, string[]>
+import type { AllPathsKeys } from 'skyroc-type-utils';
+import { toArray } from 'skyroc-utils';
+
+import { keyOfName } from '../utils/util';
+
+import type { Action, Middleware } from './middleware';
+
+// ========== Common error handling utilities ==========
 type ErrMap = Map<string, string[]>;
 
-const mergeErr = (m: ErrMap, key: string, msg: string) => {
+function mergeErr(m: ErrMap, key: string, msg: string) {
   const k = keyOfName(key);
   const arr = m.get(k) || [];
   arr.push(msg);
   m.set(k, arr);
-};
+}
 
+export function dispatchErrors(dispatch: (a: Action) => void, issues: { message: string; path: string }[]) {
+  const m: ErrMap = new Map();
+
+  issues.forEach(err => {
+    if (err.path) mergeErr(m, err.path, err.message);
+  });
+
+  const entries = Array.from(m.entries());
+
+  dispatch({ entries, type: 'setExternalErrors' });
+}
+
+// ========== Yup Resolver ==========
 export function createYupResolver(schema: any): Middleware {
   return ({ dispatch, getState }) =>
     next =>
     async action => {
       if (action.type !== 'validateField') return next(action);
+
       const name = action.name;
       try {
-        await schema.validate(getState(), { abortEarly: false });
-        // 全通过：清掉该字段错误
-        dispatch({ entries: [[keyOfName(name), []]], type: 'setExternalErrors' });
+        if (name) {
+          await schema.validateAt(name, getState());
+          dispatch({ entries: [[keyOfName(name), []]], type: 'setExternalErrors' });
+        } else {
+          await schema.validate(getState(), { abortEarly: false });
+          dispatch({ entries: [], type: 'setExternalErrors' }); // clear all
+        }
       } catch (e: any) {
-        const m: ErrMap = new Map();
-        (e.inner || []).forEach((err: any) => {
-          if (err.path) mergeErr(m, err.path, err.message);
-        });
-        // 如果传了具体 name，只回该字段；否则回全量
-        const entries = name ? [[keyOfName(name), m.get(keyOfName(name)) || []]] : Array.from(m.entries());
-        dispatch({ entries, type: 'setExternalErrors' });
+        const issues = (e.inner || []).map((err: any) => ({
+          message: err.message,
+          path: err.path
+        }));
+        dispatchErrors(dispatch, name, issues);
       }
     };
 }
 
-export function createZodResolver(schema: any): Middleware {
+const validateList = ['validateField', 'validateFields'];
+
+// ========== Zod Resolver ==========
+export function createZodResolver<Values = any>(schema: any): Middleware<Values, AllPathsKeys<Values>> {
   return ({ dispatch, getState }) =>
     next =>
-    async action => {
-      if (action.type !== 'validateField') return next(action);
-      const name = action.name;
+    action => {
+      const type = action.type;
+
+      if (type !== 'validateField' && type !== 'validateFields') {
+        return next(action);
+      }
+
       const res = schema.safeParse(getState());
+
+      const names = toArray(action.name);
+
       if (res.success) {
-        dispatch({ entries: [[keyOfName(name), []]], type: 'setExternalErrors' });
+        dispatch({ entries: [[name, []]], type: 'setExternalErrors' });
         return;
       }
-      const m: ErrMap = new Map();
-      res.error.errors.forEach((issue: any) => {
-        const path = issue.path?.length ? issue.path.join('.') : 'root';
-        mergeErr(m, path, issue.message);
-      });
-      const entries = name ? [[keyOfName(name), m.get(keyOfName(name)) || []]] : Array.from(m.entries());
-      dispatch({ entries, type: 'setExternalErrors' });
+
+      const issues = res.error?.issues.map((issue: any) => ({
+        message: issue.message,
+        path: issue.path?.length ? issue.path.join('.') : 'root'
+      }));
+      dispatchErrors(dispatch, issues || []);
     };
 }
 
-// async-validator 版（与 antd 同源）
+// ========== AsyncValidator Resolver ==========
 export function createAsyncValidatorResolver(descriptor: any, options?: any): Middleware {
-  const AsyncValidator = (descriptor as any).default ?? descriptor; // 兼容导出
+  const AsyncValidator = (descriptor as any).default ?? descriptor;
   return ({ dispatch, getState }) =>
     next =>
     async action => {
       if (action.type !== 'validateField') return next(action);
-      const name = action.name;
+
+      const name = keyOfName(action.name);
+
       const validator = new AsyncValidator(descriptor);
+
       try {
-        await validator.validate(getState(), options);
+        await validator.validate(getState(), {
+          ...options,
+          keys: name ? [name] : undefined
+        });
         dispatch({ entries: [[keyOfName(name), []]], type: 'setExternalErrors' });
       } catch (e: any) {
-        const m: ErrMap = new Map();
-        (e.errors || []).forEach((it: any) => {
-          const path = it.field || 'root';
-          mergeErr(m, path, it.message);
-        });
-        const entries = name ? [[keyOfName(name), m.get(keyOfName(name)) || []]] : Array.from(m.entries());
-        dispatch({ entries, type: 'setExternalErrors' });
+        const issues = (e.errors || []).map((it: any) => ({
+          message: it.message,
+          path: it.field || 'root'
+        }));
+        dispatchErrors(dispatch, name, issues);
       }
     };
 }

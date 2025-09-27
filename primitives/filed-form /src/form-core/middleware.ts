@@ -1,4 +1,6 @@
-import type { Store, StoreValue } from '../types/formStore';
+import type { AllPathsKeys, PathToDeepType } from 'skyroc-type-utils';
+
+import type { MetaShapeFromPaths } from '../react/hooks/FieldContext';
 import type { NamePath } from '../utils/util';
 
 import type { ValidateOptions } from './validation';
@@ -20,21 +22,24 @@ export type ArgsOf<T extends ArrayOp> = Extract<ArrayOpArgs, { op: T }>;
 
 export type ArrayOpAction = { args: ArgsOf<ArrayOp>; name: NamePath; type: 'arrayOp' };
 
-export type Action =
-  | { name: NamePath; type: 'setFieldValue'; validate?: boolean; value: StoreValue }
-  | { type: 'setFieldsValue'; validate?: boolean; values: Store }
-  | { names?: NonNullable<NamePath>[]; type: 'reset' }
-  | { name: NamePath; opts?: ValidateOptions; type: 'validateField' }
-  | { name?: NamePath[]; opts?: ValidateFieldsOptions; type: 'validateFields' }
-  | { entries: Array<[string, string[]]>; type: 'setExternalErrors' }
+export type Action<Values = any, T extends AllPathsKeys<Values> = AllPathsKeys<Values>> =
+  | { name: T; type: 'setFieldValue'; validate?: boolean; value: PathToDeepType<Values, T> }
+  | { type: 'setFieldsValue'; validate?: boolean; values: Values }
+  | { names?: T[]; type: 'reset' }
+  | { name: T; opts?: ValidateOptions; type: 'validateField' }
+  | { name?: T[]; opts?: ValidateFieldsOptions; type: 'validateFields' }
+  | { entries: Array<[T, string[]]>; type: 'setExternalErrors' }
   | ArrayOpAction;
 
-export type MiddlewareCtx = {
-  dispatch(a: Action): void;
-  getState(): Store;
+export type MiddlewareCtx<Values, T extends AllPathsKeys<Values> = AllPathsKeys<Values>> = {
+  dispatch(a: Action<Values, T>): void;
+  getFields(): MetaShapeFromPaths<Values, T[]>;
+  getState(): Values;
 };
 
-export type Middleware = (ctx: MiddlewareCtx) => (next: (a: Action) => void) => (a: Action) => void;
+export type Middleware<Values = any, T extends AllPathsKeys<Values> = AllPathsKeys<Values>> = (
+  ctx: MiddlewareCtx<Values, T>
+) => (next: (a: Action<Values, T>) => void) => (a: Action<Values, T>) => void;
 
 export function compose(...fns: ((...args: any[]) => any)[]) {
   if (fns.length === 0) return (arg: any) => arg;

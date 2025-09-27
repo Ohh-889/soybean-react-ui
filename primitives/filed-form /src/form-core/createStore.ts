@@ -208,7 +208,12 @@ class FormStore {
    * Creates a new dispatch function composed of all middlewares
    */
   private rebindMiddlewares = () => {
-    const api = { dispatch: (a: Action) => this.dispatch(a), getState: () => this._store };
+    const api = {
+      dispatch: (a: Action) => this.dispatch(a),
+      // eslint-disable-next-line sort/object-properties
+      getState: () => this._store,
+      getFields: this.getFields
+    };
 
     const chain = this._middlewares.map(m => m(api));
 
@@ -631,7 +636,7 @@ class FormStore {
     });
   };
 
-  private setFieldValue = (name: NamePath, value: StoreValue, validate = false) => {
+  private setFieldValue = (name: string, value: StoreValue, validate = false) => {
     const key = keyOfName(name);
 
     const before = get(this._store, key);
@@ -1301,14 +1306,14 @@ class FormStore {
       getFieldWarning: this.getFieldWarning,
       getFormState: this.getFormState,
       getInternalHooks: this.getInternalHooks,
-      resetFields: (names: NonNullable<NamePath>[] = []) => this.dispatch({ names, type: 'reset' }),
+      resetFields: (names: string[] = []) => this.dispatch({ names, type: 'reset' }),
       setFieldsValue: (values: Store, validate = false) => this.dispatch({ type: 'setFieldsValue', validate, values }),
-      setFieldValue: (name: NamePath, value: StoreValue, validate = false) =>
+      setFieldValue: (name: string, value: StoreValue, validate = false) =>
         this.dispatch({ name, type: 'setFieldValue', validate, value }),
       submit: this.submit,
       use: this.use,
-      validateField: (name: NamePath, opts?: ValidateOptions) => this.dispatch({ name, opts, type: 'validateField' }),
-      validateFields: (names?: NamePath[], opts?: ValidateFieldsOptions) =>
+      validateField: (name: string, opts?: ValidateOptions) => this.dispatch({ name, opts, type: 'validateField' }),
+      validateFields: (names?: string[], opts?: ValidateFieldsOptions) =>
         this.dispatch({ name: names, opts, type: 'validateFields' })
     };
   };
