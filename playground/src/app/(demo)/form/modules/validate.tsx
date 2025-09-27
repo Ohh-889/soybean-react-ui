@@ -122,7 +122,7 @@ const Validate = () => {
           name="username2"
           rules={[
             {
-              // 异步校验，延迟 1000ms
+              // Async validation with 1000ms delay
               validator: async (_, value) => {
                 await new Promise(r => setTimeout(r, 1000));
 
@@ -134,7 +134,7 @@ const Validate = () => {
                   return 'This username2 is not allowed';
                 }
 
-                return null; // 校验通过
+                return null; // validation passed
               }
             }
           ]}
@@ -178,12 +178,12 @@ const Validate = () => {
             {
               message: 'Please enter a valid email',
               type: 'email',
-              validateTrigger: 'onBlur' // 单个
+              validateTrigger: 'onBlur' // single
             },
             {
               message: 'At least 6 characters',
               minLength: 6,
-              validateTrigger: ['onChange', 'onBlur'] // 多个
+              validateTrigger: ['onChange', 'onBlur'] // multiple
             }
           ]}
         >

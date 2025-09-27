@@ -89,7 +89,7 @@ export function useUndoRedo(form: FormInstance) {
       if (batch.length > 0) {
         setUndoStack(prev => [...prev, batch]);
 
-        setRedoStack([]); // 新操作清空 redo 栈
+        setRedoStack([]); // clear redo stack on new operation
       }
 
       return ret;

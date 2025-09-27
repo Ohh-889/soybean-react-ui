@@ -120,7 +120,7 @@ function Field<Values = any>(props: FieldProps<Values>) {
             setFieldValue(name, newValue);
           }
 
-          if (validateTriggerList.includes(trigger) && rules) {
+          if (validateTriggerList.includes(trigger)) {
             validateField(name, { trigger });
           }
         }

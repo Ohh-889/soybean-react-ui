@@ -13,20 +13,20 @@ import type { FormInstance, InternalFormInstance } from './FieldContext';
 type Eq<T> = (a: T, b: T) => boolean;
 
 type UseSelectorOpts<Values, R> = {
-  /** 订阅字段，空则订阅全部 */
+  /** Subscribed fields; if empty, subscribe to all */
   deps?: AllPathsKeys<Values>[];
-  /** 是否相等 */
+  /** Equality comparator */
   eq?: Eq<R>;
-  /** 表单实例 */
+  /** Form instance */
   form?: FormInstance<Values>;
-  /** 是否订阅子路径 */
+  /** Whether to subscribe to child paths */
   includeChildren?: boolean;
-  /** 变更掩码 */
+  /** Change mask */
   mask?: ChangeMask;
 };
 
 /**
- * 从表单中“选择”任意聚合值，只有依赖变化才刷新。
+ * Select an arbitrary aggregated value from the form. Re-renders only when dependencies change.
  */
 export function useSelector<Values = any, R = unknown>(
   selector: (get: (n: AllPathsKeys<Values>) => any, all: Values) => R,
@@ -49,30 +49,30 @@ export function useSelector<Values = any, R = unknown>(
   const mask = opts?.mask ?? ChangeTag.Value;
   const includeChildren = opts?.includeChildren;
 
-  // 计算当前选择值
+  // Compute current selected value
   const compute = () => {
     const getField = form.getFieldValue;
     const all = form.getFieldsValue() as Values;
     return selector(getField, all);
   };
 
-  // state + ref 用于去抖渲染
+  // Use state + ref to debounce rendering
   const [val, setVal] = useState<R>(compute);
 
   const prevRef = useRef<R>(val);
 
   useEffect(() => {
-    // 订阅器
+    // Subscriber
     const onChange = () => {
       const next = compute();
       if (!eq(prevRef.current, next)) {
         prevRef.current = next;
-        // 与 useFieldState 一致：同步刷新，减少闪烁
+        // Keep consistent with useFieldState: flush synchronously to reduce flicker
         flushSync(() => setVal(next));
       }
     };
 
-    // 指定字段订阅
+    // Subscribe to specified fields
     return subscribeField(deps, onChange, {
       includeChildren,
       mask

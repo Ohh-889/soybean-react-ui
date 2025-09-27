@@ -195,16 +195,16 @@ type PathsShape<T, Index extends number = number, P extends string = '', Depth e
 export type AllPathsShape<T> = MergeUnion<PathsShape<T>>;
 export type AllPathsKeys<T> = keyof AllPathsShape<T> & string;
 
-// 工具：把 "a.b.c" 转成 { a: { b: { c: V } } }
+// Utility: convert "a.b.c" into { a: { b: { c: V } } }
 // "a.b.c" => { a: { b: { c: V } } }
 export type KeyToNestedObject<K extends string, V> = K extends `${infer Head}.${infer Rest}`
   ? { [P in Head]: KeyToNestedObject<Rest, V> }
   : { [P in K]: V };
 
-// 合并 {a:{b:X}} & {a:{c:Y}} => {a:{b:X;c:Y}}
+// Merge {a:{b:X}} & {a:{c:Y}} => {a:{b:X;c:Y}}
 export type Merge<T> = { [K in keyof T]: T[K] };
 
-// 把 Keys 分配展开，而不是取联合
+// Distribute Keys rather than taking union
 
 /**
  * @example
@@ -227,5 +227,5 @@ export type ArrayKeys<T> = {
       [K in keyof T]: T[K] extends readonly any[] ? K : never;
     }[keyof T];
 
-// 获取某个属性 K 的元素类型，如果不是数组就返回 never
+// Get the element type of property K; if not an array, return never
 export type ArrayElementValue<T, K extends keyof T> = T[K] extends (infer U)[] ? U : any;
