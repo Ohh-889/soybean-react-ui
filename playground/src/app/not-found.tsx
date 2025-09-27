@@ -37,14 +37,15 @@ export default function NotFound() {
         <div className="mb-6 space-y-2">
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 animate-bounce">Page not found</h2>
           <p className="text-lg md:text-xl text-slate-300 animate-fade-in">
-            Sorry, the page you visited doesn't exist or has been moved.
+            Sorry, the page you visited doesn&apos;t exist or has been moved.
           </p>
         </div>
 
         {/* Description */}
         <div className="mb-8 animate-pulse">
           <p className="text-slate-400 max-w-md mx-auto leading-relaxed">
-            Don't worry, this happens. You can return to the home page or try searching for what you're looking for.
+            Don&apos;t worry, this happens. You can return to the home page or try searching for what you&apos;re
+            looking for.
           </p>
         </div>
 
