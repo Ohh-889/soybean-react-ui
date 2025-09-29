@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Button, Card, Form, FormField, Input, createZodResolver, useForm } from 'soybean-react-ui';
+import { Button, Card, Form, FormField, Input, createStandardResolver, useForm } from 'soybean-react-ui';
 import { z } from 'zod';
 
 // Define Zod Schema
@@ -33,7 +33,7 @@ const ZodResolverDemo = () => {
   const [form] = useForm<Inputs>();
 
   useEffect(() => {
-    form.use(createZodResolver(zodSchema));
+    form.use(createStandardResolver(zodSchema));
   }, [form]);
 
   return (

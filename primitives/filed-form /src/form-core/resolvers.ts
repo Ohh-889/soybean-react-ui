@@ -43,6 +43,7 @@ export function createYupResolver(schema: any): Middleware {
           dispatch({ entries: [[keyOfName(name), []]], type: 'setExternalErrors' });
         } else {
           await schema.validate(getState(), { abortEarly: false });
+
           dispatch({ entries: [], type: 'setExternalErrors' }); // clear all
         }
       } catch (e: any) {
@@ -54,8 +55,6 @@ export function createYupResolver(schema: any): Middleware {
       }
     };
 }
-
-const validateList = ['validateField', 'validateFields'];
 
 // ========== Zod Resolver ==========
 export function createZodResolver<Values = any>(schema: any): Middleware<Values, AllPathsKeys<Values>> {
@@ -72,8 +71,10 @@ export function createZodResolver<Values = any>(schema: any): Middleware<Values,
 
       const names = toArray(action.name);
 
+      const entries = names.map(name => [name, []]);
+
       if (res.success) {
-        dispatch({ entries: [[name, []]], type: 'setExternalErrors' });
+        dispatch({ entries: [], type: 'setExternalErrors' });
         return;
       }
 
@@ -81,7 +82,7 @@ export function createZodResolver<Values = any>(schema: any): Middleware<Values,
         message: issue.message,
         path: issue.path?.length ? issue.path.join('.') : 'root'
       }));
-      dispatchErrors(dispatch, issues || []);
+      dispatchErrors(dispatch, entries, issues || []);
     };
 }
 

@@ -245,21 +245,35 @@ class FormStore {
         this.arrayOp(a.name, a.args);
         break;
       case 'setExternalErrors': {
-        // Handle external validation errors
-        // entries format: Array<[fieldKey: string, errors: string[]]>
         const { entries } = a as any;
-        const changed: string[] = [];
-        this.begin();
 
-        entries.forEach(([k, errs]: [string, string[]]) => {
-          if (errs && errs.length) this._errors.set(k, errs);
-          else this._errors.delete(k);
-          changed.push(k);
+        this.transaction(() => {
+          if (entries.length === 0) {
+            // ✅ 空数组代表全通过，清空所有错误
+            this._errors.clear();
+            this.enqueueNotify(
+              Array.from(this._fieldEntities, e => e.name as string),
+              ChangeTag.Errors
+            );
+          } else {
+            const changed: string[] = [];
+            entries.forEach(([k, errs]: [string, string[]]) => {
+              if (errs && errs.length) {
+                this._errors.set(k, errs);
+              } else {
+                this._errors.delete(k);
+              }
+              changed.push(k);
+            });
+            if (changed.length) {
+              this.enqueueNotify(changed, ChangeTag.Errors);
+            }
+          }
         });
-        if (changed.length) this.enqueueNotify(changed, ChangeTag.Errors);
-        this.commit();
+
         break;
       }
+
       default:
         // No action matched, skip processing
         break;

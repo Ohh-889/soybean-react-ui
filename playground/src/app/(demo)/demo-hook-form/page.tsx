@@ -5,24 +5,23 @@ import { useForm } from 'react-hook-form';
 
 type Inputs = {
   example: string;
-  exampleRequired: string;
+  exampleRequired: number;
 };
+
+let count = 0;
 
 export default function App() {
   const {
-    formState: { errors },
+    formState: { errors, validatingFields },
     handleSubmit,
-    register,
-    setValue,
-    watch
+    register
   } = useForm<Inputs>();
+
   const onSubmit: SubmitHandler<Inputs> = data => console.log(data);
 
-  console.log(watch('example')); // watch input value by passing the name of it
+  count += 1;
 
-  const demo = register('exampleRequired', { required: true });
-
-  console.log('demo', demo);
+  console.log('validatingFields', validatingFields, errors);
 
   return (
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
@@ -33,19 +32,12 @@ export default function App() {
         {...register('example')}
       />
 
+      <div>count: {count}</div>
+
       {/* include validation with required or other standard HTML validation rules */}
-      <input {...demo} />
+      <input {...register('exampleRequired', { min: 28, minLength: 2, required: true })} />
       {/* errors will return when field validation fails  */}
       {errors.exampleRequired && <span>This field is required</span>}
-
-      <button
-        className="mr-4"
-        onClick={() => {
-          setValue('exampleRequired', '123777');
-        }}
-      >
-        demo
-      </button>
 
       <input type="submit" />
     </form>
