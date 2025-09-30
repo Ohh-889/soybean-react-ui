@@ -2,8 +2,6 @@
 
 export {
   ComputedField as FormComputedField,
-  createStandardResolver,
-  createZodResolver,
   Form,
   List as FormList,
   useEffectField,

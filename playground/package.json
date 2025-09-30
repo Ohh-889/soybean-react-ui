@@ -17,7 +17,12 @@
   "bugs": {
     "url": "https://github.com/Ohh-889/soybean-react-ui/issues"
   },
-  "keywords": ["UI", "tailwind-css", "shadcn-ui", "react"],
+  "keywords": [
+    "UI",
+    "tailwind-css",
+    "shadcn-ui",
+    "react"
+  ],
   "scripts": {
     "build": "next build",
     "build:ui": "pnpm --filter soybean-react-ui build",
@@ -34,6 +39,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
+    "async-validator": "^4.2.5",
     "embla-carousel-autoplay": "8.6.0",
     "grapheme-splitter": "1.0.4",
     "lucide-react": "0.525.0",

@@ -1,3 +1,4 @@
+import AsyncValidatorResolver from './modules/AsyncValidatorResolver';
 import ClearDestroy from './modules/ClearDestroy';
 import ComputedDemo from './modules/ComputedDemo';
 import Default from './modules/Default';
@@ -32,6 +33,8 @@ const FormPage = () => {
       <ValidateWarning />
 
       <ZodResolver />
+
+      <AsyncValidatorResolver />
 
       <UseWatch />
 
