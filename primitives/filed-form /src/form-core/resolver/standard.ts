@@ -91,12 +91,12 @@ export interface StandardSchemaV1Issue {
 
 /**
  * Internal normalized issue type
- * 路径已经被扁平化为 string[]
+ * Path has been flattened to string[]
  */
 export interface StandardSchemaV1NormalizedIssue {
-  /** 错误信息 */
+  /** Error message */
   readonly message: string;
-  /** 扁平化路径 */
+  /** Flattened path */
   readonly path: readonly string[];
 }
 /**
@@ -109,22 +109,28 @@ interface StandardSchemaV1PathSegment {
   readonly key: PropertyKey;
 }
 
+/**
+ * Type guard to check if an object implements the StandardSchemaV1 interface
+ */
 export function isStandardSchema(obj: any): obj is StandardSchemaV1 {
   return obj && obj['~standard'] && typeof obj['~standard'].validate === 'function';
 }
 
 /**
- * Standard Schema Resolver
- * 支持 sync/async validate，同时处理 validateField 和 validateFields
+ * Creates a resolver middleware for StandardSchemaV1 schemas
+ * Supports both sync/async validation and handles validateField and validateFields
  */
-
 export function createStandardResolver<Values = any>(schema: StandardSchemaV1<Values>) {
   return createGenericResolver<Values>(async state => {
+    // Execute schema validation (handles both sync and async validators)
     const result = await Promise.resolve(schema['~standard'].validate(state));
 
+    // If validation succeeded (no issues), return empty array
     if (!('issues' in result)) return [];
 
+    // Transform schema issues to normalized format
     const issues = result.issues?.map(issue => {
+      // Flatten path segments to string array
       const path = issue.path
         ? issue.path.map(seg => (typeof seg === 'object' && 'key' in seg ? String(seg.key) : String(seg)))
         : [];

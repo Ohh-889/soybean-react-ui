@@ -3,7 +3,7 @@
 /* eslint-disable no-await-in-loop */
 import { isEqual, isNil } from 'skyroc-utils';
 
-import type { StoreValue } from '../types/formStore';
+import type { StoreValue } from './types';
 
 /**
  * Discriminated union describing the expected value type for validation.

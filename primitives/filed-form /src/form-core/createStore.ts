@@ -6,9 +6,6 @@
 
 import { assign, isArray, isEqual, isNil, toArray } from 'skyroc-utils';
 
-import type { FieldEntity } from '../types/field';
-import type { Callbacks, Store, StoreValue } from '../types/formStore';
-import type { Meta } from '../types/shared-types';
 import { get } from '../utils/get';
 import { set, unset } from '../utils/set';
 import type { NamePath, PathTuple } from '../utils/util';
@@ -17,7 +14,8 @@ import { anyOn, collectDeepKeys, isOn, isUnderPrefix, keyOfName, microtask } fro
 import { type ChangeMask, ChangeTag } from './event';
 import type { Action, ArrayOpArgs, Middleware, ValidateFieldsOptions } from './middleware';
 import { compose } from './middleware';
-import type { ValidateMessages } from './types';
+import type { Callbacks, FieldEntity, Meta, Store, StoreValue } from './types';
+import type { ValidateMessages } from './validate';
 import { runRulesWithMode } from './validation';
 import type { Rule, ValidateOptions } from './validation';
 
@@ -34,6 +32,9 @@ export type ArrayField = {
   keys: number[];
 };
 
+/**
+ * Checks if a validation rule should be triggered based on the provided trigger
+ */
 const matchTrigger = (rule: Rule, trig?: string | string[]) => {
   const list = toArray(rule.validateTrigger);
 
@@ -44,12 +45,18 @@ const matchTrigger = (rule: Rule, trig?: string | string[]) => {
   return trigList.some(t => list.includes(t));
 };
 
+/**
+ * Extracts values from a Map based on provided field names
+ */
 function getValueByNames<T>(source: Map<string, T>, names?: NamePath[]): Record<string, T> {
   const keys = names?.length ? names.map(keyOfName) : Array.from(source.keys());
 
   return Object.fromEntries(keys.map(k => [k, source.get(k)!]));
 }
 
+/**
+ * Checks if any field in the provided names has a flag set in the bucket
+ */
 function getFlag(bucket: Set<string>, names?: NamePath[]) {
   if (!names || names.length === 0) {
     return bucket.size > 0;
@@ -58,6 +65,9 @@ function getFlag(bucket: Set<string>, names?: NamePath[]) {
   return anyOn(bucket, names);
 }
 
+/**
+ * Moves an array element from one index to another
+ */
 function move<T>(arr: T[], from: number, to: number): T[] {
   const clone = arr.slice();
   const item = clone.splice(from, 1)[0];
@@ -210,9 +220,7 @@ class FormStore {
   private rebindMiddlewares = () => {
     const api = {
       dispatch: (a: Action) => this.dispatch(a),
-      // eslint-disable-next-line sort/object-properties
-      getState: () => this._store,
-      getFields: this.getFields
+      getState: () => this._store
     };
 
     const chain = this._middlewares.map(m => m(api));
@@ -245,11 +253,11 @@ class FormStore {
         this.arrayOp(a.name, a.args);
         break;
       case 'setExternalErrors': {
-        const { entries } = a as any;
+        const { entries } = a;
 
         this.transaction(() => {
           if (entries.length === 0) {
-            // ✅ 空数组代表全通过，清空所有错误
+            // ✅ Empty array means all validation passed, clear all errors
             this._errors.clear();
             this.enqueueNotify(
               Array.from(this._fieldEntities, e => e.name as string),
@@ -983,6 +991,9 @@ class FormStore {
 
   // ===== Array Operation =====
 
+  /**
+   * Gets or creates an array key manager for tracking array field keys
+   */
   private getArrayKeyManager = (name: string) => {
     let mgr = this.arrayKeyMap.get(name);
     if (!mgr) {
@@ -992,6 +1003,9 @@ class FormStore {
     return mgr;
   };
 
+  /**
+   * Performs array operations on form fields (insert, remove, move, swap, replace)
+   */
   private arrayOp(name: NamePath, args: ArrayOpArgs): void {
     const arr = this.getFieldValue(name);
     if (!Array.isArray(arr)) return;
@@ -1077,6 +1091,10 @@ class FormStore {
   };
 
   // ===== FieldChange =====
+  /**
+   * Triggers the onFieldsChange callback for specified fields
+   * @param nameList - Array of field names that have changed
+   */
   triggerOnFieldsChange = (nameList: NamePath[]) => {
     if (this._callbacks?.onFieldsChange) {
       const fields = this.getFields();
@@ -1091,10 +1109,16 @@ class FormStore {
 
   // ===== Submit =====
 
+  /**
+   * Registers a pre-submit transform function
+   */
   usePreSubmit(fn: (values: Store) => Store) {
     this._preSubmit.push(fn);
   }
 
+  /**
+   * Removes disabled and hidden fields from values before submission
+   */
   private _pruneForSubmit(values: Store): Store {
     const disabled = Array.from(this._disabledKeys);
     const hidden = Array.from(this._hiddenKeys);
@@ -1119,6 +1143,10 @@ class FormStore {
     return walk(values, []) ?? {};
   }
 
+  /**
+   * Builds the payload for failed form submission
+   * @returns Object containing error information and form state
+   */
   private buildFailedPayload = () => {
     const errorMap = Object.fromEntries(this._errors);
     const warningMap = Object.fromEntries(this._warnings);
@@ -1148,6 +1176,10 @@ class FormStore {
     };
   };
 
+  /**
+   * Submits the form after validation
+   * Calls onFinish if validation passes, onFinishFailed if it fails
+   */
   private submit = () => {
     this.validateFields().then(ok => {
       if (ok) this._callbacks.onFinish?.(this._store);
@@ -1155,6 +1187,9 @@ class FormStore {
     });
   };
 
+  /**
+   * Destroys the form and cleans up all state
+   */
   private destroyForm = (clearOnDestroy?: boolean) => {
     if (clearOnDestroy) {
       // destroy form reset store
