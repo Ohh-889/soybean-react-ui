@@ -5,6 +5,8 @@ import type { ComponentPropsWithoutRef, ComponentRef, ElementType, HTMLProps, Re
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import type { DeepPartial } from 'skyroc-type-utils';
 
+import type { FormSchema } from '../../form-core/resolver/resolver';
+import { resolveSchema } from '../../form-core/resolver/resolver';
 import type { ValidateMessages } from '../../form-core/validate';
 import type {
   FormInstance,
@@ -21,6 +23,7 @@ interface FormBaseProps<Values = any> extends RegisterCallbackOptions<Values> {
   form?: FormInstance<Values>;
   initialValues?: DeepPartial<Values>;
   preserve?: boolean;
+  schema?: FormSchema<Values>;
   validateMessages?: ValidateMessages;
   validateTrigger?: string | string[];
 }
@@ -47,6 +50,7 @@ const Form = <Values=any, As extends ElementType = 'form'>(props: FormProps<Valu
     onFinishFailed,
     onValuesChange,
     preserve = true,
+    schema,
     validateMessages,
     validateTrigger = 'onChange',
     ...rest
@@ -85,6 +89,8 @@ const Form = <Values=any, As extends ElementType = 'form'>(props: FormProps<Valu
       onFinishFailed,
       onValuesChange
     });
+
+    if (schema) formInstance.use(resolveSchema(schema));
 
     mountRef.current = true;
   }

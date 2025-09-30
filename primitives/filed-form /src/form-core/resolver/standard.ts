@@ -1,10 +1,6 @@
 /* eslint-disable consistent-return */
-import type { AllPathsKeys } from 'skyroc-type-utils';
 
-import { keyOfName } from '../../utils/util';
-import type { Middleware } from '../middleware';
-
-import { dispatchIssues } from './utils';
+import { createGenericResolver } from './utils';
 
 /**
  * The Standard Schema interface.
@@ -113,7 +109,7 @@ interface StandardSchemaV1PathSegment {
   readonly key: PropertyKey;
 }
 
-function isStandardSchema(obj: any): obj is StandardSchemaV1 {
+export function isStandardSchema(obj: any): obj is StandardSchemaV1 {
   return obj && obj['~standard'] && typeof obj['~standard'].validate === 'function';
 }
 
@@ -121,51 +117,23 @@ function isStandardSchema(obj: any): obj is StandardSchemaV1 {
  * Standard Schema Resolver
  * 支持 sync/async validate，同时处理 validateField 和 validateFields
  */
-export function createStandardResolver<Values = any>(
-  schema: StandardSchemaV1<Values, unknown>
-): Middleware<Values, AllPathsKeys<Values>> {
-  if (!isStandardSchema(schema)) {
-    throw new Error('Invalid StandardSchema object');
-  }
 
-  return ({ dispatch, getState }) =>
-    next =>
-    async action => {
-      if (action.type !== 'validateField' && action.type !== 'validateFields') {
-        return next(action);
-      }
+export function createStandardResolver<Values = any>(schema: StandardSchemaV1<Values>) {
+  return createGenericResolver<Values>(async state => {
+    const result = await Promise.resolve(schema['~standard'].validate(state));
 
-      const state = getState();
-      const result = await Promise.resolve(schema['~standard'].validate(state));
+    if (!('issues' in result)) return [];
 
-      console.log('result', result);
+    const issues = result.issues?.map(issue => {
+      const path = issue.path
+        ? issue.path.map(seg => (typeof seg === 'object' && 'key' in seg ? String(seg.key) : String(seg)))
+        : [];
+      return {
+        message: issue.message,
+        path
+      };
+    });
 
-      if (!('issues' in result)) {
-        // ✅ 没有错误，清空所有
-        dispatch({ entries: [], type: 'setExternalErrors' });
-        return;
-      }
-
-      // 把 issues 转成统一格式
-      const issues: StandardSchemaV1NormalizedIssue[] =
-        result.issues?.map(issue => ({
-          message: issue.message,
-          path: issue.path?.map(seg => (typeof seg === 'object' && 'key' in seg ? String(seg.key) : String(seg))) || []
-        })) || [];
-
-      // === validateField ===
-      if (action.type === 'validateField') {
-        const name = keyOfName(action.name);
-
-        const filtered = issues.filter(it => it.path?.join('.') === name || (it.path?.length === 0 && name === 'root'));
-
-        dispatchIssues<Values>(dispatch, filtered);
-        return;
-      }
-
-      // === validateFields ===
-      if (action.type === 'validateFields') {
-        dispatchIssues<Values>(dispatch, issues);
-      }
-    };
+    return issues || [];
+  });
 }

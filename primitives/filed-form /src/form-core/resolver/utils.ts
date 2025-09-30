@@ -28,23 +28,36 @@ export function dispatchIssues<Values = any>(
   dispatch({ entries, type: 'setExternalErrors' });
 }
 
-/**
- * 工厂函数：生成通用 resolver
- */
-export function createGenericResolver(
-  validate: (state: any, name?: string | string[]) => Promise<StandardSchemaV1NormalizedIssue[]>
-): Middleware {
+export function createGenericResolver<Values = any>(
+  validate: (state: Values, name?: string | string[]) => Promise<StandardSchemaV1NormalizedIssue[]>
+): Middleware<Values> {
   return ({ dispatch, getState }) =>
     next =>
     async action => {
-      if (action.type === 'validateField' || action.type === 'validateFields') {
-        const issues = await validate(getState(), action.name);
+      if (action.type !== 'validateField' && action.type !== 'validateFields') {
+        return next(action);
+      }
 
-        dispatchIssues(dispatch, issues);
+      const state = getState();
+
+      if (action.type === 'validateField') {
+        const name = keyOfName(action.name) as AllPathsKeys<Values>;
+        const issues = await validate(state, name);
+
+        const filtered = issues.filter(it => it.path.join('.') === name);
+
+        if (filtered.length > 0) {
+          dispatchIssues(dispatch, filtered);
+        } else {
+          dispatch({ entries: [[name, []]], type: 'setExternalErrors' });
+        }
 
         return;
       }
 
-      return next(action);
+      if (action.type === 'validateFields') {
+        const issues = await validate(state, action.name?.map(keyOfName));
+        dispatchIssues(dispatch, issues);
+      }
     };
 }
