@@ -12,7 +12,9 @@ export type { FormProps } from './components/Form';
 
 export { default as List } from './components/List';
 
-export * from './hooks/FieldContext';
+export type { ListProps } from './components/List';
+
+export type { FormInstance } from './hooks/FieldContext';
 
 export { useArrayField } from './hooks/useFieldArray';
 
