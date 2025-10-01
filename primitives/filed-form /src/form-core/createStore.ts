@@ -167,6 +167,11 @@ class FormStore {
   /** Flag to preserve field values after unmount */
   private _preserve = false;
 
+  private _submitCount = 0;
+  private _isSubmitting = false;
+  private _isSubmitted = false;
+  private _isSubmitSuccessful = false;
+
   constructor() {
     this.rebindMiddlewares();
   }
@@ -318,14 +323,40 @@ class FormStore {
    * Gets current form state including validation status
    */
   private getFormState() {
+    const errors = Object.fromEntries(this._errors);
+    const warnings = Object.fromEntries(this._warnings);
+
+    const dirtyFields = Object.fromEntries(Array.from(this._dirty).map(k => [k, true]));
+
+    const touchedFields = Object.fromEntries(Array.from(this._touched).map(k => [k, true]));
+
+    const validatingFields = Object.fromEntries(Array.from(this._validating).map(k => [k, true]));
+
+    const validatedFields = Object.fromEntries(Array.from(this._validated).map(k => [k, true]));
+
     return {
-      errors: Object.fromEntries(this._errors),
+      dirtyFields,
+      // meta maps
+      errors,
+
       initialValues: this._initial,
+      // booleans
       isDirty: this._dirty.size > 0,
+      isSubmitSuccessful: this._isSubmitSuccessful,
+      isSubmitted: this._isSubmitted,
+      isSubmitting: this._isSubmitting,
       isValid: Array.from(this._errors.values()).every(arr => !arr?.length),
+
       isValidating: this._validating.size > 0,
+      // counters
+      submitCount: this._submitCount,
+      touchedFields,
+      validatedFields,
+      validatingFields,
+      // raw values
       values: this._store,
-      warnings: Object.fromEntries(this._warnings)
+
+      warnings
     };
   }
 
@@ -1181,9 +1212,19 @@ class FormStore {
    * Calls onFinish if validation passes, onFinishFailed if it fails
    */
   private submit = () => {
+    this._isSubmitted = true;
+    this._isSubmitting = true;
+    this._submitCount++;
+
     this.validateFields().then(ok => {
-      if (ok) this._callbacks.onFinish?.(this._store);
-      else this._callbacks.onFinishFailed?.(this.buildFailedPayload());
+      this._isSubmitting = false;
+      if (ok) {
+        this._isSubmitSuccessful = true;
+        this._callbacks.onFinish?.(this._store);
+      } else {
+        this._isSubmitSuccessful = false;
+        this._callbacks.onFinishFailed?.(this.buildFailedPayload());
+      }
     });
   };
 

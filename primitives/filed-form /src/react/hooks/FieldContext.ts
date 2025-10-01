@@ -15,12 +15,9 @@ import type {
 
 import type { ChangeMask } from '../../form-core/event';
 import type { Action, ArrayOpArgs, Middleware } from '../../form-core/middleware';
-import type { FieldEntity, StoreValue } from '../../form-core/types';
+import type { FieldEntity, Meta, StoreValue } from '../../form-core/types';
 import type { ValidateMessages } from '../../form-core/validate';
 import type { Rule, ValidateOptions } from '../../form-core/validation';
-import type { Meta } from '../../types/shared-types';
-
-import type { FormState } from './types';
 
 export type ListRenderItem = {
   key: string;
@@ -44,6 +41,31 @@ type BuildMetaShape<T, P extends string> = P extends `${infer K}.${infer R}`
 export type MetaShapeFromPaths<T, Ps extends readonly string[]> = Ps extends never[] | []
   ? { [K in keyof T]: Meta<K & string, PathToDeepType<T, K & string>> }
   : MergeUnion<Ps[number] extends infer P ? (P extends string ? BuildMetaShape<T, P> : never) : never>;
+
+export interface FormState<Values = any> {
+  dirtyFields: Record<AllPathsKeys<Values>, boolean>;
+  errors: Record<AllPathsKeys<Values>, string[]>;
+  initialValues: DeepPartial<Values>;
+  // === Global booleans ===
+  isDirty: boolean;
+
+  isSubmitSuccessful: boolean;
+  // === Submission lifecycle ===
+  isSubmitted: boolean;
+  isSubmitting: boolean;
+  isValid: boolean;
+
+  isValidating: boolean;
+  submitCount: number;
+  // === Field-level states ===
+  touchedFields: Record<AllPathsKeys<Values>, boolean>;
+
+  validatedFields: Record<AllPathsKeys<Values>, boolean>;
+  validatingFields: Record<AllPathsKeys<Values>, boolean>;
+  // === Meta states ===
+  values: Values;
+  warnings: Record<AllPathsKeys<Values>, string[]>;
+}
 
 export interface ValuesOptions<Values = any> {
   arrayOp: <K extends ArrayKeys<Values>>(
