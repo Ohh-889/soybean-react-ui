@@ -30,24 +30,25 @@ const ComputedDemo = () => {
           label="Price"
           name="price"
         >
-          <Input />
+          <Input placeholder="please input price" />
         </FormField>
 
         <FormField
           label="Quantity"
           name="quantity"
         >
-          <Input />
+          <Input placeholder="please input quantity" />
         </FormField>
 
         <FormComputedField
           deps={['price', 'quantity']}
+          label="Total"
           name="total"
           compute={get => {
             return Number(get('price')) * Number(get('quantity')) || 0;
           }}
         >
-          <Input />
+          <Input placeholder="auto compute total" />
         </FormComputedField>
 
         <Button

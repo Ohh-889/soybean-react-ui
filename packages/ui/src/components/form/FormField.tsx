@@ -4,15 +4,24 @@ import { useId } from 'react';
 import type { AllPathsKeys } from 'skyroc-form';
 import { Field, useFieldError } from 'skyroc-form';
 
-import { cn } from '@/lib/utils';
-
-import FormLabel from '../label/Label';
-
-import { formVariants } from './form-variants';
+import FormDescription from './FormDescription';
+import FormItem from './FormItem';
+import FormLabel from './FormLable';
+import FormMessage from './FormMessage';
 import type { FormFieldProps } from './types';
 
 const FormField = <Values = any,>(props: FormFieldProps<Values>) => {
-  const { children, className, description, label, name, size, ...rest } = props;
+  const {
+    children,
+    className,
+    classNames,
+    component: Component = Field,
+    description,
+    label,
+    name,
+    size,
+    ...rest
+  } = props;
 
   const id = useId();
 
@@ -24,33 +33,21 @@ const FormField = <Values = any,>(props: FormFieldProps<Values>) => {
   const formDescriptionId = `${id}-form-item-description`;
   const formMessageId = `${id}-form-item-message`;
 
-  const {
-    description: descriptionCls,
-    item,
-    label: labelCls,
-    message
-  } = formVariants({ error: errors.length > 0, size });
-
-  const mergedCls = {
-    description: cn(descriptionCls(), className),
-    item: cn(item(), className),
-    label: cn(labelCls()),
-    message: cn(message(), className)
-  };
-
   return (
-    <div className={mergedCls.item}>
+    <FormItem
+      className={className}
+      size={size}
+    >
       <FormLabel
-        className={mergedCls.label}
-        data-error={hasError}
-        data-slot="form-label"
-        htmlFor={id}
+        className={classNames?.label}
+        error={hasError}
+        htmlFor={formItemId}
         size={size}
       >
         {label}
       </FormLabel>
 
-      <Field
+      <Component
         {...rest}
         aria-describedby={!hasError ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}
         aria-invalid={hasError}
@@ -58,26 +55,26 @@ const FormField = <Values = any,>(props: FormFieldProps<Values>) => {
         name={name}
       >
         {children}
-      </Field>
+      </Component>
 
       {description && (
-        <p
-          className={mergedCls.description}
+        <FormDescription
+          className={classNames?.description}
           id={formDescriptionId}
         >
           {description}
-        </p>
+        </FormDescription>
       )}
 
       {hasError && (
-        <p
-          className={mergedCls.message}
+        <FormMessage
+          className={classNames?.message}
           id={formMessageId}
         >
           {errors[0]}
-        </p>
+        </FormMessage>
       )}
-    </div>
+    </FormItem>
   );
 };
 

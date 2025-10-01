@@ -6,14 +6,17 @@ import { inputVariants } from './input-variants';
 import type { InputProps } from './types';
 
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const { className, size, ...rest } = props;
+  const { className, disabled, size, ...rest } = props;
 
   const mergedCls = cn(inputVariants({ size }), className);
+
+  const isDisabled = disabled || rest.readOnly;
 
   return (
     <input
       className={mergedCls}
       data-slot="input"
+      disabled={isDisabled}
       ref={ref}
       {...rest}
     />

@@ -143,7 +143,7 @@ function Field<Values = any>(props: FieldProps<Values>) {
 
   // Prepare value props based on control mode
   // Controlled: use 'value' prop, Uncontrolled: use 'defaultValue' prop
-  const valueProps = { [valuePropName]: value };
+  const valueProps = { [valuePropName]: value ?? '' };
 
   // Create controlled props with change handler
   const controlledProps = omitUndefined({

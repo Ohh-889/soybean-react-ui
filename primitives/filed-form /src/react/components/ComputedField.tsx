@@ -32,7 +32,7 @@ export type ComputedFieldProps<Values, T extends AllPathsKeys<Values> = AllPaths
   rules?: Rule[];
   /** Name of the prop to pass the computed value to child component */
   valuePropName?: string;
-};
+} & Record<string, any>;
 
 /**
  * ComputedField component that creates a reactive computed field
@@ -77,17 +77,15 @@ function ComputedField<Values = any>({
   const fieldContext = useFieldContext<Values>();
 
   // Extract form instance methods
-  const { getFieldValue, getInternalHooks, isDisabled, isHidden } =
-    fieldContext as unknown as InternalFormInstance<Values>;
+  const { getFieldValue, getInternalHooks, isHidden } = fieldContext as unknown as InternalFormInstance<Values>;
 
   // Local state to track computed value for re-rendering
 
   const value = getFieldValue(name);
+
   const [_, forceUpdate] = useState({});
 
   const fieldIsHidden = isHidden(name);
-
-  const fieldIsDisabled = isDisabled(name);
 
   // Get internal hooks for field registration and rule setting
   const { registerComputed, registerField, setFieldRules } = getInternalHooks();
@@ -120,7 +118,7 @@ function ComputedField<Values = any>({
   // Prepare props to pass to child component
   const slotProps = {
     // Computed fields are always read-only
-    disabled: fieldIsDisabled,
+    disabled: true,
     readOnly: true,
     [valuePropName]: value ?? '' // Pass computed value using specified prop name
   };
