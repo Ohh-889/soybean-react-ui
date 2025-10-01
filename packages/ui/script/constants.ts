@@ -22,7 +22,8 @@ export const registryComponentsDependencies: Record<
     dependencies: ['@radix-ui/react-slot']
   },
   button: {
-    dependencies: ['@radix-ui/react-slot']
+    dependencies: ['@radix-ui/react-slot'],
+    registryDependencies: ['icon']
   },
   carousel: {
     dependencies: ['embla-carousel-react'],

@@ -15,7 +15,7 @@ const registryPath = getPath(`registry.json`);
 const targetPath = getPath(`../../playground/public/r`);
 
 const registry = {
-  homepage: 'https://ui-playground.ohh-889.com/',
+  homepage: 'https://ui-play.skyroc.me/',
   items: [
     {
       cssVars: {},
