@@ -2,61 +2,203 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/hook-use-state */
 /* eslint-disable no-plusplus */
+
+/**
+ * List component for managing dynamic array fields in forms
+ * Provides array operations and renders items with stable keys
+ */
+
 import React, { useEffect, useRef, useState } from 'react';
 import type { ArrayElementValue, ArrayKeys } from 'skyroc-type-utils';
 
 import type { InternalFormInstance, ListRenderItem } from '../hooks/FieldContext';
 import { useFieldContext } from '../hooks/FieldContext';
 
-/* - ListProps: props for the List component */
+/**
+ * Props interface for List component
+ * Manages dynamic array fields with CRUD operations
+ */
 export type ListProps<Values = any, K extends ArrayKeys<Values> & string = ArrayKeys<Values> & string> = {
-  /* - children: render function receiving 'fields' and array operation helpers */
+  /** Render function that receives fields array and operation helpers */
   children: (
-    /* - fields: array of item descriptors to render */
+    /** Array of field items with stable keys for rendering */
     fields: ListRenderItem[],
-    /* - ops: mutation helpers for the array field */
+    /** Object containing array manipulation operations */
     ops: {
-      /* - insert: insert item at index */
+      /** Insert new item at specified index */
       insert: (index: number, item: ArrayElementValue<Values, K>) => void;
-      /* - move: move item from one index to another */
+      /** Move item from one index to another */
       move: (from: number, to: number) => void;
-      /* - remove: remove item at index */
+      /** Remove item at specified index */
       remove: (index: number) => void;
-      /* - replace: replace item at index with a new value */
+      /** Replace item at index with new value */
       replace: (index: number, val: ArrayElementValue<Values, K>) => void;
-      /* - swap: swap two items by their indices */
+      /** Swap positions of two items */
       swap: (i: number, j: number) => void;
     }
   ) => React.ReactNode;
 
-  /* - initialValue: default array value for this field */
+  /** Default array value for initialization */
   initialValue?: ArrayElementValue<Values, K>[];
 
-  /* - name: form path pointing to an array field */
+  /** Field name path pointing to array field in form */
   name: K;
 
-  /* - preserve: keep field state when unmounted (default: true) */
+  /** Whether to preserve field state when component unmounts */
   preserve?: boolean;
 };
 
+/**
+ * List component for managing dynamic array fields in forms
+ * Provides stable keys for array items and comprehensive array operations
+ *
+ * @example
+ * ```tsx
+ * // Basic dynamic list with add/remove functionality
+ * <Form initialValues={{ users: [{ name: '', email: '' }] }}>
+ *   <List name="users">
+ *     {(fields, { add, remove }) => (
+ *       <>
+ *         {fields.map((field) => (
+ *           <div key={field.key} className="user-item">
+ *             <Field name={`${field.name}.name`}>
+ *               <Input placeholder="Name" />
+ *             </Field>
+ *             <Field name={`${field.name}.email`}>
+ *               <Input placeholder="Email" />
+ *             </Field>
+ *             <button onClick={() => remove(field.name)}>Remove</button>
+ *           </div>
+ *         ))}
+ *         <button onClick={() => add({ name: '', email: '' })}>Add User</button>
+ *       </>
+ *     )}
+ *   </List>
+ * </Form>
+ * ```
+ *
+ * @example
+ * ```tsx
+ * // Advanced list with all operations (move, swap, replace)
+ * <List name="tasks" initialValue={[]}>
+ *   {(fields, { add, remove, move, swap, replace }) => (
+ *     <div className="task-list">
+ *       {fields.map((field, index) => (
+ *         <div key={field.key} className="task-item">
+ *           <Field name={`${field.name}.title`}>
+ *             <Input placeholder="Task title" />
+ *           </Field>
+ *           <Field name={`${field.name}.priority`}>
+ *             <Select>
+ *               <option value="low">Low</option>
+ *               <option value="medium">Medium</option>
+ *               <option value="high">High</option>
+ *             </Select>
+ *           </Field>
+ *
+ *           <div className="task-actions">
+ *             <button onClick={() => remove(index)}>Delete</button>
+ *             <button onClick={() => move(index, index - 1)} disabled={index === 0}>
+ *               Move Up
+ *             </button>
+ *             <button onClick={() => move(index, index + 1)} disabled={index === fields.length - 1}>
+ *               Move Down
+ *             </button>
+ *             <button onClick={() => swap(index, index + 1)} disabled={index === fields.length - 1}>
+ *               Swap Down
+ *             </button>
+ *             <button onClick={() => replace(index, { title: 'New Task', priority: 'medium' })}>
+ *               Replace
+ *             </button>
+ *           </div>
+ *         </div>
+ *       ))}
+ *
+ *       <button onClick={() => add({ title: '', priority: 'medium' })}>
+ *         Add Task
+ *       </button>
+ *     </div>
+ *   )}
+ * </List>
+ * ```
+ *
+ * @example
+ * ```tsx
+ * // Nested lists for complex data structures
+ * <Form initialValues={{ departments: [] }}>
+ *   <List name="departments">
+ *     {(deptFields, deptOps) => (
+ *       <>
+ *         {deptFields.map((deptField) => (
+ *           <div key={deptField.key} className="department">
+ *             <Field name={`${deptField.name}.name`}>
+ *               <Input placeholder="Department Name" />
+ *             </Field>
+ *
+ *             <List name={`${deptField.name}.employees`}>
+ *               {(empFields, empOps) => (
+ *                 <>
+ *                   {empFields.map((empField) => (
+ *                     <div key={empField.key} className="employee">
+ *                       <Field name={`${empField.name}.name`}>
+ *                         <Input placeholder="Employee Name" />
+ *                       </Field>
+ *                       <Field name={`${empField.name}.position`}>
+ *                         <Input placeholder="Position" />
+ *                       </Field>
+ *                       <button onClick={() => empOps.remove(empField.name)}>
+ *                         Remove Employee
+ *                       </button>
+ *                     </div>
+ *                   ))}
+ *                   <button onClick={() => empOps.add({ name: '', position: '' })}>
+ *                     Add Employee
+ *                   </button>
+ *                 </>
+ *               )}
+ *             </List>
+ *
+ *             <button onClick={() => deptOps.remove(deptField.name)}>
+ *               Remove Department
+ *             </button>
+ *           </div>
+ *         ))}
+ *         <button onClick={() => deptOps.add({ name: '', employees: [] })}>
+ *           Add Department
+ *         </button>
+ *       </>
+ *     )}
+ *   </List>
+ * </Form>
+ * ```
+ */
 function List<Values = any>(props: ListProps<Values>) {
+  // Destructure props with default values
   const { children, initialValue, name, preserve = true } = props;
 
+  // Get form context to access array operations
   const fieldContext = useFieldContext<Values>();
 
+  // Extract array operations and internal hooks
   const { arrayOp, getInternalHooks } = fieldContext as unknown as InternalFormInstance<Values>;
 
+  // Get methods for array field management
   const { getArrayFields, registerField } = getInternalHooks();
 
+  // State for forcing re-renders when array changes
   const [_, forceUpdate] = useState({});
 
+  // Get current array fields with stable keys
   const fields = getArrayFields(name, initialValue);
 
+  // Reference to cleanup function for field registration
   const unregisterRef = useRef<() => void>(null);
 
+  // Register field entity if not already registered
   if (!unregisterRef.current) {
     unregisterRef.current = registerField({
       changeValue: () => {
+        // Force re-render when array field changes
         forceUpdate({});
       },
       initialValue,
@@ -65,12 +207,14 @@ function List<Values = any>(props: ListProps<Values>) {
     });
   }
 
+  // Cleanup field registration when component unmounts
   useEffect(() => {
     return () => {
       unregisterRef.current?.();
     };
   }, []);
 
+  // Render children with fields and array operations
   return <>{children(fields, arrayOp(name))}</>;
 }
 
