@@ -1,6 +1,7 @@
 import AsyncValidatorResolver from './modules/AsyncValidatorResolver';
 import ClearDestroy from './modules/ClearDestroy';
 import ComputedDemo from './modules/ComputedDemo';
+import CustomValidateMessages from './modules/CustomValidateMessages';
 import Default from './modules/Default';
 import FieldChange from './modules/FieldChange';
 import List from './modules/List';
@@ -47,6 +48,8 @@ const FormPage = () => {
       <Middleware />
 
       <UndoRedo />
+
+      <CustomValidateMessages />
 
       <ClearDestroy />
     </div>

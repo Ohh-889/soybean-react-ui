@@ -15,7 +15,7 @@ import { type ChangeMask, ChangeTag } from './event';
 import type { Action, ArrayOpArgs, Middleware, ValidateFieldsOptions } from './middleware';
 import { compose } from './middleware';
 import type { Callbacks, FieldEntity, Meta, Store, StoreValue } from './types';
-import type { ValidateMessages } from './validate';
+import { type ValidateMessages, defaultValidateMessages } from './validate';
 import { runRulesWithMode } from './validation';
 import type { Rule, ValidateOptions } from './validation';
 
@@ -95,7 +95,7 @@ class FormStore {
   /** Form lifecycle callbacks */
   private _callbacks: Callbacks = {};
   /** Validation message templates */
-  private _validateMessages: ValidateMessages = {};
+  private _validateMessages: ValidateMessages = defaultValidateMessages;
 
   // Status tracking sets
   /** Set of fields that have been touched by user interaction */
@@ -161,9 +161,6 @@ class FormStore {
   /** Set of hidden field keys */
   private _hiddenKeys = new Set<string>();
 
-  /** Transform functions to run before form submission */
-  private _preSubmit: Array<(values: Store) => Store> = [];
-
   /** Flag to preserve field values after unmount */
   private _preserve = false;
 
@@ -197,7 +194,7 @@ class FormStore {
    * Sets validation message templates
    */
   private setValidateMessages = (m: ValidateMessages) => {
-    this._validateMessages = m || {};
+    this._validateMessages = assign(defaultValidateMessages, m);
   };
 
   /**
@@ -887,7 +884,16 @@ class FormStore {
       let warns: string[] = [];
 
       try {
-        ({ errors, warns } = await runRulesWithMode(value, rules, 'parallelAll', this._store));
+        const { errors: validErrors, warns: validWarns } = await runRulesWithMode(
+          value,
+          rules,
+          'parallelAll',
+          this._store,
+          this._validateMessages
+        );
+
+        errors = validErrors;
+        warns = validWarns;
       } catch (e: any) {
         // 4) Fallback: convert thrown errors into messages (avoid silent pass/hang)
         errors = [String(e?.message ?? e)];

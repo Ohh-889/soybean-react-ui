@@ -1,25 +1,18 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-new */
 /* eslint-disable no-await-in-loop */
+/**
+ * Form validation system with rule-based validation
+ * Supports synchronous and asynchronous validation with customizable messages
+ */
+
 import { isEqual, isNil } from 'skyroc-utils';
 
 import type { StoreValue } from './types';
+import type { ValidateMessages } from './validate';
 
 /**
- * Discriminated union describing the expected value type for validation.
- * Determines which built-in type checks will run for a rule.
- *
- * - 'string': validates string length and pattern
- * - 'number': validates numeric range and equality
- * - 'integer': validates integers only with optional min/max
- * - 'float': validates finite non-integer numbers
- * - 'boolean': validates a boolean primitive
- * - 'date': validates a Date or date-like value with optional min/max
- * - 'enum': validates membership in a provided enum array (deep-equals)
- * - 'email': validates a simple email pattern
- * - 'hex': validates hex color strings (#RGB[A], #RRGGBB[AA])
- * - 'regexp': validates a RegExp instance or a compilable pattern string
- * - 'url': validates a URL parsable by the URL constructor
+ * Supported validation rule types
  */
 export type RuleType =
   | 'boolean'
@@ -34,7 +27,7 @@ export type RuleType =
   | 'string'
   | 'url';
 
-/** Custom validator signature. Return a message string to fail, or a falsy value to pass. May be async. */
+/** Custom validation function signature (returns string for failure; can be async) */
 type Validator = (
   rule: Rule,
   value: StoreValue,
@@ -97,28 +90,18 @@ type Ctx = { rule: Rule; value: any; values: StoreValue };
 /** Function type for an individual check strategy. */
 type Check = (ctx: Ctx) => Promise<Res> | Res;
 
-/**
- * Utility functions for validation
- * Contains helper functions for checking empty values, whitespace, dates, and other common validations
- */
-/** Successful validation result (no error and no warning). */
+/* -------------------- Utility Functions -------------------- */
+/** Returns an empty success result */
 const ok = (): Res => ({});
-/** Build a failure result, honoring rule.warningOnly and rule.message overrides. */
-const fail = (r: Rule, dft: string): Res => (r.warningOnly ? { warn: r.message || dft } : { err: r.message || dft });
 
-/** True when value is null/undefined, empty string, or empty array. */
+/** Checks if a value is considered empty */
 const isEmpty = (v: any) =>
-  isNil(v) || (typeof v === 'string' && v?.length === 0) || (Array.isArray(v) && v?.length === 0);
+  isNil(v) || (typeof v === 'string' && v.length === 0) || (Array.isArray(v) && v.length === 0);
 
-/** True when a string contains only whitespace characters. */
-const onlyWhitespace = (s: string) => s?.length > 0 && s?.trim().length === 0;
-/** True for finite numbers (not NaN/Infinity). */
-const isFiniteNumber = (v: any) => Number.isFinite(v);
+/** Checks if a string contains only whitespace characters */
+const onlyWhitespace = (s: string) => s.length > 0 && s.trim().length === 0;
 
-/**
- * Normalize a date-like value to a millisecond timestamp.
- * Returns null when the value cannot be interpreted as a valid date/time.
- */
+/** Converts various date formats to milliseconds timestamp */
 const toDateMs = (d: number | string | Date): number | null => {
   if (d instanceof Date) return Number.isNaN(d.getTime()) ? null : d.getTime();
   if (typeof d === 'number') return Number.isFinite(d) ? d : null;
@@ -129,11 +112,13 @@ const toDateMs = (d: number | string | Date): number | null => {
   return null;
 };
 
-/** Simple email validation based on a non-whitespace/local@domain.tld pattern. */
+/** Validates email format using regex */
 const isEmail = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
-/** Hex color validator supporting 3/4/6/8 digit forms with optional leading '#'. */
+
+/** Validates hex color format (with or without #) */
 const isHexColor = (s: string) => /^#?(?:[A-Fa-f0-9]{3,4}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$/.test(s);
-/** Validates that a string can be parsed by the URL constructor. */
+
+/** Validates URL format using URL constructor */
 const isURL = (s: string) => {
   try {
     new URL(s);
@@ -143,44 +128,85 @@ const isURL = (s: string) => {
   }
 };
 
+/* -------------------- Message Template System -------------------- */
 /**
- * Strategy Manager for Rule Validation
- * Implements a flexible validation system using the Strategy pattern
- * Manages different types of validation rules and their execution
+ * Formats a message template by replacing placeholders with actual values
+ */
+function formatMessage(template: string | undefined, rule: Rule, ctx: { label?: string; value?: any }): string {
+  if (!template) return '';
+  return template
+    .replace(/\$\{label\}/g, ctx.label ?? '')
+    .replace(/\$\{min\}/g, String(rule.min ?? ''))
+    .replace(/\$\{max\}/g, String(rule.max ?? ''))
+    .replace(/\$\{len\}/g, String(rule.len ?? ''))
+    .replace(/\$\{value\}/g, String(ctx.value ?? ''));
+}
+
+/**
+ * Picks a message from the ValidateMessages object using dot notation
+ */
+function pickMsg(messages: ValidateMessages, key: string): string | undefined {
+  // Support nested keys: 'string.min' / 'number.max' / 'types.email'
+  const parts = key.split('.');
+  let cur: any = messages;
+  for (const p of parts) cur = cur?.[p];
+  return typeof cur === 'string' ? cur : undefined;
+}
+
+/**
+ * Creates a failure result with appropriate message resolution
+ */
+function failWithMessages(
+  r: Rule,
+  key: string, // e.g. 'required' | 'string.min' | 'types.number'
+  ctx: { label?: string; value?: any },
+  messages: ValidateMessages
+): Res {
+  // Priority: rule.message > ValidateMessages lookup > fallback to key
+  const msg = r.message || formatMessage(pickMsg(messages, key), r, ctx) || messages.default || key;
+  return r.warningOnly ? { warn: msg } : { err: msg };
+}
+
+/* -------------------- RuleChecker (with messages) -------------------- */
+/**
+ * Rule-based validation checker with customizable message templates
+ * Supports base checks, type-specific checks, and custom validation
  */
 class RuleChecker {
   private baseChecks: Check[] = [];
   private typeChecks: Record<RuleType, Check[]> = {} as any;
   private customCheck: Check | null = null;
 
-  /** Register a base check that always runs before type-specific and custom checks. */
+  constructor(private messages: ValidateMessages = {}) {}
+
+  /** Register a base validation check (runs for all rules) */
   registerBase(check: Check) {
     this.baseChecks.push(check);
   }
-  /** Register one or more checks for a specific RuleType. */
+
+  /** Register type-specific validation checks */
   registerType(type: RuleType, ...checks: Check[]) {
     this.typeChecks[type] = checks;
   }
-  /** Register a single custom check that will run after base and type checks. */
+
+  /** Register a custom validation check */
   registerCustom(check: Check) {
     this.customCheck = check;
   }
 
-  /**
-   * Run all applicable checks for a single rule against a value.
-   * Applies transform first, then base checks, type checks, and finally the custom check.
-   */
+  /** Execute all registered checks for a given value and rule */
   async check(value: any, rule: Rule, allValues: StoreValue): Promise<Res> {
     const r = rule || {};
+    // Apply transform function if provided
     const v = typeof r.transform === 'function' ? r.transform(value) : value;
 
-    // 1) base
+    // Run base checks first
     for (const c of this.baseChecks) {
       const res = await c({ rule: r, value: v, values: allValues });
       if (res.err || res.warn) return res;
     }
 
-    // 2) type-specific
+    // Run type-specific checks
     const actualType: RuleType = r.type ?? 'string';
     if (this.typeChecks[actualType]) {
       for (const c of this.typeChecks[actualType]) {
@@ -189,7 +215,7 @@ class RuleChecker {
       }
     }
 
-    // 3) custom validator
+    // Run custom check last
     if (this.customCheck) {
       const res = await this.customCheck({ rule: r, value: v, values: allValues });
       if (res.err || res.warn) return res;
@@ -197,155 +223,189 @@ class RuleChecker {
 
     return ok();
   }
+
+  /** Get the messages object for this checker */
+  get msg() {
+    return this.messages;
+  }
 }
 
-/* ---------- Strategy Registration ---------- */
-const checker = new RuleChecker();
-
-// base: required / whitespace / skipIfEmpty
-checker.registerBase(({ rule: r, value: v }) => {
-  if (r.required) {
-    if (isEmpty(v)) return fail(r, 'This field is required');
-    if (r.whitespace && typeof v === 'string' && onlyWhitespace(v)) return fail(r, 'Only whitespace is not allowed');
-  } else if (r.skipIfEmpty !== false && isEmpty(v)) {
-    return ok();
-  }
-  return ok();
-});
-
-// string
-checker.registerType('string', ({ rule: r, value: v }) => {
-  if ((!isNil(r.minLength) && (v as string)?.length < r.minLength) || (isNil(v) && r.minLength))
-    return fail(r, `Min length is ${r.minLength}`);
-  if (!isNil(r.maxLength) && (v as string)?.length > r.maxLength) return fail(r, `Max length is ${r.maxLength}`);
-  if ((!isNil(r.len) && (v as string)?.length !== r.len) || (isNil(v) && r.len))
-    return fail(r, `Length must be ${r.len}`);
-  if (r.pattern && !r.pattern.test(v as string)) return fail(r, 'Pattern not match');
-  return ok();
-});
-
-// number
-checker.registerType('number', ({ rule: r, value: v }) => {
-  const num = Number(v);
-  if (!isFiniteNumber(num)) return fail(r, 'Must be a number');
-
-  if (!isNil(r.min) && num < (r.min as number)) return fail(r, `Min is ${r.min}`);
-  if (!isNil(r.max) && num > (r.max as number)) return fail(r, `Max is ${r.max}`);
-  if (!isNil(r.len) && num !== r.len) return fail(r, `Must equal ${r.len}`);
-  return ok();
-});
-
-// integer
-checker.registerType('integer', ({ rule: r, value: v }) => {
-  const num = Number(v);
-  if (!Number.isInteger(num)) return fail(r, 'Must be an integer');
-  if (!isNil(r.min) && num < (r.min as number)) return fail(r, `Min is ${r.min}`);
-  if (!isNil(r.max) && num > (r.max as number)) return fail(r, `Max is ${r.max}`);
-  return ok();
-});
-
-// float
-checker.registerType('float', ({ rule: r, value: v }) => {
-  const num = Number(v);
-  if (!isFiniteNumber(num) || Number.isInteger(num)) return fail(r, 'Must be a float');
-  return ok();
-});
-
-// date
-checker.registerType('date', ({ rule: r, value: v }) => {
-  const ms = v instanceof Date ? v.getTime() : toDateMs(v);
-  if (ms === null) return fail(r, 'Must be a valid Date');
-  if (!isNil(r.min) && ms < toDateMs(r.min as any)!) return fail(r, 'Date is earlier than minimum');
-  if (!isNil(r.max) && ms > toDateMs(r.max as any)!) return fail(r, 'Date is later than maximum');
-  return ok();
-});
-
-// enum
-checker.registerType('enum', ({ rule: r, value: v }) => {
-  if (!Array.isArray(r.enum) || r.enum.length === 0) return ok();
-  return r.enum.some(item => isEqual(item, v)) ? ok() : fail(r, 'Value is not in enum');
-});
-
-// others
-checker.registerType('boolean', ({ rule: r, value: v }) => {
-  if (typeof v !== 'boolean') {
-    return fail(r, 'Must be a boolean');
-  }
-  return ok();
-});
-
-checker.registerType('email', ({ rule: r, value: v }) =>
-  isEmail(v as string) ? ok() : fail(r, 'Must be a valid email')
-);
-checker.registerType('hex', ({ rule: r, value: v }) =>
-  isHexColor(v as string) ? ok() : fail(r, 'Must be a valid hex color')
-);
-
-checker.registerType('regexp', ({ rule: r, value: v }) => {
-  if (isEmpty(v) && r.skipIfEmpty !== false) return ok();
-
-  if (v instanceof RegExp) return ok();
-  if (typeof v === 'string') {
-    try {
-      new RegExp(v);
-      return ok();
-    } catch {
-      return fail(r, 'Must be a valid regular expression');
-    }
-  }
-  return fail(r, 'Must be a valid regular expression');
-});
-
-checker.registerType('url', ({ rule: r, value: v }) => (isURL(v as string) ? ok() : fail(r, 'Must be a valid URL')));
-
-// custom validator
-checker.registerCustom(async ({ rule: r, value: v, values }) => {
-  if (typeof r.validator !== 'function') return ok();
-  const res = await r.validator(r, v, values);
-  return typeof res === 'string' && res ? (r.warningOnly ? { warn: res } : { err: res }) : ok();
-});
-
-/* ---------- API ---------- */
+/* -------------------- Factory: Create checker with messages -------------------- */
 /**
- * Validate a single rule against a value.
+ * Creates a rule checker with all built-in validation types and custom message support
  */
-export async function checkOneRule(value: any, rule: Rule, allValues: StoreValue): Promise<Res> {
+export function createRuleChecker(messages: ValidateMessages = {}) {
+  const checker = new RuleChecker(messages);
+
+  // Base checks: required / whitespace / skipIfEmpty
+  checker.registerBase(({ rule: r, value: v }) => {
+    if (r.required) {
+      if (isEmpty(v)) return failWithMessages(r, 'required', { value: v }, checker.msg);
+      if (r.whitespace && typeof v === 'string' && onlyWhitespace(v))
+        return failWithMessages(r, 'whitespace', { value: v }, checker.msg);
+    } else if (r.skipIfEmpty !== false && isEmpty(v)) {
+      return ok();
+    }
+    return ok();
+  });
+
+  // String validation
+  checker.registerType('string', ({ rule: r, value: v }) => {
+    if (!isNil(r.minLength) && (v as string)?.length < r.minLength)
+      return failWithMessages(r, 'string.min', { value: v }, checker.msg);
+    if (!isNil(r.maxLength) && (v as string)?.length > r.maxLength)
+      return failWithMessages(r, 'string.max', { value: v }, checker.msg);
+    if (!isNil(r.len) && (v as string)?.length !== r.len)
+      return failWithMessages(r, 'string.len', { value: v }, checker.msg);
+    if (r.pattern && !r.pattern.test(v as string))
+      return failWithMessages(r, 'string.pattern', { value: v }, checker.msg);
+    return ok();
+  });
+
+  // Number validation
+  checker.registerType('number', ({ rule: r, value: v }) => {
+    const num = Number(v);
+    if (!Number.isFinite(num)) return failWithMessages(r, 'types.number', { value: v }, checker.msg);
+
+    if (!isNil(r.min) && num < (r.min as number)) return failWithMessages(r, 'number.min', { value: v }, checker.msg);
+    if (!isNil(r.max) && num > (r.max as number)) return failWithMessages(r, 'number.max', { value: v }, checker.msg);
+    if (!isNil(r.len) && num !== r.len) return failWithMessages(r, 'number.len', { value: v }, checker.msg);
+    return ok();
+  });
+
+  // Integer validation
+  checker.registerType('integer', ({ rule: r, value: v }) => {
+    const num = Number(v);
+    if (!Number.isInteger(num)) return failWithMessages(r, 'types.integer', { value: v }, checker.msg);
+    if (!isNil(r.min) && num < (r.min as number)) return failWithMessages(r, 'number.min', { value: v }, checker.msg);
+    if (!isNil(r.max) && num > (r.max as number)) return failWithMessages(r, 'number.max', { value: v }, checker.msg);
+    return ok();
+  });
+
+  // Float validation
+  checker.registerType('float', ({ rule: r, value: v }) => {
+    const num = Number(v);
+    if (!Number.isFinite(num) || Number.isInteger(num))
+      return failWithMessages(r, 'types.float', { value: v }, checker.msg);
+    return ok();
+  });
+
+  // Date validation
+  checker.registerType('date', ({ rule: r, value: v }) => {
+    const ms = v instanceof Date ? v.getTime() : toDateMs(v);
+    if (ms === null) return failWithMessages(r, 'types.date', { value: v }, checker.msg);
+    if (!isNil(r.min) && ms < toDateMs(r.min as any)!)
+      return failWithMessages(r, 'date.min', { value: v }, checker.msg);
+    if (!isNil(r.max) && ms > toDateMs(r.max as any)!)
+      return failWithMessages(r, 'date.max', { value: v }, checker.msg);
+    return ok();
+  });
+
+  // Enum validation
+  checker.registerType('enum', ({ rule: r, value: v }) => {
+    if (!Array.isArray(r.enum) || r.enum.length === 0) return ok();
+    return r.enum.some(item => isEqual(item, v)) ? ok() : failWithMessages(r, 'enum', { value: v }, checker.msg);
+  });
+
+  // Boolean validation
+  checker.registerType('boolean', ({ rule: r, value: v }) => {
+    if (typeof v !== 'boolean') return failWithMessages(r, 'types.boolean', { value: v }, checker.msg);
+    return ok();
+  });
+
+  // Email validation
+  checker.registerType('email', ({ rule: r, value: v }) =>
+    isEmail(v as string) ? ok() : failWithMessages(r, 'types.email', { value: v }, checker.msg)
+  );
+
+  // Hex color validation
+  checker.registerType('hex', ({ rule: r, value: v }) =>
+    isHexColor(v as string) ? ok() : failWithMessages(r, 'types.hex', { value: v }, checker.msg)
+  );
+
+  // RegExp validation
+  checker.registerType('regexp', ({ rule: r, value: v }) => {
+    if (isEmpty(v) && r.skipIfEmpty !== false) return ok();
+    if (v instanceof RegExp) return ok();
+    if (typeof v === 'string') {
+      try {
+        new RegExp(v);
+        return ok();
+      } catch {
+        return failWithMessages(r, 'types.regexp', { value: v }, checker.msg);
+      }
+    }
+    return failWithMessages(r, 'types.regexp', { value: v }, checker.msg);
+  });
+
+  // URL validation
+  checker.registerType('url', ({ rule: r, value: v }) =>
+    isURL(v as string) ? ok() : failWithMessages(r, 'types.url', { value: v }, checker.msg)
+  );
+
+  // Custom validation
+  checker.registerCustom(async ({ rule: r, value: v, values }) => {
+    if (typeof r.validator !== 'function') return ok();
+    const res = await r.validator(r, v, values);
+    if (typeof res === 'string' && res) {
+      const msg = r.message || res; // Custom validator return takes priority
+      return r.warningOnly ? { warn: msg } : { err: msg };
+    }
+    return ok();
+  });
+
+  return checker;
+}
+
+/* -------------------- Export API -------------------- */
+/**
+ * Check a single rule against a value using the provided checker
+ */
+export async function checkOneRule(
+  checker: ReturnType<typeof createRuleChecker>,
+  value: any,
+  rule: Rule,
+  allValues: StoreValue
+): Promise<Res> {
   return checker.check(value, rule, allValues);
 }
 
 /**
- * Validate multiple rules using the specified execution mode.
- * - serial: run sequentially and stop on first non-warning error
- * - parallelFirst: run in parallel and resolve on first non-warning error
- * - parallelAll: run all in parallel, collecting all errors and warnings
+ * Main entry point: Run a set of rules with specified mode and messages
  */
 export async function runRulesWithMode(
   value: any,
   rules: Rule[],
   mode: RunMode,
-  allValues: StoreValue
+  allValues: StoreValue,
+  messages: ValidateMessages = {}
 ): Promise<{ errors: string[]; warns: string[] }> {
   const errors: string[] = [];
   const warns: string[] = [];
   if (!Array.isArray(rules) || rules.length === 0) return { errors, warns };
 
+  const checker = createRuleChecker(messages);
+
+  // Serial mode: run rules one by one, stop on first error
   if (mode === 'serial') {
     for (const r of rules) {
-      const { err, warn } = await checkOneRule(value, r, allValues);
+      const { err, warn } = await checkOneRule(checker, value, r, allValues);
       if (warn) warns.push(warn);
       if (err && !r.warningOnly) {
         errors.push(err);
-        break;
+        break; // Stop on first error
       }
     }
     return { errors, warns };
   }
 
+  // Create tasks for parallel execution
   const tasks = rules.map(async r => {
-    const { err, warn } = await checkOneRule(value, r, allValues);
+    const { err, warn } = await checkOneRule(checker, value, r, allValues);
     return { err, warn, warningOnly: Boolean(r.warningOnly) };
   });
 
+  // Parallel first mode: return as soon as first error is found
   if (mode === 'parallelFirst') {
     return await new Promise(resolve => {
       let done = false;
@@ -365,6 +425,7 @@ export async function runRulesWithMode(
     });
   }
 
+  // Parallel all mode: wait for all rules to complete
   const results = await Promise.all(tasks);
 
   for (const { err, warn, warningOnly } of results) {
