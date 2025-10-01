@@ -8,7 +8,7 @@ import { isArray, isNil, isObject } from 'skyroc-utils';
 
 import type { SubscribeMaskOptions } from '../../form-core/event';
 import { toMask } from '../../form-core/event';
-import type { Meta } from '../../types/shared-types';
+import type { Meta } from '../../form-core/types';
 import { get } from '../../utils/get';
 
 import type { FormInstance, InternalFormInstance, MetaShapeFromPaths } from './FieldContext';

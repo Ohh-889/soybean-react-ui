@@ -1,5 +1,11 @@
 'use client';
 /* eslint-disable no-bitwise */
+
+/**
+ * Hook for selecting and subscribing to derived form state
+ * Provides efficient re-rendering by only updating when selected data changes
+ */
+
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import type { AllPathsKeys } from 'skyroc-type-utils';
@@ -10,74 +16,115 @@ import { ChangeTag } from '../../form-core/event';
 import { useFieldContext } from './FieldContext';
 import type { FormInstance, InternalFormInstance } from './FieldContext';
 
+/**
+ * Equality comparison function type
+ */
 type Eq<T> = (a: T, b: T) => boolean;
 
+/**
+ * Options for useSelector hook configuration
+ */
 type UseSelectorOpts<Values, R> = {
-  /** Subscribed fields; if empty, subscribe to all */
+  /** Array of field names to subscribe to; if empty, subscribes to all fields */
   deps?: AllPathsKeys<Values>[];
-  /** Equality comparator */
+  /** Custom equality function to determine if selected value has changed */
   eq?: Eq<R>;
-  /** Form instance */
+  /** Optional form instance, uses context form if not provided */
   form?: FormInstance<Values>;
-  /** Whether to subscribe to child paths */
+  /** Whether to include child field changes in subscription */
   includeChildren?: boolean;
-  /** Change mask */
+  /** Bitmask specifying which types of changes to listen for */
   mask?: ChangeMask;
 };
 
 /**
- * Select an arbitrary aggregated value from the form. Re-renders only when dependencies change.
+ * Hook to select and subscribe to derived form state with optimized re-rendering
+ * Only triggers re-renders when the selected value actually changes
+ *
+ * @example
+ * ```tsx
+ * // Basic usage: Compute total from two fields
+ * function PriceCalculator() {
+ *   const total = useSelector((get) => {
+ *     const price = get('price') || 0;
+ *     const quantity = get('quantity') || 0;
+ *     return price * quantity;
+ *   }, { deps: ['price', 'quantity'] });
+ *
+ *   return (
+ *     <Form initialValues={{ price: 0, quantity: 1 }}>
+ *       <Field name="price">
+ *         <Input type="number" placeholder="Price" />
+ *       </Field>
+ *       <Field name="quantity">
+ *         <Input type="number" placeholder="Quantity" />
+ *       </Field>
+ *       <div>Total: ${total}</div>
+ *     </Form>
+ *   );
+ * }
+ * ```
+ *
  */
 export function useSelector<Values = any, R = unknown>(
   selector: (get: (n: AllPathsKeys<Values>) => any, all: Values) => R,
   opts?: UseSelectorOpts<Values, R>
 ): R {
+  // Get form context from React context
   const ctxForm = useFieldContext<Values>();
+  // Use provided form instance or fall back to context form
   const form = opts?.form ?? ctxForm;
 
+  // Use custom equality function or default to Object.is
   const eq = opts?.eq ?? Object.is;
 
+  // Ensure form instance is available
   if (!form) {
     throw new Error('Can not find FormContext. Please make sure you wrap Field under Form or provide a form instance.');
   }
 
+  // Extract internal hooks for field subscription
   const { getInternalHooks } = form as unknown as InternalFormInstance<Values>;
   const { subscribeField } = getInternalHooks();
 
+  // Extract configuration options
   const deps = opts?.deps;
-
-  const mask = opts?.mask ?? ChangeTag.Value;
+  const mask = opts?.mask ?? ChangeTag.Value; // Default to value changes only
   const includeChildren = opts?.includeChildren;
 
-  // Compute current selected value
+  // Function to compute the selected value from current form state
   const compute = () => {
     const getField = form.getFieldValue;
     const all = form.getFieldsValue() as Values;
     return selector(getField, all);
   };
 
-  // Use state + ref to debounce rendering
+  // Initialize state with computed value
   const [val, setVal] = useState<R>(compute);
 
+  // Reference to track previous value for equality comparison
   const prevRef = useRef<R>(val);
 
+  // Set up subscription to form field changes
   useEffect(() => {
-    // Subscriber
+    // Change handler that recomputes and updates state if value changed
     const onChange = () => {
       const next = compute();
+      // Only update if the selected value has actually changed
       if (!eq(prevRef.current, next)) {
         prevRef.current = next;
-        // Keep consistent with useFieldState: flush synchronously to reduce flicker
+        // Use flushSync to ensure synchronous updates and reduce visual flicker
         flushSync(() => setVal(next));
       }
     };
 
-    // Subscribe to specified fields
+    // Subscribe to field changes and return cleanup function
     return subscribeField(deps, onChange, {
       includeChildren,
       mask
     });
   }, []);
 
+  // Return the current selected value
   return val;
 }
