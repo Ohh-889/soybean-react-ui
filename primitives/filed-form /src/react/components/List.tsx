@@ -9,7 +9,7 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import type { ArrayElementValue, ArrayKeys } from 'skyroc-type-utils';
+import type { AllPathsKeys, ArrayElementValue, ArrayKeys } from 'skyroc-type-utils';
 
 import type { InternalFormInstance, ListRenderItem } from '../hooks/FieldContext';
 import { useFieldContext } from '../hooks/FieldContext';
@@ -180,7 +180,10 @@ function List<Values = any>(props: ListProps<Values>) {
   const fieldContext = useFieldContext<Values>();
 
   // Extract array operations and internal hooks
-  const { arrayOp, getInternalHooks } = fieldContext as unknown as InternalFormInstance<Values>;
+  const { arrayOp, getInternalHooks, isDisabled, isHidden } = fieldContext as unknown as InternalFormInstance<Values>;
+
+  const fieldIsHidden = isHidden(name as AllPathsKeys<Values>);
+  const fieldIsDisabled = isDisabled(name as AllPathsKeys<Values>);
 
   // Get methods for array field management
   const { getArrayFields, registerField } = getInternalHooks();
@@ -189,7 +192,7 @@ function List<Values = any>(props: ListProps<Values>) {
   const [_, forceUpdate] = useState({});
 
   // Get current array fields with stable keys
-  const fields = getArrayFields(name, initialValue);
+  const fields = getArrayFields(name, initialValue, fieldIsDisabled);
 
   // Reference to cleanup function for field registration
   const unregisterRef = useRef<() => void>(null);
@@ -213,6 +216,8 @@ function List<Values = any>(props: ListProps<Values>) {
       unregisterRef.current?.();
     };
   }, []);
+
+  if (fieldIsHidden) return null;
 
   // Render children with fields and array operations
   return <>{children(fields, arrayOp(name))}</>;

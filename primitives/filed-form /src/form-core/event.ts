@@ -27,8 +27,13 @@ export enum ChangeTag {
   Validated = 0b1000000,
   /** Field has been reset */
   Reset = 0b10000000,
+  /** Field disabled state has changed */
+  Disabled = 0b100000000,
+  /** Field hidden state has changed */
+  Hidden = 0b1000000000,
+
   /** Combination of all validation status flags */
-  Status = Errors | Warnings | Validated | Validating,
+  Status = Errors | Warnings | Validated | Validating | Disabled | Hidden,
   /** All possible change flags */
   All = 0x7fffffff
 }
@@ -41,9 +46,6 @@ export type ChangeMask = number;
 
 /**
  * Checks if a change mask contains a specific tag
- * @param mask - The change mask to check
- * @param tag - The tag to look for
- * @returns True if the mask contains the tag
  */
 export const hasTag = (mask: ChangeMask, tag: ChangeTag) => (mask & tag) !== 0;
 
@@ -66,8 +68,12 @@ export interface SubscribeMaskOptions {
   all?: boolean;
   /** Subscribe to dirty state changes */
   dirty?: boolean;
+  /** Subscribe to disabled state changes */
+  disabled?: boolean;
   /** Subscribe to validation error changes */
   errors?: boolean;
+  /** Subscribe to hidden state changes */
+  hidden?: boolean;
   /** Subscribe to field reset events */
   reset?: boolean;
   /** Subscribe to touched state changes */
@@ -98,6 +104,8 @@ export const toMask = (opt: SubscribeMaskOptions = {}): ChangeMask => {
   if (opt.validated) tags.push(ChangeTag.Validated);
   if (opt.touched) tags.push(ChangeTag.Touched);
   if (opt.dirty) tags.push(ChangeTag.Dirty);
+  if (opt.disabled) tags.push(ChangeTag.Disabled);
+  if (opt.hidden) tags.push(ChangeTag.Hidden);
   if (opt.reset) tags.push(ChangeTag.Reset);
 
   // Combine all selected tags into a single mask

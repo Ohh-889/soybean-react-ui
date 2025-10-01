@@ -73,7 +73,9 @@ function useFieldState<Values = any>(
   const state = form.getFields(subscribeNames);
 
   const mask = opts?.mask ?? {
+    disabled: true,
     errors: true,
+    hidden: true,
     touched: true,
     validated: true,
     validating: true,

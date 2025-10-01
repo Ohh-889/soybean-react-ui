@@ -127,10 +127,14 @@ export interface ValuesOptions<Values = any> {
   getFieldsValue: <K extends AllPathsKeys<Values>[]>(name?: K) => ShapeFromPaths<Values, K>;
   /** Get value of a specific field */
   getFieldValue: <T extends AllPathsKeys<Values>>(name: T) => PathToDeepType<Values, T>;
+  /** Set disabled state for a specific field */
+  setDisabled: (name: AllPathsKeys<Values>, disabled: boolean) => void;
   /** Set values for multiple fields */
   setFieldsValue: (values: DeepPartial<Values>) => void;
   /** Set value for a specific field */
   setFieldValue: <T extends AllPathsKeys<Values>>(name: T, value: PathToDeepType<Values, T>) => void;
+  /** Set hidden state for a specific field */
+  setHidden: (name: AllPathsKeys<Values>, hidden: boolean) => void;
 }
 
 /**
@@ -164,6 +168,10 @@ export interface StateOptions<Values = any> {
   getFieldWarning: (name: AllPathsKeys<Values>) => string[];
   /** Get complete form state snapshot */
   getFormState: () => FormState;
+  /** Check if a specific field is disabled */
+  isDisabled: (name: AllPathsKeys<Values>) => boolean;
+  /** Check if a specific field is hidden */
+  isHidden: (name: AllPathsKeys<Values>) => boolean;
 }
 
 /**
@@ -260,7 +268,7 @@ export interface InternalFieldHooks<Values = any> {
   /** Dispatch actions to the form store */
   dispatch: (action: Action) => void;
   /** Get array field items with stable keys */
-  getArrayFields: (name: ArrayKeys<Values>, initialValue?: StoreValue[]) => ListRenderItem[];
+  getArrayFields: (name: ArrayKeys<Values>, initialValue?: StoreValue[], disabled?: boolean) => ListRenderItem[];
   /** Get initial value for a field */
   getInitialValue: <T extends AllPathsKeys<Values>>(name: T) => PathToDeepType<Values, T>;
   /** Register a computed field with dependencies */

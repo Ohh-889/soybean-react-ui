@@ -450,9 +450,12 @@ class FormStore {
     const listeners = this._exactListeners.get(name);
 
     if (listeners) {
-      listeners.add({ cb: entity.changeValue, mask: ChangeTag.Value });
+      listeners.add({ cb: entity.changeValue, mask: ChangeTag.Value | ChangeTag.Disabled | ChangeTag.Hidden });
     } else {
-      this._exactListeners.set(name, new Set([{ cb: entity.changeValue, mask: ChangeTag.Value }]));
+      this._exactListeners.set(
+        name,
+        new Set([{ cb: entity.changeValue, mask: ChangeTag.Value | ChangeTag.Disabled | ChangeTag.Hidden }])
+      );
     }
 
     return () => {
@@ -478,15 +481,27 @@ class FormStore {
    */
   private setDisabled = (name: NamePath, disabled: boolean) => {
     const k = keyOfName(name);
+
+    const before = this._disabledKeys.has(k);
+    if (before === disabled) return; // 状态没变，避免多余通知
+
     disabled ? this._disabledKeys.add(k) : this._disabledKeys.delete(k);
+
+    this.enqueueNotify([k], ChangeTag.Disabled);
   };
 
   /**
-   * Sets the visibility state of a field
+   * Sets the hidden state of a field
    */
   private setHidden = (name: NamePath, hidden: boolean) => {
     const k = keyOfName(name);
+
+    const before = this._hiddenKeys.has(k);
+    if (before === hidden) return; // 状态没变
+
     hidden ? this._hiddenKeys.add(k) : this._hiddenKeys.delete(k);
+
+    this.enqueueNotify([k], ChangeTag.Hidden);
   };
 
   /**
@@ -1103,7 +1118,7 @@ class FormStore {
     }
   }
 
-  private getArrayFields = (name: NamePath, initialValue?: StoreValue[]) => {
+  private getArrayFields = (name: NamePath, initialValue?: StoreValue[], disabled?: boolean) => {
     const arr = (this.getFieldValue(name) as any[]) || initialValue || [];
 
     const ak = keyOfName(name);
@@ -1115,6 +1130,7 @@ class FormStore {
         keyMgr.keys[i] = keyMgr.id++;
       }
       return {
+        disabled,
         key: String(keyMgr.keys[i]),
         name: `${ak}.${i}`
       };
@@ -1139,13 +1155,6 @@ class FormStore {
   };
 
   // ===== Submit =====
-
-  /**
-   * Registers a pre-submit transform function
-   */
-  usePreSubmit(fn: (values: Store) => Store) {
-    this._preSubmit.push(fn);
-  }
 
   /**
    * Removes disabled and hidden fields from values before submission
@@ -1211,7 +1220,7 @@ class FormStore {
    * Submits the form after validation
    * Calls onFinish if validation passes, onFinishFailed if it fails
    */
-  private submit = () => {
+  private submit = (prune: boolean = true) => {
     this._isSubmitted = true;
     this._isSubmitting = true;
     this._submitCount++;
@@ -1220,7 +1229,8 @@ class FormStore {
       this._isSubmitting = false;
       if (ok) {
         this._isSubmitSuccessful = true;
-        this._callbacks.onFinish?.(this._store);
+        const values = prune ? this._pruneForSubmit(this._store) : this._store;
+        this._callbacks.onFinish?.(values);
       } else {
         this._isSubmitSuccessful = false;
         this._callbacks.onFinishFailed?.(this.buildFailedPayload());
@@ -1396,10 +1406,14 @@ class FormStore {
       getFieldWarning: this.getFieldWarning,
       getFormState: this.getFormState,
       getInternalHooks: this.getInternalHooks,
+      isDisabled: this.isDisabled,
+      isHidden: this.isHidden,
       resetFields: (names: string[] = []) => this.dispatch({ names, type: 'reset' }),
+      setDisabled: this.setDisabled,
       setFieldsValue: (values: Store, validate = false) => this.dispatch({ type: 'setFieldsValue', validate, values }),
       setFieldValue: (name: string, value: StoreValue, validate = false) =>
         this.dispatch({ name, type: 'setFieldValue', validate, value }),
+      setHidden: this.setHidden,
       submit: this.submit,
       use: this.use,
       validateField: (name: string, opts?: ValidateOptions) => this.dispatch({ name, opts, type: 'validateField' }),

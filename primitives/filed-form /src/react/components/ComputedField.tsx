@@ -77,10 +77,17 @@ function ComputedField<Values = any>({
   const fieldContext = useFieldContext<Values>();
 
   // Extract form instance methods
-  const { getFieldValue, getInternalHooks } = fieldContext as unknown as InternalFormInstance<Values>;
+  const { getFieldValue, getInternalHooks, isDisabled, isHidden } =
+    fieldContext as unknown as InternalFormInstance<Values>;
 
   // Local state to track computed value for re-rendering
-  const [value, updateValue] = useState(getFieldValue(name));
+
+  const value = getFieldValue(name);
+  const [_, forceUpdate] = useState({});
+
+  const fieldIsHidden = isHidden(name);
+
+  const fieldIsDisabled = isDisabled(name);
 
   // Get internal hooks for field registration and rule setting
   const { registerComputed, registerField, setFieldRules } = getInternalHooks();
@@ -92,8 +99,8 @@ function ComputedField<Values = any>({
     // Register field entity to receive value change notifications
     // This ensures the component re-renders when the computed value changes
     const unsub = registerField({
-      changeValue: newValue => {
-        updateValue(newValue);
+      changeValue: () => {
+        forceUpdate({});
       },
       initialValue: getFieldValue(name),
       name,
@@ -112,9 +119,13 @@ function ComputedField<Values = any>({
 
   // Prepare props to pass to child component
   const slotProps = {
-    readOnly: true, // Computed fields are always read-only
+    // Computed fields are always read-only
+    disabled: fieldIsDisabled,
+    readOnly: true,
     [valuePropName]: value ?? '' // Pass computed value using specified prop name
   };
+
+  if (fieldIsHidden) return null;
 
   // Render child component with computed value and read-only state
   return <Slot {...slotProps}>{children}</Slot>;

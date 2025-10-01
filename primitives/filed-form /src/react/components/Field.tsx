@@ -11,7 +11,7 @@ import { Slot } from '@radix-ui/react-slot';
 import type { ReactElement } from 'react';
 import { useEffect, useId, useRef, useState } from 'react';
 import type { AllPathsKeys } from 'skyroc-type-utils';
-import { capitalize, getEventValue, isEqual, isNil, omitUndefined, toArray } from 'skyroc-utils';
+import { getEventValue, isEqual, omitUndefined, toArray } from 'skyroc-utils';
 
 import type { EventArgs, StoreValue } from '../../form-core/types';
 import type { Rule } from '../../form-core/validation';
@@ -21,8 +21,6 @@ import { useFieldContext } from '../hooks/FieldContext';
 export type FieldProps<Values> = {
   /** Child element to render as the form field */
   children?: ReactElement;
-  /** Control mode: 'controlled' for React controlled components, 'uncontrolled' for DOM-based */
-  controlMode?: 'controlled' | 'uncontrolled';
   /** Custom function to extract value from event arguments */
   getValueFromEvent?: (...args: EventArgs) => StoreValue;
   /** Function to transform value before passing to child component */
@@ -39,8 +37,6 @@ export type FieldProps<Values> = {
   rules?: Rule[];
   /** Event name that triggers value change (default: 'onChange') */
   trigger?: string;
-  /** Custom function to update uncontrolled component value */
-  unControlledValueChange?: (ref: any, newValue: StoreValue) => void;
   /** Event name(s) that trigger validation */
   validateTrigger?: string | string[] | false;
   /** Name of the prop to pass the field value (default: 'value') */
@@ -50,38 +46,6 @@ export type FieldProps<Values> = {
 /**
  * Field component that wraps form input elements with state management and validation
  * Supports both controlled and uncontrolled modes with flexible customization options
- *
- * @example
- * ```tsx
- * // Basic usage with validation
- * <Form>
- *   <Field
- *     name="email"
- *     rules={[
- *       { required: true, message: 'Email is required' },
- *       { type: 'email', message: 'Invalid email format' }
- *     ]}
- *   >
- *     <Input placeholder="Enter your email" />
- *   </Field>
- * </Form>
- * ```
- *
- * @example
- * ```tsx
- * // Controlled mode with custom validation trigger
- * <Field
- *   name="password"
- *   controlMode="controlled"
- *   validateTrigger={['onChange', 'onBlur']}
- *   rules={[
- *     { required: true, message: 'Password is required' },
- *     { min: 8, message: 'Password must be at least 8 characters' }
- *   ]}
- * >
- *   <Input type="password" placeholder="Enter password" />
- * </Field>
- * ```
  *
  * @example
  * ```tsx
@@ -105,7 +69,6 @@ function Field<Values = any>(props: FieldProps<Values>) {
   // Destructure props with default values
   const {
     children,
-    controlMode = 'uncontrolled',
     getValueFromEvent,
     initialValue,
     name,
@@ -113,7 +76,6 @@ function Field<Values = any>(props: FieldProps<Values>) {
     preserve = true,
     rules,
     trigger = 'onChange',
-    unControlledValueChange,
     validateTrigger,
     valuePropName = 'value',
     ...rest
@@ -139,16 +101,18 @@ function Field<Values = any>(props: FieldProps<Values>) {
     getFieldsValue,
     getFieldValue,
     getInternalHooks,
+    isDisabled,
+    isHidden,
     setFieldValue,
     validateField,
     validateTrigger: fieldValidateTrigger
   } = fieldContext as unknown as InternalFormInstance<Values>;
 
+  const fieldDIsabled = isDisabled(name);
+  const fieldIsHidden = isHidden(name);
+
   // Get internal hooks for field registration and rule setting
   const { registerField, setFieldRules } = getInternalHooks();
-
-  // Determine if field should be controlled
-  const isControlled = controlMode === 'controlled';
 
   // Merge field-level and form-level validation triggers
   const mergedValidateTrigger = validateTrigger || fieldValidateTrigger;
@@ -179,10 +143,11 @@ function Field<Values = any>(props: FieldProps<Values>) {
 
   // Prepare value props based on control mode
   // Controlled: use 'value' prop, Uncontrolled: use 'defaultValue' prop
-  const valueProps = isControlled ? { [valuePropName]: value } : { [`default${capitalize(valuePropName)}`]: value };
+  const valueProps = { [valuePropName]: value };
 
   // Create controlled props with change handler
   const controlledProps = omitUndefined({
+    disabled: fieldDIsabled,
     [trigger]: name
       ? (...args: any[]) => {
           let newValue: StoreValue;
@@ -223,24 +188,9 @@ function Field<Values = any>(props: FieldProps<Values>) {
   useEffect(() => {
     // Register field with form store
     const unregister = registerField({
-      changeValue: newValue => {
-        if (isControlled) {
-          // Force re-render for controlled components
-          forceUpdate({});
-          return;
-        }
-        // Handle uncontrolled component value updates
-        const el = cref.current;
-
-        if (!el) return;
-
-        if (unControlledValueChange) {
-          // Use custom value update function
-          unControlledValueChange(el, newValue);
-        } else {
-          // Default: update DOM element value directly
-          el.value = isNil(newValue) ? '' : (newValue as any);
-        }
+      changeValue: () => {
+        // Force re-render for controlled components
+        forceUpdate({});
       },
       initialValue,
       name,
@@ -255,6 +205,8 @@ function Field<Values = any>(props: FieldProps<Values>) {
       unregister();
     };
   }, []);
+
+  if (fieldIsHidden) return null;
 
   // Render child component with all necessary props
   return (
