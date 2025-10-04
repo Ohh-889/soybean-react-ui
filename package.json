@@ -15,7 +15,8 @@
     "dev": "turbo run dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "postinstall": "tsx script/postinstall.ts"
   },
   "devDependencies": {
     "@soybean-react-ui/tailwind-plugin": "workspace:*",
