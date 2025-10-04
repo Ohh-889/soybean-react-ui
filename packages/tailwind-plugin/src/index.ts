@@ -34,9 +34,9 @@ export const builtinRadiuses = [0, 0.3, 0.5, 0.75, 1] as const;
 export const soybeanUIPlugin = (options: SoybeanUIPluginOptions = {}) =>
   plugin(
     ({ addBase, addUtilities }) => {
-      presetSkyrocUI(addUtilities);
+      addUtilities(presetSkyrocUI());
 
-      skyrocUITheme(addBase, options);
+      addBase(skyrocUITheme(options));
     },
     {
       theme: {

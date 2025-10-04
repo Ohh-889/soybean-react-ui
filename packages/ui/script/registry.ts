@@ -43,14 +43,10 @@ const registry = {
   name: 'soybean-react-ui'
 };
 
+const registryJson = JSON.stringify(registry, null, 2);
+
 async function writeRegistry() {
-  const registryJson = JSON.stringify(registry, null, 2);
-
   await fs.writeFile(registryPath, registryJson);
-
-  console.log('✅ writing registry to :', registryPath);
-
-  await fs.writeFile(`${targetPath}/registry.json`, registryJson);
 
   console.log('🧹 Deleting:', targetPath);
 
@@ -80,7 +76,12 @@ async function main() {
 
     await buildRegistry();
 
+    console.log('✅ writing registry to :', registryPath);
+
+    await fs.writeFile(`${targetPath}/registry.json`, registryJson);
+
     lintFile(targetPath);
+
     console.log('✅ Registry build completed');
   } catch (error) {
     console.error('❌ Build failed with error:');

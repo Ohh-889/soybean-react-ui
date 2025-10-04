@@ -1,14 +1,14 @@
 import { generateCSSVars, generateGlobalStyles } from './generate';
-import type { PluginOptions, SoybeanUIPluginOptions } from './types';
+import type { SoybeanUIPluginOptions } from './types';
 
-export function skyrocUITheme(addBase: PluginOptions['addBase'], options: SoybeanUIPluginOptions) {
+export function skyrocUITheme(options: SoybeanUIPluginOptions) {
   const { globals = true, theme = {} } = options;
 
   const cssVars = generateCSSVars(theme);
 
   const baseStyles = globals ? generateGlobalStyles() : '';
 
-  addBase({
+  return {
     ...cssVars,
     ...baseStyles,
     '@keyframes shadcn-collapsible-down': {
@@ -45,5 +45,5 @@ export function skyrocUITheme(addBase: PluginOptions['addBase'], options: Soybea
     'html.size-xs': {
       fontSize: '12px'
     }
-  });
+  };
 }

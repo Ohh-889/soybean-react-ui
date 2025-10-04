@@ -1,7 +1,5 @@
-import type { PluginOptions } from './types';
-
-export function presetSkyrocUI(addUtilities: PluginOptions['addUtilities']) {
-  addUtilities({
+export function presetSkyrocUI() {
+  return {
     '.animate-accordion-down': {
       animation: 'shadcn-down 0.2s ease-out'
     },
@@ -53,5 +51,5 @@ export function presetSkyrocUI(addUtilities: PluginOptions['addUtilities']) {
     '.i-flex-y-center': {
       '@apply inline-flex items-center': {}
     }
-  });
+  };
 }
