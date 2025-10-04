@@ -19,20 +19,22 @@ const registry = {
   homepage: 'https://ui-play.skyroc.me/',
   items: [
     {
-      cssVars: {
-        dark: {
-          brand: '20 14.3% 4.1%'
+      css: {
+        '@import "tailwindcss"': {},
+        '@import "tw-animate-css"': {},
+        '@plugin "@soybean-react-ui/tailwind-plugin"': {},
+        '@plugin "tailwindcss-animate"': {},
+        html: {
+          overflowX: 'hidden'
         },
-        light: {
-          brand: '20 14.3% 4.1%'
-        },
-        theme: {
-          'font-sans': 'Inter, sans-serif'
+        'html,body,#app': {
+          height: '100%'
         }
       },
       dependencies: ['tailwind-variants', 'lucide-react', 'clsx', 'tailwind-merge'],
+      extends: 'none',
       files: [],
-      name: 'example-style',
+      name: 'style',
       registryDependencies: [getSelfRegistryDependencies('utils'), getSelfRegistryDependencies('types')],
       type: 'registry:style'
     },

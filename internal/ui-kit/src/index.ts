@@ -65,7 +65,7 @@ cwdOpt(
   ]);
   const finalArgs = passthrough.filter(a => !stripFlags.has(a) && !a.startsWith('--cwd'));
 
-  finalArgs.push('@sr/example-style');
+  finalArgs.push('@sr/style');
 
   await runShadcn('add', finalArgs, { cwd });
 });
