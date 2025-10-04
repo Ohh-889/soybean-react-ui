@@ -16,17 +16,20 @@
   "types": "src/index.ts",
   "files": ["dist"],
   "scripts": {
-    "build": "tsdown"
+    "build": "tsdown",
+    "lint:pkg": "eslint ./package.json --fix",
+    "test": "tsx test.ts"
   },
   "dependencies": {
-    "commander": "^14.0.1",
-    "execa": "^9.6.0",
-    "fs-extra": "^11.3.2",
-    "pathe": "^2.0.3",
-    "picocolors": "^1.1.1",
+    "commander": "14.0.1",
+    "execa": "9.6.0",
+    "fs-extra": "11.3.2",
+    "pathe": "2.0.3",
+    "picocolors": "1.1.1",
     "shadcn": "3.3.1"
   },
   "devDependencies": {
+    "@soybean-react-ui/tailwind-plugin": "workspace:*",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^24.6.2",
     "tsdown": "0.12.9",
