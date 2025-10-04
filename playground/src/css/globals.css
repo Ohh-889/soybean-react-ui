@@ -4,11 +4,9 @@
 
 @plugin "tailwindcss-animate";
 
-@plugin "@soybean-react-ui/tailwind-plugin"{ }
-
+@plugin "@soybean-react-ui/tailwind-plugin"{}
 
 @source "../../../packages/ui/src/**/*.{ts,tsx}";
-
 
 html,
 body,
@@ -19,3 +17,4 @@ body,
 html {
   overflow-x: hidden;
 }
+
