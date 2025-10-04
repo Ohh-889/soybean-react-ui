@@ -1,8 +1,11 @@
-@import '../../../global.css';
+@import 'tailwindcss';
 
 @import "tw-animate-css";
 
 @plugin "tailwindcss-animate";
+
+@plugin "@soybean-react-ui/tailwind-plugin"{ }
+
 
 @source "../../../packages/ui/src/**/*.{ts,tsx}";
 

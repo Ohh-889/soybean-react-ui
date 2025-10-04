@@ -2,9 +2,9 @@ import { generateCSSVars, generateGlobalStyles } from './generate';
 import type { SoybeanUIPluginOptions } from './types';
 
 export function skyrocUITheme(options: SoybeanUIPluginOptions) {
-  const { globals = true, theme = {} } = options;
+  const { globals = true, ...theme } = options;
 
-  const cssVars = generateCSSVars(theme);
+  const cssVars = generateCSSVars(theme || {});
 
   const baseStyles = globals ? generateGlobalStyles() : '';
 

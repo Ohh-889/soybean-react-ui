@@ -123,13 +123,10 @@ export interface ThemeOptions {
   sidebar?: SidebarColorOfThemeCssVarsVariant;
 }
 
-export type PresetShadcnOptions = ThemeOptions | ThemeOptions[];
-
 export type ThemeColorKey =
   | Extract<ThemeCSSVarKey, 'destructive' | 'primary' | 'secondary'>
   | Extract<FeedbackColorOfThemeCssVarKey, 'carbon' | 'info' | 'success' | 'warning'>;
 
-export interface SoybeanUIPluginOptions {
+export interface SoybeanUIPluginOptions extends ThemeOptions {
   globals?: boolean;
-  theme?: PresetShadcnOptions;
 }

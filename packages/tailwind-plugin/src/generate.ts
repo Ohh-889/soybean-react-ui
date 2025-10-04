@@ -7,13 +7,13 @@ import type {
   FeedbackColorOfThemeCssVarKey,
   FeedbackColorOfThemeCssVars,
   FeedbackColorOfThemeCssVarsVariant,
-  PresetShadcnOptions,
   SidebarColorOfThemeCssVarKey,
   SidebarColorOfThemeCssVarsVariant,
   ThemeCSSVarKey,
   ThemeCSSVars,
   ThemeCSSVarsVariant,
-  ThemeConfig
+  ThemeConfig,
+  ThemeOptions
 } from './types';
 
 const builtinThemes = themes as ThemeConfig[];
@@ -199,11 +199,7 @@ function createBuiltinSidebarColorTheme() {
   return sidebarColor;
 }
 
-export function generateCSSVars(theme: PresetShadcnOptions, onlyOne = true): object {
-  if (Array.isArray(theme)) {
-    return theme.map(t => generateCSSVars(t, false));
-  }
-
+export function generateCSSVars(theme: ThemeOptions, onlyOne = true): object {
   const {
     color = 'default',
     darkSelector = '.dark',
