@@ -3,6 +3,7 @@ import fs from 'node:fs/promises';
 
 import { rimraf } from 'rimraf';
 
+import { getSelfRegistryDependencies } from './constants';
 import { registerType } from './registry-type';
 import { getRegistryUi } from './registry-ui';
 import { registryUtils } from './registry-utils';
@@ -32,7 +33,7 @@ const registry = {
       dependencies: ['tailwind-variants', 'lucide-react', 'clsx', 'tailwind-merge'],
       files: [],
       name: 'example-style',
-      registryDependencies: ['http://localhost:3001/r/utils.json', 'http://localhost:3001/r/types.json'],
+      registryDependencies: [getSelfRegistryDependencies('utils'), getSelfRegistryDependencies('types')],
       type: 'registry:style'
     },
     ...getRegistryUi(),
@@ -46,6 +47,10 @@ async function writeRegistry() {
   const registryJson = JSON.stringify(registry, null, 2);
 
   await fs.writeFile(registryPath, registryJson);
+
+  console.log('✅ writing registry to :', registryPath);
+
+  await fs.writeFile(`${targetPath}/registry.json`, registryJson);
 
   console.log('🧹 Deleting:', targetPath);
 

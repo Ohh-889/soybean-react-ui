@@ -1,3 +1,10 @@
+export const SELF_REGISTRY_DEPENDENCIES =
+  process.argv[2] === 'dev' ? 'http://localhost:3001/r' : 'https://ui-play.skyroc.me/r';
+
+export const getSelfRegistryDependencies = (name: string) => {
+  return `${SELF_REGISTRY_DEPENDENCIES}/${name}.json`;
+};
+
 export const registryComponentsDependencies: Record<
   string,
   { dependencies: string[]; registryDependencies?: string[] }
@@ -10,7 +17,7 @@ export const registryComponentsDependencies: Record<
   },
   'alert-dialog': {
     dependencies: ['@radix-ui/react-alert-dialog', '@radix-ui/react-slot'],
-    registryDependencies: ['button']
+    registryDependencies: [getSelfRegistryDependencies('button')]
   },
   'aspect-ratio': {
     dependencies: ['@radix-ui/react-aspect-ratio']
@@ -23,11 +30,11 @@ export const registryComponentsDependencies: Record<
   },
   button: {
     dependencies: ['@radix-ui/react-slot'],
-    registryDependencies: ['http://localhost:3001/r/icon.json']
+    registryDependencies: [getSelfRegistryDependencies('icon')]
   },
   carousel: {
     dependencies: ['embla-carousel-react'],
-    registryDependencies: ['button']
+    registryDependencies: [getSelfRegistryDependencies('button')]
   },
   checkbox: {
     dependencies: ['@radix-ui/react-checkbox']

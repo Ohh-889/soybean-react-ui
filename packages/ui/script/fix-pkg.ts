@@ -6,7 +6,7 @@ import { getPath, lintFile } from './shared';
 const mode = process.argv[2]; // node scripts/update-exports.ts dev
 
 if (mode !== 'dev' && mode !== 'prod') {
-  console.error('❌ 请传入参数：dev 或 prod');
+  console.error('❌ please pass in the parameter: dev or prod');
   // eslint-disable-next-line n/prefer-global/process
   process.exit(1);
 }

@@ -6,7 +6,7 @@
   "files": [
     {
       "path": "src/components/input/Input.tsx",
-      "content": "import { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { inputVariants } from './input-variants';\nimport type { InputProps } from './types';\n\nconst Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {\n  const { className, size, ...rest } = props;\n\n  const mergedCls = cn(inputVariants({ size }), className);\n\n  return (\n    <input\n      className={mergedCls}\n      data-slot=\"input\"\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nInput.displayName = 'Input';\n\nexport default Input;\n",
+      "content": "import { forwardRef } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { inputVariants } from './input-variants';\nimport type { InputProps } from './types';\n\nconst Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {\n  const { className, disabled, size, ...rest } = props;\n\n  const mergedCls = cn(inputVariants({ size }), className);\n\n  const isDisabled = disabled || rest.readOnly;\n\n  return (\n    <input\n      className={mergedCls}\n      data-slot=\"input\"\n      disabled={isDisabled}\n      ref={ref}\n      {...rest}\n    />\n  );\n});\n\nInput.displayName = 'Input';\n\nexport default Input;\n",
       "type": "registry:ui",
       "target": "components/input/Input.tsx"
     },

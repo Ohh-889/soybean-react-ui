@@ -5,10 +5,40 @@
   "title": "Form",
   "files": [
     {
+      "path": "src/components/form/FormComputedField.tsx",
+      "content": "'use client';\n\nimport { ComputedField } from 'skyroc-form';\n\nimport FormField from './FormField';\nimport type { FormComputedFieldProps } from './types';\n\nconst FormComputedField = <Values = any,>(props: FormComputedFieldProps<Values>) => {\n  return (\n    <FormField\n      component={ComputedField}\n      {...props}\n    />\n  );\n};\n\nexport default FormComputedField;\n",
+      "type": "registry:ui",
+      "target": "components/form/FormComputedField.tsx"
+    },
+    {
+      "path": "src/components/form/FormDescription.tsx",
+      "content": "import { cn } from '@/lib/utils';\n\nimport { formVariants } from './form-variants';\nimport type { FormDescriptionProps } from './types';\n\nconst FormDescription = (props: FormDescriptionProps) => {\n  const { className, ...rest } = props;\n\n  const { description } = formVariants();\n\n  const mergedClass = cn(description(), className);\n\n  return (\n    <p\n      className={mergedClass}\n      data-slot=\"form-description\"\n      {...rest}\n    />\n  );\n};\n\nexport default FormDescription;\n",
+      "type": "registry:ui",
+      "target": "components/form/FormDescription.tsx"
+    },
+    {
       "path": "src/components/form/FormField.tsx",
-      "content": "'use client';\n\nimport { useId } from 'react';\nimport type { AllPathsKeys } from 'skyroc-form';\nimport { Field, useFieldError } from 'skyroc-form';\n\nimport { cn } from '@/lib/utils';\n\nimport FormLabel from '../label/Label';\n\nimport { formVariants } from './form-variants';\nimport type { FormFieldProps } from './types';\n\nconst FormField = <Values = any,>(props: FormFieldProps<Values>) => {\n  const { children, className, description, label, name, size, ...rest } = props;\n\n  const id = useId();\n\n  const errors = useFieldError<Values, AllPathsKeys<Values>>(name);\n\n  const hasError = errors.length > 0;\n\n  const formItemId = `${id}-form-item`;\n  const formDescriptionId = `${id}-form-item-description`;\n  const formMessageId = `${id}-form-item-message`;\n\n  const {\n    description: descriptionCls,\n    item,\n    label: labelCls,\n    message\n  } = formVariants({ error: errors.length > 0, size });\n\n  const mergedCls = {\n    description: cn(descriptionCls(), className),\n    item: cn(item(), className),\n    label: cn(labelCls()),\n    message: cn(message(), className)\n  };\n\n  return (\n    <div className={mergedCls.item}>\n      <FormLabel\n        className={mergedCls.label}\n        data-error={hasError}\n        data-slot=\"form-label\"\n        htmlFor={id}\n        size={size}\n      >\n        {label}\n      </FormLabel>\n\n      <Field\n        {...rest}\n        aria-describedby={!hasError ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}\n        aria-invalid={hasError}\n        id={id}\n        name={name}\n      >\n        {children}\n      </Field>\n\n      {description && (\n        <p\n          className={mergedCls.description}\n          id={formDescriptionId}\n        >\n          {description}\n        </p>\n      )}\n\n      {hasError && (\n        <p\n          className={mergedCls.message}\n          id={formMessageId}\n        >\n          {errors[0]}\n        </p>\n      )}\n    </div>\n  );\n};\n\nexport default FormField;\n",
+      "content": "'use client';\n\nimport { useId } from 'react';\nimport type { AllPathsKeys } from 'skyroc-form';\nimport { Field, useFieldError } from 'skyroc-form';\n\nimport FormDescription from './FormDescription';\nimport FormItem from './FormItem';\nimport FormLabel from './FormLable';\nimport FormMessage from './FormMessage';\nimport type { FormFieldProps } from './types';\n\nconst FormField = <Values = any,>(props: FormFieldProps<Values>) => {\n  const {\n    children,\n    className,\n    classNames,\n    component: Component = Field,\n    description,\n    label,\n    name,\n    size,\n    ...rest\n  } = props;\n\n  const id = useId();\n\n  const errors = useFieldError<Values, AllPathsKeys<Values>>(name);\n\n  const hasError = errors.length > 0;\n\n  const formItemId = `${id}-form-item`;\n  const formDescriptionId = `${id}-form-item-description`;\n  const formMessageId = `${id}-form-item-message`;\n\n  return (\n    <FormItem\n      className={className}\n      size={size}\n    >\n      <FormLabel\n        className={classNames?.label}\n        error={hasError}\n        htmlFor={formItemId}\n        size={size}\n      >\n        {label}\n      </FormLabel>\n\n      <Component\n        {...rest}\n        aria-describedby={!hasError ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}\n        aria-invalid={hasError}\n        id={id}\n        name={name}\n      >\n        {children}\n      </Component>\n\n      {description && (\n        <FormDescription\n          className={classNames?.description}\n          id={formDescriptionId}\n        >\n          {description}\n        </FormDescription>\n      )}\n\n      {hasError && (\n        <FormMessage\n          className={classNames?.message}\n          id={formMessageId}\n        >\n          {errors[0]}\n        </FormMessage>\n      )}\n    </FormItem>\n  );\n};\n\nexport default FormField;\n",
       "type": "registry:ui",
       "target": "components/form/FormField.tsx"
+    },
+    {
+      "path": "src/components/form/FormItem.tsx",
+      "content": "import { cn } from '@/lib/utils';\n\nimport { formVariants } from './form-variants';\nimport type { FormItemProps } from './types';\n\nconst FormItem = (props: FormItemProps) => {\n  const { className, size, ...rest } = props;\n\n  const { item } = formVariants({ size });\n\n  const mergedCls = cn(item(), className);\n\n  return (\n    <div\n      className={mergedCls}\n      data-slot=\"form-item\"\n      {...rest}\n    />\n  );\n};\n\nexport default FormItem;\n",
+      "type": "registry:ui",
+      "target": "components/form/FormItem.tsx"
+    },
+    {
+      "path": "src/components/form/FormLable.tsx",
+      "content": "import { cn } from '@/lib/utils';\n\nimport Label from '../label/Label';\n\nimport { formVariants } from './form-variants';\nimport type { FormLabelProps } from './types';\n\nconst FormLabel = (props: FormLabelProps) => {\n  const { className, error, size, ...rest } = props;\n\n  const { label } = formVariants({ error, size });\n\n  const mergedCls = cn(label(), className);\n\n  return (\n    <Label\n      className={mergedCls}\n      data-error={error}\n      data-slot=\"form-label\"\n      size={size}\n      {...rest}\n    />\n  );\n};\n\nexport default FormLabel;\n",
+      "type": "registry:ui",
+      "target": "components/form/FormLable.tsx"
+    },
+    {
+      "path": "src/components/form/FormMessage.tsx",
+      "content": "import { cn } from '@/lib/utils';\n\nimport { formVariants } from './form-variants';\nimport type { FormMessageProps } from './types';\n\nconst FormMessage = (props: FormMessageProps) => {\n  const { className, error, ...rest } = props;\n\n  const { message } = formVariants();\n\n  const mergedCls = cn(message(), className);\n\n  const body = error?.length ? error[0] : props.children;\n\n  if (!body) return null;\n\n  return (\n    <p\n      className={mergedCls}\n      data-slot=\"form-message\"\n      {...rest}\n    >\n      {body}\n    </p>\n  );\n};\n\nexport default FormMessage;\n",
+      "type": "registry:ui",
+      "target": "components/form/FormMessage.tsx"
     },
     {
       "path": "src/components/form/form-variants.ts",
@@ -18,13 +48,13 @@
     },
     {
       "path": "src/components/form/index.ts",
-      "content": "'use client';\n\nexport {\n  ComputedField as FormComputedField,\n  Form,\n  List as FormList,\n  useEffectField,\n  useFieldError,\n  useFieldState,\n  useForm,\n  useSelector,\n  useUndoRedo,\n  useWatch\n} from 'skyroc-form';\n\nexport type { Action as FormAction, FormInstance } from 'skyroc-form';\n\nexport { default as FormField } from './FormField';\n\nexport type { FormFieldProps } from './types';\n",
+      "content": "'use client';\n\nexport {\n  Form,\n  List as FormList,\n  useArrayField,\n  useEffectField,\n  useFieldError,\n  useFieldState,\n  useForm,\n  useSelector,\n  useUndoRedo,\n  useWatch\n} from 'skyroc-form';\n\nexport type {\n  Action as FormAction,\n  AllPathsKeys,\n  ComputedFieldProps,\n  FieldElement,\n  FormInstance,\n  FormProps,\n  Meta,\n  Rule,\n  SubscribeMaskOptions,\n  ValidateMessages\n} from 'skyroc-form';\n\nexport { default as FormComputedField } from './FormComputedField';\nexport { default as FormField } from './FormField';\n\nexport type { FormComputedFieldProps, FormFieldProps } from './types';\n",
       "type": "registry:ui",
       "target": "components/form/index.ts"
     },
     {
       "path": "src/components/form/types.ts",
-      "content": "import type { ReactNode } from 'react';\nimport type { FieldProps } from 'skyroc-form';\n\nimport type { BaseProps } from '@/types/other';\n\nexport type FormFieldProps<Values = any> = FieldProps<Values> &\n  BaseProps<{\n    description?: string;\n    error?: string;\n    label?: ReactNode;\n    required?: boolean;\n  }>;\n",
+      "content": "import type { ComponentProps, ElementType, ReactNode } from 'react';\nimport type { ComputedFieldProps, FieldProps } from 'skyroc-form';\n\nimport type { BaseNodeProps, ClassValue } from '@/types/other';\n\nimport type { LabelProps } from '../label/types';\n\nimport type { FormSlots } from './form-variants';\n\ntype FormClassNames = Partial<Record<FormSlots, ClassValue>>;\n\nexport interface FormDescriptionProps extends BaseNodeProps<ComponentProps<'p'>> {}\n\nexport interface FormItemProps extends BaseNodeProps<ComponentProps<'div'>> {}\n\nexport interface FormLabelProps extends LabelProps {\n  error?: boolean;\n}\n\nexport interface FormMessageProps extends BaseNodeProps<ComponentProps<'p'>> {\n  error?: string[];\n}\n\ntype FormSharedProps = BaseNodeProps<{\n  classNames?: FormClassNames;\n  description?: string;\n  error?: string;\n  label?: ReactNode;\n}>;\n\nexport type FormFieldProps<Values = any> = FieldProps<Values> &\n  FormSharedProps & {\n    component?: ElementType;\n  };\n\nexport type FormComputedFieldProps<Values = any> = ComputedFieldProps<Values> & FormSharedProps;\n",
       "type": "registry:ui",
       "target": "components/form/types.ts"
     }

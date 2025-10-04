@@ -13,10 +13,10 @@
           "font-sans": "Inter, sans-serif"
         }
       },
-      "dependencies": ["tailwind-variants", "lucide-react"],
+      "dependencies": ["tailwind-variants", "lucide-react", "clsx", "tailwind-merge"],
       "files": [],
       "name": "example-style",
-      "registryDependencies": ["http://localhost:3001/r/utils.json", "http://localhost:3001/r/types.json"],
+      "registryDependencies": ["https://ui-play.skyroc.me/r/utils.json", "https://ui-play.skyroc.me/r/types.json"],
       "type": "registry:style"
     },
     {
@@ -197,7 +197,7 @@
       "title": "Alert Dialog",
       "type": "registry:block",
       "dependencies": ["@radix-ui/react-alert-dialog", "@radix-ui/react-slot"],
-      "registryDependencies": ["button"]
+      "registryDependencies": ["https://ui-play.skyroc.me/r/button.json"]
     },
     {
       "files": [
@@ -397,7 +397,7 @@
       "title": "Button",
       "type": "registry:block",
       "dependencies": ["@radix-ui/react-slot"],
-      "registryDependencies": ["http://localhost:3001/r/icon.json"]
+      "registryDependencies": ["https://ui-play.skyroc.me/r/icon.json"]
     },
     {
       "files": [
@@ -513,7 +513,7 @@
       "title": "Carousel",
       "type": "registry:block",
       "dependencies": ["embla-carousel-react"],
-      "registryDependencies": ["button"]
+      "registryDependencies": ["https://ui-play.skyroc.me/r/button.json"]
     },
     {
       "files": [
