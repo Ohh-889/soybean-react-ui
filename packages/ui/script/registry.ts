@@ -18,11 +18,21 @@ const registry = {
   homepage: 'https://ui-play.skyroc.me/',
   items: [
     {
-      cssVars: {},
-      dependencies: ['tailwind-variants', 'lucide-react'],
+      cssVars: {
+        dark: {
+          brand: '20 14.3% 4.1%'
+        },
+        light: {
+          brand: '20 14.3% 4.1%'
+        },
+        theme: {
+          'font-sans': 'Inter, sans-serif'
+        }
+      },
+      dependencies: ['tailwind-variants', 'lucide-react', 'clsx', 'tailwind-merge'],
       files: [],
-      name: 'index',
-      registryDependencies: ['utils', 'types'],
+      name: 'example-style',
+      registryDependencies: ['http://localhost:3001/r/utils.json', 'http://localhost:3001/r/types.json'],
       type: 'registry:style'
     },
     ...getRegistryUi(),

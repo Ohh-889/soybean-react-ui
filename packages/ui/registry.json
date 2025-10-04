@@ -2,11 +2,21 @@
   "homepage": "https://ui-play.skyroc.me/",
   "items": [
     {
-      "cssVars": {},
+      "cssVars": {
+        "dark": {
+          "brand": "20 14.3% 4.1%"
+        },
+        "light": {
+          "brand": "20 14.3% 4.1%"
+        },
+        "theme": {
+          "font-sans": "Inter, sans-serif"
+        }
+      },
       "dependencies": ["tailwind-variants", "lucide-react"],
       "files": [],
-      "name": "index",
-      "registryDependencies": ["utils", "types"],
+      "name": "example-style",
+      "registryDependencies": ["http://localhost:3001/r/utils.json", "http://localhost:3001/r/types.json"],
       "type": "registry:style"
     },
     {
@@ -386,7 +396,8 @@
       "name": "button",
       "title": "Button",
       "type": "registry:block",
-      "dependencies": ["@radix-ui/react-slot"]
+      "dependencies": ["@radix-ui/react-slot"],
+      "registryDependencies": ["http://localhost:3001/r/icon.json"]
     },
     {
       "files": [
@@ -1089,8 +1100,33 @@
     {
       "files": [
         {
+          "path": "src/components/form/FormComputedField.tsx",
+          "target": "components/form/FormComputedField.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/form/FormDescription.tsx",
+          "target": "components/form/FormDescription.tsx",
+          "type": "registry:ui"
+        },
+        {
           "path": "src/components/form/FormField.tsx",
           "target": "components/form/FormField.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/form/FormItem.tsx",
+          "target": "components/form/FormItem.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/form/FormLable.tsx",
+          "target": "components/form/FormLable.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/form/FormMessage.tsx",
+          "target": "components/form/FormMessage.tsx",
           "type": "registry:ui"
         },
         {

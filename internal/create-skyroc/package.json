@@ -25,10 +25,7 @@
   "bin": {
     "create-skyroc": "./src/bin.js"
   },
-  "files": [
-    "dist",
-    "template-*"
-  ],
+  "files": ["dist", "template-*"],
   "scripts": {
     "build": "pnpm typecheck && pnpm build-only",
     "build-only": "tsdown",

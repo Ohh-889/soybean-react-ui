@@ -23,7 +23,7 @@ export const registryComponentsDependencies: Record<
   },
   button: {
     dependencies: ['@radix-ui/react-slot'],
-    registryDependencies: ['icon']
+    registryDependencies: ['http://localhost:3001/r/icon.json']
   },
   carousel: {
     dependencies: ['embla-carousel-react'],
