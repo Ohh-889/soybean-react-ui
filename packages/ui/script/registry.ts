@@ -34,6 +34,7 @@ const registry = {
       dependencies: [
         'tailwind-variants',
         'tailwindcss-animate',
+        '@skyroc/color',
         'tw-animate-css',
         'tailwindcss',
         'lucide-react',
