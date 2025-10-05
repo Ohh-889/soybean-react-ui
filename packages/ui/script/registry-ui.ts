@@ -3,7 +3,7 @@ import path from 'node:path';
 import fg from 'fast-glob';
 import { type Registry } from 'shadcn/registry';
 
-import { registryComponentsDependencies } from './constants';
+import { getSelfRegistryDependencies, registryComponentsDependencies } from './constants';
 
 const COMPONENTS_DIR = 'src/components';
 
@@ -42,12 +42,17 @@ function generateRegistryItems(grouped: Record<string, string[]>): Registry['ite
         type: 'registry:ui'
       })),
       name: group,
+      registryDependencies: [getSelfRegistryDependencies('style')],
       title: formatComponentName(group),
       type: 'registry:block'
     };
 
-    if (registryComponentsDependencies[group]) {
-      Object.assign(item, registryComponentsDependencies[group]);
+    const extra = registryComponentsDependencies[group];
+
+    if (extra) {
+      return Object.assign(item, extra, {
+        registryDependencies: [...item.registryDependencies, ...(extra.registryDependencies || [])]
+      });
     }
 
     return item;

@@ -3,6 +3,7 @@
   "name": "config-provider",
   "type": "registry:block",
   "title": "Config Provider",
+  "registryDependencies": ["https://ui-play.skyroc.me/r/style.json"],
   "files": [
     {
       "path": "src/components/config-provider/ConfigProvider.tsx",
@@ -24,7 +25,7 @@
     },
     {
       "path": "src/components/config-provider/types.ts",
-      "content": "import type { ThemeOptions } from '@soybean-react-ui/tailwind-plugin';\n\nimport type { ThemeSize } from '@/types/other';\n\nimport type { AccordionProps } from '../accordion/types';\nimport type { AlertProps } from '../alert';\nimport type { IconProps } from '../icon';\n\nexport interface ConfigProviderProps extends ConfigProps {\n  children: React.ReactNode;\n}\n\nexport interface ConfigProps extends ComponentConfig {\n  direction?: 'ltr' | 'rtl';\n  size?: ThemeSize;\n  theme?: ThemeOptions;\n}\n\nexport type ComponentConfig = {\n  accordion?: AccordionConfig;\n  alert?: AlertConfig;\n  icon?: IconConfig;\n};\n\nexport type AccordionConfig = Pick<AccordionProps, 'className' | 'classNames' | 'dir' | 'size' | 'triggerIcon'>;\n\nexport type AlertConfig = Pick<\n  AlertProps,\n  'className' | 'classNames' | 'color' | 'icon' | 'leading' | 'size' | 'trailing' | 'variant'\n>;\n\nexport type IconConfig = Pick<IconProps, 'className' | 'color' | 'height' | 'inline' | 'width'>;\n",
+      "content": "import type { ThemeOptions } from '@skyroc/tailwind-plugin';\n\nimport type { ThemeSize } from '@/types/other';\n\nimport type { AccordionProps } from '../accordion/types';\nimport type { AlertProps } from '../alert';\nimport type { IconProps } from '../icon';\n\nexport interface ConfigProviderProps extends ConfigProps {\n  children: React.ReactNode;\n}\n\nexport interface ConfigProps extends ComponentConfig {\n  direction?: 'ltr' | 'rtl';\n  size?: ThemeSize;\n  theme?: ThemeOptions;\n}\n\nexport type ComponentConfig = {\n  accordion?: AccordionConfig;\n  alert?: AlertConfig;\n  icon?: IconConfig;\n};\n\nexport type AccordionConfig = Pick<AccordionProps, 'className' | 'classNames' | 'dir' | 'size' | 'triggerIcon'>;\n\nexport type AlertConfig = Pick<\n  AlertProps,\n  'className' | 'classNames' | 'color' | 'icon' | 'leading' | 'size' | 'trailing' | 'variant'\n>;\n\nexport type IconConfig = Pick<IconProps, 'className' | 'color' | 'height' | 'inline' | 'width'>;\n",
       "type": "registry:ui",
       "target": "components/config-provider/types.ts"
     }

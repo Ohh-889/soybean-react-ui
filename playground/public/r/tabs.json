@@ -4,6 +4,7 @@
   "type": "registry:block",
   "title": "Tabs",
   "dependencies": ["@radix-ui/react-tabs", "@radix-ui/react-compose-refs"],
+  "registryDependencies": ["https://ui-play.skyroc.me/r/style.json"],
   "files": [
     {
       "path": "src/components/tabs/Tabs.tsx",

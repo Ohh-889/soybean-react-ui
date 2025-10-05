@@ -3,6 +3,7 @@
   "name": "chip",
   "type": "registry:block",
   "title": "Chip",
+  "registryDependencies": ["https://ui-play.skyroc.me/r/style.json"],
   "files": [
     {
       "path": "src/components/chip/Chip.tsx",

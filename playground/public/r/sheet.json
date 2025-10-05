@@ -3,6 +3,7 @@
   "name": "sheet",
   "type": "registry:block",
   "title": "Sheet",
+  "registryDependencies": ["https://ui-play.skyroc.me/r/style.json"],
   "files": [
     {
       "path": "src/components/sheet/Sheet.tsx",

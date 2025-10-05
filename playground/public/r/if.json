@@ -3,6 +3,7 @@
   "name": "if",
   "type": "registry:block",
   "title": "If",
+  "registryDependencies": ["https://ui-play.skyroc.me/r/style.json"],
   "files": [
     {
       "path": "src/components/if/If.tsx",

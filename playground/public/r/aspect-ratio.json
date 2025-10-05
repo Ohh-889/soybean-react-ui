@@ -4,6 +4,7 @@
   "type": "registry:block",
   "title": "Aspect Ratio",
   "dependencies": ["@radix-ui/react-aspect-ratio"],
+  "registryDependencies": ["https://ui-play.skyroc.me/r/style.json"],
   "files": [
     {
       "path": "src/components/aspect-ratio/AspectRatio.tsx",

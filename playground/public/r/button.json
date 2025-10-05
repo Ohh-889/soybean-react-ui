@@ -4,7 +4,7 @@
   "type": "registry:block",
   "title": "Button",
   "dependencies": ["@radix-ui/react-slot"],
-  "registryDependencies": ["https://ui-play.skyroc.me/r/icon.json"],
+  "registryDependencies": ["https://ui-play.skyroc.me/r/style.json", "https://ui-play.skyroc.me/r/icon.json"],
   "files": [
     {
       "path": "src/components/button/Button.tsx",

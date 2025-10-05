@@ -4,6 +4,7 @@
   "type": "registry:block",
   "title": "Divider",
   "dependencies": ["@radix-ui/react-separator"],
+  "registryDependencies": ["https://ui-play.skyroc.me/r/style.json"],
   "files": [
     {
       "path": "src/components/divider/Divider.tsx",
