@@ -42,6 +42,9 @@ export const registryComponentsDependencies: Record<
   divider: {
     dependencies: ['@radix-ui/react-separator']
   },
+  icon: {
+    dependencies: ['@iconify/react']
+  },
   label: {
     dependencies: ['@radix-ui/react-label']
   },

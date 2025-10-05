@@ -3,6 +3,7 @@
   "name": "icon",
   "type": "registry:block",
   "title": "Icon",
+  "dependencies": ["@iconify/react"],
   "files": [
     {
       "path": "src/components/icon/Icon.tsx",

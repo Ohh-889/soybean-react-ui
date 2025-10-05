@@ -3,7 +3,22 @@
   "type": "module",
   "version": "0.0.1",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "import": {
+          "types": "./dist/index.d.ts",
+          "default": "./dist/index.mjs"
+        },
+        "require": {
+          "types": "./dist/index.d.cts",
+          "default": "./dist/index.cjs"
+        }
+      }
+    }
   },
   "sideEffects": false,
   "exports": {
@@ -11,15 +26,20 @@
       "import": "./src/index.ts"
     }
   },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "typings": "./dist/index.d.ts",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
+  "typings": "./src/index.ts",
   "files": ["./dist"],
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "lint:pkg": "eslint ./package.json --fix"
   },
   "dependencies": {
     "colord": "2.9.3"
+  },
+  "devDependencies": {
+    "tsup": "8.5.0",
+    "typescript": "5.9.3"
   }
 }

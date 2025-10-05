@@ -22,18 +22,58 @@ const registry = {
       css: {
         '@import "tailwindcss"': {},
         '@import "tw-animate-css"': {},
-        '@plugin "@soybean-react-ui/tailwind-plugin"': {},
+        '@plugin "../plugins/tailwind-plugin"': {},
         '@plugin "tailwindcss-animate"': {},
         html: {
-          overflowX: 'hidden'
+          'overflow-x': 'hidden'
         },
         'html,body,#app': {
           height: '100%'
         }
       },
-      dependencies: ['tailwind-variants', 'lucide-react', 'clsx', 'tailwind-merge'],
+      dependencies: [
+        'tailwind-variants',
+        'tailwindcss-animate',
+        'tw-animate-css',
+        'tailwindcss',
+        'lucide-react',
+        'clsx',
+        'tailwind-merge',
+        '@tailwindcss/postcss'
+      ],
       extends: 'none',
-      files: [],
+      files: [
+        {
+          path: '../tailwind-plugin/src/generate.ts',
+          target: 'plugins/tailwind-plugin/generate.ts',
+          type: 'registry:file'
+        },
+        {
+          path: '../tailwind-plugin/src/types.ts',
+          target: 'plugins/tailwind-plugin/types.ts',
+          type: 'registry:file'
+        },
+        {
+          path: '../tailwind-plugin/src/themePresets.ts',
+          target: 'plugins/tailwind-plugin/themePresets.ts',
+          type: 'registry:file'
+        },
+        {
+          path: '../tailwind-plugin/src/index.ts',
+          target: 'plugins/tailwind-plugin/index.ts',
+          type: 'registry:file'
+        },
+        {
+          path: '../tailwind-plugin/src/presets.ts',
+          target: 'plugins/tailwind-plugin/presets.ts',
+          type: 'registry:file'
+        },
+        {
+          path: '../tailwind-plugin/src/theme.json',
+          target: 'plugins/tailwind-plugin/theme.json',
+          type: 'registry:file'
+        }
+      ],
       name: 'style',
       registryDependencies: [getSelfRegistryDependencies('utils'), getSelfRegistryDependencies('types')],
       type: 'registry:style'
