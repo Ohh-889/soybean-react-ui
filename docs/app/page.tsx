@@ -14,7 +14,9 @@ export default function Home() {
           src="/next.svg"
           width={180}
         />
+
         <Button className="flex-center">Click me</Button>
+
         <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
           <li className="mb-2 tracking-[-.01em]">
             Get started by editing{' '}

@@ -1,7 +1,7 @@
 {
-  "name": "@soybean-react-ui/color",
+  "name": "@skyroc/color",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.1-alpha",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "main": "./dist/index.cjs",

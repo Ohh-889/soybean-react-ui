@@ -1,5 +1,5 @@
 {
-  "name": "@soybean-react-ui/tailwind-plugin",
+  "name": "@skyroc/tailwind-plugin",
   "type": "module",
   "version": "0.0.1",
   "sideEffects": false,
@@ -18,7 +18,7 @@
     "build": "tsup"
   },
   "dependencies": {
-    "@soybean-react-ui/color": "workspace:*",
+    "@skyroc/color": "workspace:*",
     "@unocss/core": "66.3.2",
     "tailwindcss": "4.1.11"
   }

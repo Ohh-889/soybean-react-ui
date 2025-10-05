@@ -24,7 +24,7 @@
     "tw-animate-css": "1.3.6"
   },
   "devDependencies": {
-    "@soybean-react-ui/color": "workspace:*",
+    "@skyroc/color": "workspace:*",
     "@tailwindcss/postcss": "4.1.11",
     "@types/jsdom": "21.1.7",
     "@types/node": "20.17.21",

@@ -19,7 +19,6 @@
     "postinstall": "tsx script/postinstall.ts"
   },
   "devDependencies": {
-    "@soybean-react-ui/tailwind-plugin": "workspace:*",
     "@soybeanjs/eslint-config": "1.7.0",
     "@types/node": "22.15.3",
     "@types/react": "19.1.0",

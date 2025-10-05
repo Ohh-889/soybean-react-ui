@@ -1,4 +1,4 @@
-import type { ThemeOptions } from '@soybean-react-ui/tailwind-plugin';
+import type { ThemeOptions } from '@skyroc/tailwind-plugin';
 
 import type { ThemeSize } from '@/types/other';
 
