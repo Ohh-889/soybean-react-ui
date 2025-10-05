@@ -1,6 +1,6 @@
 'use client';
 
-import { builtinColorMap, builtinRadiuses } from '@soybean-react-ui/tailwind-plugin';
+import { builtinColorMap, builtinRadiuses } from '@skyroc/tailwind-plugin';
 import { useState } from 'react';
 import type { ThemeSize } from 'soybean-react-ui';
 import { Button, Icon, Label, cn } from 'soybean-react-ui';
