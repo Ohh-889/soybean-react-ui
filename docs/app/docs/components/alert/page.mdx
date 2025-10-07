@@ -1,0 +1,125 @@
+export const metadata = {
+  title: 'Alert 警告',
+  description: '警告提示，用于向用户展示重要信息'
+}
+
+import { ComponentPreview } from '@/components/component-preview';
+
+# Alert 警告
+
+用于向用户显示重要的提示信息。
+
+## 导入
+
+```tsx
+import { Alert, AlertTitle, AlertDescription } from '@skyroc/ui';
+```
+
+## 基础用法
+
+<ComponentPreview code={`import { Alert, AlertTitle, AlertDescription } from '@skyroc/ui';
+
+export default function Demo() {
+  return (
+    <Alert>
+      <AlertTitle>提示</AlertTitle>
+      <AlertDescription>这是一条重要的提示信息。</AlertDescription>
+    </Alert>
+  );
+}`}>
+  <div className="w-full max-w-lg rounded-lg border border-blue-200 bg-blue-50 p-4 text-blue-900 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-100">
+    <h5 className="mb-1 font-medium leading-none tracking-tight">提示</h5>
+    <div className="text-sm opacity-90">这是一条重要的提示信息。</div>
+  </div>
+</ComponentPreview>
+
+## 不同类型
+
+提供多种类型的警告提示。
+
+<ComponentPreview code={`import { Alert, AlertDescription } from '@skyroc/ui';
+
+export default function Demo() {
+  return (
+    <div className="space-y-4">
+      <Alert variant="default">
+        <AlertDescription>默认提示信息</AlertDescription>
+      </Alert>
+      <Alert variant="destructive">
+        <AlertDescription>错误或危险操作警告</AlertDescription>
+      </Alert>
+    </div>
+  );
+}`}>
+  <div className="w-full max-w-lg space-y-4">
+    <div className="rounded-lg border border-border bg-background p-4">
+      <div className="text-sm">默认提示信息</div>
+    </div>
+    <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-900 dark:border-red-900 dark:bg-red-950 dark:text-red-100">
+      <div className="text-sm">错误或危险操作警告</div>
+    </div>
+  </div>
+</ComponentPreview>
+
+## 带图标
+
+<ComponentPreview code={`import { Alert, AlertTitle, AlertDescription } from '@skyroc/ui';
+import { AlertCircle, CheckCircle } from 'lucide-react';
+
+export default function Demo() {
+  return (
+    <div className="space-y-4">
+      <Alert>
+        <CheckCircle className="h-4 w-4" />
+        <AlertTitle>成功</AlertTitle>
+        <AlertDescription>操作已成功完成！</AlertDescription>
+      </Alert>
+      <Alert variant="destructive">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>错误</AlertTitle>
+        <AlertDescription>发生了一些问题，请稍后重试。</AlertDescription>
+      </Alert>
+    </div>
+  );
+}`}>
+  <div className="w-full max-w-lg space-y-4">
+    <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-green-900 dark:border-green-900 dark:bg-green-950 dark:text-green-100">
+      <div className="flex gap-2">
+        <span>✓</span>
+        <div>
+          <h5 className="mb-1 font-medium leading-none tracking-tight">成功</h5>
+          <div className="text-sm opacity-90">操作已成功完成！</div>
+        </div>
+      </div>
+    </div>
+    <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-900 dark:border-red-900 dark:bg-red-950 dark:text-red-100">
+      <div className="flex gap-2">
+        <span>⚠</span>
+        <div>
+          <h5 className="mb-1 font-medium leading-none tracking-tight">错误</h5>
+          <div className="text-sm opacity-90">发生了一些问题，请稍后重试。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ComponentPreview>
+
+## API
+
+### Alert Props
+
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| variant | `'default' | 'destructive'` | `'default'` | 警告类型 |
+| className | `string` | - | 自定义类名 |
+
+### AlertTitle
+
+警告标题组件。
+
+### AlertDescription
+
+警告描述内容组件。
+
+
+

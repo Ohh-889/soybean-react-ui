@@ -1,5 +1,6 @@
 {
   "name": "docs",
+  "type": "module",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,25 +13,37 @@
   },
   "dependencies": {
     "@iconify/react": "6.0.0",
+    "@mdx-js/loader": "^3.1.1",
+    "@mdx-js/react": "^3.1.1",
+    "@next/mdx": "^15.5.4",
     "@radix-ui/react-slot": "1.2.3",
     "clsx": "2.1.1",
     "lucide-react": "0.525.0",
     "next": "15.4.1",
+    "next-themes": "0.4.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "rehype-autolink-headings": "^7.1.0",
+    "rehype-pretty-code": "^0.14.1",
+    "rehype-slug": "^6.0.0",
+    "remark-gfm": "^4.0.1",
+    "shiki": "^3.13.0",
     "tailwind-merge": "3.3.0",
     "tailwind-variants": "1.0.0",
     "tailwindcss-animate": "1.0.7",
-    "tw-animate-css": "1.3.6"
+    "tw-animate-css": "1.3.6",
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@skyroc/color": "workspace:*",
     "@tailwindcss/postcss": "4.1.11",
     "@types/jsdom": "21.1.7",
+    "@types/mdx": "^2.0.13",
     "@types/node": "20.17.21",
     "@types/react": "19.1.0",
     "@types/react-dom": "19.1.1",
     "jsdom": "26.1.0",
+    "skyroc-next-docs-plugin": "workspace:*",
     "tailwindcss": "4.1.11",
     "tsx": "4.20.3",
     "typescript": "5.8.2"

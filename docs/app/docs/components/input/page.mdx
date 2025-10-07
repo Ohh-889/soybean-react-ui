@@ -1,0 +1,124 @@
+export const metadata = {
+  title: 'Input 输入框',
+  description: '通过键盘输入内容的基本表单组件'
+}
+
+import { ComponentPreview } from '@/components/component-preview';
+
+# Input 输入框
+
+通过键盘输入内容的基本表单组件。
+
+## 导入
+
+```tsx
+import { Input } from '@skyroc/ui';
+```
+
+## 基础用法
+
+<ComponentPreview code={`import { Input } from '@skyroc/ui';
+
+export default function Demo() {
+  return <Input placeholder="请输入内容" />;
+}`}>
+  <div className="w-full max-w-sm">
+    <input
+      type="text"
+      placeholder="请输入内容"
+      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+    />
+  </div>
+</ComponentPreview>
+
+## 不同类型
+
+支持不同的 HTML5 input 类型。
+
+<ComponentPreview code={`import { Input } from '@skyroc/ui';
+
+export default function Demo() {
+  return (
+    <div className="space-y-4 w-full max-w-sm">
+      <Input type="text" placeholder="Text" />
+      <Input type="email" placeholder="Email" />
+      <Input type="password" placeholder="Password" />
+      <Input type="number" placeholder="Number" />
+      <Input type="tel" placeholder="Phone" />
+    </div>
+  );
+}`}>
+  <div className="space-y-4 w-full max-w-sm">
+    <input
+      type="text"
+      placeholder="Text"
+      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    />
+    <input
+      type="email"
+      placeholder="Email"
+      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    />
+    <input
+      type="password"
+      placeholder="Password"
+      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    />
+  </div>
+</ComponentPreview>
+
+## 禁用状态
+
+<ComponentPreview code={`import { Input } from '@skyroc/ui';
+
+export default function Demo() {
+  return <Input placeholder="Disabled" disabled />;
+}`}>
+  <div className="w-full max-w-sm">
+    <input
+      type="text"
+      placeholder="Disabled"
+      disabled
+      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+    />
+  </div>
+</ComponentPreview>
+
+## 带标签
+
+<ComponentPreview code={`import { Input } from '@skyroc/ui';
+import { Label } from '@skyroc/ui';
+
+export default function Demo() {
+  return (
+    <div className="space-y-2 w-full max-w-sm">
+      <Label htmlFor="email">Email</Label>
+      <Input id="email" type="email" placeholder="m@example.com" />
+    </div>
+  );
+}`}>
+  <div className="space-y-2 w-full max-w-sm">
+    <label htmlFor="email" className="text-sm font-medium leading-none">
+      Email
+    </label>
+    <input
+      id="email"
+      type="email"
+      placeholder="m@example.com"
+      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    />
+  </div>
+</ComponentPreview>
+
+## API
+
+### Input Props
+
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| type | `string` | `'text'` | 输入框类型 |
+| placeholder | `string` | - | 占位文本 |
+| disabled | `boolean` | `false` | 是否禁用 |
+| className | `string` | - | 自定义类名 |
+
+继承所有原生 HTML input 元素的属性。

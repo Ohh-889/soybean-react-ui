@@ -1,0 +1,136 @@
+export const metadata = {
+  title: 'Card 卡片',
+  description: '通用卡片容器组件'
+}
+
+import { ComponentPreview } from '@/components/component-preview';
+
+# Card 卡片
+
+通用卡片容器，可承载文字、列表、图片、段落等内容。
+
+## 导入
+
+```tsx
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@skyroc/ui';
+```
+
+## 基础用法
+
+<ComponentPreview code={`import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@skyroc/ui';
+
+export default function Demo() {
+  return (
+    <Card className="w-[350px]">
+      <CardHeader>
+        <CardTitle>Card Title</CardTitle>
+        <CardDescription>Card Description</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p>Card Content</p>
+      </CardContent>
+    </Card>
+  );
+}`}>
+  <div className="w-[350px] rounded-lg border border-border bg-card text-card-foreground shadow-sm">
+    <div className="flex flex-col space-y-1.5 p-6">
+      <h3 className="text-2xl font-semibold leading-none tracking-tight">Skyroc UI</h3>
+      <p className="text-sm text-muted-foreground">现代化 React 组件库</p>
+    </div>
+    <div className="p-6 pt-0">
+      <p className="text-sm">
+        一套精心设计的 React 组件库，助力你快速构建优雅的现代化 Web 应用。
+      </p>
+    </div>
+  </div>
+</ComponentPreview>
+
+## 完整示例
+
+包含 Header、Content 和 Footer 的完整卡片。
+
+<ComponentPreview code={`import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@skyroc/ui';
+import { Button } from '@skyroc/ui';
+
+export default function Demo() {
+  return (
+    <Card className="w-[350px]">
+      <CardHeader>
+        <CardTitle>Create project</CardTitle>
+        <CardDescription>Deploy your new project in one-click.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form>
+          <div className="grid w-full items-center gap-4">
+            <div className="flex flex-col space-y-1.5">
+              <label htmlFor="name">Name</label>
+              <input id="name" placeholder="Name of your project" />
+            </div>
+          </div>
+        </form>
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <Button variant="outline">Cancel</Button>
+        <Button>Deploy</Button>
+      </CardFooter>
+    </Card>
+  );
+}`}>
+  <div className="w-[350px] rounded-lg border border-border bg-card text-card-foreground shadow-sm">
+    <div className="flex flex-col space-y-1.5 p-6">
+      <h3 className="text-2xl font-semibold leading-none tracking-tight">创建项目</h3>
+      <p className="text-sm text-muted-foreground">一键部署你的新项目</p>
+    </div>
+    <div className="p-6 pt-0">
+      <div className="grid w-full items-center gap-4">
+        <div className="flex flex-col space-y-1.5">
+          <label htmlFor="name" className="text-sm font-medium">项目名称</label>
+          <input
+            id="name"
+            placeholder="输入项目名称"
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+          />
+        </div>
+      </div>
+    </div>
+    <div className="flex items-center p-6 pt-0 gap-2">
+      <button className="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-4 py-2 border border-input bg-background hover:bg-accent">
+        取消
+      </button>
+      <button className="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90">
+        部署
+      </button>
+    </div>
+  </div>
+</ComponentPreview>
+
+## API
+
+### Card Props
+
+基础卡片容器组件。
+
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| className | `string` | - | 自定义类名 |
+| children | `React.ReactNode` | - | 卡片内容 |
+
+### CardHeader
+
+卡片头部区域。
+
+### CardTitle
+
+卡片标题。
+
+### CardDescription
+
+卡片描述文字。
+
+### CardContent
+
+卡片主要内容区域。
+
+### CardFooter
+
+卡片底部区域，通常放置操作按钮。

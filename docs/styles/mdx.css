@@ -1,0 +1,14 @@
+span{
+  background-color: var(--shiki-light-bg);
+  color: var(--shiki-light);
+}
+
+span[data-line]:before {
+    counter-increment: line;
+    content: counter(line);
+    display: inline-block;
+    width: 2rem;
+    margin-right: 1rem;
+    text-align: right;
+    color: gray;
+}

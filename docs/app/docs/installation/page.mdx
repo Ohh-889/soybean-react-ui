@@ -1,0 +1,96 @@
+
+
+# 安装
+
+Skyroc UI 可以通过 npm、yarn 或 pnpm 安装。
+
+## 安装包
+
+```bash
+# 使用 npm
+npm install @skyroc/ui
+
+# 使用 pnpm
+pnpm add @skyroc/ui
+
+# 使用 yarn
+yarn add @skyroc/ui
+```
+
+## 配置 Tailwind CSS
+
+Skyroc UI 基于 Tailwind CSS 构建，你需要在项目中配置 Tailwind CSS。
+
+### 1. 安装 Tailwind CSS
+
+```bash
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
+
+### 2. 配置 `tailwind.config.js`
+
+```js
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}',
+    './node_modules/@skyroc/ui/**/*.{js,ts,jsx,tsx}',
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
+
+### 3. 添加 Tailwind 指令
+
+在你的 CSS 文件中添加 Tailwind 指令：
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+## 开始使用
+
+现在你可以在项目中导入并使用 Skyroc UI 的组件了：
+
+```tsx
+import { Button } from '@skyroc/ui';
+
+export default function App() {
+  return (
+    <div>
+      <Button>点击我</Button>
+    </div>
+  );
+}
+```
+
+## 主题定制
+
+Skyroc UI 支持深度定制。你可以通过 Tailwind CSS 配置文件自定义主题颜色、间距等。
+
+```js
+// tailwind.config.js
+export default {
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          50: '#f0f5ff',
+          // ... 更多颜色
+          500: '#6366f1',
+          // ...
+        },
+      },
+    },
+  },
+}
+```
+
+查看 [快速开始](/docs/quick-start) 了解更多配置选项。

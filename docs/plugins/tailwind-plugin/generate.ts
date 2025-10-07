@@ -1,4 +1,4 @@
-import { colord, generateColorPalette } from '@soybean-react-ui/color';
+import { colord, generateColorPalette } from '@skyroc/color';
 import { mergeDeep } from '@unocss/core';
 
 import themes from './theme.json';

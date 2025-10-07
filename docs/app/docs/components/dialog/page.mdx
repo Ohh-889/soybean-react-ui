@@ -1,0 +1,162 @@
+export const metadata = {
+  title: 'Dialog 对话框',
+  description: '在当前页面打开一个浮层对话框'
+}
+
+import { ComponentPreview } from '@/components/component-preview';
+
+# Dialog 对话框
+
+在保留当前页面状态的情况下，打开一个浮层对话框，承载相关操作。
+
+## 导入
+
+```tsx
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter
+} from '@skyroc/ui';
+```
+
+## 基础用法
+
+<ComponentPreview code={`import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription
+} from '@skyroc/ui';
+import { Button } from '@skyroc/ui';
+
+export default function Demo() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>打开对话框</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>对话框标题</DialogTitle>
+          <DialogDescription>
+            这里是对话框的描述内容，可以包含更多详细信息。
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+  );
+}`}>
+  <button className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+    打开对话框
+  </button>
+</ComponentPreview>
+
+## 带表单的对话框
+
+<ComponentPreview code={`import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter
+} from '@skyroc/ui';
+import { Button } from '@skyroc/ui';
+import { Input } from '@skyroc/ui';
+import { Label } from '@skyroc/ui';
+
+export default function Demo() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>编辑资料</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>编辑资料</DialogTitle>
+          <DialogDescription>
+            在这里修改你的个人资料信息。
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="name" className="text-right">
+              姓名
+            </Label>
+            <Input
+              id="name"
+              defaultValue="张三"
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="username" className="text-right">
+              用户名
+            </Label>
+            <Input
+              id="username"
+              defaultValue="@zhangsan"
+              className="col-span-3"
+            />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button type="submit">保存修改</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}`}>
+  <button className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+    编辑资料
+  </button>
+</ComponentPreview>
+
+## API
+
+### Dialog
+
+对话框根组件。
+
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| open | `boolean` | - | 控制对话框打开状态 |
+| onOpenChange | `(open: boolean) => void` | - | 打开状态改变时的回调 |
+
+### DialogTrigger
+
+触发对话框打开的按钮。
+
+### DialogContent
+
+对话框内容容器。
+
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| className | `string` | - | 自定义类名 |
+
+### DialogHeader
+
+对话框头部区域。
+
+### DialogTitle
+
+对话框标题。
+
+### DialogDescription
+
+对话框描述文字。
+
+### DialogFooter
+
+对话框底部区域，通常放置操作按钮。
+
+
+

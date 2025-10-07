@@ -1,0 +1,193 @@
+export const metadata = {
+  title: 'Button 按钮',
+  description: '按钮用于触发一个操作'
+}
+
+import { Button } from '@/components/button';
+
+# Button 按钮
+
+按钮用于开始一个即时操作。
+
+## 导入
+
+```tsx
+import { Button } from '@skyroc/ui';
+```
+
+## 基础用法
+
+<ComponentPreview code={`import { Button } from '@skyroc/ui';
+
+export default function Demo() {
+  return <Button>默认按钮</Button>;
+}`}>
+  <Button>默认按钮</Button>
+</ComponentPreview>
+
+## 按钮变体
+
+提供多种视觉样式的按钮。
+
+<ComponentPreview code={`import { Button } from '@skyroc/ui';
+
+export default function Demo() {
+  return (
+    <div className="flex flex-wrap gap-4">
+      <Button variant="default">Default</Button>
+      <Button variant="primary">Primary</Button>
+      <Button variant="destructive">Destructive</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="link">Link</Button>
+    </div>
+  );
+}`}>
+  <div className="flex flex-wrap gap-4">
+    <Button variant="default">Default</Button>
+    <Button variant="primary">Primary</Button>
+    <Button variant="destructive">Destructive</Button>
+    <Button variant="outline">Outline</Button>
+    <Button variant="secondary">Secondary</Button>
+    <Button variant="ghost">Ghost</Button>
+    <Button variant="link">Link</Button>
+  </div>
+</ComponentPreview>
+
+## 按钮尺寸
+
+提供四种不同尺寸的按钮。
+
+<ComponentPreview code={`import { Button } from '@skyroc/ui';
+
+export default function Demo() {
+  return (
+    <div className="flex items-center gap-4">
+      <Button size="sm">Small</Button>
+      <Button size="default">Default</Button>
+      <Button size="lg">Large</Button>
+      <Button size="icon">⭐</Button>
+    </div>
+  );
+}`}>
+  <div className="flex items-center gap-4">
+    <Button size="sm">Small</Button>
+    <Button size="default">Default</Button>
+    <Button size="lg">Large</Button>
+    <Button size="icon">⭐</Button>
+  </div>
+</ComponentPreview>
+
+## 禁用状态
+
+使用 `disabled` 属性来禁用按钮。
+
+<ComponentPreview code={`import { Button } from '@skyroc/ui';
+
+export default function Demo() {
+  return (
+    <div className="flex gap-4">
+      <Button disabled>Disabled Button</Button>
+      <Button variant="primary" disabled>Disabled Primary</Button>
+    </div>
+  );
+}`}>
+  <div className="flex gap-4">
+    <Button disabled>Disabled Button</Button>
+    <Button variant="primary" disabled>Disabled Primary</Button>
+  </div>
+</ComponentPreview>
+
+## 加载状态
+
+显示加载中的按钮状态。
+
+<ComponentPreview code={`import { Button } from '@skyroc/ui';
+import { Loader2 } from 'lucide-react';
+
+export default function Demo() {
+  return (
+    <Button disabled>
+      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+      Loading...
+    </Button>
+  );
+}`}>
+  <Button disabled>
+    <span className="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent"></span>
+    Loading...
+  </Button>
+</ComponentPreview>
+
+## 带图标的按钮
+
+在按钮中添加图标元素。
+
+<ComponentPreview code={`import { Button } from '@skyroc/ui';
+import { Mail, Download, ArrowRight } from 'lucide-react';
+
+export default function Demo() {
+  return (
+    <div className="flex gap-4">
+      <Button>
+        <Mail className="mr-2 h-4 w-4" />
+        Login with Email
+      </Button>
+      <Button variant="outline">
+        <Download className="mr-2 h-4 w-4" />
+        Download
+      </Button>
+      <Button variant="primary">
+        Get Started
+        <ArrowRight className="ml-2 h-4 w-4" />
+      </Button>
+    </div>
+  );
+}`}>
+  <div className="flex gap-4">
+    <Button>
+      📧 Login with Email
+    </Button>
+    <Button variant="outline">
+      ⬇️ Download
+    </Button>
+    <Button variant="primary">
+      Get Started →
+    </Button>
+  </div>
+</ComponentPreview>
+
+## API
+
+### Button Props
+
+| 属性 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| variant | `'default' | 'primary' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link'` | `'default'` | 按钮样式变体 |
+| size | `'default' | 'sm' | 'lg' | 'icon'` | `'default'` | 按钮尺寸 |
+| disabled | `boolean` | `false` | 是否禁用 |
+| className | `string` | - | 自定义类名 |
+| children | `React.ReactNode` | - | 按钮内容 |
+
+## 最佳实践
+
+### 语义化
+
+使用合适的变体来表达不同的操作语义：
+
+- **Primary**：主要操作，每个区域最多一个
+- **Default**：次要操作
+- **Destructive**：危险操作，如删除、注销
+- **Ghost**：轻量级操作
+- **Link**：导航类操作
+
+### 无障碍
+
+- 确保按钮有明确的文本说明
+- 为图标按钮添加 `aria-label`
+- 使用 `disabled` 而非视觉样式来禁用按钮
+
+### 性能
+
+按钮组件已经过优化，但在列表中大量使用时，考虑使用 `React.memo` 包裹。
