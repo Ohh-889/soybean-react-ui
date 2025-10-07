@@ -4,7 +4,7 @@
 
 @plugin "tailwindcss-animate";
 
-@plugin "@soybean-react-ui/tailwind-plugin"{}
+@plugin "@skyroc/tailwind-plugin"{}
 
 @source "../../../packages/ui/src/**/*.{ts,tsx}";
 
