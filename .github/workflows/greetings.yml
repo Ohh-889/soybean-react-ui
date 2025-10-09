@@ -12,5 +12,12 @@ jobs:
     - uses: actions/first-interaction@v1
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        issue-message: "Message that will be displayed on users' first issue"
-        pr-message: "Message that will be displayed on users' first pull request"
+        issue-message: |
+          👋 Thank you for submitting your first Issue 🎉
+          We truly appreciate your feedback — it helps us continuously improve the component library experience.
+          Our team will review it soon and follow up with you. Thanks for your support!
+
+        pr-message: |
+          🎉 Thank you for submitting your first Pull Request!
+          Your contribution makes the component library better and helps more developers 🙌
+          The reviewer will check it shortly — we really appreciate your participation!
