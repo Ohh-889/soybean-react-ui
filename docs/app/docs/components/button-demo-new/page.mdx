@@ -1,0 +1,61 @@
+export const metadata = {
+  title: 'Button Demo - 编译时方案',
+  description: '演示编译时自动导入的 Demo 方案'
+}
+
+# Button 按钮 - 编译时方案
+
+演示通过 rehype 插件实现的编译时自动导入 Demo 方案。
+
+## 基础用法
+
+<Demo src="@/demos/button-basic.tsx" title="基础按钮" />
+
+## 按钮变体
+
+<Demo src="@/demos/button-variants.tsx" title="按钮变体" />
+
+## 按钮尺寸
+
+<Demo src="@/demos/button-sizes.tsx" title="按钮尺寸" />
+
+## 禁用状态
+
+<Demo src="@/demos/button-disabled.tsx" title="禁用状态" />
+
+## 加载状态
+
+<Demo src="@/demos/button-loading.tsx" title="加载状态" />
+
+## 带图标的按钮
+
+<Demo src="@/demos/button-icons.tsx" title="图标按钮" />
+
+---
+
+## 🎯 实现原理
+
+这个页面使用了 **编译时转换** 方案：
+
+### 1. 写 MDX
+```mdx
+<Demo src="@/demos/button-basic.tsx" title="基础按钮" />
+```
+
+### 2. rehype 插件自动转换为
+```tsx
+import ButtonBasic from '@/demos/button-basic.tsx';
+
+<Demo src="@/demos/button-basic.tsx" title="基础按钮">
+  <ButtonBasic />
+</Demo>
+```
+
+### 3. 优势
+- ✅ **零运行时开销** - 无需动态 import
+- ✅ **静态可分析** - Webpack/Turbopack 友好
+- ✅ **完整类型支持** - 编译时检查
+- ✅ **自动代码分割** - 每个 demo 独立 chunk
+- ✅ **简单易用** - 只需提供文件路径
+
+这就是 **dumi** 的核心理念！🚀

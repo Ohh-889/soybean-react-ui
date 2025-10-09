@@ -1,0 +1,73 @@
+export const metadata = {
+  title: 'Button Demo - 使用构建时方案',
+  description: '演示如何使用 Demo 组件'
+}
+
+import Demo from '@/packages/next-docs-plugin/src/components/Demo';
+
+# Button 按钮（构建时方案）
+
+这个示例使用构建时方案，性能更好，无需运行时编译。
+
+## 基础用法
+
+<Demo src="@/demos/button-basic.tsx" title="基础按钮" />
+
+## 不同尺寸
+
+<Demo src="@/demos/button-sizes.tsx" title="按钮尺寸" />
+
+## 优势
+
+1. **零运行时开销** - 构建时处理，无需 Babel
+2. **完整类型支持** - 真实的 TypeScript 文件
+3. **可以导入依赖** - 正常使用 npm 包
+4. **安全** - 无需 eval/new Function
+5. **代码分割** - 自动 lazy loading
+
+## 使用方法
+
+### 1. 创建 Demo 文件
+
+在 `demos/` 目录创建组件文件：
+
+```tsx
+// demos/my-demo.tsx
+import { Button } from '@/components/button';
+
+export default function Demo() {
+  return <Button>Click me</Button>;
+}
+```
+
+### 2. 在 MDX 中引用
+
+
+
+<Demo src="@/demos/my-demo.tsx" title="My Demo" />
+
+
+### 3. 高级用法 - 多文件
+
+```mdx
+<Demo
+  files={[
+    { src: '@/demos/multi/App.tsx', title: 'App' },
+    { src: '@/demos/multi/Button.tsx', title: 'Button' },
+    { src: '@/demos/multi/hooks.ts', title: 'Hooks' }
+  ]}
+  entry="@/demos/multi/App.tsx"
+  title="Multi-file Demo"
+/>
+```
+
+## Demo 组件 Props
+
+| 属性 | 类型 | 说明 |
+| --- | --- | --- |
+| src | `string` | 单文件模式，组件路径 |
+| title | `string` | 标题 |
+| highlight | `string` | 高亮行，如 `"1,3-5"` |
+| files | `Array<{src, title}>` | 多文件模式 |
+| entry | `string` | 多文件入口 |
+

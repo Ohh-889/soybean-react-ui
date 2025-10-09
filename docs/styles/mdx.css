@@ -12,3 +12,56 @@ span[data-line]:before {
     text-align: right;
     color: gray;
 }
+
+pre code {
+  white-space: pre !important;
+}
+
+/* src/styles/mdx-code.css */
+
+/* 保留缩进/空白（非常关键） */
+/* src/styles/mdx-code.css */
+/* src/styles/mdx-code.css */
+
+/* 保留缩进/空白 */
+.shiki pre, .shiki code { white-space: pre; }
+.shiki [data-line] { display: block; white-space: pre; }
+
+/* 行号（通过 .show-line-numbers 开关） */
+.code-viewer { counter-reset: line; }
+.code-viewer.show-line-numbers [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 2.25rem;
+  margin-right: .75rem;
+  text-align: right;
+  opacity: .55;
+}
+
+/* 高亮行 */
+.shiki [data-highlighted-line] {
+  background: color-mix(in oklab, var(--foreground) 12%, transparent);
+  border-left: 3px solid color-mix(in oklab, var(--foreground) 65%, transparent);
+  padding-left: .5rem;
+  margin-left: -.5rem;
+}
+
+/* 自动换行模式 */
+.code-viewer.wrap .shiki pre,
+.code-viewer.wrap .shiki code,
+.code-viewer.wrap [data-line] {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* 文件名条 */
+.code-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .5rem .75rem;
+  font-size: .8rem; color: var(--muted-foreground);
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklab, var(--muted) 50%, transparent);
+}
+
+
