@@ -1,0 +1,72 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    # ✅ Only run in your main repository (prevent auto-release from forks)
+    if: ${{ github.repository_owner == 'Ohh-889' }}
+    name: Version & Publish Changed Packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      # 🧩 Checkout full repository (with history)
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # 🧰 Setup Node + pnpm environment
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.0.6
+
+      # 📦 Install dependencies
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # 🔍 Detect which packages will be published
+      - name: Detect changed packages
+        id: changed
+        run: |
+          CHANGED=$(pnpm changeset status --json | jq -r '.changesets[].releases[].name' | sort | uniq)
+          echo "changed=$CHANGED" >> $GITHUB_OUTPUT
+        shell: bash
+
+      # 🏗️ Build only changed packages (and their dependencies)
+      - name: Build changed packages
+        if: steps.changed.outputs.changed != ''
+        run: |
+          for pkg in ${{ steps.changed.outputs.changed }}; do
+            echo "🏗️ Building $pkg..."
+            pnpm install --filter "./packages/$pkg..." --frozen-lockfile
+            pnpm build --filter "./packages/$pkg"
+          done
+        shell: bash
+
+      # 🏷️ Create version PR or publish to npm
+      - name: Create Version PR or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          commit: "chore(release): version packages"
+          title: "chore(release): version packages"
+          version: node .github/changeset-version.js
+          publish: pnpm changeset publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_ENV: "production"
