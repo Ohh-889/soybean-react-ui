@@ -56,10 +56,10 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "1.2.3",
+    "skyroc-type-utils": "workspace:*",
     "skyroc-utils": "workspace:*"
   },
   "devDependencies": {
-    "skyroc-type-utils": "workspace:*",
     "tsdown": "0.12.9",
     "tsx": "4.20.3",
     "typescript": "5.8.2"
