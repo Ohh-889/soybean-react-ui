@@ -542,6 +542,18 @@ importers:
       '@radix-ui/react-slot':
         specifier: 1.2.3
         version: 1.2.3(@types/react@19.1.0)(react@19.1.0)
+      '@types/react':
+        specifier: '*'
+        version: 19.1.0
+      '@types/react-dom':
+        specifier: '*'
+        version: 19.1.1(@types/react@19.1.0)
+      react:
+        specifier: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+        version: 19.1.0
+      react-dom:
+        specifier: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+        version: 19.1.1(react@19.1.0)
       skyroc-utils:
         specifier: workspace:*
         version: link:../utils
@@ -549,6 +561,9 @@ importers:
       skyroc-type-utils:
         specifier: workspace:*
         version: link:../type-utils
+      tsdown:
+        specifier: 0.12.9
+        version: 0.12.9(typescript@5.8.2)
       tsx:
         specifier: 4.20.3
         version: 4.20.3

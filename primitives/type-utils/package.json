@@ -4,11 +4,6 @@
   "version": "0.0.1",
   "private": true,
   "description": "UI Primitives Template",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "main": "./dist/index.js",
-    "module": "./dist/index.js"
-  },
   "sideEffects": false,
   "exports": {
     ".": "./src/index.ts"
