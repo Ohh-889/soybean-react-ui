@@ -62,6 +62,8 @@ export * from './components/resizable';
 
 export * from './components/scroll-area';
 
+export * from './components/segment';
+
 export * from './components/select';
 
 export * from './components/sheet';

@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { tabsVariants } from './tabs-variants';
 import type { TabsRootProps } from './types';
 
-const TabRoot = forwardRef<React.ElementRef<typeof Root>, TabsRootProps>((props, ref) => {
+const TabRoot = forwardRef<React.ComponentRef<typeof Root>, TabsRootProps>((props, ref) => {
   const { className, fill, orientation, size, ...rest } = props;
 
   const { root } = tabsVariants({ fill, orientation, size });
