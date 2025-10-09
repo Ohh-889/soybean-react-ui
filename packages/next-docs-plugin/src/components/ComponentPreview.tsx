@@ -5,13 +5,14 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Check, Copy } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
-import { Segment } from '@/components/s';
+import { Segment } from '@/components/segment';
 
-import { highlight } from '../lib/shiki';
+import { highlightCode } from '../lib/shiki';
 
 interface Props {
+  children: React.ReactNode;
+
   code: string;
-  demo: React.ReactNode;
   height?: number | string;
   lang?: string;
   name: string;
@@ -19,7 +20,7 @@ interface Props {
   title?: string;
 }
 
-export const ComponentPreview: React.FC<Props> = ({ code, demo, height = 360, lang = 'tsx', name, tabs, title }) => {
+const ComponentPreview: React.FC<Props> = ({ children, code, height = 360, lang = 'tsx', name, tabs, title }) => {
   const [active, setActive] = useState(tabs?.[0]?.value ?? 'preview');
   const [copied, setCopied] = useState(false);
   const [html, setHtml] = useState('');
@@ -29,7 +30,9 @@ export const ComponentPreview: React.FC<Props> = ({ code, demo, height = 360, la
   useEffect(() => {
     let canceled = false;
     setIsLoading(true);
-    highlight(code.trim(), lang).then(result => {
+    highlightCode(code, lang).then(result => {
+      console.log('result', result);
+
       if (!canceled) {
         setHtml(result);
         setIsLoading(false);
@@ -51,19 +54,19 @@ export const ComponentPreview: React.FC<Props> = ({ code, demo, height = 360, la
   };
 
   return (
-    <div className="my-8 overflow-hidden rounded-lg border border-border/50 bg-background/50 shadow-sm">
+    <div className="my-8 overflow-hidden prose rounded-lg border border-border/50 bg-background/50 shadow-sm">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-border/50 px-4 py-2 bg-muted/40">
         <span className="font-medium text-sm text-foreground truncate">{title ?? name}</span>
         <Segment
           value={active}
-          options={
+          items={
             tabs ?? [
               { label: 'Preview', value: 'preview' },
               { label: 'Code', value: 'code' }
             ]
           }
-          onChange={setActive}
+          onValueChange={setActive}
         />
       </div>
 
@@ -79,7 +82,7 @@ export const ComponentPreview: React.FC<Props> = ({ code, demo, height = 360, la
             style={{ height }}
             transition={{ duration: 0.2 }}
           >
-            {demo}
+            {children}
           </motion.div>
         ) : (
           <motion.div
@@ -104,8 +107,11 @@ export const ComponentPreview: React.FC<Props> = ({ code, demo, height = 360, la
 
             {/* Code */}
             <div
-              className="overflow-auto text-sm leading-relaxed font-mono not-prose p-4"
               dangerouslySetInnerHTML={{ __html: html }}
+              className={cn(
+                'h-[calc(100vh-380px)] overflow-auto',
+                '[&_pre]:m-0 [&_pre]:whitespace-pre [&_code]:whitespace-pre'
+              )}
             />
             {isLoading && (
               <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-sm">
@@ -118,3 +124,5 @@ export const ComponentPreview: React.FC<Props> = ({ code, demo, height = 360, la
     </div>
   );
 };
+
+export default ComponentPreview;

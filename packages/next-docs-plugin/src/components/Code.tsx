@@ -27,7 +27,6 @@ const Code: FC<
     const container = event.currentTarget.closest('.code-block');
     return container?.querySelector('pre code')?.textContent ?? '';
   }
-  console.log('props', props);
 
   return (
     <code
