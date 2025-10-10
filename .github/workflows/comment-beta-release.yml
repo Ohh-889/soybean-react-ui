@@ -1,0 +1,67 @@
+# .github/workflows/comment-beta-release.yml
+name: Write Beta Release Comment
+
+on:
+  workflow_run:
+    workflows: ["Release - Beta"]
+    types:
+      - completed
+
+jobs:
+  comment:
+    if: |
+      github.repository_owner == 'Ohh-889' &&
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    name: Comment on PR
+
+    steps:
+      - name: "Get workflow artifacts"
+        uses: actions/github-script@v6
+        id: extract
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const all = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.payload.workflow_run.id,
+            });
+
+            for (const artifact of all.data.artifacts) {
+              const match = /^npm-package-(.*?)@(.*?)-pr-(\d+)/.exec(artifact.name);
+              if (match) {
+                const [, pkg, version, pr] = match;
+                require("fs").appendFileSync(
+                  process.env.GITHUB_ENV,
+                  `\nPKG_NAME=${pkg}\nPKG_VERSION=${version}\nPR_NUMBER=${pr}`
+                );
+                break;
+              }
+            }
+
+      - name: "Comment on PR"
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          number: ${{ env.PR_NUMBER }}
+          message: |
+            🚀 A new **beta release** is available for testing!
+
+            ```bash
+            pnpm dlx ${{ env.PKG_NAME }}@${{ env.PKG_VERSION }}
+            ```
+
+            > This beta was auto-published from commit:
+            > https://github.com/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}
+
+      - name: "Remove autorelease label"
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.issues.removeLabel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: process.env.PR_NUMBER,
+              name: "🚀 autorelease",
+            });

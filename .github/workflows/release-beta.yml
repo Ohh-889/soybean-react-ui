@@ -1,0 +1,74 @@
+# .github/workflows/release-beta.yml
+name: Release - Beta
+
+on:
+  pull_request:
+    types: [labeled]
+    branches:
+      - main
+
+jobs:
+  prerelease:
+    if: |
+      github.repository_owner == 'Ohh-889' &&
+      contains(github.event.pull_request.labels.*.name, '🚀 autorelease')
+    name: Build & Publish beta to NPM
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node & PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.0.6
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      # 👇 自动检测当前 PR 修改的子包路径
+      - name: Detect changed package
+        id: detect
+        run: |
+          echo "Detecting changed package..."
+          CHANGED=$(git diff --name-only origin/main | grep "packages/" | cut -d/ -f2 | sort | uniq | head -n 1)
+          echo "package=$CHANGED" >> $GITHUB_OUTPUT
+          echo "Detected package: $CHANGED"
+
+      # 👇 生成 beta 版本号
+      - name: Modify package.json version
+        run: node .github/version-script-beta.js ${{ steps.detect.outputs.package }}
+
+      # 👇 登录 npm
+      - name: Authenticate to npm
+        run: echo "//registry.npmjs.org/:_authToken=$NPM_ACCESS_TOKEN" >> packages/${{ steps.detect.outputs.package }}/.npmrc
+        env:
+          NPM_ACCESS_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # 👇 发布 beta 包
+      - name: Publish Beta to npm
+        run: pnpm --filter "./packages/${{ steps.detect.outputs.package }}" publish --tag beta --access public
+
+      # 👇 获取新版本号
+      - name: Get new package version
+        id: pkg-version
+        run: |
+          PKG_JSON="packages/${{ steps.detect.outputs.package }}/package.json"
+          VERSION=$(jq -r .version "$PKG_JSON")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      # 👇 上传 artifact，用于后续 comment workflow
+      - name: Upload packaged artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-package-${{ steps.detect.outputs.package }}@${{ steps.pkg-version.outputs.version }}-pr-${{ github.event.number }}
+          path: packages/${{ steps.detect.outputs.package }}/dist
