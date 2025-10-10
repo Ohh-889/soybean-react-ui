@@ -276,6 +276,66 @@ Dynamic array field management component with complete array operations.
 
 Computed field component that automatically calculates and updates based on other field values.
 
+**Props:**
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `name` | `string` | **Required** | Computed field name |
+| `deps` | `string[]` | **Required** | Array of dependent field names |
+| `compute` | `(get, all) => any` | **Required** | Compute function |
+| `rules` | `Rule[]` | - | Validation rules array |
+| `valuePropName` | `string` | `'value'` | Name of the value prop |
+| `preserve` | `boolean` | `true` | Whether to preserve value on unmount |
+
+**Examples:**
+
+```tsx
+// Calculate total price
+<Form initialValues={{ quantity: 1, unitPrice: 100 }}>
+  <Field name="quantity">
+    <input type="number" placeholder="Quantity" />
+  </Field>
+
+  <Field name="unitPrice">
+    <input type="number" placeholder="Unit Price" />
+  </Field>
+
+  <ComputedField
+    name="totalPrice"
+    deps={['quantity', 'unitPrice']}
+    compute={(get) => {
+      const quantity = get('quantity') || 0;
+      const unitPrice = get('unitPrice') || 0;
+      return quantity * unitPrice;
+    }}
+  >
+    <input placeholder="Total Price (auto-calculated)" />
+  </ComputedField>
+</Form>
+
+// Format full name
+<Form>
+  <Field name="firstName">
+    <input placeholder="First Name" />
+  </Field>
+  <Field name="lastName">
+    <input placeholder="Last Name" />
+  </Field>
+
+  <ComputedField
+    name="fullName"
+    deps={['firstName', 'lastName']}
+    compute={(get) => {
+      const first = get('firstName') || '';
+      const last = get('lastName') || '';
+      return `${first} ${last}`.trim();
+    }}
+  >
+    <input placeholder="Full Name (auto-generated)" />
+  </ComputedField>
+</Form>
+```
+
 ### Hooks
 
 #### `useForm()`
@@ -346,10 +406,184 @@ const error = useFieldError('email', { form });
 
 #### `useArrayField()`
 
-Hook for array field operations.
+Hook for array field operations, providing complete array operation capabilities.
 
 ```tsx
-const { fields, add, remove, move } = useArrayField('users', { form });
+const { fields, add, remove, move, swap, insert, replace } = useArrayField('users', form);
+
+// Return values
+// fields: ListRenderItem[] - Array field items list (with stable keys)
+// add: (value?) => void - Add new item
+// remove: (index) => void - Remove item at index
+// move: (from, to) => void - Move item position
+// swap: (i, j) => void - Swap two items
+// insert: (index, value) => void - Insert at specific position
+// replace: (index, value) => void - Replace item at index
+```
+
+**Examples:**
+
+```tsx
+function TodoList() {
+  const [form] = useForm();
+  const { fields, add, remove, move } = useArrayField('todos', form);
+
+  return (
+    <Form form={form} initialValues={{ todos: [] }}>
+      {fields.map((field, index) => (
+        <div key={field.key}>
+          <Field name={`${field.name}.title`}>
+            <input placeholder="Task Title" />
+          </Field>
+          <button onClick={() => remove(index)}>Delete</button>
+          <button onClick={() => move(index, index - 1)}>Move Up</button>
+        </div>
+      ))}
+      <button onClick={() => add({ title: '' })}>Add Task</button>
+    </Form>
+  );
+}
+```
+
+#### `useFieldEffect()`
+
+Create reactive side effects that execute custom logic when specified fields change.
+
+```tsx
+useFieldEffect(
+  deps: string[],           // Array of dependent field names
+  effect: (get, all) => void, // Effect function
+  form?: FormInstance       // Optional form instance
+);
+```
+
+**Examples:**
+
+```tsx
+function UserForm() {
+  const [form] = useForm();
+
+  // Log when username changes
+  useFieldEffect(
+    ['firstName', 'lastName'],
+    (get) => {
+      const firstName = get('firstName');
+      const lastName = get('lastName');
+      console.log(`Name changed to: ${firstName} ${lastName}`);
+    },
+    form
+  );
+
+  // Clear city when country changes
+  useFieldEffect(
+    ['country'],
+    (get, all) => {
+      const country = get('country');
+      if (country !== all.previousCountry) {
+        form.setFieldValue('city', undefined);
+      }
+    },
+    form
+  );
+
+  return (
+    <Form form={form}>
+      <Field name="firstName">
+        <input placeholder="First Name" />
+      </Field>
+      <Field name="lastName">
+        <input placeholder="Last Name" />
+      </Field>
+      <Field name="country">
+        <select>{/* Country options */}</select>
+      </Field>
+      <Field name="city">
+        <select>{/* City options */}</select>
+      </Field>
+    </Form>
+  );
+}
+```
+
+#### `useSelector()`
+
+Select and subscribe to derived form state, only triggering re-renders when the selected value changes.
+
+```tsx
+const value = useSelector<Values, Result>(
+  selector: (get, all) => Result, // Selector function
+  options?: {
+    deps?: string[];              // Dependent fields (empty array = all fields)
+    form?: FormInstance;          // Form instance
+    eq?: (a, b) => boolean;       // Custom equality comparison function
+    mask?: ChangeMask;            // Change type bitmask to subscribe to
+    includeChildren?: boolean;    // Whether to include child field changes
+  }
+);
+```
+
+**Examples:**
+
+```tsx
+// Calculate shopping cart total
+function ShoppingCart() {
+  const total = useSelector(
+    (get) => {
+      const items = get('items') || [];
+      return items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    },
+    { deps: ['items'] }
+  );
+
+  return (
+    <Form>
+      <List name="items">
+        {(fields, { add, remove }) => (
+          <>
+            {fields.map((field) => (
+              <div key={field.key}>
+                <Field name={`${field.name}.name`}>
+                  <input placeholder="Product Name" />
+                </Field>
+                <Field name={`${field.name}.price`}>
+                  <input type="number" placeholder="Price" />
+                </Field>
+                <Field name={`${field.name}.quantity`}>
+                  <input type="number" placeholder="Quantity" />
+                </Field>
+                <button onClick={() => remove(field.name)}>Delete</button>
+              </div>
+            ))}
+            <button onClick={() => add({ name: '', price: 0, quantity: 1 })}>
+              Add Product
+            </button>
+          </>
+        )}
+      </List>
+      <div>Total: ${total.toFixed(2)}</div>
+    </Form>
+  );
+}
+
+// Use custom equality comparison (avoid re-renders from object reference changes)
+function UserProfile() {
+  const userInfo = useSelector(
+    (get) => ({
+      name: get('name'),
+      age: get('age'),
+      email: get('email')
+    }),
+    {
+      deps: ['name', 'age', 'email'],
+      eq: (a, b) => {
+        // Deep equality comparison
+        return a.name === b.name && a.age === b.age && a.email === b.email;
+      }
+    }
+  );
+
+  return <div>{JSON.stringify(userInfo)}</div>;
+}
 ```
 
 #### `useUndoRedo()`

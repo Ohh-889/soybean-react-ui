@@ -276,6 +276,66 @@ const schema = z.object({
 
 计算字段组件，根据其他字段值自动计算和更新。
 
+**Props:**
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `name` | `string` | **必填** | 计算字段名 |
+| `deps` | `string[]` | **必填** | 依赖的字段名数组 |
+| `compute` | `(get, all) => any` | **必填** | 计算函数 |
+| `rules` | `Rule[]` | - | 验证规则数组 |
+| `valuePropName` | `string` | `'value'` | 值属性名 |
+| `preserve` | `boolean` | `true` | 卸载时是否保留值 |
+
+**示例:**
+
+```tsx
+// 计算总价
+<Form initialValues={{ quantity: 1, unitPrice: 100 }}>
+  <Field name="quantity">
+    <input type="number" placeholder="数量" />
+  </Field>
+
+  <Field name="unitPrice">
+    <input type="number" placeholder="单价" />
+  </Field>
+
+  <ComputedField
+    name="totalPrice"
+    deps={['quantity', 'unitPrice']}
+    compute={(get) => {
+      const quantity = get('quantity') || 0;
+      const unitPrice = get('unitPrice') || 0;
+      return quantity * unitPrice;
+    }}
+  >
+    <input placeholder="总价（自动计算）" />
+  </ComputedField>
+</Form>
+
+// 格式化全名
+<Form>
+  <Field name="firstName">
+    <input placeholder="名" />
+  </Field>
+  <Field name="lastName">
+    <input placeholder="姓" />
+  </Field>
+
+  <ComputedField
+    name="fullName"
+    deps={['firstName', 'lastName']}
+    compute={(get) => {
+      const first = get('firstName') || '';
+      const last = get('lastName') || '';
+      return `${last}${first}`.trim();
+    }}
+  >
+    <input placeholder="全名（自动生成）" />
+  </ComputedField>
+</Form>
+```
+
 ### Hooks
 
 #### `useForm()`
@@ -346,10 +406,184 @@ const error = useFieldError('email', { form });
 
 #### `useArrayField()`
 
-用于数组字段的操作 Hook。
+用于数组字段的操作 Hook，提供完整的数组操作能力。
 
 ```tsx
-const { fields, add, remove, move } = useArrayField('users', { form });
+const { fields, add, remove, move, swap, insert, replace } = useArrayField('users', form);
+
+// 返回值说明
+// fields: ListRenderItem[] - 数组字段项列表（带稳定 key）
+// add: (value?) => void - 添加新项
+// remove: (index) => void - 移除指定项
+// move: (from, to) => void - 移动项位置
+// swap: (i, j) => void - 交换两项
+// insert: (index, value) => void - 在指定位置插入
+// replace: (index, value) => void - 替换指定项
+```
+
+**示例:**
+
+```tsx
+function TodoList() {
+  const [form] = useForm();
+  const { fields, add, remove, move } = useArrayField('todos', form);
+
+  return (
+    <Form form={form} initialValues={{ todos: [] }}>
+      {fields.map((field, index) => (
+        <div key={field.key}>
+          <Field name={`${field.name}.title`}>
+            <input placeholder="任务标题" />
+          </Field>
+          <button onClick={() => remove(index)}>删除</button>
+          <button onClick={() => move(index, index - 1)}>上移</button>
+        </div>
+      ))}
+      <button onClick={() => add({ title: '' })}>添加任务</button>
+    </Form>
+  );
+}
+```
+
+#### `useFieldEffect()`
+
+创建响应式副作用，当指定字段变化时执行自定义逻辑。
+
+```tsx
+useFieldEffect(
+  deps: string[],           // 依赖的字段名数组
+  effect: (get, all) => void, // 副作用函数
+  form?: FormInstance       // 可选的表单实例
+);
+```
+
+**示例:**
+
+```tsx
+function UserForm() {
+  const [form] = useForm();
+
+  // 监听用户名变化并记录日志
+  useFieldEffect(
+    ['firstName', 'lastName'],
+    (get) => {
+      const firstName = get('firstName');
+      const lastName = get('lastName');
+      console.log(`姓名变更为: ${firstName} ${lastName}`);
+    },
+    form
+  );
+
+  // 监听国家变化并清空城市
+  useFieldEffect(
+    ['country'],
+    (get, all) => {
+      const country = get('country');
+      if (country !== all.previousCountry) {
+        form.setFieldValue('city', undefined);
+      }
+    },
+    form
+  );
+
+  return (
+    <Form form={form}>
+      <Field name="firstName">
+        <input placeholder="名" />
+      </Field>
+      <Field name="lastName">
+        <input placeholder="姓" />
+      </Field>
+      <Field name="country">
+        <select>{/* 国家选项 */}</select>
+      </Field>
+      <Field name="city">
+        <select>{/* 城市选项 */}</select>
+      </Field>
+    </Form>
+  );
+}
+```
+
+#### `useSelector()`
+
+选择和订阅派生的表单状态，只在选中的值变化时触发重渲染。
+
+```tsx
+const value = useSelector<Values, Result>(
+  selector: (get, all) => Result, // 选择器函数
+  options?: {
+    deps?: string[];              // 依赖字段（空数组表示所有字段）
+    form?: FormInstance;          // 表单实例
+    eq?: (a, b) => boolean;       // 自定义相等比较函数
+    mask?: ChangeMask;            // 订阅的变化类型掩码
+    includeChildren?: boolean;    // 是否包含子字段变化
+  }
+);
+```
+
+**示例:**
+
+```tsx
+// 计算购物车总价
+function ShoppingCart() {
+  const total = useSelector(
+    (get) => {
+      const items = get('items') || [];
+      return items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    },
+    { deps: ['items'] }
+  );
+
+  return (
+    <Form>
+      <List name="items">
+        {(fields, { add, remove }) => (
+          <>
+            {fields.map((field) => (
+              <div key={field.key}>
+                <Field name={`${field.name}.name`}>
+                  <input placeholder="商品名称" />
+                </Field>
+                <Field name={`${field.name}.price`}>
+                  <input type="number" placeholder="单价" />
+                </Field>
+                <Field name={`${field.name}.quantity`}>
+                  <input type="number" placeholder="数量" />
+                </Field>
+                <button onClick={() => remove(field.name)}>删除</button>
+              </div>
+            ))}
+            <button onClick={() => add({ name: '', price: 0, quantity: 1 })}>
+              添加商品
+            </button>
+          </>
+        )}
+      </List>
+      <div>总价: ¥{total.toFixed(2)}</div>
+    </Form>
+  );
+}
+
+// 使用自定义相等比较（避免对象引用变化导致的重渲染）
+function UserProfile() {
+  const userInfo = useSelector(
+    (get) => ({
+      name: get('name'),
+      age: get('age'),
+      email: get('email')
+    }),
+    {
+      deps: ['name', 'age', 'email'],
+      eq: (a, b) => {
+        // 深度相等比较
+        return a.name === b.name && a.age === b.age && a.email === b.email;
+      }
+    }
+  );
+
+  return <div>{JSON.stringify(userInfo)}</div>;
+}
 ```
 
 #### `useUndoRedo()`
