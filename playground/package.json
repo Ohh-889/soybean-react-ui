@@ -55,7 +55,7 @@
     "eslint-config-next": "15.3.4",
     "tailwindcss": "4.1.11",
     "tailwindcss-animate": "1.0.7",
-    "tsx": "4.20.3",
+    "tsx": "4.20.6",
     "tw-animate-css": "1.3.6",
     "wrangler": "4.24.3"
   }
