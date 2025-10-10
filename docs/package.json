@@ -45,7 +45,7 @@
     "jsdom": "26.1.0",
     "skyroc-next-docs-plugin": "workspace:*",
     "tailwindcss": "4.1.11",
-    "tsx": "4.20.3",
+    "tsx": "4.20.6",
     "typescript": "5.8.2"
   }
 }
