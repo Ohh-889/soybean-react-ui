@@ -20,6 +20,6 @@
   "dependencies": {
     "@skyroc/color": "workspace:*",
     "@unocss/core": "66.3.2",
-    "tailwindcss": "4.1.11"
+    "tailwindcss": "4.1.14"
   }
 }
