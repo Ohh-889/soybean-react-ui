@@ -41,3 +41,9 @@ yarn-error.log*
 # Open Next
 .open-next
 .wrangler
+
+
+
+/packages/ui/src/components/menubar/*
+
+/packages/ui/src/components/navigation-menu/*
