@@ -1,11 +1,16 @@
 {
   "name": "@skyroc/form",
   "type": "module",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "version": "0.0.2",
+  "description": "Advanced form handling library with type-safe field management for React applications",
+  "author": {
+    "name": "Ohh",
+    "email": "1509326266@qq.com",
+    "url": "https://github.com/Ohh-889"
+  },
   "license": "MIT",
-  "keywords": ["form"],
+  "homepage": "https://github.com/Ohh-889/skyroc-ui/tree/master/primitives/filed-form",
+  "keywords": ["form", "react-form", "typescript", "form-validation", "field-management", "skyroc"],
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "main": "./dist/index.js",
@@ -35,7 +40,7 @@
   "main": "./src/index.ts",
   "module": "./src/index.ts",
   "types": "./src/index.ts",
-  "files": ["dist", "README.md"],
+  "files": ["README.zh.md", "dist", "README.md"],
   "scripts": {
     "build": "tsdown",
     "lint": "eslint src/**/*.ts --fix"
