@@ -6,9 +6,9 @@
  * Provides efficient re-rendering by only updating when selected data changes
  */
 
+import type { AllPathsKeys } from '@skyroc/type-utils';
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
-import type { AllPathsKeys } from 'skyroc-type-utils';
 
 import type { ChangeMask } from '../../form-core/event';
 import { ChangeTag } from '../../form-core/event';

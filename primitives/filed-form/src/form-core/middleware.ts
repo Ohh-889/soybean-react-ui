@@ -3,7 +3,7 @@
  * Provides type-safe action definitions and middleware composition utilities
  */
 
-import type { AllPathsKeys, PathToDeepType } from 'skyroc-type-utils';
+import type { AllPathsKeys, PathToDeepType } from '@skyroc/type-utils';
 
 import type { NamePath } from '../utils/util';
 

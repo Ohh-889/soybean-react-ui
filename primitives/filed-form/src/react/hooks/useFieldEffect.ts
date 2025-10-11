@@ -4,8 +4,8 @@
  * Allows running custom logic when specified form fields change
  */
 
+import type { AllPathsKeys } from '@skyroc/type-utils';
 import { useEffect } from 'react';
-import type { AllPathsKeys } from 'skyroc-type-utils';
 
 import type { FormInstance, InternalFormInstance } from './FieldContext';
 import { useFieldContext } from './FieldContext';

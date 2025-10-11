@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable no-bitwise */
 
-import { assign, isArray, isEqual, isNil, toArray } from 'skyroc-utils';
+import { assign, isArray, isEqual, isNil, toArray } from '@skyroc/utils';
 
 import { get } from '../utils/get';
 import { set, unset } from '../utils/set';

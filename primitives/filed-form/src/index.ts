@@ -1,4 +1,4 @@
-export type { AllPathsKeys, FieldElement } from 'skyroc-type-utils';
+export type { AllPathsKeys, FieldElement } from '@skyroc/type-utils';
 
 export type { SubscribeMaskOptions } from './form-core/event';
 

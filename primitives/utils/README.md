@@ -17,17 +17,17 @@ A lightweight utility library providing essential helper functions for TypeScrip
 ## 📦 Installation
 
 ```bash
-npm install skyroc-utils
+npm install @skyroc/utils
 # or
-pnpm add skyroc-utils
+pnpm add @skyroc/utils
 # or
-yarn add skyroc-utils
+yarn add @skyroc/utils
 ```
 
 ## 🚀 Quick Start
 
 ```typescript
-import { toArray, sleep, createSubject, isNil, KeyCode } from 'skyroc-utils';
+import { toArray, sleep, createSubject, isNil, KeyCode } from '@skyroc/utils';
 
 // Convert value to array
 const arr = toArray('hello'); // ['hello']
@@ -58,7 +58,7 @@ console.log(KeyCode.ENTER); // 13
 Converts a value to an array. Returns an empty array for null/undefined values.
 
 ```typescript
-import { toArray } from 'skyroc-utils';
+import { toArray } from '@skyroc/utils';
 
 toArray('hello');           // ['hello']
 toArray(['a', 'b']);        // ['a', 'b']
@@ -73,7 +73,7 @@ toArray(undefined);         // []
 Creates a promise that resolves after the specified delay in milliseconds.
 
 ```typescript
-import { sleep } from 'skyroc-utils';
+import { sleep } from '@skyroc/utils';
 
 async function example() {
   console.log('Start');
@@ -101,7 +101,7 @@ Creates a Subject that can emit values to multiple observers. Implements a simpl
 **Example:**
 
 ```typescript
-import { createSubject } from 'skyroc-utils';
+import { createSubject } from '@skyroc/utils';
 
 const subject = createSubject<string>();
 
@@ -149,7 +149,7 @@ Extracts the value from an event object. Handles checkboxes (returns `checked`),
 **Example:**
 
 ```typescript
-import { getEventValue, isCheckBoxInput } from 'skyroc-utils';
+import { getEventValue, isCheckBoxInput } from '@skyroc/utils';
 
 // In a form handler
 function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -168,7 +168,7 @@ Object containing keyboard key code constants and utility methods.
 **Key Constants:**
 
 ```typescript
-import { KeyCode } from 'skyroc-utils';
+import { KeyCode } from '@skyroc/utils';
 
 KeyCode.ENTER        // 13
 KeyCode.ESC          // 27
@@ -198,7 +198,7 @@ KeyCode.isTextModifyingKeyEvent(e: KeyboardEvent): boolean
 **Example:**
 
 ```typescript
-import { KeyCode } from 'skyroc-utils';
+import { KeyCode } from '@skyroc/utils';
 
 function handleKeyDown(e: KeyboardEvent) {
   if (e.keyCode === KeyCode.ENTER) {
@@ -222,7 +222,7 @@ function handleKeyDown(e: KeyboardEvent) {
 Performs shallow equality comparison between two values.
 
 ```typescript
-import { shallowEqual } from 'skyroc-utils';
+import { shallowEqual } from '@skyroc/utils';
 
 shallowEqual({ a: 1 }, { a: 1 });           // true
 shallowEqual({ a: 1 }, { a: 2 });           // false
@@ -244,7 +244,7 @@ Checks if a value is an event object.
 Checks if a value is `null` or `undefined`.
 
 ```typescript
-import { isNil } from 'skyroc-utils';
+import { isNil } from '@skyroc/utils';
 
 isNil(null);       // true
 isNil(undefined);  // true
@@ -260,7 +260,7 @@ isNil(false);      // false
 A no-operation function that does nothing. Useful as a default callback.
 
 ```typescript
-import { noop } from 'skyroc-utils';
+import { noop } from '@skyroc/utils';
 
 function fetchData(onSuccess = noop) {
   // ... fetch logic
@@ -273,7 +273,7 @@ function fetchData(onSuccess = noop) {
 Returns a new object with all `undefined` values removed.
 
 ```typescript
-import { omitUndefined } from 'skyroc-utils';
+import { omitUndefined } from '@skyroc/utils';
 
 const obj = { a: 1, b: undefined, c: 3 };
 omitUndefined(obj); // { a: 1, c: 3 }
@@ -292,7 +292,7 @@ import {
   retry,       // Retry async function
   parallel,    // Run promises in parallel
   // ... and 100+ more utilities
-} from 'skyroc-utils';
+} from '@skyroc/utils';
 
 const numbers = [1, 2, 2, 3, 3, 3];
 unique(numbers); // [1, 2, 3]
@@ -313,7 +313,7 @@ For complete radash documentation, visit: [https://radash-docs.vercel.app/](http
 ### Debounced Search
 
 ```typescript
-import { debounce } from 'skyroc-utils';
+import { debounce } from '@skyroc/utils';
 
 const debouncedSearch = debounce({ delay: 300 }, (query: string) => {
   console.log('Searching for:', query);
@@ -330,7 +330,7 @@ debouncedSearch('hello'); // Only this will execute after 300ms
 ### Event Bus Pattern
 
 ```typescript
-import { createSubject } from 'skyroc-utils';
+import { createSubject } from '@skyroc/utils';
 
 interface AppEvent {
   type: 'userLogin' | 'userLogout' | 'dataUpdate';
@@ -353,7 +353,7 @@ eventBus.next({ type: 'userLogin', payload: { userId: 123 } });
 ### Safe Value Normalization
 
 ```typescript
-import { toArray, isNil, omitUndefined } from 'skyroc-utils';
+import { toArray, isNil, omitUndefined } from '@skyroc/utils';
 
 function normalizeConfig(config: any) {
   return omitUndefined({
@@ -369,7 +369,7 @@ function normalizeConfig(config: any) {
 All functions and utilities are fully typed with TypeScript:
 
 ```typescript
-import { createSubject, toArray, sleep } from 'skyroc-utils';
+import { createSubject, toArray, sleep } from '@skyroc/utils';
 
 // Generic type support
 const subject = createSubject<number>();

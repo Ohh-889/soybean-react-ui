@@ -1,4 +1,4 @@
-import type { FieldElement } from 'skyroc-type-utils';
+import type { FieldElement } from '@skyroc/type-utils';
 
 import { isEventObject } from './object';
 

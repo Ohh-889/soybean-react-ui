@@ -1,7 +1,7 @@
 {
-  "name": "skyroc-type-utils",
+  "name": "@skyroc/type-utils",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Advanced TypeScript utility types for form handling, path manipulation, and type transformations",
   "author": {
     "name": "Ohh",

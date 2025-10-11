@@ -17,17 +17,17 @@
 ## 📦 安装
 
 ```bash
-npm install skyroc-utils
+npm install @skyroc/utils
 # 或
-pnpm add skyroc-utils
+pnpm add @skyroc/utils
 # 或
-yarn add skyroc-utils
+yarn add @skyroc/utils
 ```
 
 ## 🚀 快速开始
 
 ```typescript
-import { toArray, sleep, createSubject, isNil, KeyCode } from 'skyroc-utils';
+import { toArray, sleep, createSubject, isNil, KeyCode } from '@skyroc/utils';
 
 // 将值转换为数组
 const arr = toArray('hello'); // ['hello']
@@ -58,7 +58,7 @@ console.log(KeyCode.ENTER); // 13
 将值转换为数组。对于 null/undefined 值返回空数组。
 
 ```typescript
-import { toArray } from 'skyroc-utils';
+import { toArray } from '@skyroc/utils';
 
 toArray('hello');           // ['hello']
 toArray(['a', 'b']);        // ['a', 'b']
@@ -73,7 +73,7 @@ toArray(undefined);         // []
 创建一个在指定毫秒数后解析的 Promise。
 
 ```typescript
-import { sleep } from 'skyroc-utils';
+import { sleep } from '@skyroc/utils';
 
 async function example() {
   console.log('开始');
@@ -101,7 +101,7 @@ async function example() {
 **示例:**
 
 ```typescript
-import { createSubject } from 'skyroc-utils';
+import { createSubject } from '@skyroc/utils';
 
 const subject = createSubject<string>();
 
@@ -149,7 +149,7 @@ subject.complete();
 **示例:**
 
 ```typescript
-import { getEventValue, isCheckBoxInput } from 'skyroc-utils';
+import { getEventValue, isCheckBoxInput } from '@skyroc/utils';
 
 // 在表单处理器中
 function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -168,7 +168,7 @@ function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
 **按键常量:**
 
 ```typescript
-import { KeyCode } from 'skyroc-utils';
+import { KeyCode } from '@skyroc/utils';
 
 KeyCode.ENTER        // 13
 KeyCode.ESC          // 27
@@ -198,7 +198,7 @@ KeyCode.isTextModifyingKeyEvent(e: KeyboardEvent): boolean
 **示例:**
 
 ```typescript
-import { KeyCode } from 'skyroc-utils';
+import { KeyCode } from '@skyroc/utils';
 
 function handleKeyDown(e: KeyboardEvent) {
   if (e.keyCode === KeyCode.ENTER) {
@@ -222,7 +222,7 @@ function handleKeyDown(e: KeyboardEvent) {
 执行两个值之间的浅层相等比较。
 
 ```typescript
-import { shallowEqual } from 'skyroc-utils';
+import { shallowEqual } from '@skyroc/utils';
 
 shallowEqual({ a: 1 }, { a: 1 });           // true
 shallowEqual({ a: 1 }, { a: 2 });           // false
@@ -244,7 +244,7 @@ shallowEqual({ a: { b: 1 } }, { a: { b: 1 } }); // false (不同的引用)
 检查值是否为 `null` 或 `undefined`。
 
 ```typescript
-import { isNil } from 'skyroc-utils';
+import { isNil } from '@skyroc/utils';
 
 isNil(null);       // true
 isNil(undefined);  // true
@@ -260,7 +260,7 @@ isNil(false);      // false
 一个什么都不做的空操作函数。适合用作默认回调。
 
 ```typescript
-import { noop } from 'skyroc-utils';
+import { noop } from '@skyroc/utils';
 
 function fetchData(onSuccess = noop) {
   // ... 获取逻辑
@@ -273,7 +273,7 @@ function fetchData(onSuccess = noop) {
 返回一个移除了所有 `undefined` 值的新对象。
 
 ```typescript
-import { omitUndefined } from 'skyroc-utils';
+import { omitUndefined } from '@skyroc/utils';
 
 const obj = { a: 1, b: undefined, c: 3 };
 omitUndefined(obj); // { a: 1, c: 3 }
@@ -292,7 +292,7 @@ import {
   retry,       // 重试异步函数
   parallel,    // 并行运行 promises
   // ... 还有 100+ 个工具
-} from 'skyroc-utils';
+} from '@skyroc/utils';
 
 const numbers = [1, 2, 2, 3, 3, 3];
 unique(numbers); // [1, 2, 3]
@@ -313,7 +313,7 @@ group(users, u => u.role);
 ### 防抖搜索
 
 ```typescript
-import { debounce } from 'skyroc-utils';
+import { debounce } from '@skyroc/utils';
 
 const debouncedSearch = debounce({ delay: 300 }, (query: string) => {
   console.log('搜索:', query);
@@ -330,7 +330,7 @@ debouncedSearch('hello'); // 只有这个会在 300ms 后执行
 ### 事件总线模式
 
 ```typescript
-import { createSubject } from 'skyroc-utils';
+import { createSubject } from '@skyroc/utils';
 
 interface AppEvent {
   type: 'userLogin' | 'userLogout' | 'dataUpdate';
@@ -353,7 +353,7 @@ eventBus.next({ type: 'userLogin', payload: { userId: 123 } });
 ### 安全值标准化
 
 ```typescript
-import { toArray, isNil, omitUndefined } from 'skyroc-utils';
+import { toArray, isNil, omitUndefined } from '@skyroc/utils';
 
 function normalizeConfig(config: any) {
   return omitUndefined({
@@ -369,7 +369,7 @@ function normalizeConfig(config: any) {
 所有函数和工具都完全使用 TypeScript 类型化：
 
 ```typescript
-import { createSubject, toArray, sleep } from 'skyroc-utils';
+import { createSubject, toArray, sleep } from '@skyroc/utils';
 
 // 泛型类型支持
 const subject = createSubject<number>();

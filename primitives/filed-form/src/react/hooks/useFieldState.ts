@@ -1,10 +1,10 @@
 'use client';
 
 /* eslint-disable react/hook-use-state */
+import type { AllPathsKeys, PathToDeepType } from '@skyroc/type-utils';
+import { isArray, isNil, isObject } from '@skyroc/utils';
 import { useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
-import type { AllPathsKeys, PathToDeepType } from 'skyroc-type-utils';
-import { isArray, isNil, isObject } from 'skyroc-utils';
 
 import type { SubscribeMaskOptions } from '../../form-core/event';
 import { toMask } from '../../form-core/event';

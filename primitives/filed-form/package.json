@@ -1,5 +1,5 @@
 {
-  "name": "skyroc-form",
+  "name": "@skyroc/form",
   "type": "module",
   "version": "0.0.1",
   "description": "",
@@ -56,8 +56,8 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "1.2.3",
-    "skyroc-type-utils": "workspace:*",
-    "skyroc-utils": "workspace:*"
+    "@skyroc/type-utils": "workspace:*",
+    "@skyroc/utils": "workspace:*"
   },
   "devDependencies": {
     "tsdown": "0.12.9",

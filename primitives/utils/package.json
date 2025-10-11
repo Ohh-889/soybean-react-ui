@@ -1,7 +1,7 @@
 {
-  "name": "skyroc-utils",
+  "name": "@skyroc/utils",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "",
   "author": {
     "name": "Ohh",
@@ -36,8 +36,8 @@
     "build": "tsdown"
   },
   "dependencies": {
-    "radash": "^12.1.1",
-    "skyroc-type-utils": "workspace:*"
+    "@skyroc/type-utils": "workspace:*",
+    "radash": "^12.1.1"
   },
   "devDependencies": {
     "tsdown": "0.12.9",

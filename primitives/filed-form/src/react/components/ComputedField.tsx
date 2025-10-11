@@ -8,9 +8,9 @@
  */
 
 import { Slot } from '@radix-ui/react-slot';
+import type { AllPathsKeys } from '@skyroc/type-utils';
 import type { ReactElement } from 'react';
 import { useEffect, useState } from 'react';
-import type { AllPathsKeys } from 'skyroc-type-utils';
 
 import type { StoreValue } from '../../form-core/types';
 import type { Rule } from '../../form-core/validation';

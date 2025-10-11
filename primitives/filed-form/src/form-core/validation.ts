@@ -6,7 +6,7 @@
  * Supports synchronous and asynchronous validation with customizable messages
  */
 
-import { isEqual, isNil } from 'skyroc-utils';
+import { isEqual, isNil } from '@skyroc/utils';
 
 import type { StoreValue } from './types';
 import type { ValidateMessages } from './validate';

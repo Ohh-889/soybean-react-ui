@@ -8,8 +8,8 @@
  * Provides array operations and renders items with stable keys
  */
 
+import type { AllPathsKeys, ArrayElementValue, ArrayKeys } from '@skyroc/type-utils';
 import React, { useEffect, useRef, useState } from 'react';
-import type { AllPathsKeys, ArrayElementValue, ArrayKeys } from 'skyroc-type-utils';
 
 import type { InternalFormInstance, ListRenderItem } from '../hooks/FieldContext';
 import { useFieldContext } from '../hooks/FieldContext';

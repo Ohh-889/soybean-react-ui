@@ -17,11 +17,11 @@
 ## 📦 安装
 
 ```bash
-npm install skyroc-type-utils
+npm install @skyroc/type-utils
 # 或
-pnpm add skyroc-type-utils
+pnpm add @skyroc/type-utils
 # 或
-yarn add skyroc-type-utils
+yarn add @skyroc/type-utils
 ```
 
 ## 🚀 快速开始
@@ -33,7 +33,7 @@ import type {
   PathToType,
   OnlyFunctions,
   Prettify
-} from 'skyroc-type-utils';
+} from '@skyroc/type-utils';
 
 // 嵌套对象的深度部分类型
 type User = {
@@ -437,7 +437,7 @@ type UserPath = KeyToNestedObject<"user.profile.email", string>;
 ### 类型安全的表单处理
 
 ```typescript
-import type { LeafPaths, PathToType, FieldElement } from 'skyroc-type-utils';
+import type { LeafPaths, PathToType, FieldElement } from '@skyroc/type-utils';
 
 type UserForm = {
   username: string;
@@ -473,7 +473,7 @@ const city = getFieldValue(form, "addresses.0.city"); // string
 ### 提取 API 方法
 
 ```typescript
-import type { OnlyFunctions, FunctionKeys } from 'skyroc-type-utils';
+import type { OnlyFunctions, FunctionKeys } from '@skyroc/type-utils';
 
 interface UserService {
   currentUser: User | null;
@@ -502,7 +502,7 @@ type MethodNames = FunctionKeys<UserService>;
 ### 部分表单更新
 
 ```typescript
-import type { DeepPartial, ShapeFromPaths } from 'skyroc-type-utils';
+import type { DeepPartial, ShapeFromPaths } from '@skyroc/type-utils';
 
 type UserProfile = {
   personal: {
@@ -539,7 +539,7 @@ function updateSpecificFields(updates: UpdateableFields) {
 ### 可读的类型别名
 
 ```typescript
-import type { Prettify } from 'skyroc-type-utils';
+import type { Prettify } from '@skyroc/type-utils';
 
 // 不使用 Prettify - 难以阅读
 type UserWithRole = User & { role: string } & { permissions: string[] };
@@ -559,7 +559,7 @@ import type {
   LeafPaths,    // ← IDE 显示完整文档
   PathToType,   // ← 包含使用示例
   DeepPartial   // ← 和类型定义
-} from 'skyroc-type-utils';
+} from '@skyroc/type-utils';
 ```
 
 ## 📄 许可证

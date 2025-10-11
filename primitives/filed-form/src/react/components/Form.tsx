@@ -6,9 +6,9 @@
  * Supports polymorphic rendering, schema validation, and flexible configuration
  */
 
+import type { DeepPartial } from '@skyroc/type-utils';
 import type { ComponentPropsWithoutRef, ComponentRef, ElementType, HTMLProps, Ref } from 'react';
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from 'react';
-import type { DeepPartial } from 'skyroc-type-utils';
 
 import type { FormSchema } from '../../form-core/resolver/resolver';
 import { resolveSchema } from '../../form-core/resolver/resolver';

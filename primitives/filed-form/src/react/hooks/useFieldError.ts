@@ -5,8 +5,8 @@
  * Provides reactive access to field error states with multiple usage patterns
  */
 
-import type { AllPathsKeys } from 'skyroc-type-utils';
-import { isString } from 'skyroc-utils';
+import type { AllPathsKeys } from '@skyroc/type-utils';
+import { isString } from '@skyroc/utils';
 
 import type { FormInstance } from './FieldContext';
 import { useFieldState } from './useFieldState';

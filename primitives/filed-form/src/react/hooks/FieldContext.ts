@@ -7,7 +7,6 @@
  * field operations, validation, and React context integration
  */
 
-import { createContext, useContext } from 'react';
 import type {
   AllPathsKeys,
   ArrayElementValue,
@@ -17,7 +16,8 @@ import type {
   PathToDeepType,
   ShapeFromPaths,
   Wrap
-} from 'skyroc-type-utils';
+} from '@skyroc/type-utils';
+import { createContext, useContext } from 'react';
 
 import type { ChangeMask } from '../../form-core/event';
 import type { Action, ArrayOpArgs, Middleware } from '../../form-core/middleware';

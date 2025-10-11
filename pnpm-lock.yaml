@@ -394,9 +394,15 @@ importers:
       '@radix-ui/react-use-controllable-state':
         specifier: 1.2.2
         version: 1.2.2(@types/react@19.1.0)(react@19.1.0)
+      '@skyroc/form':
+        specifier: workspace:*
+        version: link:../../primitives/filed-form
       '@skyroc/tailwind-plugin':
         specifier: workspace:*
         version: link:../tailwind-plugin
+      '@skyroc/utils':
+        specifier: workspace:*
+        version: link:../../primitives/utils
       clsx:
         specifier: 2.1.1
         version: 2.1.1
@@ -424,12 +430,6 @@ importers:
       react-resizable-panels:
         specifier: ^3.0.6
         version: 3.0.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      skyroc-form:
-        specifier: workspace:*
-        version: link:../../primitives/filed-form
-      skyroc-utils:
-        specifier: workspace:*
-        version: link:../../primitives/utils
       sonner:
         specifier: 2.0.6
         version: 2.0.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -549,6 +549,12 @@ importers:
       '@radix-ui/react-slot':
         specifier: 1.2.3
         version: 1.2.3(@types/react@19.1.0)(react@19.1.0)
+      '@skyroc/type-utils':
+        specifier: workspace:*
+        version: link:../type-utils
+      '@skyroc/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/react':
         specifier: '*'
         version: 19.1.0
@@ -561,12 +567,6 @@ importers:
       react-dom:
         specifier: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
         version: 19.1.1(react@19.1.0)
-      skyroc-type-utils:
-        specifier: workspace:*
-        version: link:../type-utils
-      skyroc-utils:
-        specifier: workspace:*
-        version: link:../utils
     devDependencies:
       tsdown:
         specifier: 0.12.9
@@ -589,13 +589,13 @@ importers:
 
   primitives/utils:
     dependencies:
+      '@skyroc/type-utils':
+        specifier: workspace:*
+        version: link:../type-utils
       radash:
         specifier: ^12.1.1
         version: 12.1.1
     devDependencies:
-      skyroc-type-utils:
-        specifier: workspace:*
-        version: link:../type-utils
       tsdown:
         specifier: 0.12.9
         version: 0.12.9(typescript@5.8.2)

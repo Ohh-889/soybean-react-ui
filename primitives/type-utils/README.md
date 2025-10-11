@@ -17,11 +17,11 @@ Advanced TypeScript utility types for form handling, path manipulation, and type
 ## 📦 Installation
 
 ```bash
-npm install skyroc-type-utils
+npm install @skyroc/type-utils
 # or
-pnpm add skyroc-type-utils
+pnpm add @skyroc/type-utils
 # or
-yarn add skyroc-type-utils
+yarn add @skyroc/type-utils
 ```
 
 ## 🚀 Quick Start
@@ -33,7 +33,7 @@ import type {
   PathToType,
   OnlyFunctions,
   Prettify
-} from 'skyroc-type-utils';
+} from '@skyroc/type-utils';
 
 // Deep partial for nested objects
 type User = {
@@ -437,7 +437,7 @@ type UserPath = KeyToNestedObject<"user.profile.email", string>;
 ### Type-Safe Form Handling
 
 ```typescript
-import type { LeafPaths, PathToType, FieldElement } from 'skyroc-type-utils';
+import type { LeafPaths, PathToType, FieldElement } from '@skyroc/type-utils';
 
 type UserForm = {
   username: string;
@@ -473,7 +473,7 @@ const city = getFieldValue(form, "addresses.0.city"); // string
 ### Extract API Methods
 
 ```typescript
-import type { OnlyFunctions, FunctionKeys } from 'skyroc-type-utils';
+import type { OnlyFunctions, FunctionKeys } from '@skyroc/type-utils';
 
 interface UserService {
   currentUser: User | null;
@@ -502,7 +502,7 @@ type MethodNames = FunctionKeys<UserService>;
 ### Partial Form Updates
 
 ```typescript
-import type { DeepPartial, ShapeFromPaths } from 'skyroc-type-utils';
+import type { DeepPartial, ShapeFromPaths } from '@skyroc/type-utils';
 
 type UserProfile = {
   personal: {
@@ -539,7 +539,7 @@ function updateSpecificFields(updates: UpdateableFields) {
 ### Readable Type Aliases
 
 ```typescript
-import type { Prettify } from 'skyroc-type-utils';
+import type { Prettify } from '@skyroc/type-utils';
 
 // Without Prettify - hard to read
 type UserWithRole = User & { role: string } & { permissions: string[] };
@@ -559,7 +559,7 @@ import type {
   LeafPaths,    // ← IDE shows full documentation
   PathToType,   // ← With usage examples
   DeepPartial   // ← And type definitions
-} from 'skyroc-type-utils';
+} from '@skyroc/type-utils';
 ```
 
 ## 📄 License
