@@ -1,17 +1,39 @@
 {
   "name": "skyroc-type-utils",
   "type": "module",
-  "version": "0.0.1",
-  "private": true,
-  "description": "UI Primitives Template",
-  "sideEffects": false,
-  "exports": {
-    ".": "./src/index.ts"
+  "version": "0.1.0",
+  "description": "Advanced TypeScript utility types for form handling, path manipulation, and type transformations",
+  "author": {
+    "name": "Ohh",
+    "email": "1509326266@qq.com",
+    "url": "https://github.com/Ohh-889"
   },
-  "main": "src/index.ts",
-  "module": "src/index.ts",
-  "types": "src/index.ts",
-  "files": ["dist"],
+  "license": "MIT",
+  "homepage": "https://github.com/Ohh-889/skyroc-ui/tree/master/primitives/type-utils",
+  "keywords": ["typescript", "utility-types", "type-utils", "form-types", "path-types"],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "import": {
+          "types": "./dist/index.d.ts",
+          "default": "./dist/index.js"
+        },
+        "require": {
+          "types": "./dist/index.d.cts",
+          "default": "./dist/index.cjs"
+        }
+      }
+    }
+  },
+  "sideEffects": false,
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": ["dist", "README.md"],
   "scripts": {
     "build": "tsdown"
   },
