@@ -6,7 +6,7 @@ import { version } from '../package.json';
 import { cleanup, genChangelog, gitCommit, gitCommitVerify, release, updatePkg } from './commands';
 import { loadCliOptions } from './config';
 import type { Lang } from './locales';
-import type { CliOption } from './types';
+import type { CliOption, GitCommitScope, GitCommitType, GitEmojiItem } from './types';
 
 type Command = 'changelog' | 'cleanup' | 'git-commit' | 'git-commit-verify' | 'release' | 'update-pkg';
 
@@ -75,7 +75,7 @@ export async function setupCli() {
     },
     'git-commit': {
       action: async args => {
-        await gitCommit(args?.lang, args?.gitEmoji);
+        await gitCommit(args?.lang, args?.gitEmoji, cliOptions?.gitCommitTypes, cliOptions?.gitCommitScopes);
       },
       desc: 'git commit, generate commit message which match Conventional Commits standard'
     },
@@ -110,4 +110,4 @@ export function defineConfig(config?: Partial<CliOption>) {
   return config;
 }
 
-export type { CliOption };
+export type { CliOption, GitCommitScope, GitCommitType, GitEmojiItem };

@@ -6,6 +6,7 @@ import enquirer from 'enquirer';
 import { locales } from '../locales';
 import type { Lang } from '../locales';
 import { execCommand } from '../shared';
+import type { GitCommitScope, GitCommitType } from '../types';
 
 const { prompt } = enquirer;
 
@@ -22,8 +23,22 @@ interface PromptObject {
  * @param lang
  * @param gitEmoji
  */
-export async function gitCommit(lang: Lang = 'en-us', gitEmoji = 'true') {
-  const { gitCommitMessages, gitCommitScopes, gitCommitTypes, gitEmojiMap } = locales[lang];
+export async function gitCommit(
+  lang: Lang = 'en-us',
+  gitEmoji = 'true',
+  gitCommitTypesOptions?: GitCommitType[],
+  gitCommitScopesOptions?: GitCommitScope[]
+) {
+  const {
+    gitCommitMessages,
+    gitCommitScopes: defaultScopes,
+    gitCommitTypes: defaultTypes,
+    gitEmojiMap
+  } = locales[lang];
+
+  // 使用自定义配置或默认配置
+  const gitCommitTypes = gitCommitTypesOptions || defaultTypes;
+  const gitCommitScopes = gitCommitScopesOptions || defaultScopes;
 
   const typesChoices = gitCommitTypes.map(([value, msg]) => {
     const nameWithSuffix = `${value}:`;
