@@ -145,6 +145,9 @@ importers:
       '@skyroc/color':
         specifier: workspace:*
         version: link:../packages/color
+      '@skyroc/next-docs-plugin':
+        specifier: workspace:*
+        version: link:../packages/next-docs-plugin
       '@tailwindcss/postcss':
         specifier: 4.1.11
         version: 4.1.11
@@ -166,9 +169,6 @@ importers:
       jsdom:
         specifier: 26.1.0
         version: 26.1.0
-      skyroc-next-docs-plugin:
-        specifier: workspace:*
-        version: link:../packages/next-docs-plugin
       tailwindcss:
         specifier: 4.1.11
         version: 4.1.11

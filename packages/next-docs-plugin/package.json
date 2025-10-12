@@ -1,5 +1,5 @@
 {
-  "name": "skyroc-next-docs-plugin",
+  "name": "@skyroc/next-docs-plugin",
   "type": "module",
   "version": "0.0.1",
   "private": true,
