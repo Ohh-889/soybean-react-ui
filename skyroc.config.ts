@@ -62,7 +62,7 @@ export default defineConfig({
     console.log(`🔍 Current version: ${pkgName}@${current}`);
 
     return {
-      commit: false,
+      commit: `chore(${pkgName}): release v%s`,
       confirm: false,
       cwd,
       // Use function to access op.state.newVersion and pass it to changelog command
@@ -81,11 +81,6 @@ export default defineConfig({
 
         // Add CHANGELOG.md to git staging area
         execSync2('git add .', {
-          cwd: process.cwd(),
-          stdio: 'inherit'
-        });
-
-        execSync2(`git commit -m "chore(${pkgName}): release ${pkgName}@${op.state.newVersion}"`, {
           cwd: process.cwd(),
           stdio: 'inherit'
         });
