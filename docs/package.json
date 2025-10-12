@@ -1,5 +1,5 @@
 {
-  "name": "docs",
+  "name": "skyroc-ui-docs",
   "type": "module",
   "version": "0.1.0",
   "private": true,
@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@skyroc/color": "workspace:*",
+    "@skyroc/next-docs-plugin": "workspace:*",
     "@tailwindcss/postcss": "4.1.11",
     "@types/jsdom": "21.1.7",
     "@types/mdx": "^2.0.13",
@@ -43,7 +44,6 @@
     "@types/react": "19.1.0",
     "@types/react-dom": "19.1.1",
     "jsdom": "26.1.0",
-    "skyroc-next-docs-plugin": "workspace:*",
     "tailwindcss": "4.1.11",
     "tsx": "4.20.3",
     "typescript": "5.8.2"
