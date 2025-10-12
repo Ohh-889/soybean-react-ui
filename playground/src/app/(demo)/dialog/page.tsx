@@ -1,4 +1,4 @@
-import { Card } from 'soybean-react-ui';
+import { Card } from 'skyroc-ui';
 
 import AutoClose from './modules/AutoClose';
 import ControlState from './modules/ControlState';

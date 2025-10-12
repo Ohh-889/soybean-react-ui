@@ -1,4 +1,4 @@
-import { Card, Carousel } from 'soybean-react-ui';
+import { Card, Carousel } from 'skyroc-ui';
 
 import PluginDemo from './modules/PluginDemo';
 

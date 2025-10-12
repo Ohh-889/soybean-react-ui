@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Button, Card, Form, FormField, Input, useForm } from 'soybean-react-ui';
+import { Button, Card, Form, FormField, Input, useForm } from 'skyroc-ui';
 
 type Inputs = {
   info: { city: string; company: string };

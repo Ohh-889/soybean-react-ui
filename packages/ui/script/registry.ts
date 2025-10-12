@@ -83,7 +83,7 @@ const registry = {
     registerType,
     registryUtils
   ],
-  name: 'soybean-react-ui'
+  name: 'skyroc-ui'
 };
 
 const registryJson = JSON.stringify(registry, null, 2);

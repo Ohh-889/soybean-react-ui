@@ -2,7 +2,7 @@
 
 import Schema from 'async-validator';
 import type { RuleItem } from 'async-validator';
-import { Button, Card, Form, FormField, Input, useForm } from 'soybean-react-ui';
+import { Button, Card, Form, FormField, Input, useForm } from 'skyroc-ui';
 
 // 定义 async-validator 规则
 const descriptor: Record<string, RuleItem | RuleItem[]> = {

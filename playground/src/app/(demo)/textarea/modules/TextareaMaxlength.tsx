@@ -1,4 +1,4 @@
-import { Card, Textarea } from 'soybean-react-ui';
+import { Card, Textarea } from 'skyroc-ui';
 
 const TextareaMaxlength = () => {
   return (

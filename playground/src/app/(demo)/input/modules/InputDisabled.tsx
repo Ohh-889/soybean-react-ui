@@ -1,4 +1,4 @@
-import { Card, Input } from 'soybean-react-ui';
+import { Card, Input } from 'skyroc-ui';
 
 const InputDisabled = () => {
   return (

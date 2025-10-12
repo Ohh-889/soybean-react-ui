@@ -1,5 +1,5 @@
-import type { RadioGroupProps } from 'soybean-react-ui';
-import { Card, RadioGroup } from 'soybean-react-ui';
+import type { RadioGroupProps } from 'skyroc-ui';
+import { Card, RadioGroup } from 'skyroc-ui';
 
 const items: RadioGroupProps['items'] = [
   { id: 'r1', label: 'A', value: '1' },

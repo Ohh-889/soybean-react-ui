@@ -1,6 +1,6 @@
 'use client';
 
-import { ButtonIcon, Card, Form, FormField, FormList, Input, useForm } from 'soybean-react-ui';
+import { ButtonIcon, Card, Form, FormField, FormList, Input, useForm } from 'skyroc-ui';
 
 type FormValues = {
   users: {

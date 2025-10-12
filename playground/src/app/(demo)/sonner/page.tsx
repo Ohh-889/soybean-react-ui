@@ -1,5 +1,5 @@
 'use client';
-import { toast } from 'soybean-react-ui';
+import { toast } from 'skyroc-ui';
 
 const SonnerPage = () => {
   return (

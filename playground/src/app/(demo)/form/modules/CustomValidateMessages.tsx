@@ -1,7 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
 'use client';
 
-import { Button, Card, Form, FormField, Input, useForm } from 'soybean-react-ui';
+import { Button, Card, Form, FormField, Input, useForm } from 'skyroc-ui';
 
 // Form field types
 type Inputs = {

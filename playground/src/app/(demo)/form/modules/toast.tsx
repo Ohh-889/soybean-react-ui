@@ -1,4 +1,4 @@
-import { toast } from 'soybean-react-ui';
+import { toast } from 'skyroc-ui';
 
 export function showToastCode(title: string, values: any) {
   toast(title, {

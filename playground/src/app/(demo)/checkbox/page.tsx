@@ -1,5 +1,5 @@
-import type { ThemeColor, ThemeSize } from 'soybean-react-ui';
-import { Card, Checkbox } from 'soybean-react-ui';
+import type { ThemeColor, ThemeSize } from 'skyroc-ui';
+import { Card, Checkbox } from 'skyroc-ui';
 
 const colors: ThemeColor[] = ['primary', 'destructive', 'success', 'warning', 'info', 'carbon', 'secondary', 'accent'];
 

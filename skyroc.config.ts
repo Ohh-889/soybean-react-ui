@@ -14,7 +14,7 @@ export default defineConfig({
     ['@skyroc/color', 'Color utilities for TypeScript/JavaScript applications'],
     ['@skyroc/next-docs-plugin', 'Next.js docs plugin for skyroc-ui'],
     ['@skyroc/tailwind-plugin', 'Tailwind plugin for skyroc-ui'],
-    ['soybean-react-ui', 'another ui library like shadcn for React.'],
+    ['skyroc-ui', 'another ui library like shadcn for React.'],
     ['create-skyroc', 'create skyroc-ui project'],
     ['@skyroc/cli', 'CLI for skyroc-ui'],
     ['skyroc-ui-docs', 'Docs for skyroc-ui'],

@@ -1,4 +1,4 @@
-import { Card, KeyboardKey } from 'soybean-react-ui';
+import { Card, KeyboardKey } from 'skyroc-ui';
 
 const KeyboardKeyDemo = () => {
   return (

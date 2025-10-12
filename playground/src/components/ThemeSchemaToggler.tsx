@@ -2,7 +2,7 @@
 
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
-import { Icon, Switch } from 'soybean-react-ui';
+import { Icon, Switch } from 'skyroc-ui';
 
 const ThemeSchemaToggler = () => {
   const { setTheme, theme } = useTheme();

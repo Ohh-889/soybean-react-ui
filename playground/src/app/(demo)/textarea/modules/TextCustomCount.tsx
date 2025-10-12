@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Textarea } from 'soybean-react-ui';
+import { Card, Textarea } from 'skyroc-ui';
 
 const TextCustomCount = () => {
   return (

@@ -3,7 +3,7 @@
 /* eslint-disable no-promise-executor-return */
 
 import { useEffect } from 'react';
-import { Button, Card, Form, FormField, useFieldError, useForm } from 'soybean-react-ui';
+import { Button, Card, Form, FormField, useFieldError, useForm } from 'skyroc-ui';
 
 import { DemoInput } from './DemoComponents';
 import { showToastCode } from './toast';

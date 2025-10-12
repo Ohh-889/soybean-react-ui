@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, Input } from 'soybean-react-ui';
+import { Card, Input } from 'skyroc-ui';
 
 const InputDefaultDemo = () => {
   const [modelValue, setModelValue] = useState('');

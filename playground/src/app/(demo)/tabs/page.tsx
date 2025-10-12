@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import type { TabsOptionData } from 'soybean-react-ui';
-import { Card, Tabs } from 'soybean-react-ui';
+import type { TabsOptionData } from 'skyroc-ui';
+import { Card, Tabs } from 'skyroc-ui';
 
 const tabs = [
   {

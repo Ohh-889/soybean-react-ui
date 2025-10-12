@@ -1,5 +1,5 @@
-import { Card, RadioGroup } from 'soybean-react-ui';
-import type { RadioGroupProps, ThemeSize } from 'soybean-react-ui';
+import { Card, RadioGroup } from 'skyroc-ui';
+import type { RadioGroupProps, ThemeSize } from 'skyroc-ui';
 
 type Props = {
   items: RadioGroupProps['items'];

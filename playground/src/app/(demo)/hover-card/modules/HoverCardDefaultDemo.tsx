@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, HoverCard } from 'soybean-react-ui';
+import { Avatar, Button, Card, HoverCard } from 'skyroc-ui';
 
 const HoverCardDefaultDemo = () => {
   return (

@@ -1,4 +1,4 @@
-import { Button, Card, Dialog } from 'soybean-react-ui';
+import { Button, Card, Dialog } from 'skyroc-ui';
 
 const DefaultDemo = () => {
   return (

@@ -17,8 +17,8 @@ import {
   Users
 } from 'lucide-react';
 import Link from 'next/link';
-import type { DropdownMenuCheckboxProps, DropdownMenuProps, DropdownMenuRadioProps } from 'soybean-react-ui';
-import { toast } from 'soybean-react-ui';
+import type { DropdownMenuCheckboxProps, DropdownMenuProps, DropdownMenuRadioProps } from 'skyroc-ui';
+import { toast } from 'skyroc-ui';
 
 import config from '../../../../config';
 

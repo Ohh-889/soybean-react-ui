@@ -2,7 +2,7 @@
 
 import { AArrowDownIcon, Minus, Plus } from 'lucide-react';
 import { useState } from 'react';
-import { Accordion, Card } from 'soybean-react-ui';
+import { Accordion, Card } from 'skyroc-ui';
 
 import { items2 } from './shared';
 

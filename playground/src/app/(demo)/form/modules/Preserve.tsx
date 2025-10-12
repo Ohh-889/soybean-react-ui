@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Card, Form, FormField, Input, useForm } from 'soybean-react-ui';
+import { Button, Card, Form, FormField, Input, useForm } from 'skyroc-ui';
 
 import { showToastCode } from './toast';
 

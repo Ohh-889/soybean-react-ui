@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { Card, Command, CommandDialog, KeyboardKey } from 'soybean-react-ui';
+import { Card, Command, CommandDialog, KeyboardKey } from 'skyroc-ui';
 
 import { items } from './shared';
 

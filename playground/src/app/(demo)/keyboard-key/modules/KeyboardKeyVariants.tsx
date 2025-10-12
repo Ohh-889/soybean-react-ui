@@ -1,5 +1,5 @@
-import type { KeyboardKeyVariant } from 'soybean-react-ui';
-import { Card, KeyboardKey } from 'soybean-react-ui';
+import type { KeyboardKeyVariant } from 'skyroc-ui';
+import { Card, KeyboardKey } from 'skyroc-ui';
 
 const variants: KeyboardKeyVariant[] = ['solid', 'outline', 'ghost'];
 

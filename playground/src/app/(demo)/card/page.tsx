@@ -1,7 +1,7 @@
 import { Rocket, X } from 'lucide-react';
 import React from 'react';
-import { Badge, ButtonIcon, Card } from 'soybean-react-ui'; // 假设这些是你自己封装的 React 组件
-import type { ThemeSize } from 'soybean-react-ui';
+import { Badge, ButtonIcon, Card } from 'skyroc-ui'; // 假设这些是你自己封装的 React 组件
+import type { ThemeSize } from 'skyroc-ui';
 
 const sizes: ThemeSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
 

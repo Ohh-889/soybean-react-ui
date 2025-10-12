@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, Button, Card } from 'soybean-react-ui';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, Button, Card } from 'skyroc-ui';
 
 const AlertDialogPage = () => {
   return (

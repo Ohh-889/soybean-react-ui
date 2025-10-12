@@ -1,5 +1,5 @@
 import { type ComponentProps, memo } from 'react';
-import { useFieldState } from 'soybean-react-ui';
+import { useFieldState } from 'skyroc-ui';
 
 export const DemoInput = memo(
   (props: ComponentProps<'input'> & { name: string }) => {

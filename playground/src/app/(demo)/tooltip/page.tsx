@@ -1,4 +1,4 @@
-import { TooltipProvider } from 'soybean-react-ui';
+import { TooltipProvider } from 'skyroc-ui';
 
 import TooltipArrow from './modules/TooltipArrow';
 import TooltipDemo from './modules/TooltipDemo';

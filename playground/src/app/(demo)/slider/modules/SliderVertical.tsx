@@ -1,4 +1,4 @@
-import { Card, Slider } from 'soybean-react-ui';
+import { Card, Slider } from 'skyroc-ui';
 
 const SliderVertical = () => {
   return (

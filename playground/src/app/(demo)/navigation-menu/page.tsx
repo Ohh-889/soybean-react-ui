@@ -10,7 +10,7 @@
 //   NavigationMenuList,
 //   NavigationMenuRoot,
 //   NavigationMenuTrigger
-// } from 'soybean-react-ui';
+// } from 'skyroc-ui';
 
 // const components: { description: string; href: string; title: string }[] = [
 //   {

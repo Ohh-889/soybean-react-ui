@@ -1,6 +1,6 @@
 import { Earth, Info, Rocket } from 'lucide-react';
-import type { AccordionItemData, ThemeSize } from 'soybean-react-ui';
-import { Badge } from 'soybean-react-ui';
+import type { AccordionItemData, ThemeSize } from 'skyroc-ui';
+import { Badge } from 'skyroc-ui';
 
 export const items: AccordionItemData[] = [
   {

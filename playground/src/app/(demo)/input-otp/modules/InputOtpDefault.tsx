@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, InputOTP, toast } from 'soybean-react-ui';
+import { Card, InputOTP, toast } from 'skyroc-ui';
 
 const InputOtpDefault = () => {
   const handleComplete = (value: string[]) => {

@@ -2,7 +2,7 @@
 
 import Autoplay from 'embla-carousel-autoplay';
 import Image from 'next/image';
-import { Card, Carousel } from 'soybean-react-ui';
+import { Card, Carousel } from 'skyroc-ui';
 
 const PluginDemo = () => {
   return (

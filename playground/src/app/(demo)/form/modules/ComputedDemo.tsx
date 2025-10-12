@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, Form, FormComputedField, FormField, Input, useForm } from 'soybean-react-ui';
+import { Button, Card, Form, FormComputedField, FormField, Input, useForm } from 'skyroc-ui';
 
 type FormValues = {
   price: number;

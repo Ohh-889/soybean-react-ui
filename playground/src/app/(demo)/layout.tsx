@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 import Link from 'next/link';
 import React from 'react';
-import { Card } from 'soybean-react-ui';
+import { Card } from 'skyroc-ui';
 
 import DemoTabs from './modules/DemoTabs';
 import DemoTitle from './modules/DemoTitle';

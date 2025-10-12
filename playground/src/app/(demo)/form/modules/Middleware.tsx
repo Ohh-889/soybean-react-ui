@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
-import type { FormAction } from 'soybean-react-ui';
-import { Button, Card, Form, FormField, Input, useForm } from 'soybean-react-ui';
+import type { FormAction } from 'skyroc-ui';
+import { Button, Card, Form, FormField, Input, useForm } from 'skyroc-ui';
 
 // ============ Analytics Middleware (logging/tracking) ============
 function analyticsMiddleware({ getState }: { dispatch: (a: FormAction) => void; getState: () => any }) {

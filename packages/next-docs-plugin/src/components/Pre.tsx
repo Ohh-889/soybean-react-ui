@@ -3,8 +3,8 @@
 import cn from 'clsx';
 import { Check, Copy, WrapText } from 'lucide-react';
 import { type FC, type HTMLAttributes, type MouseEvent, type ReactNode, useEffect, useState } from 'react';
-import type { ButtonProps } from 'soybean-react-ui';
-import { Button } from 'soybean-react-ui';
+import type { ButtonProps } from 'skyroc-ui';
+import { Button } from 'skyroc-ui';
 
 /* -------------------- ToggleWordWrapButton -------------------- */
 function toggleWordWrap() {

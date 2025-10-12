@@ -1,4 +1,4 @@
-import { Card, Label, ToggleGroup } from 'soybean-react-ui';
+import { Card, Label, ToggleGroup } from 'skyroc-ui';
 
 import { items } from './shared';
 

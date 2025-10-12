@@ -1,4 +1,4 @@
-import type { ToggleGroupProps } from 'soybean-react-ui';
+import type { ToggleGroupProps } from 'skyroc-ui';
 
 export const items: ToggleGroupProps['items'] = [
   { disabled: false, label: 'Top', value: 'top' },

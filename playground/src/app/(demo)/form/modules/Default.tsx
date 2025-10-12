@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, Checkbox, Form, FormField, Input, RadioGroup, Select, Switch, useForm } from 'soybean-react-ui';
+import { Button, Card, Checkbox, Form, FormField, Input, RadioGroup, Select, Switch, useForm } from 'skyroc-ui';
 
 import { showToastCode } from './toast';
 

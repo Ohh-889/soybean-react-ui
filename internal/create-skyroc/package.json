@@ -9,12 +9,12 @@
     "url": "https://github.com/Ohh-889"
   },
   "license": "MIT",
-  "homepage": "https://github.com/Ohh-889/soybean-react-ui",
+  "homepage": "https://github.com/Ohh-889/skyroc-ui",
   "repository": {
-    "url": "https://github.com/Ohh-889/soybean-react-ui.git"
+    "url": "https://github.com/Ohh-889/skyroc-ui.git"
   },
   "bugs": {
-    "url": "https://github.com/Ohh-889/soybean-react-ui/issues"
+    "url": "https://github.com/Ohh-889/skyroc-ui/issues"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

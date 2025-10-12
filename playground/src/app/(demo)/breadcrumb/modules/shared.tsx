@@ -1,5 +1,5 @@
 import { AlertCircle, Component, Dock, Home } from 'lucide-react';
-import type { BreadcrumbItem, ThemeSize } from 'soybean-react-ui';
+import type { BreadcrumbItem, ThemeSize } from 'skyroc-ui';
 
 export const sizes: ThemeSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
 

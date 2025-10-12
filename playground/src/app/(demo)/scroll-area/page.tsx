@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Divider, ScrollArea } from 'soybean-react-ui';
+import { Card, Divider, ScrollArea } from 'skyroc-ui';
 
 interface Artwork {
   art: string;

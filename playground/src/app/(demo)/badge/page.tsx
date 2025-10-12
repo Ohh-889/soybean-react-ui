@@ -1,4 +1,4 @@
-import { Badge, type BadgeShape, type BadgeVariant, Card, type ThemeColor, type ThemeSize } from 'soybean-react-ui';
+import { Badge, type BadgeShape, type BadgeVariant, Card, type ThemeColor, type ThemeSize } from 'skyroc-ui';
 
 const colors: ThemeColor[] = ['primary', 'destructive', 'success', 'warning', 'info', 'carbon', 'secondary', 'accent'];
 const variants: BadgeVariant[] = ['solid', 'pure', 'outline', 'soft', 'ghost', 'raw'];

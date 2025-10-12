@@ -1,4 +1,4 @@
-import { Card, Command } from 'soybean-react-ui';
+import { Card, Command } from 'skyroc-ui';
 
 import { items } from './shared';
 

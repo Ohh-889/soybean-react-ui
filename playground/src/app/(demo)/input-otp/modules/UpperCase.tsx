@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, InputOTP } from 'soybean-react-ui';
+import { Card, InputOTP } from 'skyroc-ui';
 
 const UpperCase = () => {
   const [value, setValue] = useState('');

@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, ContextMenu } from 'soybean-react-ui';
+import { Card, ContextMenu } from 'skyroc-ui';
 
 import { menus } from '../../dropdown-menu/modules/shared';
 

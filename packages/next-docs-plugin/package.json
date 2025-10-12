@@ -60,8 +60,8 @@
     "react-error-boundary": "^6.0.0",
     "react-icons": "^5.5.0",
     "shiki": "^3.13.0",
+    "skyroc-ui": "workspace:*",
     "slash": "5.1.0",
-    "soybean-react-ui": "workspace:*",
     "unist-util-visit": "5.0.0"
   },
   "devDependencies": {

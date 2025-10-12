@@ -1,4 +1,4 @@
-import { Card, Skeleton } from 'soybean-react-ui';
+import { Card, Skeleton } from 'skyroc-ui';
 
 const DefaultDemo = () => {
   return (

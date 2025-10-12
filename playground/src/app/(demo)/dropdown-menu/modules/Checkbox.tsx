@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Card, DropdownMenuCheckbox } from 'soybean-react-ui';
+import { Button, Card, DropdownMenuCheckbox } from 'skyroc-ui';
 
 import { menus2 } from './shared';
 

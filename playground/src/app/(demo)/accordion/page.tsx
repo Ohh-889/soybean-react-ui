@@ -1,4 +1,4 @@
-import { Accordion, Card } from 'soybean-react-ui';
+import { Accordion, Card } from 'skyroc-ui';
 
 import CustomIcon from './modules/CustomIcon';
 import { items, sizes } from './modules/shared';

@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, Form, FormField, FormList, Input, useForm, useUndoRedo } from 'soybean-react-ui';
+import { Button, Card, Form, FormField, FormList, Input, useForm, useUndoRedo } from 'skyroc-ui';
 
 type Inputs = {
   email: string;

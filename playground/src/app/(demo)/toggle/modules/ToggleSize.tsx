@@ -1,5 +1,5 @@
-import type { ToggleProps } from 'soybean-react-ui';
-import { Card, Toggle } from 'soybean-react-ui';
+import type { ToggleProps } from 'skyroc-ui';
+import { Card, Toggle } from 'skyroc-ui';
 
 const sizes: ToggleProps['size'][] = ['sm', 'md', 'lg', 'xl', '2xl'];
 

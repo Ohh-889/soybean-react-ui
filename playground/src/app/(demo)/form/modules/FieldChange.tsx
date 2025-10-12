@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, Form, FormField, Input, useForm } from 'soybean-react-ui';
+import { Button, Card, Form, FormField, Input, useForm } from 'skyroc-ui';
 
 const FieldChange = () => {
   const [form] = useForm();

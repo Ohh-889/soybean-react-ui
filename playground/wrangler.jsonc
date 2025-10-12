@@ -1,5 +1,5 @@
 {
-  "name": "soybean-react-ui-playground",
+  "name": "skyroc-ui-playground",
   "main": ".open-next/worker.js",
   "$schema": "node_modules/wrangler/config-schema.json",
   "compatibility_date": "2025-09-23",

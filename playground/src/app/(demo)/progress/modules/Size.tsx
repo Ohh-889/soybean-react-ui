@@ -1,5 +1,5 @@
-import type { ProgressProps } from 'soybean-react-ui';
-import { Card, Progress } from 'soybean-react-ui';
+import type { ProgressProps } from 'skyroc-ui';
+import { Card, Progress } from 'skyroc-ui';
 
 const sizes: ProgressProps['size'][] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
 

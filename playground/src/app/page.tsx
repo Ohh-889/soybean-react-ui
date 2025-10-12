@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Button } from 'soybean-react-ui';
+import { Button } from 'skyroc-ui';
 
 export default function Home() {
   return (

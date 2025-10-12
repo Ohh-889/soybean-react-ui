@@ -1,4 +1,4 @@
-import { Button, Card, Sheet } from 'soybean-react-ui';
+import { Button, Card, Sheet } from 'skyroc-ui';
 
 const ContentScrollable = () => {
   return (

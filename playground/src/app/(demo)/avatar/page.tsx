@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import type { ThemeSize } from 'soybean-react-ui';
-import { Avatar, Card } from 'soybean-react-ui';
+import type { ThemeSize } from 'skyroc-ui';
+import { Avatar, Card } from 'skyroc-ui';
 
 const soybeanUiRsc = 'https://soybean-ui.com/logo.svg';
 

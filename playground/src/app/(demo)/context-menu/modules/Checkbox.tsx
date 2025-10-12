@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, ContextMenuCheckbox } from 'soybean-react-ui';
+import { Card, ContextMenuCheckbox } from 'skyroc-ui';
 
 import { menus2 } from '../../dropdown-menu/modules/shared';
 

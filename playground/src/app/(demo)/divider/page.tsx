@@ -1,6 +1,6 @@
 import React from 'react';
-import type { DividerBorder, ThemeAlign } from 'soybean-react-ui';
-import { Card, Divider } from 'soybean-react-ui';
+import type { DividerBorder, ThemeAlign } from 'skyroc-ui';
+import { Card, Divider } from 'skyroc-ui';
 
 const aligns: ThemeAlign[] = ['start', 'center', 'end'];
 

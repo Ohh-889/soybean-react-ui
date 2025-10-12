@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import '../css/globals.css';
 import Link from 'next/link';
 import { ThemeProvider } from 'next-themes';
-import { ButtonIcon, Card, Icon, Popover, Sonner } from 'soybean-react-ui';
+import { ButtonIcon, Card, Icon, Popover, Sonner } from 'skyroc-ui';
 
 import ThemeCustomize from '../components/ThemeCustomize';
 import ThemeSchemaToggler from '../components/ThemeSchemaToggler';
@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  description: 'soybean-react-ui playground',
+  description: 'skyroc-ui playground',
   title: 'Soybean React UI'
 };
 

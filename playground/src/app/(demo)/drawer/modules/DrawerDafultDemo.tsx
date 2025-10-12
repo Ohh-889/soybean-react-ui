@@ -1,4 +1,4 @@
-import { Button, Card, Drawer, DrawerClose } from 'soybean-react-ui';
+import { Button, Card, Drawer, DrawerClose } from 'skyroc-ui';
 
 const DrawerDafultDemo = () => {
   return (

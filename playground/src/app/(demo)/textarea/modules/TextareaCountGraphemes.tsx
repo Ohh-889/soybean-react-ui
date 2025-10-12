@@ -2,8 +2,8 @@
 
 import GraphemeSplitter from 'grapheme-splitter';
 import { useState } from 'react';
-import { Card, Textarea } from 'soybean-react-ui';
-import type { TextareaProps } from 'soybean-react-ui';
+import { Card, Textarea } from 'skyroc-ui';
+import type { TextareaProps } from 'skyroc-ui';
 
 const splitter = new GraphemeSplitter();
 

@@ -2,8 +2,8 @@
 
 import { builtinColorMap, builtinRadiuses } from '@skyroc/tailwind-plugin';
 import { useState } from 'react';
-import type { ThemeSize } from 'soybean-react-ui';
-import { Button, Icon, Label, cn } from 'soybean-react-ui';
+import type { ThemeSize } from 'skyroc-ui';
+import { Button, Icon, Label, cn } from 'skyroc-ui';
 
 const sizes: ThemeSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
 

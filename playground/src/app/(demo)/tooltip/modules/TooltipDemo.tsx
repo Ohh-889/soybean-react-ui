@@ -1,5 +1,5 @@
-import type { TooltipAlign, TooltipSide } from 'soybean-react-ui';
-import { Button, Card, Tooltip } from 'soybean-react-ui';
+import type { TooltipAlign, TooltipSide } from 'skyroc-ui';
+import { Button, Card, Tooltip } from 'skyroc-ui';
 
 const sides: TooltipSide[] = ['top', 'right', 'bottom', 'left'];
 

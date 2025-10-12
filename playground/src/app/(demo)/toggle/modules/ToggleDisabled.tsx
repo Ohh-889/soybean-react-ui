@@ -1,4 +1,4 @@
-import { Card, Toggle } from 'soybean-react-ui';
+import { Card, Toggle } from 'skyroc-ui';
 
 const ToggleDisabled = () => {
   return (

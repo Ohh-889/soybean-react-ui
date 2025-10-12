@@ -12,7 +12,7 @@
     "check-types": "turbo run check-types",
     "commit": "sr git-commit",
     "cpn": "tsx script/cp.ts",
-    "deploy:playground": "pnpm --filter soybean-react-ui-playground deploy",
+    "deploy:playground": "pnpm --filter skyroc-ui-playground deploy",
     "dev": "turbo run dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",

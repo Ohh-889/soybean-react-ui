@@ -2,8 +2,8 @@
 
 import { useMemo } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import type { DropdownMenuProps } from 'soybean-react-ui';
-import { Card, ContextMenu, toast } from 'soybean-react-ui';
+import type { DropdownMenuProps } from 'skyroc-ui';
+import { Card, ContextMenu, toast } from 'skyroc-ui';
 
 import { menus } from '../../dropdown-menu/modules/shared';
 

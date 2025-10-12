@@ -51,13 +51,13 @@ skyroc-ui/
 
 ```bash
 # 使用 npm
-npm install soybean-react-ui
+npm install skyroc-ui
 
 # 使用 pnpm
-pnpm add soybean-react-ui
+pnpm add skyroc-ui
 
 # 使用 yarn
-yarn add soybean-react-ui
+yarn add skyroc-ui
 ```
 
 ### 配置 Tailwind CSS
@@ -65,19 +65,19 @@ yarn add soybean-react-ui
 安装 Tailwind CSS 插件：
 
 ```bash
-npm install @soybean-react-ui/tailwind-plugin
+npm install @skyroc-ui/tailwind-plugin
 ```
 
 在 `tailwind.config.js` 中配置：
 
 ```js
-import { soybeanUIPlugin } from '@soybean-react-ui/tailwind-plugin'
+import { soybeanUIPlugin } from '@skyroc-ui/tailwind-plugin'
 
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
     './src/**/*.{js,ts,jsx,tsx}',
-    './node_modules/soybean-react-ui/dist/**/*.{js,ts,jsx,tsx}'
+    './node_modules/skyroc-ui/dist/**/*.{js,ts,jsx,tsx}'
   ],
   plugins: [soybeanUIPlugin()]
 }
@@ -86,7 +86,7 @@ export default {
 ### 基础使用
 
 ```tsx
-import { Button, Card, Input } from 'soybean-react-ui'
+import { Button, Card, Input } from 'skyroc-ui'
 
 function App() {
   return (
@@ -173,7 +173,7 @@ Soybean React UI 支持灵活的主题定制：
 ### 颜色系统
 
 ```tsx
-import { ConfigProvider } from 'soybean-react-ui'
+import { ConfigProvider } from 'skyroc-ui'
 
 function App() {
   return (
@@ -205,7 +205,7 @@ function App() {
 内置强大的表单系统，支持复杂的表单场景：
 
 ```tsx
-import { Form, useForm } from 'soybean-react-ui'
+import { Form, useForm } from 'skyroc-ui'
 import { z } from 'zod'
 
 const schema = z.object({
@@ -318,7 +318,7 @@ pnpm lint
 
 - 作者: Ohh
 - 邮箱: 15093262@qq.com
-- GitHub: [https://github.com/Ohh-889/soybean-react-ui](https://github.com/Ohh-889/soybean-react-ui)
+- GitHub: [https://github.com/Ohh-889/skyroc-ui](https://github.com/Ohh-889/skyroc-ui)
 
 ---
 

@@ -1,5 +1,5 @@
-import type { SelectProps } from 'soybean-react-ui';
-import { Card, Select } from 'soybean-react-ui';
+import type { SelectProps } from 'skyroc-ui';
+import { Card, Select } from 'skyroc-ui';
 
 const items: SelectProps['items'] = [
   {

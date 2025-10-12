@@ -1,5 +1,5 @@
-import type { SheetSide } from 'soybean-react-ui';
-import { Button, Card, Sheet } from 'soybean-react-ui';
+import type { SheetSide } from 'skyroc-ui';
+import { Button, Card, Sheet } from 'skyroc-ui';
 
 const sides: SheetSide[] = ['left', 'right', 'top', 'bottom'];
 

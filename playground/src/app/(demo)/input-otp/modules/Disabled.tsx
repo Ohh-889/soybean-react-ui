@@ -1,4 +1,4 @@
-import { Card, InputOTP } from 'soybean-react-ui';
+import { Card, InputOTP } from 'skyroc-ui';
 
 const Disabled = () => {
   return (

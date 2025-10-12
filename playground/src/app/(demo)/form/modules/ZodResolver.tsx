@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, Form, FormField, Input, useForm } from 'soybean-react-ui';
+import { Button, Card, Form, FormField, Input, useForm } from 'skyroc-ui';
 import { z } from 'zod';
 
 // Define Zod Schema

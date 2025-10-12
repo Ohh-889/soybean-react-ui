@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { Card, Form, FormField, Input, useForm, useWatch } from 'soybean-react-ui';
+import { Card, Form, FormField, Input, useForm, useWatch } from 'skyroc-ui';
 
 import { showToastCode } from './toast';
 

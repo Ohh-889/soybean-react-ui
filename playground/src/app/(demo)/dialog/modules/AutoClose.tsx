@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, Dialog, DialogClose } from 'soybean-react-ui';
+import { Button, Card, Dialog, DialogClose } from 'skyroc-ui';
 
 const AutoClose = () => {
   return (

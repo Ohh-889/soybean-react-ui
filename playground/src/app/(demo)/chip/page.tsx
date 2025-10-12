@@ -1,5 +1,5 @@
-import type { ChipPosition, ThemeColor, ThemeSize } from 'soybean-react-ui';
-import { Button, Card, Chip } from 'soybean-react-ui';
+import type { ChipPosition, ThemeColor, ThemeSize } from 'skyroc-ui';
+import { Button, Card, Chip } from 'skyroc-ui';
 
 const colors: ThemeColor[] = ['primary', 'destructive', 'success', 'warning', 'info', 'carbon', 'secondary', 'accent'];
 

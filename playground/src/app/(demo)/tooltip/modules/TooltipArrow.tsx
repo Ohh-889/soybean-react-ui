@@ -1,4 +1,4 @@
-import { Button, Card, Tooltip } from 'soybean-react-ui';
+import { Button, Card, Tooltip } from 'skyroc-ui';
 
 const TooltipArrow = () => {
   return (

@@ -1,4 +1,4 @@
-import type { RadioGroupProps } from 'soybean-react-ui';
+import type { RadioGroupProps } from 'skyroc-ui';
 
 import RadioColor from './modules/RadioColor';
 import RadioDisabledAll from './modules/RadioDisabledAll';

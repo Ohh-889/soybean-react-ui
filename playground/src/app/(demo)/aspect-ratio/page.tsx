@@ -1,5 +1,5 @@
 import React from 'react';
-import { AspectRatio, Card } from 'soybean-react-ui';
+import { AspectRatio, Card } from 'skyroc-ui';
 
 const AspectRatioDemo = () => {
   return (

@@ -1,5 +1,5 @@
 import { ChevronsUpDown } from 'lucide-react';
-import { ButtonIcon, Card, Collapsible, CollapsibleTrigger } from 'soybean-react-ui';
+import { ButtonIcon, Card, Collapsible, CollapsibleTrigger } from 'skyroc-ui';
 
 const DefaultCollapsibleDemo = () => {
   return (

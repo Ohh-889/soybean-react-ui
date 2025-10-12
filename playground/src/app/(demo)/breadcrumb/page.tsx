@@ -2,8 +2,8 @@
 
 import { ChevronsLeftRightEllipsis } from 'lucide-react';
 import Link from 'next/link';
-import type { BreadcrumbItem } from 'soybean-react-ui';
-import { Breadcrumb, Card, toast } from 'soybean-react-ui';
+import type { BreadcrumbItem } from 'skyroc-ui';
+import { Breadcrumb, Card, toast } from 'skyroc-ui';
 
 import { items, items2, items3, items4, sizes } from './modules/shared';
 

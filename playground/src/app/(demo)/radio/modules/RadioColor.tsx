@@ -1,5 +1,5 @@
-import type { RadioGroupProps, ThemeColor } from 'soybean-react-ui';
-import { Card, RadioGroup } from 'soybean-react-ui';
+import type { RadioGroupProps, ThemeColor } from 'skyroc-ui';
+import { Card, RadioGroup } from 'skyroc-ui';
 
 const colors: ThemeColor[] = ['primary', 'destructive', 'success', 'warning', 'info', 'carbon', 'secondary', 'accent'];
 

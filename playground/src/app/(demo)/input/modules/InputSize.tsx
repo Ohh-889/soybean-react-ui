@@ -1,5 +1,5 @@
-import type { ThemeSize } from 'soybean-react-ui';
-import { Card, Input } from 'soybean-react-ui';
+import type { ThemeSize } from 'skyroc-ui';
+import { Card, Input } from 'skyroc-ui';
 
 const sizes: ThemeSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
 

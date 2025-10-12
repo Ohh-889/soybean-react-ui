@@ -1,6 +1,6 @@
 import { Loader, Minus, Pause, Plus, SkipBack, SkipForward } from 'lucide-react';
 import React from 'react';
-import { Button, ButtonGroup, ButtonIcon, Card } from 'soybean-react-ui';
+import { Button, ButtonGroup, ButtonIcon, Card } from 'skyroc-ui';
 
 const colors = ['primary', 'destructive', 'success', 'warning', 'info', 'carbon', 'secondary', 'accent'] as const;
 const variants = ['solid', 'pure', 'plain', 'outline', 'dashed', 'soft', 'ghost', 'link'] as const;

@@ -1,6 +1,6 @@
 import { Rocket, Terminal, TriangleAlert, X } from 'lucide-react';
 import React from 'react';
-import { Alert, type AlertVariant, ButtonIcon, Card, type ThemeColor, type ThemeSize } from 'soybean-react-ui';
+import { Alert, type AlertVariant, ButtonIcon, Card, type ThemeColor, type ThemeSize } from 'skyroc-ui';
 
 const colors: ThemeColor[] = ['primary', 'destructive', 'success', 'warning', 'info', 'carbon', 'secondary', 'accent'];
 const variants: AlertVariant[] = ['solid', 'pure', 'outline', 'soft', 'ghost'];
