@@ -1,0 +1,71 @@
+{
+  "name": "@skyroc/cli",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "A powerful CLI tool for git commit, changelog generation, version release and package management",
+  "author": {
+    "name": "Ohh",
+    "email": "1509326266@qq.com",
+    "url": "https://github.com/mufeng889"
+  },
+  "license": "ISC",
+  "homepage": "https://github.com/Ohh-889/skyroc-ui/tree/master/internal/cli",
+  "keywords": ["cli", "git", "commit", "changelog", "release", "version", "npm", "skyroc"],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "import": {
+          "types": "./dist/index.d.ts",
+          "default": "./dist/index.js"
+        },
+        "require": {
+          "types": "./dist/index.d.cts",
+          "default": "./dist/index.cjs"
+        }
+      }
+    }
+  },
+  "bin": {
+    "sr": "./bin.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "require": "./src/index.ts"
+    }
+  },
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsdown",
+    "build:watch": "unbuild --stub",
+    "dev": "tsx watch src/index.ts",
+    "lint": "eslint . --fix",
+    "publish": "pnpm publish --access public --no-git-checks  --registry https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "@soybeanjs/changelog": "0.3.24",
+    "@types/yargs": "17.0.33",
+    "bumpp": "9.9.2",
+    "c12": "2.0.1",
+    "cac": "6.7.14",
+    "consola": "3.3.0",
+    "enquirer": "2.4.1",
+    "execa": "9.5.2",
+    "gitmojis": "3.14.0",
+    "kolorist": "1.8.0",
+    "npm-check-updates": "17.1.12",
+    "rimraf": "6.0.1",
+    "yargs": "17.7.2"
+  },
+  "devDependencies": {
+    "tsdown": "0.12.9"
+  }
+}

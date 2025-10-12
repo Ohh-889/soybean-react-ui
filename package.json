@@ -10,17 +10,21 @@
   "scripts": {
     "build": "turbo run build",
     "check-types": "turbo run check-types",
+    "commit": "sr git-commit",
     "cpn": "tsx script/cp.ts",
     "deploy:playground": "pnpm --filter soybean-react-ui-playground deploy",
     "dev": "turbo run dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
     "lint:fix": "eslint . --fix",
-    "postinstall": "tsx script/postinstall.ts"
+    "postinstall": "tsx script/postinstall.ts",
+    "release": "tsx script/bump.ts"
   },
   "dependencies": {
     "@changesets/changelog-github": "0.5.1",
-    "@changesets/cli": "2.29.7"
+    "@changesets/cli": "2.29.7",
+    "@skyroc/cli": "workspace:*",
+    "bumpp": "^10.3.1"
   },
   "devDependencies": {
     "@soybeanjs/eslint-config": "1.7.0",
