@@ -4,11 +4,17 @@ import path from 'node:path';
 
 import { defineConfig } from '@skyroc/cli';
 
-let tag = '';
+function getLastTag() {
+  const tag = execSync('git tag -l --sort=v:refname | tail -n 1').toString().trim();
+
+  return tag;
+}
+
+getLastTag();
 
 export default defineConfig({
   changelogOptions: {
-    to: tag
+    from: getLastTag()
   },
   // Custom git commit scopes
   // If not set, will use default scopes from locale
@@ -52,23 +58,32 @@ export default defineConfig({
 
     const pkgName = pkg.name;
 
+    // eslint-disable-next-line no-console
     console.log(`🔍 Current version: ${pkgName}@${current}`);
 
     return {
       commit: `chore(${pkgName}): release v%s`,
       confirm: false,
       cwd,
-      execute: op => {
-        console.log('New version:', op.state.newVersion);
+      // Use function to access op.state.newVersion and pass it to changelog command
+      execute: async op => {
+        const { execSync: execSync2 } = await import('node:child_process');
+        const tag = `${pkgName}@${op.state.newVersion}`;
 
-        tag = `${pkgName}@${op.state.newVersion}`;
-        execSync(`npx sr changelog`);
+        console.log(`📝 Generating changelog for tag: ${tag}`);
+
+        // Execute changelog command in the root directory with the tag parameter
+        execSync2(`pnpm sr changelog --tag ${tag}`, {
+          cwd: process.cwd(),
+          env: { ...process.env, CHANGELOG_TAG: tag },
+          stdio: 'inherit'
+        });
       },
-      files: ['package.json'],
+      files: ['**/package.json', '!**/node_modules'],
       preid,
       progress(info) {
         // Log release progress events
-
+        // eslint-disable-next-line no-console
         console.log(`[${info.event}] ${info.newVersion ?? ''} ${info.commit ?? ''}`);
       },
       // Automatic commit type analysis

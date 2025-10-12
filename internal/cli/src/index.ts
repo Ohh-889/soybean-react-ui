@@ -41,6 +41,8 @@ interface CommandArg {
   push?: boolean;
   /** The release type (e.g. "conventional", "npm", "yarn", "pnpm"). Defaults to "conventional" */
   release?: string;
+  /** The tag to generate changelog */
+  tag?: string;
   /** Generate changelog by total tags */
   total?: boolean;
 }
@@ -66,6 +68,7 @@ export async function setupCli() {
     .option('-l, --lang <lang>', 'display lang of cli', { default: 'en-us', type: [String] })
     .option('-m, --gitEmoji <emoji>', 'git commit emoji')
     .option('-pr, --preid <preid>', 'The prerelease type (e.g. "alpha", "beta", "next"). Defaults to "beta"')
+    .option('-tg, --tag <tag>', 'The tag to generate changelog')
     .option(
       '-re, --release <release>',
       'The release type (e.g. "conventional", "npm", "yarn", "pnpm"). Defaults to "conventional"'
@@ -75,7 +78,7 @@ export async function setupCli() {
   const commands: CommandWithAction<CommandArg> = {
     changelog: {
       action: async args => {
-        await genChangelog(cliOptions.changelogOptions, args?.total);
+        await genChangelog(cliOptions.changelogOptions, args?.total, args?.tag);
       },
       desc: 'generate changelog'
     },
