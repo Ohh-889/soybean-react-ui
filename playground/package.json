@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@opennextjs/cloudflare": "1.5.1",
+    "@opennextjs/cloudflare": "1.10.1",
     "@skyroc/tailwind-plugin": "workspace:*",
     "@tailwindcss/postcss": "4.1.11",
     "eslint": "9.30.0",
