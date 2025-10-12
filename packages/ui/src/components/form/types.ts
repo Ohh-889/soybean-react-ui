@@ -1,5 +1,5 @@
+import type { ComputedFieldProps, FieldProps } from '@skyroc/form';
 import type { ComponentProps, ElementType, ReactNode } from 'react';
-import type { ComputedFieldProps, FieldProps } from 'skyroc-form';
 
 import type { BaseNodeProps, ClassValue } from '@/types/other';
 

@@ -1,8 +1,8 @@
 'use client';
 
+import type { AllPathsKeys } from '@skyroc/form';
+import { Field, useFieldError } from '@skyroc/form';
 import { useId } from 'react';
-import type { AllPathsKeys } from 'skyroc-form';
-import { Field, useFieldError } from 'skyroc-form';
 
 import FormDescription from './FormDescription';
 import FormItem from './FormItem';

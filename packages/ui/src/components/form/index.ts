@@ -11,7 +11,7 @@ export {
   useSelector,
   useUndoRedo,
   useWatch
-} from 'skyroc-form';
+} from '@skyroc/form';
 
 export type {
   Action as FormAction,
@@ -24,7 +24,7 @@ export type {
   Rule,
   SubscribeMaskOptions,
   ValidateMessages
-} from 'skyroc-form';
+} from '@skyroc/form';
 
 export { default as FormComputedField } from './FormComputedField';
 export { default as FormField } from './FormField';

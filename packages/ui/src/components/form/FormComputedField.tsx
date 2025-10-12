@@ -1,6 +1,6 @@
 'use client';
 
-import { ComputedField } from 'skyroc-form';
+import { ComputedField } from '@skyroc/form';
 
 import FormField from './FormField';
 import type { FormComputedFieldProps } from './types';
