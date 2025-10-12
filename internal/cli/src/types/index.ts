@@ -1,4 +1,5 @@
 import type { ChangelogOption } from '@soybeanjs/changelog';
+import type { VersionBumpOptions } from 'bumpp';
 
 /**
  * Git commit type item [type, description]
@@ -14,6 +15,14 @@ export type GitCommitScope = readonly [scope: string, description: string];
  * Git emoji item [type, emoji]
  */
 export type GitEmojiItem = readonly [type: string, emoji: string];
+
+export type ReleaseOptions = {
+  execute?: string;
+  packageName?: string;
+  preid?: string;
+  push?: boolean;
+  release?: string;
+};
 
 export interface CliOption {
   /**
@@ -55,4 +64,10 @@ export interface CliOption {
    * @default ['--deep', '-u']
    */
   ncuCommandArgs: string[];
+  /**
+   * Options of bump package
+   *
+   * @link https://github.com/bevry/bumpp
+   */
+  releaseOptions: Partial<VersionBumpOptions> | ((options: ReleaseOptions) => VersionBumpOptions);
 }

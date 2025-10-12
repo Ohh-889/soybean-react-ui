@@ -25,7 +25,8 @@ const defaultOptions: CliOption = {
     /^Automatic merge(.*)/,
     /^Auto-merged (.*?) into (.*)/
   ],
-  ncuCommandArgs: ['--deep', '-u']
+  ncuCommandArgs: ['--deep', '-u'],
+  releaseOptions: {}
 };
 
 export async function loadCliOptions(overrides?: Partial<CliOption>, cwd = process.cwd()) {

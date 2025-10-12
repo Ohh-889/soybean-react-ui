@@ -3,7 +3,7 @@ import { blue, lightGreen } from 'kolorist';
 
 import { version } from '../package.json';
 
-import { cleanup, genChangelog, gitCommit, gitCommitVerify, release, updatePkg } from './commands';
+import { cleanup, genChangelog, gitCommit, gitCommitVerify, releaseArgs, updatePkg } from './commands';
 import { loadCliOptions } from './config';
 import type { Lang } from './locales';
 import type { CliOption, GitCommitScope, GitCommitType, GitEmojiItem } from './types';
@@ -33,8 +33,14 @@ interface CommandArg {
    * @default 'en-us'
    */
   lang?: Lang;
+  /** The package name to bump */
+  packageName?: string;
+  /** The prerelease type (e.g. "alpha", "beta", "next"). Defaults to "beta" */
+  preid?: string;
   /** Indicates whether to push the git commit and tag. Defaults to true */
   push?: boolean;
+  /** The release type (e.g. "conventional", "npm", "yarn", "pnpm"). Defaults to "conventional" */
+  release?: string;
   /** Generate changelog by total tags */
   total?: boolean;
 }
@@ -52,12 +58,18 @@ export async function setupCli() {
     )
     .option('-p, --push', 'Indicates whether to push the git commit and tag')
     .option('-t, --total', 'Generate changelog by total tags')
+    .option('-pn, --packageName <packageName>', 'The package name to bump')
     .option(
       '-c, --cleanupDir <dir>',
       'The glob pattern of dirs to cleanup, If not set, it will use the default value, Multiple values use "," to separate them'
     )
     .option('-l, --lang <lang>', 'display lang of cli', { default: 'en-us', type: [String] })
     .option('-m, --gitEmoji <emoji>', 'git commit emoji')
+    .option('-pr, --preid <preid>', 'The prerelease type (e.g. "alpha", "beta", "next"). Defaults to "beta"')
+    .option(
+      '-re, --release <release>',
+      'The release type (e.g. "conventional", "npm", "yarn", "pnpm"). Defaults to "conventional"'
+    )
     .help();
 
   const commands: CommandWithAction<CommandArg> = {
@@ -87,7 +99,14 @@ export async function setupCli() {
     },
     release: {
       action: async args => {
-        await release(args?.execute, args?.push);
+        await releaseArgs({
+          execute: args?.execute,
+          packageName: args?.packageName,
+          preid: args?.preid,
+          push: args?.push,
+          release: args?.release,
+          releaseOptions: cliOptions.releaseOptions
+        });
       },
       desc: 'release: update version, generate changelog, commit code'
     },
