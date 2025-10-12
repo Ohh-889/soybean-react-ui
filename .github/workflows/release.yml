@@ -1,8 +1,5 @@
 name: Release
 
-permissions:
-  contents: write
-
 on:
   push:
     tags:
@@ -16,8 +13,6 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-
-
     steps:  # 🧩 Checkout full repository (with history)
     - name: Checkout repository
       uses: actions/checkout@v4

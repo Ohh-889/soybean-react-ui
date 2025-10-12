@@ -62,7 +62,7 @@ export default defineConfig({
     console.log(`🔍 Current version: ${pkgName}@${current}`);
 
     return {
-      commit: `chore(${pkgName}): release v%s`,
+      commit: false,
       confirm: false,
       cwd,
       // Use function to access op.state.newVersion and pass it to changelog command
@@ -78,11 +78,23 @@ export default defineConfig({
           env: { ...process.env, CHANGELOG_TAG: tag },
           stdio: 'inherit'
         });
+
+        // Add CHANGELOG.md to git staging area
+        execSync2('git add .', {
+          cwd: process.cwd(),
+          stdio: 'inherit'
+        });
+
+        execSync2(`git commit -m "chore(${pkgName}): release ${pkgName}@${op.state.newVersion}"`, {
+          cwd: process.cwd(),
+          stdio: 'inherit'
+        });
       },
-      files: ['**/package.json', '!**/node_modules'],
+      files: ['**/package.json', '**/CHANGELOG.md', '!**/node_modules'],
       preid,
       progress(info) {
         // Log release progress events
+
         // eslint-disable-next-line no-console
         console.log(`[${info.event}] ${info.newVersion ?? ''} ${info.commit ?? ''}`);
       },
