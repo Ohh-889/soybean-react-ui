@@ -6,20 +6,66 @@ permissions:
 on:
   push:
     tags:
-      - "v*"
+      - "*"
 
 jobs:
   release:
+    if: ${{ github.repository_owner == 'Ohh-889' }}
+    name: Version & Publish Changed Packages
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+    permissions:
+      contents: write
+      pull-requests: write
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
 
-      - run: npx githublogen
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    steps:  # 🧩 Checkout full repository (with history)
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    # 🧰 Setup Node + pnpm environment
+    - name: Setup Node.js 20
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: "pnpm"
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Generate changelog
+
+      run: npx githublogen
+      env:
+            GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 9.0.6
+
+    # 📦 Install dependencies
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+
+    # 📦 Extract package name from tag
+    - name: Extract package name from tag
+      id: package
+      run: |
+        TAG_NAME="${GITHUB_REF#refs/tags/}"
+        PACKAGE_NAME="${TAG_NAME%@*}"
+        echo "name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
+        echo "Building package: $PACKAGE_NAME"
+      shell: bash
+
+    # 🏗️ Build package
+    - name: Build package
+      run: pnpm --filter ${{ steps.package.outputs.name }} build
+      shell: bash
+
+    # 🏷️ Publish to npm
+    - name: Publish to npm
+      run: pnpm --filter ${{ steps.package.outputs.name }} publish --access public --no-git-checks
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+
