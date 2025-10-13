@@ -3,17 +3,71 @@
   "type": "module",
   "version": "0.0.5",
   "private": false,
+  "description": "A modern React UI component library built on Radix UI and Tailwind CSS",
+  "author": {
+    "name": "Ohh",
+    "email": "1509326266@qq.com",
+    "url": "https://github.com/Ohh-889"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/Ohh-889/skyroc-ui/tree/master/packages/ui",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ohh-889/skyroc-ui.git",
+    "directory": "packages/ui"
+  },
+  "bugs": {
+    "url": "https://github.com/Ohh-889/skyroc-ui/issues"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "tailwind",
+    "radix-ui",
+    "skyroc",
+    "design-system",
+    "typescript",
+    "react-components",
+    "ui-library",
+    "component-library"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "import": {
+          "types": "./dist/index.d.ts",
+          "default": "./dist/index.js"
+        }
+      },
+      "./*": {
+        "types": "./dist/components/*/index.d.ts",
+        "import": "./dist/components/*/index.js",
+        "require": "./dist/components/*/index.js"
+      },
+      "./utils": {
+        "types": "./dist/lib/index.d.ts",
+        "import": "./dist/lib/index.js",
+        "require": "./dist/lib/index.js"
+      }
+    }
+  },
+  "sideEffects": false,
   "exports": {
     ".": {
       "import": "./src/index.ts"
     }
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": ["README.zh.md", "dist", "README.md"],
   "scripts": {
-    "build": "pnpm run pgk:prod && pnpm run build:components && pnpm run registry",
+    "build": "pnpm run build:components && pnpm run registry",
     "build:components": "tsdown",
     "build:registry": "shadcn build -o ../../playground/public/r",
     "dev": "tsx script/fix-pkg.ts dev",
