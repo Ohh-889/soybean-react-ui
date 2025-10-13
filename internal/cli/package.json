@@ -1,7 +1,7 @@
 {
   "name": "@skyroc/cli",
   "type": "module",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "A powerful CLI tool for git commit, changelog generation, version release and package management",
   "author": {
     "name": "Ohh",
@@ -10,6 +10,10 @@
   },
   "license": "ISC",
   "homepage": "https://github.com/Ohh-889/skyroc-ui/tree/master/internal/cli",
+  "repository": {
+    "url": "https://github.com/Ohh-889/skyroc-ui.git"
+  },
+
   "keywords": ["cli", "git", "commit", "changelog", "release", "version", "npm", "skyroc"],
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
