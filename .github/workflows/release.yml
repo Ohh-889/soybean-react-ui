@@ -50,13 +50,14 @@ jobs:
       - name: Extract package name from tag
         id: package
         run: |
-          TAG_NAME="${GITHUB_REF#refs/tags/}"  # 例：@skyroc-cli@0.0.13 或 skyroc-ui@0.0.5
-          PACKAGE_PART="${TAG_NAME%@*}"         # 去掉版本号 → @skyroc-cli 或 skyroc-ui
+          TAG_NAME="${GITHUB_REF#refs/tags/}"  # 例如：@skyroc-cli@0.0.13
+          PACKAGE_PART="${TAG_NAME%@*}"         # 去掉版本号部分 -> @skyroc-cli
 
-          # 如果 tag 以 @ 开头，则说明是作用域包
           if [[ "$PACKAGE_PART" == @* ]]; then
-            # 把第一个 '-' 替换为 '/'
-            PACKAGE_NAME="${PACKAGE_PART/-/\//}"
+            # 去掉开头的 @
+            NO_AT="${PACKAGE_PART#@}"          # skyroc-cli
+            # 把第一个 '-' 替换成 '/'
+            PACKAGE_NAME="@${NO_AT/-/\//}"     # @skyroc/cli
           else
             PACKAGE_NAME="$PACKAGE_PART"
           fi
