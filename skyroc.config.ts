@@ -72,7 +72,7 @@ export default defineConfig({
         console.log(`📝 Generating changelog for tag: ${tag}`);
 
         // Execute changelog command in the root directory with the tag parameter
-        execSync2(`pnpm sr changelog --tag v${tag}`, {
+        execSync2(`pnpm sr changelog --tag v-${tag}`, {
           cwd: process.cwd(),
           env: { ...process.env, CHANGELOG_TAG: tag },
           stdio: 'inherit'
@@ -89,7 +89,7 @@ export default defineConfig({
       // Automatic commit type analysis
       push: true,
       release,
-      tag: `v${pkgName}@%s`
+      tag: `v-${pkgName}@%s`
     };
   }
 });

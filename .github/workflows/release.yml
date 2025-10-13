@@ -7,7 +7,7 @@ on:
   push:
     tags:
       - "*"
-      - "v*"
+      - "v-*"
 
 jobs:
   release:
@@ -53,7 +53,7 @@ jobs:
               TAG_NAME="${GITHUB_REF#refs/tags/}"
 
               # 去掉前缀 v 或 v@
-              CLEAN_TAG="${TAG_NAME#v}"
+              CLEAN_TAG="${TAG_NAME#v-}"
 
               # 提取包名部分（去掉版本号）
               PACKAGE_NAME="${CLEAN_TAG%@*}"
