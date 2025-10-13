@@ -10,6 +10,15 @@ function getLastTag() {
   return tag.at(-2);
 }
 
+function safeTagName(tag) {
+  // 如果是作用域包（以 @ 开头并且包含 /）
+  if (tag.startsWith('@') && tag.includes('/')) {
+    const [scope, rest] = tag.split('/');
+    return `${scope}-${rest}`;
+  }
+  return tag;
+}
+
 export default defineConfig({
   changelogOptions: {
     from: getLastTag()
@@ -58,8 +67,10 @@ export default defineConfig({
 
     const pkgName = pkg.name;
 
+    // github action don't support / , so we need to convert it to a safe name
+    const safePkgName = safeTagName(pkgName);
     // eslint-disable-next-line no-console
-    console.log(`🔍 Current version: ${pkgName}@${current}`);
+    console.log(`🔍 Current version: ${safePkgName}@${current}`);
 
     return {
       commit: `chore(${pkgName}): release v%s`,
@@ -72,7 +83,7 @@ export default defineConfig({
         console.log(`📝 Generating changelog for tag: ${tag}`);
 
         // Execute changelog command in the root directory with the tag parameter
-        execSync2(`pnpm sr changelog --tag ${tag}`, {
+        execSync2(`pnpm sr changelog --tag ${safePkgName}`, {
           cwd: process.cwd(),
           env: { ...process.env, CHANGELOG_TAG: tag },
           stdio: 'inherit'
@@ -89,7 +100,7 @@ export default defineConfig({
       // Automatic commit type analysis
       push: true,
       release,
-      tag: `${pkgName}@%s`
+      tag: `${safePkgName}@%s`
     };
   }
 });
