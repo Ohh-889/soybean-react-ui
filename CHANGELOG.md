@@ -1,11 +1,21 @@
 # Changelog
 
 
-## [skyroc-ui@0.0.2](https://github.com/Ohh-889/skyroc-ui/compare/@skyroc/cli@0.0.4...skyroc-ui@0.0.2) (2025-10-13)
+## [v@skyroc/cli@0.0.5](https://github.com/Ohh-889/skyroc-ui/compare/skyroc-ui@0.0.2...v@skyroc/cli@0.0.5) (2025-10-13)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **other**: 🔧 update versioning format and changelog generation in configuration and workflow &nbsp;-&nbsp; by @SkyRoc1 [<samp>(5e078)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/5e078e5)
 
 ### &nbsp;&nbsp;&nbsp;❤️ Contributors
 
-## [@skyroc/cli@0.0.4](https://github.com/Ohh-889/skyroc-ui/compare/@skyroc/cli@0.0.3...@skyroc/cli@0.0.4) (2025-10-13)
+[![SkyRoc1](https://github.com/SkyRoc1.png?size=48)](https://github.com/SkyRoc1)&nbsp;&nbsp;
+
+## [skyroc-ui@0.0.2](https://github.com/Ohh-889/skyroc-ui/compare/@skyroc/cli@0.0.5...skyroc-ui@0.0.2) (2025-10-13)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+## [@skyroc/cli@0.0.5](https://github.com/Ohh-889/skyroc-ui/compare/@skyroc/cli@0.0.3...@skyroc/cli@0.0.5) (2025-10-13)
 
 ### &nbsp;&nbsp;&nbsp;🏡 Chore
 
@@ -19,7 +29,7 @@
 
 [![SkyRoc1](https://github.com/SkyRoc1.png?size=48)](https://github.com/SkyRoc1)&nbsp;&nbsp;
 
-## [@skyroc/cli@0.0.4](https://github.com/Ohh-889/skyroc-ui/compare/@skyroc@0.0.2...@skyroc/cli@0.0.4) (2025-10-13)
+## [@skyroc/cli@0.0.5](https://github.com/Ohh-889/skyroc-ui/compare/@skyroc@0.0.2...@skyroc/cli@0.0.5) (2025-10-13)
 
 
 ### &nbsp;&nbsp;&nbsp;🤖 CI
@@ -32,7 +42,7 @@
 
 [![SkyRoc1](https://github.com/SkyRoc1.png?size=48)](https://github.com/SkyRoc1)&nbsp;&nbsp;
 
-## [@skyroc/cli@0.0.4](https://github.com/Ohh-889/skyroc-ui/compare/undefined...@skyroc/cli@0.0.4) (2025-10-13)
+## [@skyroc/cli@0.0.5](https://github.com/Ohh-889/skyroc-ui/compare/undefined...@skyroc/cli@0.0.5) (2025-10-13)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
 
