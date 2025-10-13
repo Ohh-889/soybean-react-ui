@@ -1,7 +1,7 @@
 {
   "name": "@skyroc/cli",
   "type": "module",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "A powerful CLI tool for git commit, changelog generation, version release and package management",
   "author": {
     "name": "Ohh",
