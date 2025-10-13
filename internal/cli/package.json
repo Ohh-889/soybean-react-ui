@@ -47,8 +47,7 @@
     "build": "tsdown",
     "build:watch": "unbuild --stub",
     "dev": "tsx watch src/index.ts",
-    "lint": "eslint . --fix",
-    "publish": "pnpm publish --access public --no-git-checks  --registry https://registry.npmjs.org/"
+    "lint": "eslint . --fix"
   },
   "dependencies": {
     "@soybeanjs/changelog": "0.3.24",
