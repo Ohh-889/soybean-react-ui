@@ -1,7 +1,21 @@
 # Changelog
 
 
-## [@skyroc/cli@0.0.3](https://github.com/Ohh-889/skyroc-ui/compare/@skyroc@0.0.2...@skyroc/cli@0.0.3) (2025-10-13)
+## [@skyroc/cli@0.0.4](https://github.com/Ohh-889/skyroc-ui/compare/@skyroc/cli@0.0.3...@skyroc/cli@0.0.4) (2025-10-13)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **other**: 🔧 add support for tagged releases with '@*' pattern in GitHub Actions workflow &nbsp;-&nbsp; by @SkyRoc1 [<samp>(5d18a)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/5d18ad3)
+
+### &nbsp;&nbsp;&nbsp;🤖 CI
+
+- **other**: 👷 refine changelog retrieval logic, enhance release workflow, and update file handling in GitHub Actions &nbsp;-&nbsp; by @SkyRoc1 [<samp>(00d84)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/00d84ef)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![SkyRoc1](https://github.com/SkyRoc1.png?size=48)](https://github.com/SkyRoc1)&nbsp;&nbsp;
+
+## [@skyroc/cli@0.0.4](https://github.com/Ohh-889/skyroc-ui/compare/@skyroc@0.0.2...@skyroc/cli@0.0.4) (2025-10-13)
 
 
 ### &nbsp;&nbsp;&nbsp;🤖 CI
@@ -14,7 +28,7 @@
 
 [![SkyRoc1](https://github.com/SkyRoc1.png?size=48)](https://github.com/SkyRoc1)&nbsp;&nbsp;
 
-## [@skyroc/cli@0.0.3](https://github.com/Ohh-889/skyroc-ui/compare/undefined...@skyroc/cli@0.0.3) (2025-10-13)
+## [@skyroc/cli@0.0.4](https://github.com/Ohh-889/skyroc-ui/compare/undefined...@skyroc/cli@0.0.4) (2025-10-13)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
 
