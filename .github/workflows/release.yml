@@ -50,20 +50,20 @@ jobs:
       - name: Extract package name from tag
         id: package
         run: |
-              TAG_NAME="${GITHUB_REF#refs/tags/}"
+          TAG_NAME="${GITHUB_REF#refs/tags/}"  # 例：@skyroc-cli@0.0.13 或 skyroc-ui@0.0.5
+          PACKAGE_PART="${TAG_NAME%@*}"         # 去掉版本号 → @skyroc-cli 或 skyroc-ui
 
-              # 提取包名部分（去掉版本号）
-              PACKAGE_PART="${TAG_NAME%@*}"
+          # 如果 tag 以 @ 开头，则说明是作用域包
+          if [[ "$PACKAGE_PART" == @* ]]; then
+            # 把第一个 '-' 替换为 '/'
+            PACKAGE_NAME="${PACKAGE_PART/-/\//}"
+          else
+            PACKAGE_NAME="$PACKAGE_PART"
+          fi
 
-              if [[ "$PACKAGE_PART" == */* ]]; then
-                PACKAGE_NAME="@${PACKAGE_PART#@}"
-              else
-                PACKAGE_NAME="$PACKAGE_PART"
-              fi
-
-              echo "Detected tag: $TAG_NAME"
-              echo "Resolved package: $PACKAGE_NAME"
-              echo "name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
+          echo "Detected tag: $TAG_NAME"
+          echo "Resolved package: $PACKAGE_NAME"
+          echo "name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
         shell: bash
 
       # 🏗️ Build package
