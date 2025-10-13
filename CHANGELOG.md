@@ -1,7 +1,21 @@
 # Changelog
 
 
-## [@skyroc/cli@0.0.2](https://github.com/Ohh-889/skyroc-ui/compare/undefined...@skyroc/cli@0.0.2) (2025-10-13)
+## [@skyroc/cli@0.0.3](https://github.com/Ohh-889/skyroc-ui/compare/@skyroc/cli@0.0.2...@skyroc/cli@0.0.3) (2025-10-13)
+
+### &nbsp;&nbsp;&nbsp;🏡 Chore
+
+- **@skyroc/cli**: 🔧 update version to 0.0.2 &nbsp;-&nbsp; by @SkyRoc1 [<samp>(8cee3)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/8cee346)
+
+### &nbsp;&nbsp;&nbsp;🤖 CI
+
+- **other**: 🔧 update GitHub Actions workflow for package release , enhance Node.js setup, and streamline publishing process &nbsp;-&nbsp; by @SkyRoc1 [<samp>(6b174)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/6b1742b)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![SkyRoc1](https://github.com/SkyRoc1.png?size=48)](https://github.com/SkyRoc1)&nbsp;&nbsp;
+
+## [@skyroc/cli@0.0.3](https://github.com/Ohh-889/skyroc-ui/compare/undefined...@skyroc/cli@0.0.3) (2025-10-13)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
 
