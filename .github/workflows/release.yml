@@ -12,6 +12,7 @@ jobs:
     name: Version & Publish Changed Packages
     runs-on: ubuntu-latest
     permissions:
+      id-token: write
       contents: write
       pull-requests: write
 
