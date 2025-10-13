@@ -58,12 +58,6 @@ export default defineConfig({
 
     const pkgName = pkg.name;
 
-    let tagName = pkgName;
-
-    if (tagName.startsWith('@')) {
-      tagName = pkgName.slice(1);
-    }
-
     // eslint-disable-next-line no-console
     console.log(`🔍 Current version: ${pkgName}@${current}`);
 
@@ -73,7 +67,7 @@ export default defineConfig({
       // Use function to access op.state.newVersion and pass it to changelog command
       execute: async op => {
         const { execSync: execSync2 } = await import('node:child_process');
-        const tag = `${tagName}@${op.state.newVersion}`;
+        const tag = `${pkgName}@${op.state.newVersion}`;
 
         console.log(`📝 Generating changelog for tag: ${tag}`);
 
@@ -95,7 +89,7 @@ export default defineConfig({
       // Automatic commit type analysis
       push: true,
       release,
-      tag: `${tagName}@%s`
+      tag: `${pkgName}@%s`
     };
   }
 });
