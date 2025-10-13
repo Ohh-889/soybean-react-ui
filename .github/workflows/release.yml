@@ -7,7 +7,7 @@ on:
   push:
     tags:
       - "*"
-      - "@*"
+      - "v*"
 
 jobs:
   release:
@@ -33,15 +33,15 @@ jobs:
           cache: "pnpm"
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Generate changelog
-        run: npx githublogen
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9.0.6
+
+      - name: Generate changelog
+        run: npx githublogen
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
       # 📦 Install dependencies
       - name: Install dependencies
@@ -51,10 +51,17 @@ jobs:
       - name: Extract package name from tag
         id: package
         run: |
-          TAG_NAME="${GITHUB_REF#refs/tags/}"
-          PACKAGE_NAME="${TAG_NAME%@*}"
-          echo "name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
-          echo "Building package: $PACKAGE_NAME"
+              TAG_NAME="${GITHUB_REF#refs/tags/}"
+
+              # 去掉前缀 v 或 v@
+              CLEAN_TAG="${TAG_NAME#v}"
+
+              # 提取包名部分（去掉版本号）
+              PACKAGE_NAME="${CLEAN_TAG%@*}"
+
+              echo "Detected tag: $TAG_NAME"
+              echo "Resolved package: $PACKAGE_NAME"
+              echo "name=$PACKAGE_NAME" >> $GITHUB_OUTPUT
         shell: bash
 
       # 🏗️ Build package
