@@ -117,7 +117,7 @@
     "react-resizable-panels": "^3.0.6",
     "sonner": "2.0.6",
     "tailwind-merge": "3.3.0",
-    "tailwind-variants": "1.0.0",
+    "tailwind-variants": "3.1.1",
     "vaul": "1.1.2"
   },
   "devDependencies": {
