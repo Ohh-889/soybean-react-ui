@@ -1,7 +1,7 @@
 {
   "name": "skyroc-ui",
   "type": "module",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "private": false,
   "description": "A modern React UI component library built on Radix UI and Tailwind CSS",
   "author": {
@@ -12,9 +12,7 @@
   "license": "MIT",
   "homepage": "https://github.com/Ohh-889/skyroc-ui/tree/master/packages/ui",
   "repository": {
-    "type": "git",
-    "url": "https://github.com/Ohh-889/skyroc-ui.git",
-    "directory": "packages/ui"
+    "url": "https://github.com/Ohh-889/skyroc-ui.git"
   },
   "bugs": {
     "url": "https://github.com/Ohh-889/skyroc-ui/issues"
