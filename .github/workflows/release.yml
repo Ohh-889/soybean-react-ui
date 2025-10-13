@@ -24,6 +24,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
 
       # 🧰 Setup Node + pnpm environment
       - name: Setup Node.js 20
@@ -33,10 +36,6 @@ jobs:
           cache: "pnpm"
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9.0.6
 
       - name: Generate changelog
         run: npx githublogen
