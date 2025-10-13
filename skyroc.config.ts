@@ -5,12 +5,10 @@ import path from 'node:path';
 import { defineConfig } from '@skyroc/cli';
 
 function getLastTag() {
-  const tag = execSync('git tag -l --sort=v:refname | tail -n 1').toString().trim();
+  const tag = execSync('git tag -l ').toString().split('\n');
 
-  return tag;
+  return tag.at(-2);
 }
-
-getLastTag();
 
 export default defineConfig({
   changelogOptions: {
@@ -52,6 +50,8 @@ export default defineConfig({
       process.exit(1);
     }
 
+    console.log('pkgPath', pkgPath);
+
     const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
 
     const current = pkg.version;
@@ -64,7 +64,6 @@ export default defineConfig({
     return {
       commit: `chore(${pkgName}): release v%s`,
       confirm: false,
-      cwd,
       // Use function to access op.state.newVersion and pass it to changelog command
       execute: async op => {
         const { execSync: execSync2 } = await import('node:child_process');
@@ -78,16 +77,17 @@ export default defineConfig({
           env: { ...process.env, CHANGELOG_TAG: tag },
           stdio: 'inherit'
         });
+
+        // Add CHANGELOG.md to git staging area
       },
-      files: ['**/package.json', '!**/node_modules'],
+      files: [pkgPath, './CHANGELOG.md'],
       preid,
       progress(info) {
-        // Log release progress events
         // eslint-disable-next-line no-console
         console.log(`[${info.event}] ${info.newVersion ?? ''} ${info.commit ?? ''}`);
       },
       // Automatic commit type analysis
-      push: false,
+      push: true,
       release,
       tag: `${pkgName}@%s`
     };
