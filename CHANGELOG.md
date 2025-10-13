@@ -1,7 +1,27 @@
 # Changelog
 
 
-## [skyroc-ui@0.0.6](https://github.com/Ohh-889/skyroc-ui/compare/vskyroc-ui@0.0.4...skyroc-ui@0.0.6) (2025-10-13)
+## [skyroc-ui@0.0.7](https://github.com/Ohh-889/skyroc-ui/compare/vskyroc-ui@0.0.4...skyroc-ui@0.0.7) (2025-10-13)
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **skyroc-ui**: ✨ enhance package metadata and add comprehensive README documentation in English and Chinese &nbsp;-&nbsp; by @SkyRoc1 [<samp>(bf7e0)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/bf7e085)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- update versioning format in configuration and workflow to use 'v-' prefix for tags &nbsp;-&nbsp; by @SkyRoc1 [<samp>(55b02)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/55b020d)
+
+### &nbsp;&nbsp;&nbsp;🤖 CI
+
+- **other**:
+  - update versioning format in configuration and workflow to remove 'v-' prefix for tags &nbsp;-&nbsp; by @SkyRoc1 [<samp>(1749f)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/1749fbd)
+  - 👷 correct package name extraction in release workflow &nbsp;-&nbsp; by @SkyRoc1 [<samp>(612ba)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/612ba54)
+
+### &nbsp;&nbsp;&nbsp;❤️ Contributors
+
+[![SkyRoc1](https://github.com/SkyRoc1.png?size=48)](https://github.com/SkyRoc1)&nbsp;&nbsp;
+
+## [skyroc-ui@0.0.7](https://github.com/Ohh-889/skyroc-ui/compare/vskyroc-ui@0.0.4...skyroc-ui@0.0.7) (2025-10-13)
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
 
@@ -29,7 +49,7 @@
 
 [![SkyRoc1](https://github.com/SkyRoc1.png?size=48)](https://github.com/SkyRoc1)&nbsp;&nbsp;
 
-## [v-skyroc-ui@0.0.6](https://github.com/Ohh-889/skyroc-ui/compare/vskyroc-ui@0.0.4...v-skyroc-ui@0.0.6) (2025-10-13)
+## [v-skyroc-ui@0.0.7](https://github.com/Ohh-889/skyroc-ui/compare/vskyroc-ui@0.0.4...v-skyroc-ui@0.0.7) (2025-10-13)
 
 ### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
 
@@ -39,11 +59,11 @@
 
 [![SkyRoc1](https://github.com/SkyRoc1.png?size=48)](https://github.com/SkyRoc1)&nbsp;&nbsp;
 
-## [v@skyroc/cli@0.0.7](https://github.com/Ohh-889/skyroc-ui/compare/vskyroc-ui@0.0.6...v@skyroc/cli@0.0.7) (2025-10-13)
+## [v@skyroc/cli@0.0.7](https://github.com/Ohh-889/skyroc-ui/compare/vskyroc-ui@0.0.7...v@skyroc/cli@0.0.7) (2025-10-13)
 
 ### &nbsp;&nbsp;&nbsp;❤️ Contributors
 
-## [vskyroc-ui@0.0.6](https://github.com/Ohh-889/skyroc-ui/compare/vskyroc-ui@0.0.3...vskyroc-ui@0.0.6) (2025-10-13)
+## [vskyroc-ui@0.0.7](https://github.com/Ohh-889/skyroc-ui/compare/vskyroc-ui@0.0.3...vskyroc-ui@0.0.7) (2025-10-13)
 
 ### &nbsp;&nbsp;&nbsp;🤖 CI
 
@@ -53,11 +73,11 @@
 
 [![SkyRoc1](https://github.com/SkyRoc1.png?size=48)](https://github.com/SkyRoc1)&nbsp;&nbsp;
 
-## [vskyroc-ui@0.0.6](https://github.com/Ohh-889/skyroc-ui/compare/v@skyroc/cli@0.0.7...vskyroc-ui@0.0.6) (2025-10-13)
+## [vskyroc-ui@0.0.7](https://github.com/Ohh-889/skyroc-ui/compare/v@skyroc/cli@0.0.7...vskyroc-ui@0.0.7) (2025-10-13)
 
 ### &nbsp;&nbsp;&nbsp;❤️ Contributors
 
-## [v@skyroc/cli@0.0.7](https://github.com/Ohh-889/skyroc-ui/compare/skyroc-ui@0.0.6...v@skyroc/cli@0.0.7) (2025-10-13)
+## [v@skyroc/cli@0.0.7](https://github.com/Ohh-889/skyroc-ui/compare/skyroc-ui@0.0.7...v@skyroc/cli@0.0.7) (2025-10-13)
 
 ### &nbsp;&nbsp;&nbsp;🏡 Chore
 
@@ -67,11 +87,11 @@
 
 [![SkyRoc1](https://github.com/SkyRoc1.png?size=48)](https://github.com/SkyRoc1)&nbsp;&nbsp;
 
-## [skyroc-ui@0.0.6](https://github.com/Ohh-889/skyroc-ui/compare/@skyroc/cli@0.0.7...skyroc-ui@0.0.6) (2025-10-13)
+## [skyroc-ui@0.0.7](https://github.com/Ohh-889/skyroc-ui/compare/@skyroc/cli@0.0.7...skyroc-ui@0.0.7) (2025-10-13)
 
 ### &nbsp;&nbsp;&nbsp;❤️ Contributors
 
-## [@skyroc/cli@0.0.7](https://github.com/Ohh-889/skyroc-ui/compare/@skyroc/cli@0.0.6...@skyroc/cli@0.0.7) (2025-10-13)
+## [@skyroc/cli@0.0.7](https://github.com/Ohh-889/skyroc-ui/compare/@skyroc/cli@0.0.7...@skyroc/cli@0.0.7) (2025-10-13)
 
 ### &nbsp;&nbsp;&nbsp;🏡 Chore
 
@@ -85,7 +105,7 @@
 
 [![SkyRoc1](https://github.com/SkyRoc1.png?size=48)](https://github.com/SkyRoc1)&nbsp;&nbsp;
 
-## [@skyroc/cli@0.0.7](https://github.com/Ohh-889/skyroc-ui/compare/@skyroc@0.0.6...@skyroc/cli@0.0.7) (2025-10-13)
+## [@skyroc/cli@0.0.7](https://github.com/Ohh-889/skyroc-ui/compare/@skyroc@0.0.7...@skyroc/cli@0.0.7) (2025-10-13)
 
 
 ### &nbsp;&nbsp;&nbsp;🤖 CI
@@ -455,7 +475,7 @@
   - remove demo-form component and unused example code &nbsp;-&nbsp; by @SkyRoc1 [<samp>(cb1f0)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/cb1f073)
 - **other**:
   - 🔧 rename project from 'soybean-react-ui' to 'skyroc-project' in package.json &nbsp;-&nbsp; by @SkyRoc1 [<samp>(b8206)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/b820622)
-  - 🔧 add initial changelog file with version v0.0.6 and detailed feature list &nbsp;-&nbsp; by @SkyRoc1 [<samp>(cfcb0)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/cfcb01a)
+  - 🔧 add initial changelog file with version v0.0.7 and detailed feature list &nbsp;-&nbsp; by @SkyRoc1 [<samp>(cfcb0)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/cfcb01a)
   - 🔧 remove existing CHANGELOG.md file to streamline documentation management &nbsp;-&nbsp; by @SkyRoc1 [<samp>(d1e74)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/d1e74af)
 - **package**:
   - streamline package.json formatting by consolidating keywords and files arrays for improved readability &nbsp;-&nbsp; by @SkyRoc1 [<samp>(84acb)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/84acb9e)
@@ -466,7 +486,7 @@
   - update homepage link and add button component with registry dependencies &nbsp;-&nbsp; by @SkyRoc1 [<samp>(8befe)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/8befe77)
 - **release**:
   - add GitHub Actions workflow for automated versioning and publishing &nbsp;-&nbsp; by @SkyRoc1 [<samp>(5abc7)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/5abc7eb)
-  - update version from 0.0.6-alpha to 0.0.6 in package.json &nbsp;-&nbsp; by @SkyRoc1 [<samp>(c90fb)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/c90fb36)
+  - update version from 0.0.7-alpha to 0.0.7 in package.json &nbsp;-&nbsp; by @SkyRoc1 [<samp>(c90fb)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/c90fb36)
 - **skyroc-ui**:
   - 🔧 update import paths to use scoped naming convention for '@skyroc/form' across Form components &nbsp;-&nbsp; by @SkyRoc1 [<samp>(e0702)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/e0702e9)
   - 🔧 update package names and imports to 'skyroc-ui' across the playground and related files &nbsp;-&nbsp; by @SkyRoc1 [<samp>(6ef2a)</samp>](https://github.com/Ohh-889/skyroc-ui/commit/6ef2aa5)

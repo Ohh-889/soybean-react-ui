@@ -1,7 +1,7 @@
 {
   "name": "skyroc-ui",
   "type": "module",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "private": false,
   "description": "A modern React UI component library built on Radix UI and Tailwind CSS",
   "author": {
