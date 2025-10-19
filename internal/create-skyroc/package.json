@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@types/cross-spawn": "6.0.6",
-    "tsdown": "0.12.9",
+    "tsdown": "0.15.8",
     "tsx": "4.20.3",
     "typescript": "5.8.3"
   }
