@@ -42,7 +42,7 @@
     "radash": "^12.1.1"
   },
   "devDependencies": {
-    "tsdown": "0.12.9",
+    "tsdown": "0.15.8",
     "typescript": "5.8.2"
   }
 }
