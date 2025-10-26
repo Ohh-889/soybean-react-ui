@@ -65,7 +65,7 @@
     "@skyroc/utils": "workspace:*"
   },
   "devDependencies": {
-    "tsdown": "0.12.9",
+    "tsdown": "0.15.10",
     "tsx": "4.20.3",
     "typescript": "5.8.2"
   }
