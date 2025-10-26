@@ -127,7 +127,7 @@
     "@types/react-dom": "19.1.1",
     "fast-glob": "3.3.3",
     "rimraf": "6.0.1",
-    "shadcn": "2.9.0",
+    "shadcn": "3.5.0",
     "tsdown": "0.12.9",
     "tsx": "4.20.3",
     "typescript": "5.8.2"
