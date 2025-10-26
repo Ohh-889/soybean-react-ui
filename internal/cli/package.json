@@ -69,6 +69,6 @@
     "yargs": "17.7.2"
   },
   "devDependencies": {
-    "tsdown": "0.12.9"
+    "tsdown": "0.15.10"
   }
 }
